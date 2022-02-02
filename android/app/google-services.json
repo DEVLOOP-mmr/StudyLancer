@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "830654109376",
+    "firebase_url": "https://elite-council-default-rtdb.firebaseio.com",
+    "project_id": "elite-council",
+    "storage_bucket": "elite-council.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830654109376:android:80716a79a7918da0fe3f25",
+        "android_client_info": {
+          "package_name": "com.elite_counsel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830654109376-b5hotkk86v5rfclipfmbt36ttb1cabid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elite_counsel",
+            "certificate_hash": "88afd06e71c126af3907cd13c0a381aa474aaba9"
+          }
+        },
+        {
+          "client_id": "830654109376-vghtsuvjs3ao3qd8096kl1gb7q59vq00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSJ_zQQg3CGAM14G3ucDzA-flfNbjPPfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830654109376-vghtsuvjs3ao3qd8096kl1gb7q59vq00.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "830654109376-0lrfra6grosfgjsa1rgt6esjdg337h1s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.elitecounsel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
