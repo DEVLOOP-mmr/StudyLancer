@@ -612,6 +612,56 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35.0, bottom: 8),
+                          child: Text(
+                            "About",
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Roboto',
+                                fontSize: 12),
+                          ),
+                        ),Container(
+                          margin: const EdgeInsets.only(
+                              left: 30.0, right: 30.0, bottom: 8),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(10))),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: TextFormField(
+                              maxLines: 5,
+                              initialValue: selfData.about,
+                              onChanged: (value) {
+                                selfData.about = value;
+                              },
+                              validator: (value) {
+                                if ((value ?? "").length < 30) {
+                                  return "please add minimum 30 words";
+                                }
+                                return null;
+                              },
+                              autocorrect: false,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintText: 'write something about yourself',
+                                hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withOpacity(0.7),
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 8),
                         SafeArea(
                           child: Padding(

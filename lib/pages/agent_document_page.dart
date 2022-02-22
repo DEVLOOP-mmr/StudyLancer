@@ -117,7 +117,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                 SizedBox(
                   height: 8,
                 ),
-                Image.asset("assets/images/docs_required.png"),
+                Image.asset("assets/images/agent_docs_required.png"),
                 SizedBox(
                   height: 16,
                 ),

@@ -22,6 +22,7 @@ class Student {
       course,
       year,
       applyingFor,
+      about,
       country;
   int optionStatus, timeline;
   bool verified;
