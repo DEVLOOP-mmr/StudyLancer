@@ -1,9 +1,11 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:elite_counsel/pages/home_page.dart';
 import 'package:elite_counsel/pages/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
@@ -13,7 +15,8 @@ import 'widgets/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(DevicePreview(builder: (context) => MyApp(),
+  enabled: !kReleaseMode,));
 }
 
 class MyApp extends StatefulWidget {
