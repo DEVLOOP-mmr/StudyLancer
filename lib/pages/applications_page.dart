@@ -266,9 +266,10 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                                         child: Row(
                                                           children: [
                                                             CircleAvatar(
-                                                              backgroundImage:
-                                                                  NetworkImage(offer
-                                                                      .agentImage),
+                                                        backgroundImage: (offer.agentImage == null) ? AssetImage('assets/images/abc.png') : NetworkImage(offer.agentImage),
+                                                              // backgroundImage:
+                                                              //     NetworkImage(offer
+                                                              //         .agentImage),
                                                               radius: 10,
                                                             ),
                                                             SizedBox(
@@ -383,7 +384,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       color: Colors.white),
                                                 ),
                                                 Text(
@@ -391,7 +392,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       color: Colors.white),
                                                 ),
                                                 Spacer(),
@@ -401,7 +402,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       color: Colors.white),
                                                 ),
                                                 Text(
