@@ -494,20 +494,20 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                               ),
                                             ),
                                           ),
-                                          onPressed: () async {
+                                          onPressed: () {
                                             var otherUser = types.User(
                                               id: offer.studentID,
                                             );
-                                            await FirebaseChatCore.instance
+                                            FirebaseChatCore.instance
                                                 .createUserInFirestore(
                                                     otherUser);
-                                            final room = await FirebaseChatCore
+                                            final room = FirebaseChatCore
                                                 .instance
                                                 .createRoom(otherUser);
-                                            await Navigator.of(context).push(
+                                            Navigator.of(context).push(
                                               MaterialPageRoute(
                                                 builder: (context) => ChatPage(
-                                                  roomId: room.id,
+                                                  // roomId: room.id,
                                                 ),
                                               ),
                                             );

@@ -138,60 +138,71 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                           doc.type == "jpeg") {
                         icon = "assets/imageicon.png";
                       }
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 8),
-                        child: InnerShadow(
-                          blur: 20,
-                          offset: const Offset(5, 5),
-                          color: Colors.black.withOpacity(0.38),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Variables.backgroundColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ListTile(
-                              onTap: () async {
-                                if (await Permission.storage
-                                    .request()
-                                    .isGranted) {
-                                  String filePath = '';
-                                  var dir =
-                                      await getApplicationDocumentsDirectory();
-                                  print(doc.link);
-                                  try {
-                                    filePath = dir.path +
-                                        "/" +
-                                        doc.name +
-                                        "." +
-                                        doc.type;
-                                    EasyLoading.show(status: "Downloading..");
-                                    await Dio().download(doc.link, filePath);
-                                    EasyLoading.dismiss();
-                                    OpenFile.open(filePath);
-                                  } catch (ex) {
-                                    filePath = 'Can not fetch url';
-                                  }
-                                } else {
-                                  EasyLoading.showError(
-                                      "Please allow storage permissions");
-                                }
-                              },
-                              contentPadding: EdgeInsets.all(15),
-                              leading: Image.asset(icon),
-                              trailing: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Color(0x3fC1C1C1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                child: Icon(
-                                  Ionicons.cloud_download_outline,
-                                  color: Colors.white,
-                                ),
+                      return Dismissible(
+                          key: ObjectKey(selfData.otherDoc[index]),
+                          onDismissed: (direction) {
+                            setState(() {
+                              selfData.otherDoc.removeAt(index);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("document remove"),
+                            ));
+                          },
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 8),
+                          child: InnerShadow(
+                            blur: 20,
+                            offset: const Offset(5, 5),
+                            color: Colors.black.withOpacity(0.38),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Variables.backgroundColor,
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              title: Text(
-                                doc.name,
-                                style: TextStyle(color: Colors.white),
+                              child: ListTile(
+                                onTap: () async {
+                                  if (await Permission.storage
+                                      .request()
+                                      .isGranted) {
+                                    String filePath = '';
+                                    var dir =
+                                        await getApplicationDocumentsDirectory();
+                                    print(doc.link);
+                                    try {
+                                      filePath = dir.path +
+                                          "/" +
+                                          doc.name +
+                                          "." +
+                                          doc.type;
+                                      EasyLoading.show(status: "Downloading..");
+                                      await Dio().download(doc.link, filePath);
+                                      EasyLoading.dismiss();
+                                      OpenFile.open(filePath);
+                                    } catch (ex) {
+                                      filePath = 'Can not fetch url';
+                                    }
+                                  } else {
+                                    EasyLoading.showError(
+                                        "Please allow storage permissions");
+                                  }
+                                },
+                                contentPadding: EdgeInsets.all(15),
+                                leading: Image.asset(icon),
+                                trailing: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: Color(0x3fC1C1C1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(30))),
+                                  child: Icon(
+                                    Ionicons.cloud_download_outline,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                title: Text(
+                                  doc.name,
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
