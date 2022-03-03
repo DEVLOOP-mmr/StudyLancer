@@ -633,17 +633,17 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              maxLines: 5,
                               initialValue: selfData.about,
                               onChanged: (value) {
                                 selfData.about = value;
                               },
                               validator: (value) {
-                                if ((value ?? "").length < 30) {
-                                  return "please add minimum 30 words";
+                                if (value == "") {
+                                  return null;
                                 }
                                 return null;
                               },
+                              maxLines: 5,
                               autocorrect: false,
                               style: TextStyle(
                                   color: Colors.white,

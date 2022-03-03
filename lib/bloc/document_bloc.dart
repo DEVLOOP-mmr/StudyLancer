@@ -15,7 +15,7 @@ class DocumentBloc {
         "type": type.toString() ?? "",
       }
     };
-    var result =
+
         await GetDio.getDio().post("student/doc", data: jsonEncode(body));
     return;
   }

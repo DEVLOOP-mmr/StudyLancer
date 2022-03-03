@@ -419,14 +419,14 @@ class _AgentHomePageState extends State<AgentHomePage>
                   children: [
                     ListView.builder(
                         itemCount: students.where((element) {
-                          if (element.optionStatus == 0) {
+                          if (element.optionStatus == 1) {
                             return true;
                           }
                           return false;
                         }).length,
                         itemBuilder: (context, index) {
                           var student = students.where((element) {
-                            if (element.optionStatus == 0) {
+                            if (element.optionStatus == 1) {
                               return true;
                             }
                             return false;
@@ -568,14 +568,14 @@ class _AgentHomePageState extends State<AgentHomePage>
                         }),
                     ListView.builder(
                         itemCount: students.where((element) {
-                          if (element.optionStatus == 1) {
+                          if (element.optionStatus == 0) {
                             return true;
                           }
                           return false;
                         }).length,
                         itemBuilder: (context, index) {
                           var student = students.where((element) {
-                            if (element.optionStatus == 1) {
+                            if (element.optionStatus == 0) {
                               return true;
                             }
                             return false;

@@ -16,6 +16,7 @@ class ProfileBloc {
       "DOB": student.dob,
       "martialStatus": student.maritalStatus,
       "phone": student.phone,
+      "about": student.about,
     };
     await GetDio.getDio().put(
         "student/update/${FirebaseAuth.instance.currentUser.uid}",
