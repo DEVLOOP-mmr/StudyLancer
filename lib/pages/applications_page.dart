@@ -63,16 +63,20 @@ class _ApplicationPageState extends State<ApplicationPage> {
                   context: context,
                   builder: (context) => AlertDialog(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15)
+                    ),
                     backgroundColor: Variables.backgroundColor,
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Accordion(
                           maxOpenSections: 1,
-                          headerBackgroundColor: Variables.backgroundColor,
-                          contentBackgroundColor: Variables.backgroundColor,
+                          headerBackgroundColor:
+                          Variables.backgroundColor,
+                          contentBackgroundColor:
+                          Variables.backgroundColor,
                           children: [
+
                             AccordionSection(
                                 header: Text(
                                   "Sort by Tuition Fees",
@@ -86,7 +90,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop("desc");
+                                        Navigator.of(context)
+                                            .pop("desc");
                                       },
                                       child: Text(
                                         "High to Low",
@@ -98,7 +103,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop("asc");
+                                        Navigator.of(context)
+                                            .pop("asc");
                                       },
                                       child: Text(
                                         "Low To High",
@@ -123,7 +129,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop("desc");
+                                        Navigator.of(context)
+                                            .pop("desc");
                                       },
                                       child: Text(
                                         "High To Low",
@@ -135,7 +142,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop("asc");
+                                        Navigator.of(context)
+                                            .pop("asc");
                                       },
                                       child: Text(
                                         "Low To High",
@@ -149,6 +157,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                 ))
                           ],
                         ),
+
                       ],
                     ),
                   ));
@@ -257,10 +266,10 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                                   child: Row(
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundImage:
-                                                        NetworkImage(offer
-                                                            .agentImage
-                                                            .toString()),
+                                                        backgroundImage: (offer.agentImage == null) ? AssetImage('assets/images/abc.png') : NetworkImage(offer.agentImage),
+                                                        // backgroundImage:
+                                                        //     NetworkImage(offer
+                                                        //         .agentImage),
                                                         radius: 10,
                                                       ),
                                                       SizedBox(
@@ -375,7 +384,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                             style: TextStyle(
                                                 fontWeight:
                                                 FontWeight.normal,
-                                                fontSize: 14,
+                                                fontSize: 12,
                                                 color: Colors.white),
                                           ),
                                           Text(
@@ -383,7 +392,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                             style: TextStyle(
                                                 fontWeight:
                                                 FontWeight.normal,
-                                                fontSize: 14,
+                                                fontSize: 12,
                                                 color: Colors.white),
                                           ),
                                           Spacer(),
@@ -393,7 +402,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                             style: TextStyle(
                                                 fontWeight:
                                                 FontWeight.normal,
-                                                fontSize: 14,
+                                                fontSize: 12,
                                                 color: Colors.white),
                                           ),
                                           Text(
@@ -485,20 +494,20 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                         ),
                                       ),
                                     ),
-                                    onPressed: () async {
+                                    onPressed: () {
                                       var otherUser = types.User(
                                         id: offer.studentID,
                                       );
-                                      await FirebaseChatCore.instance
+                                      FirebaseChatCore.instance
                                           .createUserInFirestore(
                                           otherUser);
-                                      final room = await FirebaseChatCore
+                                      final room = FirebaseChatCore
                                           .instance
                                           .createRoom(otherUser);
-                                      await Navigator.of(context).push(
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => ChatPage(
-                                            roomId: room.id,
+                                            // roomId: room.id,
                                           ),
                                         ),
                                       );
