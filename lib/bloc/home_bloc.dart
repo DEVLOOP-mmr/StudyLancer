@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/src/response.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -11,14 +12,18 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dio.dart';
 
 class HomeBloc {
-  static Future<StudentHome> getStudentHome({BuildContext context}) async {
+  static Future<StudentHome> getStudentHome({
+    BuildContext context,
+    FirebaseAuth firebaseAuth,
+  }) async {
+    firebaseAuth ??= FirebaseAuth.instance;
+
     StudentHome homeData = StudentHome();
     Map<String, String> body = {
-      "studentID": FirebaseAuth.instance.currentUser.uid,
+      "studentID": firebaseAuth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
-          .get(Variables.countryCode, defaultValue: ""),
-      "phone":
-          Variables.sharedPreferences.get(Variables.phone, defaultValue: "")
+          .get(Variables.countryCode, defaultValue: "AU"),
+      "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var request = GetDio.getDio().post("student/home", data: json.encode(body));
     var result = await request;
@@ -31,19 +36,24 @@ class HomeBloc {
         homeData.agents.add(parseAgentData(element));
       });
     } else {
-      EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
-      if (context != null) {
-        await FirebaseAuth.instance.signOut();
-        Variables.sharedPreferences.clear();
-        Future.delayed(Duration.zero, () {
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) {
-            return UserTypeSelectPage();
-          }), (route) => false);
-        });
-      }
+      await navigateToUserTypeSelectPageOnError(result, context);
     }
     return homeData;
+  }
+
+  static Future<void> navigateToUserTypeSelectPageOnError(
+      Response<dynamic> result, BuildContext context) async {
+    EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
+    if (context != null) {
+      await FirebaseAuth.instance.signOut();
+      Variables.sharedPreferences.clear();
+      Future.delayed(Duration.zero, () {
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) {
+          return UserTypeSelectPage();
+        }), (route) => false);
+      });
+    }
   }
 
   static Future<AgentHome> getAgentHome({BuildContext context}) async {

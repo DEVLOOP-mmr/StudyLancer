@@ -13,10 +13,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'widgets/themes.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DevicePreview(builder: (context) => MyApp(),
-  enabled: !kReleaseMode,));
+  runApp(DevicePreview(
+    builder: (context) => MyApp(),
+    enabled: !kReleaseMode,
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -61,9 +63,9 @@ class _MyAppState extends State<MyApp> {
               builder: EasyLoading.init(),
               home: FirebaseAuth.instance.currentUser != null
                   ? Variables.sharedPreferences.get(Variables.countryCode) !=
-                  null
-                  ? HomePage()
-                  : CountrySelectPage()
+                          null
+                      ? HomePage()
+                      : CountrySelectPage()
                   : UserTypeSelectPage(),
             );
           }

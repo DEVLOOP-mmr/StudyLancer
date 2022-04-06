@@ -16,7 +16,7 @@ class DocumentBloc {
       }
     };
 
-        await GetDio.getDio().post("student/doc", data: jsonEncode(body));
+    await GetDio.getDio().post("student/doc", data: jsonEncode(body));
     return;
   }
 
