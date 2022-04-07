@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/document.dart';
 
 class Student {
   String name;

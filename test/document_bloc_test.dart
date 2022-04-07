@@ -1,23 +1,40 @@
+import 'dart:developer';
+
+import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'mocks/document_mock.dart';
 import 'mocks/firebase_auth_mock.dart';
+import 'student_profile_test.dart';
+import 'utils/setups.dart';
 
 void main() {
+  setUp(() async {
+    await TestSetups().setupHive();
+  });
   group('Document Operations:', () {
-    test('Document Upload', () async {
-      await Hive.initFlutter();
-      await Hive.openBox("myBox");
-
-      final mockAuth = MockFirebaseAuth();
-      final studentHomeData =
-          await HomeBloc.getStudentHome(firebaseAuth: mockAuth);
-      final student = studentHomeData.self;
+    test('Document Fetch', () async {
+      final student = await StudentProfileTestSuite.getStudentProfile();
       assert(student.id.isNotEmpty);
 
-      /// TODO(dhruvd0) : pick a test file and convert it to [PlatformFile]
-      // final pickerResult = FilePickerResult();
+      expect(student.otherDoc, isNotEmpty);
+      expect(student.otherDoc.first.id, isNotEmpty);
+    });
+    test('Document Upload', () async {
+      final mockDocument = MockDocument();
+      final response = await DocumentBloc.postDocument(
+        mockDocument,
+        MockFirebaseUser().uid,
+        overrideUserType: 'student',
+      );
+
+      expect(response.statusCode, 200);
+      final student = await StudentProfileTestSuite.getStudentProfile();
+      assert(student.id.isNotEmpty);
+      expect(student.otherDoc.any((element) => element.name == mockDocument.name),
+          true);
     });
   });
 }

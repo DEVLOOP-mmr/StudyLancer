@@ -1,3 +1,4 @@
+import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 
 class Country {
@@ -32,9 +33,7 @@ class Agent {
   List<Document> otherDoc;
 }
 
-class Document {
-  String name, link, type, id, reqDocKey;
-}
+
 
 class Review {
   String id,

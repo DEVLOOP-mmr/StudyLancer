@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +26,13 @@ class DocumentBloc {
         final reference = FirebaseStorage.instance.ref(fileName);
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
-        DocumentBloc.postDocument(uri, fileName, x.extension ?? "")
+        DocumentBloc.postDocument(
+                Document(
+                  link: uri,
+                  name: fileName,
+                  type: x.extension ?? "",
+                ),
+                FirebaseAuth.instance.currentUser.uid)
             .then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
@@ -36,25 +45,21 @@ class DocumentBloc {
     }
   }
 
-  static Future<void> postDocument(
-    String link,
-    String name,
-    String type,
-  ) async {
-    final userType =
-        (await Variables.sharedPreferences.get(Variables.userType)).toString();
-    final idKey = userType == Variables.userTypeAgent ? 'agentID' : 'studentID';
-    final parentUrl = userType == Variables.userTypeAgent ? 'agent' : 'student';
+  static Future<Response> postDocument(Document document, String uid,
+      {String overrideUserType}) async {
+    final userType = overrideUserType == null
+        ? (await Variables.sharedPreferences.get(Variables.userType)).toString()
+        : overrideUserType;
+
     Map body = {
-      idKey: FirebaseAuth.instance.currentUser.uid,
+      '${userType}ID': uid,
       "documents": {
-        "link": link.toString(),
-        "name": name.toString(),
-        "type": type.toString() ?? "",
+        "link": document.link.toString(),
+        "name": document.name.toString(),
+        "type": document.type.toString() ?? "",
       }
     };
 
-    await GetDio.getDio().post("$parentUrl/doc", data: jsonEncode(body));
-    return;
+    return await GetDio.getDio().post("$userType/doc", data: jsonEncode(body));
   }
 }
