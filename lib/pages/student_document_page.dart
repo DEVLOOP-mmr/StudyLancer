@@ -47,30 +47,13 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     if (result != null) {
       //result.file   for (file in result.files)  let say
       EasyLoading.show(status: "Uploading");
-      for (var x in result.files) {
-        final fileName = x.path.split("/").last;
-        final filePath = x.path;
-        final file = File(filePath ?? '');
-
-        try {
-          final reference = FirebaseStorage.instance.ref(fileName);
-          await reference.putFile(file);
-          final uri = await reference.getDownloadURL();
-          DocumentBloc.postStudentDocument(uri, fileName, x.extension ?? "")
-              .then((value) {
-            EasyLoading.showSuccess("Uploaded Successfully");
-            HomeBloc.getStudentHome().then((value) {
-              if (mounted)
-                setState(() {
-                  selfData = value.self;
-                });
-            });
+      await DocumentBloc.parseAndUploadFilePickerResult(result);
+      HomeBloc.getStudentHome().then((value) {
+        if (mounted)
+          setState(() {
+            selfData = value.self;
           });
-        } on Exception catch (e) {
-          EasyLoading.showError(e.toString());
-          print(e);
-        }
-      }
+      });
     } else {
       // User canceled the picker
     }
@@ -140,15 +123,15 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                         icon = "assets/imageicon.png";
                       }
                       return Dismissible(
-                          key: ObjectKey(selfData.otherDoc[index]),
-                          onDismissed: (direction) {
-                            setState(() {
-                              selfData.otherDoc.removeAt(index);
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("document remove"),
-                            ));
-                          },
+                        key: ObjectKey(selfData.otherDoc[index]),
+                        onDismissed: (direction) {
+                          setState(() {
+                            selfData.otherDoc.removeAt(index);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("document remove"),
+                          ));
+                        },
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 8),
                           child: InnerShadow(
@@ -193,8 +176,8 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                       color: Color(0x3fC1C1C1),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(30))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
                                   child: Icon(
                                     Ionicons.cloud_download_outline,
                                     color: Colors.white,

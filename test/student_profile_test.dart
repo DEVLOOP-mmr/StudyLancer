@@ -5,11 +5,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'mocks/firebase_auth_mock.dart';
 
 void main() {
-  test('Test To fetch student data', ()  async{
+  test('Test To fetch student data', () async {
     await Hive.initFlutter();
     await Hive.openBox("myBox");
-    
+
     final mockAuth = MockFirebaseAuth();
-    await HomeBloc.getStudentHome(firebaseAuth: mockAuth);
+    final studentHomeData =
+        await HomeBloc.getStudentHome(firebaseAuth: mockAuth);
+    final student = studentHomeData.self;
+    expect(student.id, MockFirebaseUser().uid);
+    expect(student.phone, MockFirebaseUser().phoneNumber);
   });
 }
