@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:file_picker/file_picker.dart';
@@ -47,9 +46,7 @@ class DocumentBloc {
 
   static Future<Response> postDocument(Document document, String uid,
       {String overrideUserType}) async {
-    final userType = overrideUserType == null
-        ? (await Variables.sharedPreferences.get(Variables.userType)).toString()
-        : overrideUserType;
+    final userType = overrideUserType ?? (await Variables.sharedPreferences.get(Variables.userType)).toString();
 
     Map body = {
       '${userType}ID': uid,
@@ -61,5 +58,18 @@ class DocumentBloc {
     };
 
     return await GetDio.getDio().post("$userType/doc", data: jsonEncode(body));
+  }
+
+  static Future<Response> deleteDocument(String document, String uid,
+      {String overrideUserType}) async {
+    final userType = overrideUserType ?? (await Variables.sharedPreferences.get(Variables.userType)).toString();
+
+    Map body = {
+      "studentID": uid,
+      "documentID": document,
+    };
+
+    return await GetDio.getDio()
+        .delete("$userType/doc", data: jsonEncode(body));
   }
 }
