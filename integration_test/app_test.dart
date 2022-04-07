@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:elite_counsel/main.dart' as app;
 
-import 'utils/utilities.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

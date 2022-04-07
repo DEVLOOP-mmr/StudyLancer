@@ -8,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'widgets/themes.dart';
@@ -16,12 +15,14 @@ import 'widgets/themes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(DevicePreview(
-    builder: (context) => MyApp(),
+    builder: (context) => const MyApp(),
     enabled: !kReleaseMode,
   ));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -64,15 +65,15 @@ class _MyAppState extends State<MyApp> {
               home: FirebaseAuth.instance.currentUser != null
                   ? Variables.sharedPreferences.get(Variables.countryCode) !=
                           null
-                      ? HomePage()
-                      : CountrySelectPage()
-                  : UserTypeSelectPage(),
+                      ? const HomePage()
+                      : const CountrySelectPage()
+                  : const UserTypeSelectPage(),
             );
           }
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Center(
-              child: CircularProgressIndicator(),
+              child:  CircularProgressIndicator(),
             ),
           );
         });
