@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/inner_shadow.dart';

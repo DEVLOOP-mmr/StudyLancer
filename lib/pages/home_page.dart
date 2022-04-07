@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
             future: HomeBloc.getStudentHome(context: context),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-
                 var views = [
                   StudentHomePage(
                     homeData: snapshot.data,
@@ -72,14 +71,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-
                 return Container(
                     color: Variables.backgroundColor,
                     child: Center(child: CircularProgressIndicator()));
-
-
               }
-            }  )
+            })
         : FutureBuilder<AgentHome>(
             future: HomeBloc.getAgentHome(context: context),
             builder: (context, snapshot) {

@@ -1,3 +1,5 @@
+import 'package:elite_counsel/models/student.dart';
+
 class Country {
   String id, countryName;
   List<CountryImage> images;
@@ -9,27 +11,6 @@ class CountryImage {
   CountryImage(this.description, this.image);
 }
 
-class Student {
-  String name,
-      email,
-      photo,
-      dob,
-      maritalStatus,
-      id,
-      phone,
-      countryLookingFor,
-      city,
-      course,
-      year,
-      applyingFor,
-      about,
-      country;
-  int optionStatus, timeline;
-  bool verified;
-  Map<String, dynamic> marksheet;
-  List<Offer> previousOffers;
-  List<Document> otherDoc;
-}
 
 class Agent {
   String name,

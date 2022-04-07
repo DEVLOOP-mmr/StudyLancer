@@ -37,12 +37,12 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file("D:/nitesh/edumatekeyfile/edumateKeyfile")
-            storePassword "Edumate@1"
-            keyAlias "key0"
-            keyPassword "Edumate@1"
-        }
+        // debug {
+        //     storeFile file("D:/nitesh/edumatekeyfile/edumateKeyfile")
+        //     storePassword "Edumate@1"
+        //     keyAlias "key0"
+        //     keyPassword "Edumate@1"
+        // }
         release {
             storeFile file("D:/nitesh/edumatekeyfile/edumateKeyfile")
             storePassword "Edumate@1"
