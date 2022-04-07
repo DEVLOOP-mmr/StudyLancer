@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elite_counsel/bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/student_document_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
@@ -623,13 +624,14 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 fontFamily: 'Roboto',
                                 fontSize: 12),
                           ),
-                        ),Container(
+                        ),
+                        Container(
                           margin: const EdgeInsets.only(
                               left: 30.0, right: 30.0, bottom: 8),
                           decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                                  BorderRadius.all(Radius.circular(10))),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(

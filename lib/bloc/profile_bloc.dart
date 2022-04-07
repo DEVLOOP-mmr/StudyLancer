@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:elite_counsel/models/student.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:elite_counsel/classes/classes.dart';
 

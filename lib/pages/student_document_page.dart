@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:elite_counsel/widgets/inner_shadow.dart';
 import 'package:file_picker/file_picker.dart';
