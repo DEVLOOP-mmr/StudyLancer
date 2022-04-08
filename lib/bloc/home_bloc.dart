@@ -4,7 +4,7 @@ import 'package:dio/src/response.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/usertype_select_page.dart';
+import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
