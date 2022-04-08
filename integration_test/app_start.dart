@@ -11,7 +11,8 @@ import 'package:elite_counsel/main.dart' as app;
 import 'package:mockito/mockito.dart';
 
 class AppStartSuite {
-  Future<WidgetTester> startApp(WidgetTester tester, {bool autoSignIn}) async {
+  Future<WidgetTester> startApp(WidgetTester tester, String userType,
+      {bool autoSignIn}) async {
     autoSignIn = autoSignIn ?? false;
     await Hive.initFlutter();
     await Hive.openBox("myBox");
@@ -33,7 +34,7 @@ class AppStartSuite {
   }
 
   Future<void> _authenticateWithMockUser(WidgetTester tester) async {
-    final mockUser = MockFirebaseUser();
+    final mockUser = MockFirebaseStudentUser();
 
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: mockUser.phoneNumber,

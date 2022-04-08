@@ -62,6 +62,7 @@ class _PhonePageState extends State<PhonePage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(50)),
                 child: IntlPhoneField(
+                  
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -76,6 +77,7 @@ class _PhonePageState extends State<PhonePage> {
                     labelStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
                   ),
                   initialCountryCode: 'IN',
+                  
                   countryCodeTextColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,

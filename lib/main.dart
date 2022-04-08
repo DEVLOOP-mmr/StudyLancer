@@ -16,7 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(DevicePreview(
     builder: (context) => const MyApp(),
-    enabled: !kReleaseMode,
+    enabled: false,
   ));
 }
 

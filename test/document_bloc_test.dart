@@ -26,7 +26,7 @@ void main() {
         final mockDocument = MockDocument();
         final response = await DocumentBloc.postDocument(
           mockDocument,
-          MockFirebaseUser().uid,
+          MockFirebaseStudentUser().uid,
           overrideUserType: 'student',
         );
 
@@ -45,7 +45,7 @@ void main() {
         final lastDocID = student.otherDoc.last.id;
         final response = await DocumentBloc.deleteDocument(
           lastDocID,
-          MockFirebaseUser().uid,
+          MockFirebaseStudentUser().uid,
         );
         expect(response.statusCode, 200);
         var deletedDocumentStudent =

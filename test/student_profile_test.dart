@@ -21,8 +21,8 @@ void main() {
   }
   test('Test To fetch student data', () async {
     final student = await StudentProfileTestSuite.getStudentProfile();
-    expect(student.id, MockFirebaseUser().uid);
-    expect(student.phone, MockFirebaseUser().phoneNumber);
+    expect(student.id, MockFirebaseStudentUser().uid);
+    expect(student.phone, MockFirebaseStudentUser().phoneNumber);
   });
 }
 
