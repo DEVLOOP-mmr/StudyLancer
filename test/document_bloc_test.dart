@@ -1,9 +1,10 @@
 
 import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/test_config/mocks/document_mock.dart';
+import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'mocks/document_mock.dart';
-import 'mocks/firebase_auth_mock.dart';
+
 import 'student_profile_test.dart';
 import 'utils/setups.dart';
 

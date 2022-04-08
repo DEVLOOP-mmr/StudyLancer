@@ -10,7 +10,7 @@ import '../app_start.dart';
 class AuthenticationTestSuite {
   Future<WidgetTester> loginWithPhoneNumber(WidgetTester tester) async {
     tester = await AppStartSuite().startApp(tester);
-    await tester.tap(find.text('Student'));
+   
     await tester.pumpAndSettle();
   }
 }
