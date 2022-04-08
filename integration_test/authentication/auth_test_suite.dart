@@ -8,9 +8,10 @@ import 'package:integration_test/integration_test.dart';
 import '../app_start.dart';
 
 class AuthenticationTestSuite {
-  Future<WidgetTester> loginWithPhoneNumber(WidgetTester tester) async {
-    tester = await AppStartSuite().startApp(tester);
-   
+  Future<WidgetTester> loginWithPhoneNumber(WidgetTester tester,
+      {bool autoSignIn}) async {
+    tester = await AppStartSuite().startApp(tester, autoSignIn: true);
+
     await tester.pumpAndSettle();
   }
 }
@@ -21,7 +22,14 @@ void main() {
   group('Authentication Integration Tests:', () {
     testWidgets('Login With Phone number/OTP', (tester) async {
       final authTestSuite = AuthenticationTestSuite();
-      await authTestSuite.loginWithPhoneNumber(tester);
+      await authTestSuite.loginWithPhoneNumber(tester, autoSignIn: true);
+      await tester.tap(find.text('Australia'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Next'));
+
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Skip'));
+      await tester.pumpAndSettle();
     });
   });
 }

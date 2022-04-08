@@ -11,14 +11,17 @@ import 'package:elite_counsel/main.dart' as app;
 import 'package:mockito/mockito.dart';
 
 class AppStartSuite {
-  Future<WidgetTester> startApp(WidgetTester tester, {bool autoSign}) async {
-    autoSign = autoSign ?? false;
+  Future<WidgetTester> startApp(WidgetTester tester, {bool autoSignIn}) async {
+    autoSignIn = autoSignIn ?? false;
     await Hive.initFlutter();
     await Hive.openBox("myBox");
     await Variables.sharedPreferences.clear();
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    if (autoSign) {
+    if (autoSignIn) {
+      await Variables.sharedPreferences
+          .put(Variables.userType, Variables.userTypeStudent);
+
       await _authenticateWithMockUser(tester);
     } else {
       await FirebaseAuth.instance.signOut();
@@ -54,6 +57,5 @@ class AppStartSuite {
     });
     await app.main();
     await tester.pumpAndSettle();
-
   }
 }
