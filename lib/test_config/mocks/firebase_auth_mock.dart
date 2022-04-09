@@ -18,7 +18,9 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 }
 
-abstract class _MockFirebaseUser extends Mock implements User {}
+abstract class _MockFirebaseUser extends Mock implements User {
+  String get otp;
+}
 
 class MockFirebaseStudentUser extends _MockFirebaseUser {
   @override
@@ -27,6 +29,7 @@ class MockFirebaseStudentUser extends _MockFirebaseUser {
   @override
   String get phoneNumber => "+911111111111";
 
+  @override
   String otp = '111111';
 }
 
@@ -36,6 +39,6 @@ class MockFirebaseAgentUser extends _MockFirebaseUser {
 
   @override
   String get phoneNumber => "+918888888888";
-
-  String otp = '888888';
+  @override
+  String otp = '111111';
 }

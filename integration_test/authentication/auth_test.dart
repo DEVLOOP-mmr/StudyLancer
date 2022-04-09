@@ -1,10 +1,7 @@
 import 'package:elite_counsel/pages/country_select_page.dart';
-import 'package:elite_counsel/pages/usertype_select/student_select_button.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
-import 'package:elite_counsel/variables.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:elite_counsel/main.dart' as app;
 import 'package:integration_test/integration_test.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -19,43 +16,62 @@ class AuthenticationTestSuite {
   }) async {
     tester = await AppStartSuite().startApp(
       tester,
-      Variables.userTypeStudent,
+      userType,
       autoSignIn: autoSignIn,
     );
     if (autoSignIn ?? false) {
-
       return tester;
     }
-    await tester.tap(find.text('Student'));
+    await tester.tap(find.text(userType == 'student' ? 'Student' : 'Agent'));
     await tester.pumpAndSettle();
     await tester.pumpAndSettle();
-    final mockUser = MockFirebaseStudentUser();
-    await tester.enterText(find.byType(IntlPhoneField), '1111111111');
+    final mockUser = userType == 'student'
+        ? MockFirebaseStudentUser()
+        : MockFirebaseAgentUser();
+    await tester.enterText(find.byType(IntlPhoneField),
+        mockUser.phoneNumber.replaceFirst('+91', ''));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Get OTP'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(PinFieldAutoFill), mockUser.otp);
+    await tester.enterText(
+        find.byKey(const ValueKey('otp-input')), mockUser.otp);
     await tester.pumpAndSettle();
+    await tester.pumpAndSettle();
+    expect(find.textContaining(mockUser.otp), findsOneWidget);
     await tester.tap(find.text('Verify'));
     await tester.pumpAndSettle();
     return tester;
   }
 
   void authTestGroup() {
-    testWidgets('Login With Phone number/OTP', (tester) async {
-      await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
-
-      expect(find.byType(CountrySelectPage), findsOneWidget);
+    group('Login With Phone number/OTP for :', () {
+      testWidgets(
+        'student',
+        (tester) async {
+          await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
+          await tester.pumpAndSettle();
+          expect(find.byType(CountrySelectPage), findsOneWidget);
+        },
+      );
+      testWidgets('agent', (tester) async {
+        await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
+        await tester.pumpAndSettle();
+        expect(find.byType(CountrySelectPage), findsOneWidget);
+      });
     });
 
-    // testWidgets('Auto Login', (tester) async {
-    //   await loginWithPhoneNumber(
-    //     tester,
-    //     'student',
-    //     autoSignIn: true,
-    //   );
-    //   expect(find.byType(CountrySelectPage), findsOneWidget);
-    // });
+    testWidgets(
+      'Auto Login',
+      (tester) async {
+        await loginWithPhoneNumber(
+          tester,
+          'student',
+          autoSignIn: true,
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(CountrySelectPage), findsOneWidget);
+      },
+    );
   }
 }
 

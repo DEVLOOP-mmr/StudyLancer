@@ -83,6 +83,8 @@ class _OtpPageState extends State<OtpPage> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.all(Radius.circular(50))),
                   child: PinFieldAutoFill(
+                    controller: controller,
+                    key: const ValueKey('otp-input'),
                     decoration: UnderlineDecoration(
                       textStyle: TextStyle(fontSize: 20, color: Colors.white),
                       colorBuilder:
@@ -91,11 +93,14 @@ class _OtpPageState extends State<OtpPage> {
                     currentCode: controller.text,
                     onCodeSubmitted: (code) {},
                     onCodeChanged: (code) {
-                      controller.text = code;
-                      if (code.length == 6) {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        checkCode(code);
-                      }
+                      setState(() {
+                        controller.text = code;
+                      });
+
+                      // if (code.length == 6) {
+                      //   FocusScope.of(context).requestFocus(FocusNode());
+                      //   checkCode(code);
+                      // }
                     },
                   ),
                 ),
@@ -127,8 +132,9 @@ class _OtpPageState extends State<OtpPage> {
                     ),
                     onPressed: controller.text.length != 6
                         ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Enter OTP")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    controller.text + ' is not 6 digits')));
                           }
                         : () {
                             EasyLoading.show(
@@ -158,17 +164,19 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   void checkCode(String code) async {
+    assert(code.isNotEmpty);
+    assert(code.length == 6);
     try {
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId,
-        smsCode: code ?? "",
+        smsCode: code,
       );
-      final user = await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       Future.delayed(Duration.zero, () async {
         await EasyLoading.dismiss();
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-          return CountrySelectPage();
+          return const CountrySelectPage();
         }), (route) => false);
       });
     } catch (e) {
