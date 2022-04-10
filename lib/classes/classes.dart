@@ -1,4 +1,5 @@
 import 'package:elite_counsel/models/document.dart';
+import 'package:elite_counsel/models/review.dart';
 import 'package:elite_counsel/models/student.dart';
 
 class Country {
@@ -35,15 +36,6 @@ class Agent {
 
 
 
-class Review {
-  String id,
-      agentId,
-      reviewerId,
-      starsRated,
-      createdAt,
-      reviewerName,
-      reviewContent;
-}
 
 class AgentReviews {
   List<Review> reviews;
