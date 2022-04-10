@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 import '../app_start.dart';
 
@@ -51,6 +50,7 @@ class AuthenticationTestSuite {
           await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
           await tester.pumpAndSettle();
           expect(find.byType(CountrySelectPage), findsOneWidget);
+    
         },
       );
       testWidgets('agent', (tester) async {

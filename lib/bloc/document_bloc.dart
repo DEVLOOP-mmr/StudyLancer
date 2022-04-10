@@ -65,7 +65,7 @@ class DocumentBloc {
     final userType = overrideUserType ?? (await Variables.sharedPreferences.get(Variables.userType)).toString();
 
     Map body = {
-      "studentID": uid,
+      "${userType}ID": uid,
       "documentID": document,
     };
 

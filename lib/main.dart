@@ -48,33 +48,28 @@ class _MyAppState extends State<MyApp> {
     return FutureBuilder<bool>(
         future: _initDone,
         builder: (context, snapshot) {
+          Widget home = const Center(
+            child: CircularProgressIndicator(),
+          );
           if (snapshot.hasError) {
-            return MaterialApp(
-              home: Center(
-                child: Text(snapshot.error.toString()),
-              ),
+            home = Center(
+              child: Text(snapshot.error.toString()),
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return MaterialApp(
-              themeMode: ThemeMode.light,
-              color: Variables.accentColor,
-              theme: MyTheme.lightTheme(context),
-              debugShowCheckedModeBanner: false,
-              builder: EasyLoading.init(),
-              home: FirebaseAuth.instance.currentUser != null
-                  ? Variables.sharedPreferences.get(Variables.countryCode) !=
-                          null
-                      ? const HomePage()
-                      : const CountrySelectPage()
-                  : const UserTypeSelectPage(),
-            );
+            home = FirebaseAuth.instance.currentUser != null
+                ? Variables.sharedPreferences.get(Variables.countryCode) != null
+                    ? const HomePage()
+                    : const CountrySelectPage()
+                : const UserTypeSelectPage();
           }
-          return const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Center(
-              child:  CircularProgressIndicator(),
-            ),
+          return MaterialApp(
+            themeMode: ThemeMode.light,
+            color: Variables.accentColor,
+            theme: MyTheme.lightTheme(context),
+            debugShowCheckedModeBanner: true,
+            builder: EasyLoading.init(),
+            home: home,
           );
         });
   }

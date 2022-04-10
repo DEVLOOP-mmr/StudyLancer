@@ -19,7 +19,7 @@ class HomeBloc {
     FirebaseAuth firebaseAuth,
   }) async {
     firebaseAuth ??= FirebaseAuth.instance;
-
+    assert(firebaseAuth.currentUser != null);
     StudentHome homeData = StudentHome();
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
@@ -58,10 +58,11 @@ class HomeBloc {
     }
   }
 
-  static Future<AgentHome> getAgentHome({BuildContext context}) async {
+  static Future<AgentHome> getAgentHome(
+      {BuildContext context, FirebaseAuth auth}) async {
     AgentHome homeData = AgentHome();
     Map<String, String> body = {
-      "agentID": FirebaseAuth.instance.currentUser.uid,
+      "agentID": auth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
           .get(Variables.countryCode, defaultValue: ""),
       "phone":
