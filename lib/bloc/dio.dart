@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 class GetDio {
+  static var productionUrl = "https://elite-counsel.herokuapp.com/";
   static Dio getDio() {
     Dio dio = Dio();
     var options = BaseOptions();
@@ -12,10 +15,18 @@ class GetDio {
       return true;
     };
     options.receiveDataWhenStatusError = true;
-    options.contentType = Headers.textPlainContentType;
+    options.contentType = Headers.jsonContentType;
     options.responseType = ResponseType.json;
-    options.baseUrl = "https://elite-counsel.herokuapp.com/";
+
+    options.baseUrl = "http://localhost:5000/";
+    options.headers = {
+      "Accept": "application/json",
+    };
     dio.options = options;
     return dio;
+  }
+
+  static bool isTestMode() {
+    return (Platform.environment.containsKey('FLUTTER_TEST'));
   }
 }

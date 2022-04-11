@@ -50,7 +50,6 @@ class AuthenticationTestSuite {
           await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
           await tester.pumpAndSettle();
           expect(find.byType(CountrySelectPage), findsOneWidget);
-    
         },
       );
       testWidgets('agent', (tester) async {
@@ -70,6 +69,8 @@ class AuthenticationTestSuite {
         );
         await tester.pumpAndSettle();
         expect(find.byType(CountrySelectPage), findsOneWidget);
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
       },
     );
   }

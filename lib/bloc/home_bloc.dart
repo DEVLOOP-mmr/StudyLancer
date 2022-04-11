@@ -27,25 +27,38 @@ class HomeBloc {
           .get(Variables.countryCode, defaultValue: "AU"),
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
-    var request = GetDio.getDio().post("student/home", data: json.encode(body));
-    var result = await request;
-    if (result.statusCode < 300) {
+    var encode = jsonEncode(body);
+    var result = await GetDio.getDio().post(
+      "student/home",
+      data: encode,
+    );
+    if (result.statusCode == 200) {
       var data = result.data;
       homeData.self = parseStudentData(data["student"]);
       homeData.agents = [];
-      List agentList = data["agents"];
-      agentList.forEach((element) {
-        homeData.agents.add(parseAgentData(element));
-      });
+      if (data['agents'] is! String) {
+        List agentList = data["agents"];
+        agentList.forEach((element) {
+          homeData.agents.add(parseAgentData(element));
+        });
+      }
     } else {
+      if (GetDio.isTestMode()) {
+        return null;
+      }
       await navigateToUserTypeSelectPageOnError(result, context);
     }
+    assert(homeData != null);
     return homeData;
   }
 
   static Future<void> navigateToUserTypeSelectPageOnError(
       Response<dynamic> result, BuildContext context) async {
-    EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
+    try {
+      EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
+    } on AssertionError {
+      // TODO
+    }
     if (context != null) {
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
@@ -64,26 +77,21 @@ class HomeBloc {
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
-          .get(Variables.countryCode, defaultValue: ""),
-      "phone":
-          Variables.sharedPreferences.get(Variables.phone, defaultValue: "")
+          .get(Variables.countryCode, defaultValue: "AU"),
+      "phone": auth.currentUser.phoneNumber,
     };
     var result =
         await GetDio.getDio().post("agent/home", data: jsonEncode(body));
-    print(result.data);
+
     if (result.statusCode < 300) {
-      try {
-        var data = result.data;
-        homeData.self = parseAgentData(data["agent"]);
-        homeData.students = [];
-        List studentList = data["students"];
-        studentList.forEach((element) {
-          homeData.students.add(parseStudentData(element["student"])
-            ..optionStatus = element["optionStatus"]);
-        });
-      } catch (e) {
-        print("\n\n\n\n" + e);
-      }
+      var data = result.data;
+      homeData.self = parseAgentData(data["agent"]);
+      homeData.students = [];
+      List studentList = data["students"];
+      studentList.forEach((element) {
+        homeData.students.add(parseStudentData(element["student"])
+          ..optionStatus = element["optionStatus"]);
+      });
     } else {
       print(result.data["message"] ?? "Error Occurred ");
       EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
@@ -98,6 +106,7 @@ class HomeBloc {
         });
       }
     }
+    assert(homeData != null);
     return homeData;
   }
 

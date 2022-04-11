@@ -14,6 +14,9 @@ class CountryBloc {
     return false;
   }
 
+
+
+
   static Future<List<Country>> getCountries() async {
     List<Country> countries = [];
     var result = await GetDio.getDio().get("countries");
@@ -26,6 +29,9 @@ class CountryBloc {
     }
     return countries;
   }
+
+
+
 
   static Future<Country> getSelfCountry() async {
     Country country = Country();

@@ -4,7 +4,6 @@ import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'utils/setups.dart';
 
