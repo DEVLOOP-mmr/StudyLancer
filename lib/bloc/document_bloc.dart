@@ -57,7 +57,7 @@ class DocumentBloc {
       }
     };
 
-    return await GetDio.getDio().post("$userType/doc", data: jsonEncode(body));
+    return await GetDio.getDio().post("$userType/createDoc", data: jsonEncode(body));
   }
 
   static Future<Response> deleteDocument(String document, String uid,
@@ -70,6 +70,6 @@ class DocumentBloc {
     };
 
     return await GetDio.getDio()
-        .delete("$userType/doc", data: jsonEncode(body));
+        .delete("$userType/deleteDoc", data: jsonEncode(body));
   }
 }

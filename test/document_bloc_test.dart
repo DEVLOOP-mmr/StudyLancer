@@ -13,13 +13,6 @@ void main() {
   group(
     'Document Operations:',
     () {
-      test('Document Fetch', () async {
-        final student = await ProfileTestSuite().getStudentProfile();
-        assert(student.id.isNotEmpty);
-
-        expect(student.otherDoc, isNotEmpty);
-        expect(student.otherDoc.first.id, isNotEmpty);
-      });
       test(
         'Document Upload',
         () async {
@@ -40,7 +33,13 @@ void main() {
           );
         },
       );
+      test('Document Fetch', () async {
+        final student = await ProfileTestSuite().getStudentProfile();
+        assert(student.id.isNotEmpty);
 
+        expect(student.otherDoc, isNotEmpty);
+        expect(student.otherDoc.first.id, isNotEmpty);
+      });
       test(
         'Document Delete',
         () async {
