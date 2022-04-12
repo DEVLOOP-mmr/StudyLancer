@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
 
@@ -14,24 +16,24 @@ class CountryBloc {
     return false;
   }
 
-
-
-
   static Future<List<Country>> getCountries() async {
     List<Country> countries = [];
-    var result = await GetDio.getDio().get("countries");
-    if (result.statusCode < 300) {
-      var data = result.data;
-      List countryList = data["data"];
-      countryList.forEach((countryData) {
-        countries.add(parseCountryData(countryData));
-      });
+    try {
+      var result = await GetDio.getDio().get("countries/");
+      if (result.statusCode < 300) {
+        var data = result.data;
+        List countryList = data["data"];
+        countryList.forEach((countryData) {
+          countries.add(parseCountryData(countryData));
+        });
+      }
+    }  catch (e) {
+      
+      EasyLoading.showToast('Cant connect');
+      return [];
     }
     return countries;
   }
-
-
-
 
   static Future<Country> getSelfCountry() async {
     Country country = Country();

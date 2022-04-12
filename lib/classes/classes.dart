@@ -5,6 +5,11 @@ import 'package:elite_counsel/models/student.dart';
 class Country {
   String id, countryName;
   List<CountryImage> images;
+  Country({
+    this.countryName,
+    this.images,
+    this.id,
+  });
 }
 
 class CountryImage {

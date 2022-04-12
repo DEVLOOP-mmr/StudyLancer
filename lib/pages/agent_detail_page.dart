@@ -1,6 +1,7 @@
 import 'package:elite_counsel/bloc/review_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -303,7 +304,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         height: MediaQuery.of(context).size.height*0.62,
                                         child: FutureBuilder<AgentReviews>(
                                             future: ReviewBloc.getAgentReview(
-                                                widget.agent.id),
+                                                widget.agent.id,FirebaseAuth.instance.currentUser.uid),
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
                                                 return DraggableScrollableSheet(

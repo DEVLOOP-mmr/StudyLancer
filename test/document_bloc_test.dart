@@ -7,7 +7,7 @@ import 'profile_test.dart';
 import 'utils/setups.dart';
 
 void main() {
-  setUp(() async {
+ setUp(() async {
     await TestSetups().setupHive();
   });
   group(
@@ -59,8 +59,7 @@ void main() {
             false,
           );
         },
-        skip:
-            'Throws 404:https://winter-zodiac-822541.postman.co/workspace/a20aff49-dfa2-4898-8755-f562f4479020/request/14380364-be170c0a-7f79-47c7-9234-537796ccef5f',
+      
       );
     },
   );

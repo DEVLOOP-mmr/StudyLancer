@@ -28,6 +28,13 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
         setState(() {
           countries = value;
         });
+
+      if (countries.isEmpty) {
+        setState(() {
+            countries = [Country(id: 'AU', countryName: 'Australia')];
+        });
+      
+      }
     });
   }
 
