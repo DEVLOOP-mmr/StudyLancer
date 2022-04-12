@@ -16,12 +16,10 @@ void main() {
       final student = await ProfileTestSuite().getStudentProfile();
       assert(student != null);
       expect(student.id, MockFirebaseStudentUser().uid);
-     
     });
     test('agent', () async {
       final agent = await ProfileTestSuite().getAgentProfile();
       expect(agent.id, MockFirebaseAgentUser().uid);
-     
     });
   });
 }

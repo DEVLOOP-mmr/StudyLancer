@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -52,15 +55,26 @@ class AuthenticationTestSuite {
             await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
             await tester.pumpAndSettle();
             expect(find.byType(CountrySelectPage), findsOneWidget);
+            await tester.tap(find.text('Canada'));
+            await tester.pumpAndSettle();
+            await tester.tap(find.text('Next'));
+            await tester.pumpAndSettle();
+            await tester.tap(find.text('Skip'));
+            await tester.pumpAndSettle();
+            expect(find.text('Study Lancer'), findsOneWidget);
+            await tester.pumpAndSettle();
           },
         );
-        testWidgets('agent', (tester) async {
-          await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
-          await tester.pumpAndSettle();
-          expect(find.byType(CountrySelectPage), findsOneWidget);
-        });
+        testWidgets(
+          'agent',
+          (tester) async {
+            await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
+            await tester.pumpAndSettle();
+            expect(find.byType(CountrySelectPage), findsOneWidget);
+          },
+          skip: true,
+        );
       },
-      skip: true,
     );
 
     testWidgets(
@@ -80,13 +94,25 @@ class AuthenticationTestSuite {
         await tester.tap(find.text('Skip'));
         await tester.pumpAndSettle();
         expect(find.text('Study Lancer'), findsOneWidget);
+        await tester.pumpAndSettle();
       },
+      skip: true,
     );
   }
 }
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() async {
+    try {
+      await Hive.initFlutter();
+      if (!Hive.isBoxOpen('myBox')) {
+        await Hive.openBox('myBox');
+      }
+    } catch (e) {
+      log('file locked');
+    }
+  });
   group('Auth Tests', () {
     AuthenticationTestSuite().authTestGroup();
   });

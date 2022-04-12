@@ -13,7 +13,6 @@ void main() {
     (tester) async {
       await AppStartSuite().startApp(tester, 'student');
       expect(find.byType(UserTypeSelectPage), findsOneWidget);
-     
     },
   );
 

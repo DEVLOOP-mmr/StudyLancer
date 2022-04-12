@@ -7,7 +7,7 @@ import 'profile_test.dart';
 import 'utils/setups.dart';
 
 void main() {
- setUp(() async {
+  setUp(() async {
     await TestSetups().setupHive();
   });
   group(
@@ -59,7 +59,6 @@ void main() {
             false,
           );
         },
-      
       );
     },
   );

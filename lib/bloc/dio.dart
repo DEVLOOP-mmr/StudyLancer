@@ -21,7 +21,7 @@ class GetDio {
     options.contentType = Headers.jsonContentType;
     options.responseType = ResponseType.json;
 
-    options.baseUrl =  productionUrl;
+    options.baseUrl = kReleaseMode ? productionUrl : local;
     options.headers = {
       "Accept": "application/json",
     };

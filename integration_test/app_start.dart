@@ -20,8 +20,7 @@ class AppStartSuite {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     if (autoSignIn) {
-      await Variables.sharedPreferences
-          .put(Variables.userType,userType);
+      await Variables.sharedPreferences.put(Variables.userType, userType);
 
       await _authenticateWithMockUser(tester);
     } else {
