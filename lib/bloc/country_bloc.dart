@@ -41,10 +41,10 @@ class CountryBloc {
     return countries;
   }
 
-  static Future<Country> getSelfCountry() async {
+  static Future<Country> getSelfCountry([String countryID]) async {
     Country country = Country();
     Map body = {
-      "countryID": Variables.sharedPreferences
+      "countryID": countryID ??= Variables.sharedPreferences
           .get(Variables.countryCode, defaultValue: "notSure"),
     };
     var result =

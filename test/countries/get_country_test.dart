@@ -7,5 +7,14 @@ void main() {
     final countryList = await CountryBloc.getCountries();
 
     expect(countryList, isNotEmpty);
+    expect(countryList.first.countryName, isNotEmpty);
   });
+
+  test(
+    'Test to get country by country code',
+    () async {
+      final country = await CountryBloc.getSelfCountry('AU');
+      expect(country.countryName, 'Australia');
+    },
+  );
 }
