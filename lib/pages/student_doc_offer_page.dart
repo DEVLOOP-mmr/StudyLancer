@@ -56,9 +56,9 @@ class _StudentDocOfferPageState extends State<StudentDocOfferPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: (widget.student.otherDoc ?? []).length,
+                itemCount: (widget.student.documents ?? []).length,
                 itemBuilder: (context, index) {
-                  Document doc = widget.student.otherDoc[index];
+                  Document doc = widget.student.documents[index];
                   if (doc.link == null) {
                     return Container();
                   }

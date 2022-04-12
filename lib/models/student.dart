@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
@@ -23,7 +24,7 @@ class Student {
   bool verified;
   Map<String, dynamic> marksheet;
   List<Offer> previousOffers;
-  List<Document> otherDoc;
+  List<Document> documents;
   Student({
     this.name,
     this.email,
@@ -44,8 +45,20 @@ class Student {
     this.verified,
     this.marksheet,
     this.previousOffers,
-    this.otherDoc,
+    this.documents,
   });
+  bool isValid() {
+    try {
+      assert(this is! Null);
+      assert(id.isNotEmpty);
+      assert(name.isNotEmpty);
+      assert(countryLookingFor.isNotEmpty);
+      return true;
+    } on AssertionError catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -68,7 +81,7 @@ class Student {
       'verified': verified,
       'marksheet': marksheet,
       'previousOffers': previousOffers,
-      'otherDoc': otherDoc,
+      'otherDoc': documents,
     };
   }
 
@@ -94,7 +107,7 @@ class Student {
       marksheet: Map<String, dynamic>.from(map['marksheet'] ?? const {}),
       previousOffers:
           List<Offer>.from(map['previousOffers']?.map((x) => (x)) ?? const []),
-      otherDoc:
+      documents:
           List<Document>.from(map['otherDoc']?.map((x) => (x)) ?? const []),
     );
   }
@@ -103,7 +116,6 @@ class Student {
 
   @override
   String toString() {
-    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $previousOffers, otherDoc: $otherDoc)';
+    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $previousOffers, otherDoc: $documents)';
   }
-
 }

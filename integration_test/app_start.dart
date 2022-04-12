@@ -21,7 +21,7 @@ class AppStartSuite {
     await Firebase.initializeApp();
     if (autoSignIn) {
       await Variables.sharedPreferences
-          .put(Variables.userType, Variables.userTypeStudent);
+          .put(Variables.userType,userType);
 
       await _authenticateWithMockUser(tester);
     } else {

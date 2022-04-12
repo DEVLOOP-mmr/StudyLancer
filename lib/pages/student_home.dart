@@ -4,10 +4,13 @@ import 'dart:math';
 import 'package:elite_counsel/bloc/country_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_list_page.dart';
+import 'package:elite_counsel/pages/home_page.dart';
 import 'package:elite_counsel/pages/student_document_page.dart';
 import 'package:elite_counsel/pages/student_profile_page.dart';
+import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ripple_navigation/ripple_navigation.dart';
@@ -25,7 +28,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   //new
 
-
   //
   //
   //
@@ -33,13 +35,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
   //   );
   // }
 
-
   //new
   PageController _countryPageController;
   Country country = Country();
   @override
   void initState() {
-
     super.initState();
     _countryPageController = PageController();
     CountryBloc.getSelfCountry().then((value) {
@@ -49,7 +49,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
         });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +302,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 borderRadius: BorderRadius.circular(22.0),
               ),
               child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics (),
+                physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemCount: min((widget.homeData.agents ?? []).length + 1, 6),
@@ -314,16 +313,14 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       child: NeumorphicButton(
                         provideHapticFeedback: false,
                         padding: EdgeInsets.zero,
-
-                        onPressed:(){
-
+                        onPressed: () {
                           Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return AgentListPage(
-                            agents: widget.homeData.agents,
-                          );
-                        }));},
-
+                              .push(MaterialPageRoute(builder: (context) {
+                            return AgentListPage(
+                              agents: widget.homeData.agents,
+                            );
+                          }));
+                        },
                         style: NeumorphicStyle(
                           shadowLightColor: Colors.white.withOpacity(0.6),
                           color: Colors.transparent,
@@ -383,17 +380,15 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       child: InkWell(
                         onTap: () {
                           //this one
-                          Future.delayed(const Duration(seconds: 0),(){
-                          if (widget.homeData.agents[index] != null) {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context)=>
-                                AgentDetailsPageView(
-                                agents: widget.homeData.agents,
-                                pageNumber: index,
-                              )
-                            ));
-                          }
-                        });
+                          Future.delayed(const Duration(seconds: 0), () {
+                            if (widget.homeData.agents[index] != null) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => AgentDetailsPageView(
+                                        agents: widget.homeData.agents,
+                                        pageNumber: index,
+                                      )));
+                            }
+                          });
                         },
                         child: Container(
                           height: 180,

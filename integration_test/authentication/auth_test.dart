@@ -43,21 +43,25 @@ class AuthenticationTestSuite {
   }
 
   void authTestGroup() {
-    group('Login With Phone number/OTP for :', () {
-      testWidgets(
-        'student',
-        (tester) async {
-          await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
+    group(
+      'Login With Phone number/OTP for :',
+      () {
+        testWidgets(
+          'student',
+          (tester) async {
+            await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
+            await tester.pumpAndSettle();
+            expect(find.byType(CountrySelectPage), findsOneWidget);
+          },
+        );
+        testWidgets('agent', (tester) async {
+          await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
           await tester.pumpAndSettle();
           expect(find.byType(CountrySelectPage), findsOneWidget);
-        },
-      );
-      testWidgets('agent', (tester) async {
-        await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
-        await tester.pumpAndSettle();
-        expect(find.byType(CountrySelectPage), findsOneWidget);
-      });
-    });
+        });
+      },
+      skip: true,
+    );
 
     testWidgets(
       'Auto Login',
@@ -69,8 +73,13 @@ class AuthenticationTestSuite {
         );
         await tester.pumpAndSettle();
         expect(find.byType(CountrySelectPage), findsOneWidget);
+        await tester.tap(find.text('Canada'));
+        await tester.pumpAndSettle();
         await tester.tap(find.text('Next'));
         await tester.pumpAndSettle();
+        await tester.tap(find.text('Skip'));
+        await tester.pumpAndSettle();
+        expect(find.text('Study Lancer'), findsOneWidget);
       },
     );
   }

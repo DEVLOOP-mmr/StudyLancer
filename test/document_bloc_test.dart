@@ -27,7 +27,7 @@ void main() {
           final student = await ProfileTestSuite().getStudentProfile();
           assert(student.id.isNotEmpty);
           expect(
-            student.otherDoc
+            student.documents
                 .any((element) => element.name == mockDocument.name),
             true,
           );
@@ -37,15 +37,15 @@ void main() {
         final student = await ProfileTestSuite().getStudentProfile();
         assert(student.id.isNotEmpty);
 
-        expect(student.otherDoc, isNotEmpty);
-        expect(student.otherDoc.first.id, isNotEmpty);
+        expect(student.documents, isNotEmpty);
+        expect(student.documents.first.id, isNotEmpty);
       });
       test(
         'Document Delete',
         () async {
           var student = await ProfileTestSuite().getStudentProfile();
           assert(student.id.isNotEmpty);
-          final lastDocID = student.otherDoc.last.id;
+          final lastDocID = student.documents.last.id;
           final response = await DocumentBloc.deleteDocument(
             lastDocID,
             MockFirebaseStudentUser().uid,
@@ -54,7 +54,7 @@ void main() {
           var deletedDocumentStudent =
               await ProfileTestSuite().getStudentProfile();
           expect(
-            deletedDocumentStudent.otherDoc
+            deletedDocumentStudent.documents
                 .any((element) => element.id == lastDocID),
             false,
           );

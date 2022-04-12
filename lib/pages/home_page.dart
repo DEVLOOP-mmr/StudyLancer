@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:elite_counsel/bloc/home_bloc.dart';
 import 'package:elite_counsel/chat/rooms.dart';
 import 'package:elite_counsel/classes/classes.dart';
@@ -11,6 +13,7 @@ import 'package:elite_counsel/pages/tutorial_pages.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -52,6 +55,23 @@ class _HomePageState extends State<HomePage> {
             future: HomeBloc.getStudentHome(context: context),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                if (snapshot.data.self is Null) {
+                  return Container(
+                    color: Variables.backgroundColor,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                if (!snapshot.data.self.isValid()) {
+                  return Container(
+                    color: Variables.backgroundColor,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
                 var views = [
                   StudentHomePage(
                     homeData: snapshot.data,
@@ -68,6 +88,14 @@ class _HomePageState extends State<HomePage> {
                     child: SafeArea(
                       child: buildDotNavigationBar(),
                     ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                EasyLoading.showError(snapshot.error.toString());
+                return Container(
+                  color: Variables.backgroundColor,
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 );
               } else {

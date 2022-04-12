@@ -481,7 +481,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                   fontFamily: 'Roboto',
                                   fontSize: 12),
                               dropdownColor: Colors.black,
-                              items: ["Single", "Married", "Divorced"]
+                              items: ["s", "m", ]
                                   .map((label) => DropdownMenuItem(
                                         child: Container(
                                             color: Colors.black,

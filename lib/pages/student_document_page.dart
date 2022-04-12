@@ -27,14 +27,14 @@ class StudentDocumentPage extends StatefulWidget {
 
 class _StudentDocumentPageState extends State<StudentDocumentPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Student selfData = Student();
+  Student student = Student();
   @override
   void initState() {
     super.initState();
     HomeBloc.getStudentHome().then((value) {
       if (mounted)
         setState(() {
-          selfData = value.self;
+          student = value.self;
         });
     });
   }
@@ -50,10 +50,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
       EasyLoading.show(status: "Uploading");
       await DocumentBloc.parseAndUploadFilePickerResult(result);
       HomeBloc.getStudentHome().then((value) {
-        if (mounted)
+        if (mounted) {
           setState(() {
-            selfData = value.self;
+            student = value.self;
           });
+        }
       });
     } else {
       // User canceled the picker
@@ -108,9 +109,9 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: (selfData.otherDoc ?? []).length,
+                    itemCount: (student.documents ?? []).length,
                     itemBuilder: (context, index) {
-                      Document doc = selfData.otherDoc[index];
+                      Document doc = student.documents[index];
                       if (doc.link == null) {
                         return Container();
                       }
@@ -124,14 +125,9 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                         icon = "assets/imageicon.png";
                       }
                       return Dismissible(
-                        key: ObjectKey(selfData.otherDoc[index]),
-                        onDismissed: (direction) {
-                          setState(() {
-                            selfData.otherDoc.removeAt(index);
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("document remove"),
-                          ));
+                        key: ObjectKey(student.documents[index]),
+                        onDismissed: (direction) async {
+                          await deleteDocumentOnDismiss(index, context);
                         },
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 8),
@@ -255,5 +251,22 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
       ),
       endDrawer: MyDrawer(),
     );
+  }
+
+  Future<void> deleteDocumentOnDismiss(int index, BuildContext context) async {
+    final document = student.documents[index];
+    setState(() {
+      student.documents.removeAt(index);
+    });
+    var response = await DocumentBloc.deleteDocument(document.id, student.id);
+    if (response.statusCode != 200) {
+      setState(() {
+        student.documents.insert(index, document);
+      });
+    } else if (response.statusCode != 500) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Document removed"),
+      ));
+    }
   }
 }

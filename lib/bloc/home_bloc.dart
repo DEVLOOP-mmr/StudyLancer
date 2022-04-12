@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
@@ -8,6 +10,7 @@ import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -28,11 +31,13 @@ class HomeBloc {
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var encode = jsonEncode(body);
+
     var result = await GetDio.getDio().post(
       "student/home",
       data: encode,
     );
-    if (result.statusCode == 200) {
+
+    if (result.statusCode < 299) {
       var data = result.data;
       homeData.self = parseStudentData(data["student"]);
       homeData.agents = [];
@@ -48,7 +53,7 @@ class HomeBloc {
       }
       await navigateToUserTypeSelectPageOnError(result, context);
     }
-    assert(homeData != null);
+
     return homeData;
   }
 
@@ -106,7 +111,7 @@ class HomeBloc {
         });
       }
     }
-    assert(homeData != null);
+
     return homeData;
   }
 
@@ -135,11 +140,11 @@ class HomeBloc {
     (studentData["previousApplications"] as List).forEach((element) {
       if (element is Map) student.previousOffers.add(parseOffer(element));
     });
-    student.otherDoc = [];
+    student.documents = [];
     List otherDoc = studentData["documents"];
     otherDoc.forEach((element) {
       if (element is Map) {
-        student.otherDoc.add(Document()
+        student.documents.add(Document()
           ..name = element["name"]
           ..id = element["_id"]
           ..link = element["link"]

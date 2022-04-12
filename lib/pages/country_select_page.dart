@@ -24,18 +24,32 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
     EasyLoading.show(status: 'loading...');
     CountryBloc.getCountries().then((value) {
       EasyLoading.dismiss();
+
       if (mounted)
         setState(() {
           countries = value;
         });
 
       if (countries.isEmpty) {
+        EasyLoading.dismiss();
         setState(() {
-            countries = [Country(id: 'AU', countryName: 'Australia')];
+          countries = [
+            Country(id: 'CA', countryName: 'Canada'),
+            Country(id: 'AU', countryName: 'Australia')
+          ];
         });
-      
       }
     });
+
+    if (countries.isEmpty) {
+      EasyLoading.dismiss();
+      setState(() {
+        countries = [
+          Country(id: 'CA', countryName: 'Canada'),
+          Country(id: 'AU', countryName: 'Australia')
+        ];
+      });
+    }
   }
 
   @override

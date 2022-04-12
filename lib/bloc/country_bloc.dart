@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
@@ -27,9 +29,13 @@ class CountryBloc {
           countries.add(parseCountryData(countryData));
         });
       }
-    }  catch (e) {
-      
-      EasyLoading.showToast('Cant connect');
+    } on DioError catch (e) {
+      if (kDebugMode) {
+        rethrow;
+      } else {
+        EasyLoading.showToast('Cant connect');
+      }
+
       return [];
     }
     return countries;

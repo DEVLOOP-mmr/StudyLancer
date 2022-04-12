@@ -35,8 +35,7 @@ class DocumentBloc {
             .then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
-      } on Exception catch (e) {
-        EasyLoading.showError(e.toString());
+      } on Exception {
         if (kDebugMode) {
           rethrow;
         }
@@ -46,7 +45,8 @@ class DocumentBloc {
 
   static Future<Response> postDocument(Document document, String uid,
       {String overrideUserType}) async {
-    final userType = overrideUserType ?? (await Variables.sharedPreferences.get(Variables.userType)).toString();
+    final userType = overrideUserType ??
+        (await Variables.sharedPreferences.get(Variables.userType)).toString();
 
     Map body = {
       '${userType}ID': uid,
@@ -57,12 +57,14 @@ class DocumentBloc {
       }
     };
 
-    return await GetDio.getDio().post("$userType/createDoc", data: jsonEncode(body));
+    return await GetDio.getDio()
+        .post("$userType/createDoc", data: jsonEncode(body));
   }
 
   static Future<Response> deleteDocument(String document, String uid,
       {String overrideUserType}) async {
-    final userType = overrideUserType ?? (await Variables.sharedPreferences.get(Variables.userType)).toString();
+    final userType = overrideUserType ??
+        (await Variables.sharedPreferences.get(Variables.userType)).toString();
 
     Map body = {
       "${userType}ID": uid,
