@@ -16,5 +16,6 @@ void main() {
       final country = await CountryBloc.getSelfCountry('AU');
       expect(country.countryName, 'Australia');
     },
+    skip: true,
   );
 }

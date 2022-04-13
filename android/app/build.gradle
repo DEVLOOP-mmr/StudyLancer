@@ -46,7 +46,7 @@ android {
         //     keyPassword "Edumate@1"
         // }
         release {
-            storeFile file("D:/nitesh/edumatekeyfile/edumateKeyfile")
+            storeFile file("edumateKeyFile")
             storePassword "Edumate@1"
             keyAlias "key0"
             keyPassword "Edumate@1"

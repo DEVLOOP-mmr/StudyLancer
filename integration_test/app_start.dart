@@ -17,12 +17,13 @@ class AppStartSuite {
     await Hive.initFlutter();
     await Hive.openBox("myBox");
     await Variables.sharedPreferences.clear();
+
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     if (autoSignIn) {
       await Variables.sharedPreferences.put(Variables.userType, userType);
 
-      await _authenticateWithMockUser(tester);
+      await _authenticateWithMockUser(tester, userType);
     } else {
       await FirebaseAuth.instance.signOut();
       await app.main();
@@ -32,19 +33,21 @@ class AppStartSuite {
     return tester;
   }
 
-  Future<void> _authenticateWithMockUser(WidgetTester tester) async {
-    final mockUser = MockFirebaseStudentUser();
-
+  Future<void> _authenticateWithMockUser(
+      WidgetTester tester, String userType) async {
+    final mockUser = userType == Variables.userTypeStudent
+        ? MockFirebaseStudentUser()
+        : MockFirebaseAgentUser();
+    debugPrint("\n\n $userType" + ":" + mockUser.uid +"\n\n");
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: mockUser.phoneNumber,
       verificationFailed: (error) {},
       verificationCompleted: (phoneAuthCredential) {},
       codeAutoRetrievalTimeout: (verificationId) {},
       codeSent: (verifyID, token) async {
-        print(verifyID);
         final AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verifyID,
-          smsCode: '111111',
+          smsCode: mockUser.otp,
         );
 
         await FirebaseAuth.instance.signInWithCredential(credential);

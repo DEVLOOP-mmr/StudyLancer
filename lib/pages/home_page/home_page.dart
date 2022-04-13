@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:elite_counsel/bloc/home_bloc.dart';
 import 'package:elite_counsel/chat/rooms.dart';
@@ -54,95 +53,75 @@ class _HomePageState extends State<HomePage> {
     return Variables.sharedPreferences.get(Variables.userType) ==
             Variables.userTypeStudent
         ? buildStudentHomePage(context)
-        : FutureBuilder<AgentHome>(
-            future: HomeBloc.getAgentHome(context: context),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var views = [
-                  AgentHomePage(agent: snapshot.data),
-                  AgentDocumentPage(),
-                  const RoomsPage(),
-                  const AgentProfilePage(),
-                ];
-                return Scaffold(
-                  backgroundColor: Variables.backgroundColor,
-                  body: views[_selectedTab.index],
-                  bottomNavigationBar: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 4,
-                            spreadRadius: 2,
-                            color: Colors.black.withOpacity(0.4))
-                      ],
-                      color: Variables.backgroundColor,
-                    ),
-                    child: SafeArea(
-                      child: buildDotNavigationBar(),
-                    ),
-                  ),
-                );
-              } else {
-                return Container(
-                    color: Variables.backgroundColor,
-                    child: const Center(child: CircularProgressIndicator()));
-              }
-            });
+        : buildAgentHomePage(context);
+  }
+
+  FutureBuilder<AgentHome> buildAgentHomePage(BuildContext context) {
+    return FutureBuilder<AgentHome>(
+        future: HomeBloc.getAgentHome(context: context),
+        builder: (context, snapshot) {
+          var views = [
+            Container(
+              color: Variables.backgroundColor,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+            AgentDocumentPage(),
+            const RoomsPage(),
+            const AgentProfilePage(),
+          ];
+          if (snapshot.hasData) {
+            views[0] = AgentHomePage(agent: snapshot.data);
+          }
+          return Scaffold(
+            backgroundColor: Variables.backgroundColor,
+            body: views[_selectedTab.index],
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 4,
+                      spreadRadius: 2,
+                      color: Colors.black.withOpacity(0.4))
+                ],
+                color: Variables.backgroundColor,
+              ),
+              child: SafeArea(
+                child: buildDotNavigationBar(),
+              ),
+            ),
+          );
+        });
   }
 
   FutureBuilder<StudentHome> buildStudentHomePage(BuildContext context) {
     return FutureBuilder<StudentHome>(
         future: HomeBloc.getStudentHome(context: context),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.self == null) {
-              return Container(
-                color: Variables.backgroundColor,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            if (!snapshot.data.self.isValid()) {
-              return Container(
-                color: Variables.backgroundColor,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-
-            var views = [
-              StudentHomePage(
-                homeData: snapshot.data,
-              ),
-              ApplicationPage(),
-              const RoomsPage(),
-              const StudentProfilePage(),
-            ];
-            return Scaffold(
-              backgroundColor: Variables.backgroundColor,
-              body: views[_selectedTab.index],
-              bottomNavigationBar: Container(
-                color: const Color(0xff1C1F22),
-                child: SafeArea(
-                  child: buildDotNavigationBar(),
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            debugPrint(snapshot.error.toString());
-            return Container(
+          var views = [
+            Container(
               color: Variables.backgroundColor,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+            ApplicationPage(),
+            const RoomsPage(),
+            const StudentProfilePage(),
+          ];
+          if (snapshot.hasData) {
+            views[0] = StudentHomePage(
+              homeData: snapshot.data,
             );
-          } else {
-            return Container(
-                color: Variables.backgroundColor,
-                child: const Center(child: CircularProgressIndicator()));
           }
+
+          return Scaffold(
+            backgroundColor: Variables.backgroundColor,
+            body: views[_selectedTab.index],
+            bottomNavigationBar: Container(
+              color: const Color(0xff1C1F22),
+              child: SafeArea(
+                child: buildDotNavigationBar(),
+              ),
+            ),
+          );
         });
   }
 
