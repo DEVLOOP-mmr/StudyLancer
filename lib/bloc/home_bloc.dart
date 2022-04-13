@@ -58,11 +58,10 @@ class HomeBloc {
     Response<dynamic> result,
     BuildContext context,
   ) async {
-    await FirebaseAuth.instance.signOut();
-    Variables.sharedPreferences.clear();
     if (context != null) {
       EasyLoading.showInfo('Something Went Wrong');
-
+      await FirebaseAuth.instance.signOut();
+      Variables.sharedPreferences.clear();
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
         return const UserTypeSelectPage();

@@ -30,39 +30,25 @@ class GetDio {
       "Accept": "application/json",
     };
     dio.options = options;
-    dio.interceptors.add(
-      PrettyDioLogger(
-          requestBody: true,
-          responseBody: true,
-          error: true,
-          compact: true,
-          logPrint: (object) {
-            if (Firebase.apps.isNotEmpty) {
-              FirebaseCrashlytics.instance.log(object);
-            } else {
-              debugPrint(object);
-            }
-          }),
-    );
+
     dio.interceptors.add(dioInterceptor());
     return dio;
   }
 
   static InterceptorsWrapper dioInterceptor() {
     return InterceptorsWrapper(onRequest: (options, handler) {
-      
       return handler.next(options); //continue
-     
     }, onResponse: (response, handler) {
       if (response.statusCode > 299) {
-        var exception =
-            response.requestOptions.uri.toString() + '${response.statusCode}';
-        if (Firebase.apps.isNotEmpty) {
-          FirebaseCrashlytics.instance
-              .recordError(exception, StackTrace.current);
-        } else {
-          debugPrint(exception);
-        }
+        var exception = {
+          'url': response.requestOptions.uri.toString(),
+          'statusCode': '${response.statusCode}',
+          'requestBody': response.requestOptions.data,
+          'responseBody': response.data,
+          'params': response.requestOptions.queryParameters
+        };
+
+        logDioResponse(exception);
       }
 
       return handler.next(response); // continue
@@ -77,6 +63,14 @@ class GetDio {
       // If you want to resolve the request with some custom data，
       // you can resolve a `Response` object eg: `handler.resolve(response)`.
     });
+  }
+
+  static void logDioResponse(Map<String, dynamic> exception) {
+    if (Firebase.apps.isNotEmpty) {
+      FirebaseCrashlytics.instance.recordError(exception, StackTrace.current);
+    } else {
+      debugPrint(exception.toString());
+    }
   }
 
   static bool isTestMode() {
