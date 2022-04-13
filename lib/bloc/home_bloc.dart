@@ -58,12 +58,11 @@ class HomeBloc {
   }
 
   static Future<void> navigateToUserTypeSelectPageOnError(
-      Response<dynamic> result, BuildContext context) async {
-    try {
-      EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
-    } on AssertionError {
-      // TODO
-    }
+    Response<dynamic> result,
+    BuildContext context,
+  ) async {
+    EasyLoading.showError('Something Went Wrong');
+
     if (context != null) {
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
@@ -98,18 +97,7 @@ class HomeBloc {
           ..optionStatus = element["optionStatus"]);
       });
     } else {
-      print(result.data["message"] ?? "Error Occurred ");
-      EasyLoading.showError(result.data["message"] ?? "Error Occurred ");
-      if (context != null) {
-        await FirebaseAuth.instance.signOut();
-        Variables.sharedPreferences.clear();
-        Future.delayed(Duration.zero, () {
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) {
-            return UserTypeSelectPage();
-          }), (route) => false);
-        });
-      }
+      navigateToUserTypeSelectPageOnError(result, context);
     }
 
     return homeData;

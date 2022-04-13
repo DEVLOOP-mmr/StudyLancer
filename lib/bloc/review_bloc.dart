@@ -50,18 +50,18 @@ class ReviewBloc {
       if (result.statusCode == 201) {
         return true;
       } else if (result.statusCode == 500) {
-        log(result.data['message']);
         if (kReleaseMode) {
+          log('Review already added');
           EasyLoading.showToast('Review already added');
         }
 
         return false;
       } else {
         log(result.statusCode.toString() + ' ' + result.statusMessage);
-        // EasyLoading.showToast(result.data['error']);
+         EasyLoading.showToast('Something Went Wrong');
       }
-    } on DioError catch (e) {
-      print(e);
+    } on DioError  {
+      EasyLoading.showToast('Cant Connect, please check your connection');
     }
   }
 

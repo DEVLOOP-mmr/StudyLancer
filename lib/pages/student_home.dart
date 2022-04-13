@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:elite_counsel/bloc/country_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_list_page.dart';
-import 'package:elite_counsel/pages/home_page.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/student_document_page.dart';
 import 'package:elite_counsel/pages/student_profile_page.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';

@@ -39,6 +39,7 @@ class DocumentBloc {
         if (kDebugMode) {
           rethrow;
         }
+        EasyLoading.showSuccess("Something went Wrong");
       }
     }
   }

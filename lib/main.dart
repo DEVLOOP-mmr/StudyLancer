@@ -1,6 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:elite_counsel/pages/country_select_page.dart';
-import 'package:elite_counsel/pages/home_page.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';

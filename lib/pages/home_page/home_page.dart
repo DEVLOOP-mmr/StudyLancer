@@ -13,7 +13,8 @@ import 'package:elite_counsel/pages/tutorial_pages.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+enum _SelectedTab { home, docs, message, profile }
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -28,10 +29,11 @@ class _HomePageState extends State<HomePage> {
   void _handleIndexChanged(int i) {
     if (_selectedTab == _SelectedTab.values[i]) {
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _selectedTab = _SelectedTab.values[i];
         });
+      }
     }
   }
 
@@ -51,59 +53,7 @@ class _HomePageState extends State<HomePage> {
     }
     return Variables.sharedPreferences.get(Variables.userType) ==
             Variables.userTypeStudent
-        ? FutureBuilder<StudentHome>(
-            future: HomeBloc.getStudentHome(context: context),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.self is Null) {
-                  return Container(
-                    color: Variables.backgroundColor,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-                if (!snapshot.data.self.isValid()) {
-                  return Container(
-                    color: Variables.backgroundColor,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-
-                var views = [
-                  StudentHomePage(
-                    homeData: snapshot.data,
-                  ),
-                  ApplicationPage(),
-                  RoomsPage(),
-                  StudentProfilePage(),
-                ];
-                return Scaffold(
-                  backgroundColor: Variables.backgroundColor,
-                  body: views[_selectedTab.index],
-                  bottomNavigationBar: Container(
-                    color: Color(0xff1C1F22),
-                    child: SafeArea(
-                      child: buildDotNavigationBar(),
-                    ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                EasyLoading.showError(snapshot.error.toString());
-                return Container(
-                  color: Variables.backgroundColor,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              } else {
-                return Container(
-                    color: Variables.backgroundColor,
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            })
+        ? buildStudentHomePage(context)
         : FutureBuilder<AgentHome>(
             future: HomeBloc.getAgentHome(context: context),
             builder: (context, snapshot) {
@@ -111,8 +61,8 @@ class _HomePageState extends State<HomePage> {
                 var views = [
                   AgentHomePage(agent: snapshot.data),
                   AgentDocumentPage(),
-                  RoomsPage(),
-                  AgentProfilePage(),
+                  const RoomsPage(),
+                  const AgentProfilePage(),
                 ];
                 return Scaffold(
                   backgroundColor: Variables.backgroundColor,
@@ -135,24 +85,80 @@ class _HomePageState extends State<HomePage> {
               } else {
                 return Container(
                     color: Variables.backgroundColor,
-                    child: Center(child: CircularProgressIndicator()));
+                    child: const Center(child: CircularProgressIndicator()));
               }
             });
   }
 
+  FutureBuilder<StudentHome> buildStudentHomePage(BuildContext context) {
+    return FutureBuilder<StudentHome>(
+        future: HomeBloc.getStudentHome(context: context),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.self == null) {
+              return Container(
+                color: Variables.backgroundColor,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            if (!snapshot.data.self.isValid()) {
+              return Container(
+                color: Variables.backgroundColor,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+
+            var views = [
+              StudentHomePage(
+                homeData: snapshot.data,
+              ),
+              ApplicationPage(),
+              const RoomsPage(),
+              const StudentProfilePage(),
+            ];
+            return Scaffold(
+              backgroundColor: Variables.backgroundColor,
+              body: views[_selectedTab.index],
+              bottomNavigationBar: Container(
+                color: const Color(0xff1C1F22),
+                child: SafeArea(
+                  child: buildDotNavigationBar(),
+                ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            log(snapshot.error.toString());
+            return Container(
+              color: Variables.backgroundColor,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return Container(
+                color: Variables.backgroundColor,
+                child: const Center(child: CircularProgressIndicator()));
+          }
+        });
+  }
+
   FloatingNavbar buildDotNavigationBar() {
-    Color selected = Color(0xffFFAC97);
-    Color notSelected = Color(0xffFFAC97);
+    Color selected = const Color(0xffFFAC97);
+
     return FloatingNavbar(
-      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       //itemPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       currentIndex: _SelectedTab.values.indexOf(_selectedTab),
       onTap: _handleIndexChanged,
       selectedBackgroundColor: Colors.transparent,
       selectedItemColor: selected,
       unselectedItemColor: Colors.transparent,
-      backgroundColor: Color(0xff1C1F22),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      backgroundColor: const Color(0xff1C1F22),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
 
       // dotIndicatorColor: Colors.black,
       items: [
@@ -197,5 +203,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-enum _SelectedTab { home, docs, message, profile }

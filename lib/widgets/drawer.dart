@@ -1,7 +1,7 @@
 import 'package:elite_counsel/pages/about_us_page.dart';
 import 'package:elite_counsel/pages/accomodation.dart';
 import 'package:elite_counsel/pages/faq_page.dart';
-import 'package:elite_counsel/pages/home_page.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/progress_page.dart';
 import 'package:elite_counsel/pages/scholarship_page.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';

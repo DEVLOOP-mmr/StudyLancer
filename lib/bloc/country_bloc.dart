@@ -28,6 +28,12 @@ class CountryBloc {
         countryList.forEach((countryData) {
           countries.add(parseCountryData(countryData));
         });
+      } else {
+        if (kDebugMode) {
+          throw Exception('countries/:' + result.statusCode.toString());
+        } else {
+          EasyLoading.showToast('Something Went Wrong');
+        }
       }
     } on DioError catch (e) {
       if (kDebugMode) {

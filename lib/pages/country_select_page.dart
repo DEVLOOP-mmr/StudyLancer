@@ -1,6 +1,6 @@
 import 'package:elite_counsel/bloc/country_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
-import 'package:elite_counsel/pages/home_page.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
