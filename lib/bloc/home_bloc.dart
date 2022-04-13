@@ -61,9 +61,8 @@ class HomeBloc {
     Response<dynamic> result,
     BuildContext context,
   ) async {
-    EasyLoading.showError('Something Went Wrong');
-
     if (context != null) {
+      EasyLoading.showError('Something Went Wrong');
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
       Future.delayed(Duration.zero, () {

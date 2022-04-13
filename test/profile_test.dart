@@ -14,11 +14,12 @@ void main() {
   group('Test to fetch profile data for:', () {
     test('student', () async {
       final student = await ProfileTestSuite().getStudentProfile();
-      assert(student != null);
+      expect(student, isNotNull);
       expect(student.id, MockFirebaseStudentUser().uid);
     });
     test('agent', () async {
       final agent = await ProfileTestSuite().getAgentProfile();
+      expect(agent, isNotNull);
       expect(agent.id, MockFirebaseAgentUser().uid);
     });
   });
