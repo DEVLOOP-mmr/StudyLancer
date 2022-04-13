@@ -40,7 +40,7 @@ class GetDio {
       return handler.next(options); //continue
     }, onResponse: (response, handler) {
       if (response.statusCode > 299) {
-        var exception = {
+        var exceptionData = {
           'url': response.requestOptions.uri.toString(),
           'statusCode': '${response.statusCode}',
           'requestBody': response.requestOptions.data,
@@ -48,7 +48,7 @@ class GetDio {
           'params': response.requestOptions.queryParameters
         };
 
-        logDioResponse(exception);
+        logDioException(exceptionData);
       }
 
       return handler.next(response); // continue
@@ -56,7 +56,7 @@ class GetDio {
       if (Firebase.apps.isNotEmpty) {
         FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
       } else {
-        debugPrint(e.error);
+        debugPrint(e.error.toString());
       }
 
       return handler.next(e); //continue
@@ -65,7 +65,7 @@ class GetDio {
     });
   }
 
-  static void logDioResponse(Map<String, dynamic> exception) {
+  static void logDioException(Map<String, dynamic> exception) {
     if (Firebase.apps.isNotEmpty) {
       FirebaseCrashlytics.instance.recordError(exception, StackTrace.current);
     } else {

@@ -58,8 +58,10 @@ class HomeBloc {
     Response<dynamic> result,
     BuildContext context,
   ) async {
+    final message = forbiddenRequestMessage(result);
+    debugPrint(message);
     if (context != null) {
-      EasyLoading.showInfo('Something Went Wrong');
+      EasyLoading.showInfo(message);
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
       Navigator.pushAndRemoveUntil(context,
@@ -67,6 +69,21 @@ class HomeBloc {
         return const UserTypeSelectPage();
       }), (route) => false);
     }
+  }
+
+  static String forbiddenRequestMessage(Response<dynamic> result) {
+    var message = '';
+    if (result.statusCode == 403) {
+      Map map = (result.data);
+      if (map.containsKey('message')) {
+        message = result.data['message'];
+      } else {
+        message = 'You are not authorized to use this feature';
+      }
+    } else {
+      message = 'Something went wrong';
+    }
+    return message;
   }
 
   static Future<AgentHome> getAgentHome(
@@ -99,6 +116,7 @@ class HomeBloc {
       return homeData;
     } else {
       handleInvalidResult(result, context);
+     
     }
   }
 
