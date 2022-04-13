@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           } else if (snapshot.hasError) {
-            log(snapshot.error.toString());
+            debugPrint(snapshot.error.toString());
             return Container(
               color: Variables.backgroundColor,
               child: const Center(

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
+import 'package:flutter/material.dart';
 
 class Student {
   String name;
@@ -55,7 +56,7 @@ class Student {
       assert(countryLookingFor.isNotEmpty);
       return true;
     } on AssertionError catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
       return false;
     }
   }

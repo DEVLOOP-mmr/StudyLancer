@@ -37,10 +37,10 @@ class GetDio {
           error: true,
           compact: true,
           logPrint: (object) {
-            if (kReleaseMode && Firebase.apps.isNotEmpty) {
+            if (Firebase.apps.isNotEmpty) {
               FirebaseCrashlytics.instance.log(object);
             } else {
-              log(object);
+              debugPrint(object);
             }
           }),
     );
@@ -50,21 +50,29 @@ class GetDio {
 
   static InterceptorsWrapper dioInterceptor() {
     return InterceptorsWrapper(onRequest: (options, handler) {
-      // Do something before request is sent
+      
       return handler.next(options); //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: `handler.resolve(response)`.
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: `handler.reject(dioError)`
+     
     }, onResponse: (response, handler) {
-      // Do something with response data
-      return handler.next(response); // continue
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: `handler.reject(dioError)`
-    }, onError: (DioError e, handler) {
-      if (kReleaseMode && Firebase.apps.isNotEmpty) {
-        FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
+      if (response.statusCode > 299) {
+        var exception =
+            response.requestOptions.uri.toString() + '${response.statusCode}';
+        if (Firebase.apps.isNotEmpty) {
+          FirebaseCrashlytics.instance
+              .recordError(exception, StackTrace.current);
+        } else {
+          debugPrint(exception);
+        }
       }
+
+      return handler.next(response); // continue
+    }, onError: (DioError e, handler) {
+      if (Firebase.apps.isNotEmpty) {
+        FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
+      } else {
+        debugPrint(e.error);
+      }
+
       return handler.next(e); //continue
       // If you want to resolve the request with some custom data，
       // you can resolve a `Response` object eg: `handler.resolve(response)`.

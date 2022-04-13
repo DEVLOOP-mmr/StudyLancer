@@ -29,11 +29,11 @@ class CountryBloc {
           countries.add(parseCountryData(countryData));
         });
       } else {
-        if (kDebugMode) {
-          throw Exception('countries/:' + result.statusCode.toString());
-        } else {
+        if (kReleaseMode) {
           EasyLoading.showToast('Something Went Wrong');
         }
+
+        throw Exception('countries/:' + result.statusCode.toString());
       }
     } on DioError catch (e) {
       if (kDebugMode) {

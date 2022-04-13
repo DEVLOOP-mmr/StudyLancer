@@ -55,14 +55,7 @@ class AuthenticationTestSuite {
             await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
             await tester.pumpAndSettle();
             expect(find.byType(CountrySelectPage), findsOneWidget);
-            await tester.tap(find.text('Canada'));
-            await tester.pumpAndSettle();
-            await tester.tap(find.text('Next'));
-            await tester.pumpAndSettle();
-            await tester.tap(find.text('Skip'));
-            await tester.pumpAndSettle();
-            expect(find.text('Study Lancer'), findsOneWidget);
-            await tester.pumpAndSettle();
+            await navigateToHomePage(tester);
           },
         );
         testWidgets(
@@ -71,8 +64,8 @@ class AuthenticationTestSuite {
             await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
             await tester.pumpAndSettle();
             expect(find.byType(CountrySelectPage), findsOneWidget);
+            await navigateToHomePage(tester);
           },
-          skip: true,
         );
       },
     );
@@ -87,17 +80,26 @@ class AuthenticationTestSuite {
         );
         await tester.pumpAndSettle();
         expect(find.byType(CountrySelectPage), findsOneWidget);
-        await tester.tap(find.text('Canada'));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('Next'));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('Skip'));
-        await tester.pumpAndSettle();
-        expect(find.text('Study Lancer'), findsOneWidget);
-        await tester.pumpAndSettle();
+        await navigateToHomePage(tester);
       },
-      skip: true,
     );
+  }
+
+  Future<void> navigateToHomePage(WidgetTester tester) async {
+    await tester.tap(find.text('Canada'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Next'));
+    await tester.pumpAndSettle();
+
+    try {
+      await tester.tap(find.text('Skip'));
+      await tester.pumpAndSettle();
+    } on Exception catch (e) {
+      // TODO
+    }
+
+    expect(find.text('Study Lancer'), findsOneWidget);
+    await tester.pumpAndSettle();
   }
 }
 
@@ -110,7 +112,7 @@ void main() {
         await Hive.openBox('myBox');
       }
     } catch (e) {
-      log('file locked');
+      debugPrint('file locked');
     }
   });
   group('Auth Tests', () {

@@ -31,7 +31,7 @@ class ReviewBloc {
         return null;
       }
     } on DioError catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
     }
     return agentReviews;
   }
@@ -51,16 +51,16 @@ class ReviewBloc {
         return true;
       } else if (result.statusCode == 500) {
         if (kReleaseMode) {
-          log('Review already added');
+          debugPrint('Review already added');
           EasyLoading.showToast('Review already added');
         }
 
         return false;
       } else {
-        log(result.statusCode.toString() + ' ' + result.statusMessage);
-         EasyLoading.showToast('Something Went Wrong');
+        debugPrint(result.statusCode.toString() + ' ' + result.statusMessage);
+        EasyLoading.showToast('Something Went Wrong');
       }
-    } on DioError  {
+    } on DioError {
       EasyLoading.showToast('Cant Connect, please check your connection');
     }
   }

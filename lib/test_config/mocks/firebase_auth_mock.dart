@@ -41,10 +41,10 @@ class MockFirebaseStudentUser extends _MockFirebaseUser {
 
 class MockFirebaseAgentUser extends _MockFirebaseUser {
   @override
-  String get uid => "H9e1YBfcOoSKdqiVKx98dj7hPdH3";
+  String get uid => "cOBqfKmhIFTG8ajswNgnig5WJ6v1";
 
   @override
-  String get phoneNumber => "+918888888888";
+  String get phoneNumber => "+919888888888";
   @override
-  String otp = '111111';
+  String otp = '888888';
 }

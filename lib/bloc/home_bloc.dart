@@ -48,34 +48,31 @@ class HomeBloc {
         });
       }
     } else {
-      if (GetDio.isTestMode()) {
-        return null;
-      }
-      await navigateToUserTypeSelectPageOnError(result, context);
+      await handleInvalidResult(result, context);
     }
 
     return homeData;
   }
 
-  static Future<void> navigateToUserTypeSelectPageOnError(
+  static Future<void> handleInvalidResult(
     Response<dynamic> result,
     BuildContext context,
   ) async {
+    await FirebaseAuth.instance.signOut();
+    Variables.sharedPreferences.clear();
     if (context != null) {
-      EasyLoading.showError('Something Went Wrong');
-      await FirebaseAuth.instance.signOut();
-      Variables.sharedPreferences.clear();
-      Future.delayed(Duration.zero, () {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) {
-          return UserTypeSelectPage();
-        }), (route) => false);
-      });
+      EasyLoading.showInfo('Something Went Wrong');
+
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) {
+        return const UserTypeSelectPage();
+      }), (route) => false);
     }
   }
 
   static Future<AgentHome> getAgentHome(
       {BuildContext context, FirebaseAuth auth}) async {
+    auth ??= FirebaseAuth.instance;
     AgentHome homeData = AgentHome();
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
@@ -91,15 +88,19 @@ class HomeBloc {
       homeData.self = parseAgentData(data["agent"]);
       homeData.students = [];
       List studentList = data["students"];
-      studentList.forEach((element) {
-        homeData.students.add(parseStudentData(element["student"])
-          ..optionStatus = element["optionStatus"]);
-      });
-    } else {
-      navigateToUserTypeSelectPageOnError(result, context);
-    }
 
-    return homeData;
+      studentList.forEach((element) {
+        if (element is Map) {
+          if (element.containsKey('student')) {
+            homeData.students.add(parseStudentData(element["student"])
+              ..optionStatus = element["optionStatus"]);
+          }
+        }
+      });
+      return homeData;
+    } else {
+      handleInvalidResult(result, context);
+    }
   }
 
   static Student parseStudentData(studentData) {
