@@ -20,7 +20,7 @@ class Student {
   String applyingFor;
   String about;
   String country;
-  int optionStatus;
+  int optionStatus=0;
   int timeline;
   bool verified;
   Map<String, dynamic> marksheet;

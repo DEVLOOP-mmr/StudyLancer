@@ -88,7 +88,8 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             backgroundColor: Variables.backgroundColor,
             body: views[_selectedTab.index],
-            bottomNavigationBar: Container(
+            bottomNavigationBar:
+             Container(
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
