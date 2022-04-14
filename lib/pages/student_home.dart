@@ -42,10 +42,12 @@ class _StudentHomePageState extends State<StudentHomePage> {
   void initState() {
     super.initState();
     _countryPageController = PageController();
-    CountryBloc.getSelfCountry().then((value) {
+    CountryBloc.getCountries().then((countries) {
       if (mounted)
         setState(() {
-          country = value;
+          country = countries.firstWhere((element) =>
+              element.id ==
+              Variables.sharedPreferences.get(Variables.countryCode));
         });
     });
   }

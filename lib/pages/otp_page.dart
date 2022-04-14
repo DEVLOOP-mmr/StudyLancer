@@ -17,7 +17,7 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   //final _formKey = GlobalKey<FormState>();
-  var controller = TextEditingController();
+  String code = '';
 
   @override
   void dispose() {
@@ -37,7 +37,7 @@ class _OtpPageState extends State<OtpPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -47,10 +47,10 @@ class _OtpPageState extends State<OtpPage> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: BoxDecoration(
-            color: Color(0xff1E2224),
-            image: DecorationImage(
-                image: AssetImage(
+        decoration: const BoxDecoration(
+            color: const Color(0xff1E2224),
+            image: const DecorationImage(
+                image: const AssetImage(
                   "assets/background.png",
                 ),
                 fit: BoxFit.fill)),
@@ -59,9 +59,9 @@ class _OtpPageState extends State<OtpPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 40.0),
-                child: Text(
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 40.0),
+                child: const Text(
                   "Enter OTP",
                   style: TextStyle(
                       color: Colors.white,
@@ -69,7 +69,7 @@ class _OtpPageState extends State<OtpPage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Padding(
@@ -81,46 +81,46 @@ class _OtpPageState extends State<OtpPage> {
                         color: Colors.white,
                       ),
                       color: Colors.transparent,
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(50))),
                   child: PinFieldAutoFill(
-                    controller: controller,
+                    keyboardType: TextInputType.phone,
+                    codeLength: 6,
                     key: const ValueKey('otp-input'),
                     decoration: UnderlineDecoration(
-                      textStyle: TextStyle(fontSize: 20, color: Colors.white),
+                      textStyle:
+                          const TextStyle(fontSize: 20, color: Colors.white),
                       colorBuilder:
                           FixedColorBuilder(Colors.black.withOpacity(0.3)),
                     ),
-                    currentCode: controller.text,
+                    currentCode: code,
                     onCodeSubmitted: (code) {},
                     onCodeChanged: (code) {
-                      setState(() {
-                        controller.text = code;
-                      });
-
-                      // if (code.length == 6) {
-                      //   FocusScope.of(context).requestFocus(FocusNode());
-                      //   checkCode(code);
-                      // }
+                      if (mounted) {
+                        setState(() {
+                          this.code = code;
+                        });
+                      }
                     },
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: NeumorphicButton(
                     padding: EdgeInsets.zero,
                     child: Container(
-                      color: Color(0xff294A91),
+                      color: const Color(0xff294A91),
                       child: Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           gradient: Variables.buttonGradient,
                         ),
-                        child: Align(
+                        child: const Align(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: const Text(
                             "Verify",
                             style: TextStyle(
                                 color: Colors.white,
@@ -130,18 +130,17 @@ class _OtpPageState extends State<OtpPage> {
                         ),
                       ),
                     ),
-                    onPressed: controller.text.length != 6
+                    onPressed: code.length != 6
                         ? () {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    controller.text + ' is not 6 digits')));
+                                content: Text(code + ' is not 6 digits')));
                           }
                         : () {
                             EasyLoading.show(
                                 status: 'loading...',
                                 maskType: EasyLoadingMaskType.clear,
                                 dismissOnTap: false);
-                            checkCode(controller.text);
+                            checkCode(code);
                           },
                     style: NeumorphicStyle(
                         border: NeumorphicBorder(
@@ -155,7 +154,7 @@ class _OtpPageState extends State<OtpPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
