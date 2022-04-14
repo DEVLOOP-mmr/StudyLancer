@@ -9,6 +9,7 @@ import 'package:elite_counsel/widgets/inner_shadow.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
@@ -27,27 +28,39 @@ class AgentDocumentPage extends StatefulWidget {
 
 class _AgentDocumentPageState extends State<AgentDocumentPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final reqDocNames = ['license', 'registrationCertificate', 'personalID'];
+  List<Document> requiredDocs = [];
   Agent selfData = Agent();
   @override
   void initState() {
     super.initState();
-    HomeBloc.getAgentHome().then((value) {
-      if (mounted) {
-        setState(() {
-          selfData = value.self;
+  }
+
+  void getAgentData() {
+    BlocProvider.of<HomeBloc>(context, listen: false)
+        .getAgentHome()
+        .then((value) {
+      setState(() {
+        selfData = value.agent;
+
+        selfData.otherDoc.forEach((element) {
+          if (reqDocNames.contains(element.name)) {
+            requiredDocs.add(element);
+          }
         });
-      }
+
+        selfData.otherDoc
+            .removeWhere((element) => reqDocNames.contains(element.name));
+      });
     });
   }
 
   Widget requiredDocumentsList() {
-    var docNames = ['license', 'registrationCertificate', 'personalID'];
     return Container(
       padding: EdgeInsets.only(left: 11),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: docNames
+        children: reqDocNames
             .map((e) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -63,7 +76,16 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                       SizedBox(
                         height: 10,
                       ),
-                      UploadButton(e)
+                      requiredDocs.any((element) => element.name == e)
+                          ? DismissibleDocument(
+                              0,
+                              context,
+                              requiredDocs
+                                  .firstWhere((element) => element.name == e),
+                              "assets/imageicon.png",
+                              requiredDoc: e,
+                            )
+                          : UploadButton(e)
                     ],
                   ),
                 ))
@@ -78,15 +100,11 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
 
     if (result != null) {
       EasyLoading.show(status: "Uploading");
-      await DocumentBloc.parseAndUploadFilePickerResult(result,
-          requiredDocType: requiredDocType);
-      HomeBloc.getAgentHome().then((value) {
-        if (mounted) {
-          setState(() {
-            selfData = value.self;
-          });
-        }
-      });
+      await DocumentBloc.parseAndUploadFilePickerResult(
+        result,
+        requiredDocType: requiredDocType,
+      );
+      getAgentData();
     } else {
       // User canceled the picker
     }
@@ -131,53 +149,65 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Divider(color: Colors.white),
-                SizedBox(
-                  height: 8,
-                ),
-                Image.asset("assets/images/agent_docs_required.png"),
-                SizedBox(
-                  height: 16,
-                ),
-                requiredDocumentsList(),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    color: Color(0xffFF8B86),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Divider(color: Colors.white),
+                  SizedBox(
+                    height: 8,
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: (selfData.otherDoc ?? []).length,
-                    itemBuilder: (context, index) {
-                      Document doc = selfData.otherDoc[index];
-                      if (doc.link == null) {
-                        return Container();
-                      }
-                      String icon = "assets/docicon.png";
-                      if (doc.type == "pdf") {
-                        icon = "assets/pdficon.png";
-                      } else if (doc.type == "jpg" ||
-                          doc.type == "png" ||
-                          doc.type == "gif" ||
-                          doc.type == "jpeg") {
-                        icon = "assets/imageicon.png";
-                      }
+                  Image.asset("assets/images/agent_docs_required.png"),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  selfData.id == null
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : requiredDocumentsList(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Divider(
+                      color: Color(0xffFF8B86),
+                    ),
+                  ),
+                  selfData.id == null
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Flexible(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: (selfData.otherDoc ?? []).length,
+                            itemBuilder: (context, index) {
+                              Document doc = selfData.otherDoc[index];
+                              if (doc.link == null) {
+                                return Container();
+                              }
+                              String icon = "assets/docicon.png";
+                              if (doc.type == "pdf") {
+                                icon = "assets/pdficon.png";
+                              } else if (doc.type == "jpg" ||
+                                  doc.type == "png" ||
+                                  doc.type == "gif" ||
+                                  doc.type == "jpeg") {
+                                icon = "assets/imageicon.png";
+                              }
 
-                      return Center(
-                        child: DismissibleDocument(index, context, doc, icon),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                              return Center(
+                                child: DismissibleDocument(
+                                    index, context, doc, icon),
+                              );
+                            },
+                          ),
+                        ),
+                ],
+              ),
             ),
           ),
           Align(alignment: Alignment.bottomRight, child: UploadButton())
@@ -187,6 +217,8 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     );
   }
 
+  void documentOnDismiss(int index, BuildContext context) {}
+
   Widget DismissibleDocument(
     int index,
     BuildContext context,
@@ -194,19 +226,22 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     String icon, {
     String requiredDoc,
   }) {
-    void documentOnDismiss(int index, BuildContext context) {
-      setState(() {
-        selfData.otherDoc.removeAt(index);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("document remove"),
-      ));
-    }
-
     return Dismissible(
-      key: ObjectKey(selfData.otherDoc[index]),
+      key: ObjectKey(doc ?? selfData.otherDoc[index]),
       onDismissed: (direction) {
-        documentOnDismiss(index, context);
+        if (index != null) {
+          setState(() {
+            selfData.otherDoc.removeAt(index);
+          });
+        } else if (requiredDoc != null) {
+          setState(() {
+            requiredDocs.removeWhere((element) => element.name == requiredDoc);
+          });
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("document remove"),
+        ));
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 8),

@@ -26,7 +26,7 @@ class DocumentBloc {
         DocumentBloc.postDocument(
                 Document(
                   link: uri,
-                  name: fileName,
+                  name:requiredDocType?? fileName,
                   type: x.extension ?? "",
                 ),
                 FirebaseAuth.instance.currentUser.uid)

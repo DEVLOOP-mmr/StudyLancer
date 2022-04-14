@@ -5,6 +5,7 @@ import 'package:elite_counsel/chat/type/user.dart' as types;
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/agent_home.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -717,7 +718,7 @@ class _OfferPageState extends State<OfferPage> {
                   ),
                   onPressed: () async {
                     if (formKey.currentState.validate()) {
-                      OfferBloc.addOffer(offer);
+                      await OfferBloc.addOffer(offer);
                       var otherUser = types.User(
                           id: offer.studentID,
                           avatarUrl: widget.student.photo,
@@ -727,9 +728,9 @@ class _OfferPageState extends State<OfferPage> {
                       final room =
                       await FirebaseChatCore.instance.createRoom(otherUser);
                       EasyLoading.showError("offer sent");
-                      await Navigator.of(context).push(
+                      await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => AgentHomePage(
+                          builder: (context) => HomePage(
                             // roomId: room.id,
                           ),
                         ),

@@ -19,7 +19,9 @@ class OfferBloc {
       "courseLink": offer.courseLink,
       "description": offer.description,
     };
-    await GetDio.getDio().post("application/create", data: jsonEncode(body));
+    var request = await GetDio.getDio()
+        .post("application/create", data: jsonEncode(body));
+    print(request);
     return;
   }
 

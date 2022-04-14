@@ -46,6 +46,11 @@ class _HomePageState extends State<HomePage> {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getStudentHome(context: context);
       });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        BlocProvider.of<HomeBloc>(context, listen: false)
+            .getAgentHome(context: context);
+      });
     }
   }
 
@@ -69,42 +74,32 @@ class _HomePageState extends State<HomePage> {
         : buildAgentHomePage(context);
   }
 
-  FutureBuilder<AgentHome> buildAgentHomePage(BuildContext context) {
-    return FutureBuilder<AgentHome>(
-        future: HomeBloc.getAgentHome(context: context),
-        builder: (context, snapshot) {
-          var views = [
-            Container(
-              color: Variables.backgroundColor,
-              child: const Center(child: CircularProgressIndicator()),
-            ),
-            AgentDocumentPage(),
-            const RoomsPage(),
-            const AgentProfilePage(),
-          ];
-          if (snapshot.hasData) {
-            views[0] = AgentHomePage(agent: snapshot.data);
-          }
-          return Scaffold(
-            backgroundColor: Variables.backgroundColor,
-            body: views[_selectedTab.index],
-            bottomNavigationBar:
-             Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 4,
-                      spreadRadius: 2,
-                      color: Colors.black.withOpacity(0.4))
-                ],
-                color: Variables.backgroundColor,
-              ),
-              child: SafeArea(
-                child: buildDotNavigationBar(),
-              ),
-            ),
-          );
-        });
+  Widget buildAgentHomePage(BuildContext context) {
+    var views = [
+      AgentHomePage(),
+      AgentDocumentPage(),
+      const RoomsPage(),
+       AgentProfilePage(),
+    ];
+
+    return Scaffold(
+      backgroundColor: Variables.backgroundColor,
+      body: views[_selectedTab.index],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 4,
+                spreadRadius: 2,
+                color: Colors.black.withOpacity(0.4))
+          ],
+          color: Variables.backgroundColor,
+        ),
+        child: SafeArea(
+          child: buildDotNavigationBar(),
+        ),
+      ),
+    );
   }
 
   Widget buildStudentHomePage(BuildContext context) {

@@ -18,6 +18,13 @@ import '../dio.dart';
 
 class HomeBloc extends Cubit<HomeState> {
   HomeBloc() : super(UnAuthenticatedHomeState());
+  void emitNewStudent(Student student) {
+    if (state is StudentHomeState) {
+      emit((state as StudentHomeState).copyWith(
+        student: student
+      ));
+    }
+  }
 
   Future<StudentHomeState> getStudentHome({
     BuildContext context,
@@ -90,12 +97,13 @@ class HomeBloc extends Cubit<HomeState> {
     }
     return message;
   }
-  /// TODO: Change this to [HomeBloc] method
-  static Future<AgentHome> getAgentHome(
+
+
+   Future<AgentHomeState> getAgentHome(
       {BuildContext context, FirebaseAuth auth}) async {
     auth ??= FirebaseAuth.instance;
     assert(auth.currentUser != null);
-    AgentHome homeData = AgentHome();
+    AgentHomeState homeData = AgentHomeState();
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
@@ -107,7 +115,7 @@ class HomeBloc extends Cubit<HomeState> {
 
     if (result.statusCode < 300) {
       var data = result.data;
-      homeData.self = parseAgentData(data["agent"]);
+      homeData.agent = parseAgentData(data["agent"]);
       homeData.students = [];
       List studentList = data["students"];
 
@@ -118,7 +126,7 @@ class HomeBloc extends Cubit<HomeState> {
           homeData.students.add(student);
         }
       });
-      assert(homeData.self != null);
+      assert(homeData.agent != null);
       return homeData;
     } else {
       handleInvalidResult(result, context);

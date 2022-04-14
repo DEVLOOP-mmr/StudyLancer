@@ -85,20 +85,20 @@ class StudentHomeState extends HomeState {
   }
 }
 
-class AgentHome extends HomeState {
-  Agent self;
+class AgentHomeState extends HomeState {
+  Agent agent;
   List<Student> students;
-  AgentHome({
-    this.self,
+  AgentHomeState({
+    this.agent,
     this.students,
   });
 
-  AgentHome copyWith({
+  AgentHomeState copyWith({
     Agent self,
     List<Student> students,
   }) {
-    return AgentHome(
-      self: self ?? this.self,
+    return AgentHomeState(
+      agent: self ?? this.agent,
       students: students ?? this.students,
     );
   }

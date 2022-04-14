@@ -38,8 +38,8 @@ class ProfileTestSuite {
   Future<Agent> getAgentProfile() async {
     Variables.sharedPreferences.put(Variables.userType, 'agent');
     final mockAuth = MockFirebaseAuth();
-    final agentHomeData = await HomeBloc.getAgentHome(auth: mockAuth);
-    final agent = agentHomeData.self;
+    final agentHomeData = await HomeBloc().getAgentHome(auth: mockAuth);
+    final agent = agentHomeData.agent;
     return agent;
   }
 }

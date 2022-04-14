@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
@@ -14,7 +15,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-/// TODO: inject HomeBloc
+
+
 class StudentProfilePage extends StatefulWidget {
   const StudentProfilePage({Key key}) : super(key: key);
 
@@ -24,10 +26,7 @@ class StudentProfilePage extends StatefulWidget {
 
 class _StudentProfilePageState extends State<StudentProfilePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Student selfData = Student();
-//date of birth
 
-  Future<StudentHomeState> initFuture;
   var formKey = GlobalKey<FormState>();
   DateTime currentDate = DateTime(2000);
 
@@ -50,16 +49,12 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        initFuture =
-            BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
-
-        ;
-      });
+      // BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
     });
   }
 
   void _showImagePicker() async {
+    final student = (BlocProvider.of<HomeBloc>(context).state as StudentHomeState).student;
     final result = await ImagePicker().getImage(
       imageQuality: 70,
       maxWidth: 1440,
@@ -77,11 +72,11 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
         setState(() {
-          selfData.photo = uri;
+         student.photo = uri;
         });
-        ProfileBloc.updateStudentProfile(selfData);
+        ProfileBloc.updateStudentProfile(student);
         await FirebaseAuth.instance.currentUser
-            .updateProfile(photoURL: selfData.photo);
+            .updateProfile(photoURL:student.photo);
       } on FirebaseException catch (e) {
         print(e);
       }
@@ -92,10 +87,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<StudentHomeState>(
-        future: initFuture,
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
+    return BlocBuilder<HomeBloc,HomeState>(
+        
+        builder: (context, state) {
+          if (state.loadState == LoadState.loading) {
             return Container(
               color: Variables.backgroundColor,
               child: Center(
@@ -103,7 +98,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
               ),
             );
           }
-          selfData = snapshot.data.student;
+          final student = (state as StudentHomeState).student;
           return Scaffold(
             key: _scaffoldKey,
             backgroundColor: Variables.backgroundColor,
@@ -155,7 +150,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(selfData.photo ??
+                                  image: NetworkImage(student.photo ??
                                       "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                                 ),
                                 boxShadow: [
@@ -249,9 +244,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              initialValue: selfData.name,
+                              initialValue:student.name,
                               onChanged: (value) {
-                                selfData.name = value;
+                               student.name = value;
                               },
                               validator: (value) {
                                 if ((value ?? "").length < 4) {
@@ -299,9 +294,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              initialValue: selfData.email,
+                              initialValue:student.email,
                               onChanged: (value) {
-                                selfData.email = value;
+                               student.email = value;
                               },
                               validator: (value) {
                                 String p =
@@ -353,9 +348,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              initialValue: selfData.phone,
+                              initialValue:student.phone,
                               onChanged: (value) {
-                                selfData.phone = value;
+                               student.phone = value;
                               },
                               readOnly: true,
                               autocorrect: true,
@@ -403,12 +398,12 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                   _selectDate(context);
                                 });
                               },
-                              initialValue: selfData.dob == null
+                              initialValue:student.dob == null
                                   ? ""
                                   : Variables.dateFormat
-                                      .format(DateTime.parse(selfData.dob)),
+                                      .format(DateTime.parse(student.dob)),
                               onChanged: (value) {
-                                selfData.dob = Variables.dateFormat
+                               student.dob = Variables.dateFormat
                                     .parse(value)
                                     .toString();
                               },
@@ -478,9 +473,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                     color: Colors.white.withOpacity(0.7),
                                     fontWeight: FontWeight.w400),
                               ),
-                              value: selfData.maritalStatus,
+                              value:student.maritalStatus,
                               onChanged: (value) {
-                                selfData.maritalStatus = value;
+                               student.maritalStatus = value;
                               },
                               style: TextStyle(
                                   color: Colors.white,
@@ -531,9 +526,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              initialValue: selfData.city,
+                              initialValue:student.city,
                               onChanged: (value) {
-                                selfData.city = value;
+                               student.city = value;
                               },
                               validator: (value) {
                                 if ((value ?? "") == "") {
@@ -589,9 +584,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                     color: Colors.white.withOpacity(0.7),
                                     fontWeight: FontWeight.w400),
                               ),
-                              value: selfData.country,
+                              value:student.country,
                               onChanged: (value) {
-                                selfData.country = value;
+                               student.country = value;
                               },
                               validator: (value) {
                                 if ((value ?? "") == "") {
@@ -645,9 +640,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: TextFormField(
-                              initialValue: selfData.about,
+                              initialValue:student.about,
                               onChanged: (value) {
-                                selfData.about = value;
+                               student.about = value;
                               },
                               validator: (value) {
                                 if (value == "") {
@@ -703,9 +698,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               onPressed: () {
                                 if (formKey.currentState.validate()) {
                                   EasyLoading.show(status: "Updating");
-                                  ProfileBloc.updateStudentProfile(selfData)
+                                  ProfileBloc.updateStudentProfile(student)
                                       .then((value) async {
-                                  
                                     EasyLoading.dismiss();
                                     EasyLoading.showSuccess(
                                         "Updated Successfully");
