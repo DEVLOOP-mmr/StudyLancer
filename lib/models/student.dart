@@ -20,12 +20,13 @@ class Student {
   String applyingFor;
   String about;
   String country;
-  int optionStatus=0;
+  int optionStatus=1;
   int timeline;
   bool verified;
   Map<String, dynamic> marksheet;
   List<Offer> previousOffers;
   List<Document> documents;
+  List<Document> requiredDocuments;
   Student({
     this.name,
     this.email,
@@ -86,31 +87,44 @@ class Student {
     };
   }
 
-  factory Student.fromMap(Map<String, dynamic> map) {
-    return Student(
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
-      photo: map['photo'] ?? '',
-      dob: map['dob'] ?? '',
-      maritalStatus: map['maritalStatus'] ?? '',
-      id: map['id'] ?? '',
-      phone: map['phone'] ?? '',
-      countryLookingFor: map['countryLookingFor'] ?? '',
-      city: map['city'] ?? '',
-      course: map['course'] ?? '',
-      year: map['year'] ?? '',
-      applyingFor: map['applyingFor'] ?? '',
-      about: map['about'] ?? '',
-      country: map['country'] ?? '',
-      optionStatus: map['optionStatus']?.toInt() ?? 0,
-      timeline: map['timeline']?.toInt() ?? 0,
-      verified: map['verified'] ?? false,
-      marksheet: Map<String, dynamic>.from(map['marksheet'] ?? const {}),
-      previousOffers:
-          List<Offer>.from(map['previousOffers']?.map((x) => (x)) ?? const []),
-      documents:
-          List<Document>.from(map['otherDoc']?.map((x) => (x)) ?? const []),
-    );
+   factory Student.parseStudentData(studentData) {
+    Student student = Student();
+    student.name = studentData["name"];
+    student.email = studentData["email"];
+    student.phone = studentData["phone"];
+    student.photo = studentData["photo"];
+    student.maritalStatus = studentData["martialStatus"];
+    student.id = studentData["studentID"];
+    student.countryLookingFor = studentData["countryLookingFor"];
+    student.marksheet = studentData["marksheet"];
+    student.city = studentData["location"]["city"];
+    student.country = studentData["location"]["country"];
+    student.dob = studentData["DOB"];
+    student.about = studentData["about"];
+    student.verified = studentData["verified"];
+    student.optionStatus = studentData["optionStatus"] ?? 0;
+    student.timeline = studentData["timeline"] ?? 1;
+    student.applyingFor =
+        studentData["applyingFor"] ?? "Masters in Computer Science";
+    student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
+    student.year = studentData["year"] ?? DateTime.now().year.toString();
+    student.previousOffers = [];
+    (studentData["previousApplications"] as List).forEach((element) {
+      if (element is Map) student.previousOffers.add(Offer.parseOffer(element));
+    });
+    student.documents = [];
+    List documents = studentData["documents"];
+    documents.forEach((element) {
+      if (element is Map) {
+        student.documents.add(Document()
+          ..name = element["name"]
+          ..id = element["_id"]
+          ..link = element["link"]
+          ..type = element["type"]);
+      }
+    });
+  
+    return student;
   }
 
   String toJson() => json.encode(toMap());
@@ -120,3 +134,4 @@ class Student {
     return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $previousOffers, otherDoc: $documents)';
   }
 }
+/// TODO: parse required docs data

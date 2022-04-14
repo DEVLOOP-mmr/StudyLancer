@@ -20,9 +20,13 @@ class HomeBloc extends Cubit<HomeState> {
   HomeBloc() : super(UnAuthenticatedHomeState());
   void emitNewStudent(Student student) {
     if (state is StudentHomeState) {
-      emit((state as StudentHomeState).copyWith(
-        student: student
-      ));
+      emit((state as StudentHomeState).copyWith(student: student));
+    }
+  }
+
+  void emitNewAgent(Agent agent) {
+    if (state is AgentHomeState) {
+      emit((state as AgentHomeState).copyWith(agent: agent));
     }
   }
 
@@ -42,21 +46,19 @@ class HomeBloc extends Cubit<HomeState> {
       ),
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
-    var encode = jsonEncode(body);
-
     var result = await GetDio.getDio().post(
       "student/home",
-      data: encode,
+      data: jsonEncode(body),
     );
 
     if (result.statusCode < 299) {
       var data = result.data;
-      homeData.student = parseStudentData(data["student"]);
+      homeData.student = Student.parseStudentData(data["student"]);
       homeData.agents = [];
       if (data['agents'] is! String) {
         List agentList = data["agents"];
         agentList.forEach((element) {
-          homeData.agents.add(parseAgentData(element));
+          homeData.agents.add(Agent.parseAgentData(element));
         });
       }
     } else {
@@ -98,12 +100,13 @@ class HomeBloc extends Cubit<HomeState> {
     return message;
   }
 
-
-   Future<AgentHomeState> getAgentHome(
+  Future<AgentHomeState> getAgentHome(
       {BuildContext context, FirebaseAuth auth}) async {
     auth ??= FirebaseAuth.instance;
     assert(auth.currentUser != null);
+
     AgentHomeState homeData = AgentHomeState();
+    emit(homeData.copyWith(loadState: LoadState.loading));
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
@@ -115,112 +118,22 @@ class HomeBloc extends Cubit<HomeState> {
 
     if (result.statusCode < 300) {
       var data = result.data;
-      homeData.agent = parseAgentData(data["agent"]);
+      homeData.agent = Agent.parseAgentData(data["agent"]);
       homeData.students = [];
       List studentList = data["students"];
 
       studentList.forEach((element) {
         if (element is Map) {
-          var student = parseStudentData(element);
+          var student = Student.parseStudentData(element);
           student.optionStatus = 1;
           homeData.students.add(student);
         }
       });
       assert(homeData.agent != null);
+      emit(homeData.copyWith(loadState: LoadState.done));
       return homeData;
     } else {
       handleInvalidResult(result, context);
     }
-  }
-
-  static Student parseStudentData(studentData) {
-    Student student = Student();
-    student.name = studentData["name"];
-    student.email = studentData["email"];
-    student.phone = studentData["phone"];
-    student.photo = studentData["photo"];
-    student.maritalStatus = studentData["martialStatus"];
-    student.id = studentData["studentID"];
-    student.countryLookingFor = studentData["countryLookingFor"];
-    student.marksheet = studentData["marksheet"];
-    student.city = studentData["location"]["city"];
-    student.country = studentData["location"]["country"];
-    student.dob = studentData["DOB"];
-    student.about = studentData["about"];
-    student.verified = studentData["verified"];
-    student.optionStatus = studentData["optionStatus"] ?? 0;
-    student.timeline = studentData["timeline"] ?? 1;
-    student.applyingFor =
-        studentData["applyingFor"] ?? "Masters in Computer Science";
-    student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
-    student.year = studentData["year"] ?? DateTime.now().year.toString();
-    student.previousOffers = [];
-    (studentData["previousApplications"] as List).forEach((element) {
-      if (element is Map) student.previousOffers.add(parseOffer(element));
-    });
-    student.documents = [];
-    List otherDoc = studentData["documents"];
-    otherDoc.forEach((element) {
-      if (element is Map) {
-        student.documents.add(Document()
-          ..name = element["name"]
-          ..id = element["_id"]
-          ..link = element["link"]
-          ..type = element["type"]);
-      }
-    });
-    return student;
-  }
-
-  static Offer parseOffer(offerData) {
-    Offer offer = Offer();
-    offer.country = offerData["location"]["country"];
-    offer.offerId = offerData["_id"];
-    offer.city = offerData["location"]["city"];
-    offer.description = offerData["description"];
-    offer.accepted = offerData["accepted"];
-    offer.universityName = offerData["universityName"];
-    offer.applicationFees = offerData["applicationFees"].toString();
-    offer.courseFees = offerData["courseFees"].toString();
-    offer.courseName = offerData["courseName"];
-    offer.courseLink = offerData["courseLink"];
-    offer.agentID = offerData["agent"]["agentID"];
-    offer.agentName = offerData["agent"]["name"];
-    offer.agentImage = offerData["agent"]["photo"];
-    offer.color = offerData["color"];
-    return offer;
-  }
-
-  static Agent parseAgentData(agentData) {
-    Agent agent = Agent();
-    agent.name = agentData["name"];
-    agent.email = agentData["email"];
-    agent.photo = agentData["photo"];
-    agent.phone = agentData["phone"];
-    agent.licenseNo = agentData["licenseNo"];
-    agent.agentSince = agentData["agentSince"];
-    agent.bio = agentData["bio"];
-    agent.verified = agentData["verified"];
-    agent.maritalStatus = agentData["martialStatus"];
-    agent.applicationsHandled = agentData["applicationsHandled"].toString();
-    agent.reviewsAvg = agentData["reviewAverage"].toString();
-    agent.id = agentData["agentID"];
-    agent.reviewCount =
-        ((agentData["reviews"] ?? []) as List).length.toString();
-    agent.countryLookingFor = agentData["countryLookingFor"];
-    agent.city = agentData["location"]["city"];
-    agent.country = agentData["location"]["country"];
-    agent.otherDoc = [];
-    List otherDoc = agentData["documents"];
-    otherDoc.forEach((element) {
-      if (element is Map) {
-        agent.otherDoc.add(Document()
-          ..name = element["name"]
-          ..id = element["_id"]
-          ..link = element["link"]
-          ..type = element["type"]);
-      }
-    });
-    return agent;
   }
 }

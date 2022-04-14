@@ -18,9 +18,7 @@ class ProfileBloc {
       "martialStatus": student.maritalStatus,
       "about": student.about,
     };
-    await GetDio.getDio().put(
-        "student/update/",
-        data: jsonEncode(body));
+    await GetDio.getDio().put("student/update/", data: jsonEncode(body));
     return;
   }
 
@@ -34,11 +32,8 @@ class ProfileBloc {
       "bio": agent.bio,
       "licenseNo": agent.licenseNo,
       "martialStatus": agent.maritalStatus,
-      "phone": agent.phone,
     };
-    await GetDio.getDio().put(
-        "agent/update/${FirebaseAuth.instance.currentUser.uid}",
-        data: jsonEncode(body));
+    await GetDio.getDio().put("agent/update/", data: jsonEncode(body));
     return;
   }
 }

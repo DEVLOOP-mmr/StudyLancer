@@ -36,7 +36,43 @@ class Agent {
       countryLookingFor,
       reviewCount;
   bool verified;
-  List<Document> otherDoc;
+  List<Document> document;
+  List<Document> requiredDocuments;
+  Agent();
+
+  /// TODO: parse required docs data
+  factory Agent.parseAgentData(agentData) {
+    Agent agent = Agent();
+    agent.name = agentData["name"];
+    agent.email = agentData["email"];
+    agent.photo = agentData["photo"];
+    agent.phone = agentData["phone"];
+    agent.licenseNo = agentData["licenseNo"];
+    agent.agentSince = agentData["agentSince"];
+    agent.bio = agentData["bio"];
+    agent.verified = agentData["verified"];
+    agent.maritalStatus = agentData["martialStatus"];
+    agent.applicationsHandled = agentData["applicationsHandled"].toString();
+    agent.reviewsAvg = agentData["reviewAverage"].toString();
+    agent.id = agentData["agentID"];
+    agent.reviewCount =
+        ((agentData["reviews"] ?? []) as List).length.toString();
+    agent.countryLookingFor = agentData["countryLookingFor"];
+    agent.city = agentData["location"]["city"];
+    agent.country = agentData["location"]["country"];
+    agent.document = [];
+    List otherDoc = agentData["documents"];
+    otherDoc.forEach((element) {
+      if (element is Map) {
+        agent.document.add(Document()
+          ..name = element["name"]
+          ..id = element["_id"]
+          ..link = element["link"]
+          ..type = element["type"]);
+      }
+    });
+    return agent;
+  }
 }
 
 class AgentReviews {
@@ -60,46 +96,25 @@ class Offer {
       color,
       applicationFees;
   bool accepted;
-}
-
-class StudentHomeState extends HomeState {
-  LoadState loadState;
-  Student student;
-  List<Agent> agents;
-  StudentHomeState({
-     this.loadState,
-    this.student,
-    this.agents,
+  Offer({
+    this.accepted,
   });
-
-  StudentHomeState copyWith({
-    LoadState loadState,
-    Student student,
-    List<Agent> agents,
-  }) {
-    return StudentHomeState(
-      loadState: loadState ?? this.loadState,
-      student: student ?? this.student,
-      agents: agents ?? this.agents,
-    );
-  }
-}
-
-class AgentHomeState extends HomeState {
-  Agent agent;
-  List<Student> students;
-  AgentHomeState({
-    this.agent,
-    this.students,
-  });
-
-  AgentHomeState copyWith({
-    Agent self,
-    List<Student> students,
-  }) {
-    return AgentHomeState(
-      agent: self ?? this.agent,
-      students: students ?? this.students,
-    );
+  factory Offer.parseOffer(offerData) {
+    Offer offer = Offer();
+    offer.country = offerData["location"]["country"];
+    offer.offerId = offerData["_id"];
+    offer.city = offerData["location"]["city"];
+    offer.description = offerData["description"];
+    offer.accepted = offerData["accepted"];
+    offer.universityName = offerData["universityName"];
+    offer.applicationFees = offerData["applicationFees"].toString();
+    offer.courseFees = offerData["courseFees"].toString();
+    offer.courseName = offerData["courseName"];
+    offer.courseLink = offerData["courseLink"];
+    offer.agentID = offerData["agent"]["agentID"];
+    offer.agentName = offerData["agent"]["name"];
+    offer.agentImage = offerData["agent"]["photo"];
+    offer.color = offerData["color"];
+    return offer;
   }
 }

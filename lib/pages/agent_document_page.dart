@@ -43,13 +43,13 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
       setState(() {
         selfData = value.agent;
 
-        selfData.otherDoc.forEach((element) {
+        selfData.document.forEach((element) {
           if (reqDocNames.contains(element.name)) {
             requiredDocs.add(element);
           }
         });
 
-        selfData.otherDoc
+        selfData.document
             .removeWhere((element) => reqDocNames.contains(element.name));
       });
     });
@@ -183,9 +183,9 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                       : Flexible(
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: (selfData.otherDoc ?? []).length,
+                            itemCount: (selfData.document ?? []).length,
                             itemBuilder: (context, index) {
-                              Document doc = selfData.otherDoc[index];
+                              Document doc = selfData.document[index];
                               if (doc.link == null) {
                                 return Container();
                               }
@@ -227,11 +227,11 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     String requiredDoc,
   }) {
     return Dismissible(
-      key: ObjectKey(doc ?? selfData.otherDoc[index]),
+      key: ObjectKey(doc ?? selfData.document[index]),
       onDismissed: (direction) {
         if (index != null) {
           setState(() {
-            selfData.otherDoc.removeAt(index);
+            selfData.document.removeAt(index);
           });
         } else if (requiredDoc != null) {
           setState(() {
