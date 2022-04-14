@@ -1,6 +1,5 @@
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -48,9 +47,9 @@ class _OtpPageState extends State<OtpPage> {
       extendBodyBehindAppBar: true,
       body: Container(
         decoration: const BoxDecoration(
-            color: const Color(0xff1E2224),
-            image: const DecorationImage(
-                image: const AssetImage(
+            color: Color(0xff1E2224),
+            image: DecorationImage(
+                image: AssetImage(
                   "assets/background.png",
                 ),
                 fit: BoxFit.fill)),
@@ -61,7 +60,7 @@ class _OtpPageState extends State<OtpPage> {
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.only(left: 16.0, right: 40.0),
-                child: const Text(
+                child: Text(
                   "Enter OTP",
                   style: TextStyle(
                       color: Colors.white,
@@ -120,7 +119,7 @@ class _OtpPageState extends State<OtpPage> {
                         ),
                         child: const Align(
                           alignment: Alignment.center,
-                          child: const Text(
+                          child: Text(
                             "Verify",
                             style: TextStyle(
                                 color: Colors.white,
@@ -184,7 +183,7 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   handleError(FirebaseAuthException error) {
-    print(error);
+    
     switch (error.code) {
       case 'invalid-verification-code':
         EasyLoading.dismiss();

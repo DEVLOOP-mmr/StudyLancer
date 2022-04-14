@@ -1,16 +1,11 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:elite_counsel/widgets/inner_shadow.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -22,12 +17,14 @@ import 'package:permission_handler/permission_handler.dart';
 import '../variables.dart';
 
 class StudentDocumentPage extends StatefulWidget {
+  const StudentDocumentPage({Key key}) : super(key: key);
+
   @override
   _StudentDocumentPageState createState() => _StudentDocumentPageState();
 }
 
 class _StudentDocumentPageState extends State<StudentDocumentPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Student student = Student();
   bool loading = true;
   @override
@@ -38,10 +35,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
       setState(() {
         loading = false;
       });
-      if (mounted)
+      if (mounted) {
         setState(() {
           student = value.self;
         });
+      }
     });
   }
 
@@ -91,8 +89,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
         backgroundColor: Colors.transparent,
         title: const Text(
           "Documents",
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         actions: [
@@ -154,7 +155,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                   ),
                                   key: ObjectKey(student.documents[index]),
                                   onDismissed: (direction) async {
-                                     await deleteDocumentOnDismiss(
+                                    await deleteDocumentOnDismiss(
                                         index, context);
                                     // showCupertinoModalPopup(
                                     //   context: context,
@@ -187,7 +188,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                               String filePath = '';
                                               var dir =
                                                   await getApplicationDocumentsDirectory();
-                                              print(doc.link);
+                                             
                                               try {
                                                 filePath = dir.path +
                                                     "/" +
@@ -265,13 +266,13 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                               alignment: Alignment.center,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
+                                children:const [
+                                  Icon(
                                     Icons.upload_sharp,
                                     color: Colors.white,
                                   ),
-                                  const SizedBox(width: 4),
-                                  const Text(
+                                  SizedBox(width: 4),
+                                  Text(
                                     "Upload",
                                     style: TextStyle(
                                         color: Colors.white,
