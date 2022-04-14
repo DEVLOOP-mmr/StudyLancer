@@ -183,7 +183,6 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   handleError(FirebaseAuthException error) {
-    
     switch (error.code) {
       case 'invalid-verification-code':
         EasyLoading.dismiss();

@@ -1,19 +1,16 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/bloc/country_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_list_page.dart';
-import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/student_document_page.dart';
 import 'package:elite_counsel/pages/student_profile_page.dart';
-import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:ripple_navigation/ripple_navigation.dart';
 import 'agent_details_page_view.dart';
 
 class StudentHomePage extends StatefulWidget {
@@ -26,16 +23,6 @@ class StudentHomePage extends StatefulWidget {
 
 class _StudentHomePageState extends State<StudentHomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  //new
-
-  //
-  //
-  //
-  //
-  //   );
-  // }
-
-  //new
   PageController _countryPageController;
   Country country = Country();
   @override
@@ -43,12 +30,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
     super.initState();
     _countryPageController = PageController();
     CountryBloc.getCountries().then((countries) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           country = countries.firstWhere((element) =>
               element.id ==
               Variables.sharedPreferences.get(Variables.countryCode));
         });
+      }
     });
   }
 
@@ -61,7 +49,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -73,12 +61,12 @@ class _StudentHomePageState extends State<StudentHomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StudentProfilePage()));
+                  builder: (context) => const StudentProfilePage()));
             },
             child: Container(
               height: 25,
               width: 25,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               clipBehavior: Clip.hardEdge,
@@ -104,7 +92,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               fontSize: 24,
               fontWeight: FontWeight.bold,
               foreground: Paint()
-                ..shader = LinearGradient(
+                ..shader = const LinearGradient(
                   colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
                 ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0))),
         ),
@@ -130,20 +118,20 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Description",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Text(
                                           country.images[index].description,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
@@ -158,7 +146,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                             height: 354,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black,
                                 ),
@@ -171,8 +159,8 @@ class _StudentHomePageState extends State<StudentHomePage> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                             clipBehavior: Clip.hardEdge,
-                            child: Image.network(
-                              country.images[index].image,
+                            child: CachedNetworkImage(
+                              imageUrl: country.images[index].image,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -186,7 +174,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                             GestureDetector(
                               onTap: () {
                                 _countryPageController.previousPage(
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.easeIn);
                               },
                               child: Container(
@@ -194,20 +182,20 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                   color: Colors.white.withOpacity(0.33),
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                padding: EdgeInsets.all(8),
-                                child: Icon(
+                                padding: const EdgeInsets.all(8),
+                                child: const Icon(
                                   Icons.keyboard_arrow_left_sharp,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             GestureDetector(
                               onTap: () {
                                 _countryPageController.nextPage(
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.easeIn);
                               },
                               child: Container(
@@ -215,14 +203,14 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                   color: Colors.white.withOpacity(0.33),
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                padding: EdgeInsets.all(8),
-                                child: Icon(
+                                padding: const EdgeInsets.all(8),
+                                child: const Icon(
                                   Icons.keyboard_arrow_right_sharp,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 24,
                             ),
                           ],
@@ -243,13 +231,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return StudentDocumentPage();
+                      return const StudentDocumentPage();
                     }));
                   },
                   child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 35.0, vertical: 16),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 35.0, vertical: 16),
                       child: Text(
                         "Please upload your documents in order to proceed further",
                         textAlign: TextAlign.center,
@@ -261,10 +249,10 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image:
                                 AssetImage("assets/images/back_texture.png")),
-                        color: Color(0xff59B298)),
+                        color: const Color(0xff59B298)),
                   ),
                 ),
               ),
@@ -281,9 +269,9 @@ class _StudentHomePageState extends State<StudentHomePage> {
             ),
             Container(
               height: 240,
-              margin: EdgeInsets.only(left: 10),
+              margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Color(0xff131618),
                     spreadRadius: -10,
@@ -298,7 +286,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 ],
                 border: Border.all(
                   width: 10,
-                  color: Color(0xff1C1F22),
+                  color: const Color(0xff1C1F22),
                 ),
                 // color: Color(0xff1E2022),
                 borderRadius: BorderRadius.circular(22.0),
@@ -311,7 +299,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 itemBuilder: (context, index) {
                   if (index == min((widget.homeData.agents ?? []).length, 5)) {
                     return Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: NeumorphicButton(
                         provideHapticFeedback: false,
                         padding: EdgeInsets.zero,
@@ -344,21 +332,22 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                       shadowLightColor:
                                           Colors.white.withOpacity(0.6),
                                       color: Variables.backgroundColor,
-                                      boxShape: NeumorphicBoxShape.circle()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                      boxShape:
+                                          const NeumorphicBoxShape.circle()),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.arrow_forward,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "See all",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.normal,
@@ -372,7 +361,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     );
                   }
                   return Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Neumorphic(
                       style: NeumorphicStyle(
                         depth: 0,
@@ -406,9 +395,9 @@ class _StudentHomePageState extends State<StudentHomePage> {
                             ),
                           ),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               // borderRadius: BorderRadius.circular(16),
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                   colors: [Colors.transparent, Colors.black],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter),
@@ -418,16 +407,16 @@ class _StudentHomePageState extends State<StudentHomePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Spacer(),
+                                  const Spacer(),
                                   Text(
                                     widget.homeData.agents[index].name ?? "",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 6,
                                   ),
                                   Text(
@@ -435,13 +424,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                                 .applicationsHandled ??
                                             "0") +
                                         " Students",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 7,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 6,
                                   ),
                                   Row(
@@ -451,7 +440,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                         color: Colors.white.withOpacity(0.6),
                                         size: 10,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 6,
                                       ),
                                       Text(
