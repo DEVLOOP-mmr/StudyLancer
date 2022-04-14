@@ -22,10 +22,12 @@ class ReviewBloc {
           .post("agent/reviews/all", data: jsonEncode(body));
       if (result.statusCode == 200) {
         var data = result.data;
-        List reviewList = data["data"];
-        agentReviews.studentHasReviewed = data["studentHasReviewed"];
-        reviewList.forEach((reviewData) {
-          agentReviews.reviews.add(parseReviewData(reviewData));
+        List reviewListData = data["data"];
+        agentReviews.studentHasReviewed = data["studentHasReviewed"] ?? false;
+        reviewListData.forEach((reviewData) {
+          var review = parseReviewData(reviewData['review']);
+
+          agentReviews.reviews.add(review);
         });
       } else {
         return null;

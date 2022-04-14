@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:accordion/accordion.dart';
 
-
 class AgentHomePage extends StatefulWidget {
   final AgentHome agent;
   const AgentHomePage({Key key, @required this.agent}) : super(key: key);
@@ -19,7 +18,6 @@ class AgentHomePage extends StatefulWidget {
   @override
   _AgentHomePageState createState() => _AgentHomePageState();
 }
-
 
 class Country {
   final String image;
@@ -45,15 +43,10 @@ class _AgentHomePageState extends State<AgentHomePage>
 
   @override
   void initState() {
-
     super.initState();
 
     _tabController = TabController(length: 3, vsync: this);
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +133,7 @@ class _AgentHomePageState extends State<AgentHomePage>
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 0,
-                                mainAxisSpacing:15,
+                                mainAxisSpacing: 15,
                               ),
                               itemBuilder: (context, index) {
                                 return GestureDetector(
@@ -202,141 +195,148 @@ class _AgentHomePageState extends State<AgentHomePage>
                       onTap: () async {
                         var result = await showDialog(
                             context: context,
-                            builder: (context) => AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)
-                              ),
-                                  backgroundColor: Variables.backgroundColor,
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Accordion(
-                                        maxOpenSections: 1,
-                                        headerBackgroundColor:
-                                            Variables.backgroundColor,
-                                        contentBackgroundColor:
-                                            Variables.backgroundColor,
-                                        children: [
-                                          AccordionSection(
-                                              header: Text(
-                                                "Sort by Courses Fees",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontFamily: "roboto"),
-                                              ),
-                                              content: Column(
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("asc");
-                                                    },
-                                                    child: Text(
-                                                      "Ascending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                            barrierDismissible: true,
+                            builder: (context) => Container(
+                                  height: 300,
+                                  child: Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    backgroundColor: Variables.backgroundColor,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Accordion(
+                                          maxOpenSections: 1,
+                                          headerBackgroundColor:
+                                              Variables.backgroundColor,
+                                          contentBackgroundColor:
+                                              Variables.backgroundColor,
+                                          children: [
+                                            AccordionSection(
+                                                header: Text(
+                                                  "Sort by Courses Fees",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontFamily: "roboto"),
+                                                ),
+                                                content: Column(
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("asc");
+                                                      },
+                                                      child: Text(
+                                                        "Ascending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("desc");
-                                                    },
-                                                    child: Text(
-                                                      "Descending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("desc");
+                                                      },
+                                                      child: Text(
+                                                        "Descending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              )),
-                                          AccordionSection(
-                                              header: Text(
-                                                "Sort by Tuition Fees",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontFamily: "roboto"),
-                                              ),
-                                              content: Column(
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("asc");
-                                                    },
-                                                    child: Text(
-                                                      "Ascending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                                                  ],
+                                                )),
+                                            AccordionSection(
+                                                header: Text(
+                                                  "Sort by Tuition Fees",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontFamily: "roboto"),
+                                                ),
+                                                content: Column(
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("asc");
+                                                      },
+                                                      child: Text(
+                                                        "Ascending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("desc");
-                                                    },
-                                                    child: Text(
-                                                      "Descending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("desc");
+                                                      },
+                                                      child: Text(
+                                                        "Descending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              )),
-                                          AccordionSection(
-                                              header: Text(
-                                                "Sort by Application Fees",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontFamily: "roboto"),
-                                              ),
-                                              content: Column(
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("asc");
-                                                    },
-                                                    child: Text(
-                                                      "Ascending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                                                  ],
+                                                )),
+                                            AccordionSection(
+                                                header: Text(
+                                                  "Sort by Application Fees",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontFamily: "roboto"),
+                                                ),
+                                                content: Column(
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("asc");
+                                                      },
+                                                      child: Text(
+                                                        "Ascending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop("desc");
-                                                    },
-                                                    child: Text(
-                                                      "Descending",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop("desc");
+                                                      },
+                                                      child: Text(
+                                                        "Descending",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ))
-                                        ],
-                                      ),
-                                    ],
+                                                  ],
+                                                ))
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ));
                         if (result != null) {

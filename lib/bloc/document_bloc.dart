@@ -79,6 +79,5 @@ class DocumentBloc {
 
 
 
-/// TODO: red background for swiping delete doc
+
 /// TODO: prompt to ask user to delete as ios
-/// TODO: refresh documents on delete
