@@ -11,11 +11,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
-
 class DocumentBloc {
-  static Future<void> parseAndUploadFilePickerResult(
-    FilePickerResult result,
-  ) async {
+  static Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
+      {String requiredDocType}) async {
     for (var x in result.files) {
       final fileName = x.path.split("/").last;
       final filePath = x.path;
@@ -43,7 +41,7 @@ class DocumentBloc {
       }
     }
   }
-
+  /// TODO: required document type for student/agent
   static Future<Response> postDocument(Document document, String uid,
       {String overrideUserType}) async {
     final userType = overrideUserType ??

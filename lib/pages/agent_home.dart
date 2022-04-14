@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:accordion/accordion.dart';
-
+/// TODO: inject home bloc for agent
 class AgentHomePage extends StatefulWidget {
   final AgentHome agent;
   const AgentHomePage({Key key, @required this.agent}) : super(key: key);

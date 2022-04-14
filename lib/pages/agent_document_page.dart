@@ -18,6 +18,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../variables.dart';
 
+/// TODO: inject HomeBloc
+
 class AgentDocumentPage extends StatefulWidget {
   @override
   _AgentDocumentPageState createState() => _AgentDocumentPageState();
@@ -39,13 +41,45 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     });
   }
 
-  void _showFilePicker() async {
+  Widget requiredDocumentsList() {
+    var docNames = ['license', 'registrationCertificate', 'personalID'];
+    return Container(
+      padding: EdgeInsets.only(left: 11),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: docNames
+            .map((e) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        e,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      UploadButton(e)
+                    ],
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  void _showFilePicker([String requiredDocType]) async {
     final result = await FilePicker.platform
         .pickFiles(type: FileType.any, allowMultiple: true);
 
     if (result != null) {
       EasyLoading.show(status: "Uploading");
-      await DocumentBloc.parseAndUploadFilePickerResult(result);
+      await DocumentBloc.parseAndUploadFilePickerResult(result,
+          requiredDocType: requiredDocType);
       HomeBloc.getAgentHome().then((value) {
         if (mounted) {
           setState(() {
@@ -98,6 +132,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Divider(color: Colors.white),
                 SizedBox(
@@ -106,6 +141,16 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                 Image.asset("assets/images/agent_docs_required.png"),
                 SizedBox(
                   height: 16,
+                ),
+                requiredDocumentsList(),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(
+                    color: Color(0xffFF8B86),
+                  ),
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -126,75 +171,8 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                         icon = "assets/imageicon.png";
                       }
 
-                      return Dismissible(
-                        key: ObjectKey(selfData.otherDoc[index]),
-                        onDismissed: (direction) {
-                          setState(() {
-                            selfData.otherDoc.removeAt(index);
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("document remove"),
-                          ));
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 8),
-                          child: InnerShadow(
-                            blur: 20,
-                            offset: const Offset(5, 5),
-                            color: Colors.black.withOpacity(0.38),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Variables.backgroundColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: ListTile(
-                                onTap: () async {
-                                  if (await Permission.storage
-                                      .request()
-                                      .isGranted) {
-                                    String filePath = '';
-                                    var dir =
-                                        await getApplicationDocumentsDirectory();
-                                    print(doc.link);
-                                    try {
-                                      filePath = dir.path +
-                                          "/" +
-                                          doc.name +
-                                          "." +
-                                          doc.type;
-                                      EasyLoading.show(status: "Downloading..");
-                                      await Dio().download(doc.link, filePath);
-                                      EasyLoading.dismiss();
-                                      OpenFile.open(filePath);
-                                    } catch (ex) {
-                                      filePath = 'Can not fetch url';
-                                    }
-                                  } else {
-                                    EasyLoading.showError(
-                                        "Please allow storage permissions");
-                                  }
-                                },
-                                contentPadding: EdgeInsets.all(15),
-                                leading: Image.asset(icon),
-                                trailing: Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      color: Color(0x3fC1C1C1),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Icon(
-                                    Ionicons.cloud_download_outline,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                title: Text(
-                                  doc.name,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      return Center(
+                        child: DismissibleDocument(index, context, doc, icon),
                       );
                     },
                   ),
@@ -202,61 +180,136 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                onTap: () {
-                  _showFilePicker();
-                },
-                child: Wrap(
-                  children: [
-                    Wrap(
-                      direction: Axis.vertical,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Color(0xff294A91),
-                              borderRadius: BorderRadius.circular(8)),
-                          clipBehavior: Clip.hardEdge,
-                          child: Container(
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              gradient: Variables.buttonGradient,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.upload_sharp,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "Upload",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          )
+          Align(alignment: Alignment.bottomRight, child: UploadButton())
         ],
       ),
       endDrawer: MyDrawer(),
+    );
+  }
+
+  Widget DismissibleDocument(
+    int index,
+    BuildContext context,
+    Document doc,
+    String icon, {
+    String requiredDoc,
+  }) {
+    void documentOnDismiss(int index, BuildContext context) {
+      setState(() {
+        selfData.otherDoc.removeAt(index);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("document remove"),
+      ));
+    }
+
+    return Dismissible(
+      key: ObjectKey(selfData.otherDoc[index]),
+      onDismissed: (direction) {
+        documentOnDismiss(index, context);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: InnerShadow(
+          blur: 20,
+          offset: const Offset(5, 5),
+          color: Colors.black.withOpacity(0.38),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Variables.backgroundColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ListTile(
+              onTap: () async {
+                if (await Permission.storage.request().isGranted) {
+                  String filePath = '';
+                  var dir = await getApplicationDocumentsDirectory();
+                  print(doc.link);
+                  try {
+                    filePath = dir.path + "/" + doc.name + "." + doc.type;
+                    EasyLoading.show(status: "Downloading..");
+                    await Dio().download(doc.link, filePath);
+                    EasyLoading.dismiss();
+                    OpenFile.open(filePath);
+                  } catch (ex) {
+                    filePath = 'Can not fetch url';
+                  }
+                } else {
+                  EasyLoading.showError("Please allow storage permissions");
+                }
+              },
+              contentPadding: EdgeInsets.all(15),
+              leading: Image.asset(icon),
+              trailing: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: Color(0x3fC1C1C1),
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: Icon(
+                  Ionicons.cloud_download_outline,
+                  color: Colors.white,
+                ),
+              ),
+              title: Text(
+                doc.name,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget UploadButton([String requiredDocType]) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: InkWell(
+        onTap: () {
+          _showFilePicker(requiredDocType);
+        },
+        child: Wrap(
+          children: [
+            Wrap(
+              direction: Axis.vertical,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xff294A91),
+                      borderRadius: BorderRadius.circular(8)),
+                  clipBehavior: Clip.hardEdge,
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      gradient: Variables.buttonGradient,
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.upload_sharp,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            "Upload ${requiredDocType ?? ''}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

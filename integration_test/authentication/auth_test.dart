@@ -52,31 +52,32 @@ class AuthenticationTestSuite {
         testWidgets(
           'student',
           (tester) async {
-            tester=await loginWithPhoneNumber(tester, 'student', autoSignIn: false);
+            tester = await loginWithPhoneNumber(tester, 'student',
+                autoSignIn: false);
             await tester.pumpAndSettle();
             expect(find.byType(CountrySelectPage), findsOneWidget);
             await navigateToHomePage(tester);
           },
-          
         );
         testWidgets(
           'agent',
           (tester) async {
-            tester=await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
+            tester =
+                await loginWithPhoneNumber(tester, 'agent', autoSignIn: false);
             await tester.pumpAndSettle();
             expect(find.byType(CountrySelectPage), findsOneWidget);
             await navigateToHomePage(tester);
           },
         );
       },
-      skip:true ,
+      skip: true,
     );
 
     group('Auto Login Tests for', () {
       testWidgets(
         'student',
         (tester) async {
-         tester= await loginWithPhoneNumber(
+          tester = await loginWithPhoneNumber(
             tester,
             'student',
             autoSignIn: true,
@@ -90,7 +91,7 @@ class AuthenticationTestSuite {
       testWidgets(
         'agent',
         (tester) async {
-          tester=await loginWithPhoneNumber(
+          tester = await loginWithPhoneNumber(
             tester,
             'agent',
             autoSignIn: true,
@@ -113,7 +114,7 @@ class AuthenticationTestSuite {
       await tester.tap(find.text('Skip'));
       await tester.pumpAndSettle();
     } catch (e) {
-      // TODO
+      log('skip button not found');
     }
 
     expect(find.text('Study Lancer'), findsOneWidget);

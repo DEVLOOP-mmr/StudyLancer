@@ -16,7 +16,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../variables.dart';
-
+/// TODO: inject HomeBloc
+/// TODO: subsections for required documents
 class StudentDocumentPage extends StatefulWidget {
   const StudentDocumentPage({Key key}) : super(key: key);
 

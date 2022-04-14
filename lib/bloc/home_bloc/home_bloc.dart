@@ -29,8 +29,10 @@ class HomeBloc extends Cubit<HomeState> {
     StudentHomeState homeData = StudentHomeState();
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": Variables.sharedPreferences
-          .get(Variables.countryCode, defaultValue: "AU"),
+      "countryLookingFor": Variables.sharedPreferences.get(
+        Variables.countryCode,
+        defaultValue: "AU",
+      ),
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var encode = jsonEncode(body);
@@ -88,10 +90,11 @@ class HomeBloc extends Cubit<HomeState> {
     }
     return message;
   }
-
+  /// TODO: Change this to [HomeBloc] method
   static Future<AgentHome> getAgentHome(
       {BuildContext context, FirebaseAuth auth}) async {
     auth ??= FirebaseAuth.instance;
+    assert(auth.currentUser != null);
     AgentHome homeData = AgentHome();
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,

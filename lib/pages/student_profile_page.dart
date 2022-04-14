@@ -9,13 +9,12 @@ import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
+/// TODO: inject HomeBloc
 class StudentProfilePage extends StatefulWidget {
   const StudentProfilePage({Key key}) : super(key: key);
 
@@ -80,7 +79,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         setState(() {
           selfData.photo = uri;
         });
-        ProfileBloc.setStudentProfile(selfData);
+        ProfileBloc.updateStudentProfile(selfData);
         await FirebaseAuth.instance.currentUser
             .updateProfile(photoURL: selfData.photo);
       } on FirebaseException catch (e) {
@@ -704,11 +703,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               onPressed: () {
                                 if (formKey.currentState.validate()) {
                                   EasyLoading.show(status: "Updating");
-                                  ProfileBloc.setStudentProfile(selfData)
+                                  ProfileBloc.updateStudentProfile(selfData)
                                       .then((value) async {
-                                    await FirebaseAuth.instance.currentUser
-                                        .updateProfile(
-                                            displayName: selfData.name);
+                                  
                                     EasyLoading.dismiss();
                                     EasyLoading.showSuccess(
                                         "Updated Successfully");

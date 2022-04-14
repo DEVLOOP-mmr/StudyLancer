@@ -7,7 +7,7 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'dio.dart';
 
 class ProfileBloc {
-  static Future<void> setStudentProfile(Student student) async {
+  static Future<void> updateStudentProfile(Student student) async {
     Map body = {
       "studentID": student.id,
       "location": {"city": student.city, "country": student.country},
@@ -16,11 +16,10 @@ class ProfileBloc {
       "photo": student.photo,
       "DOB": student.dob,
       "martialStatus": student.maritalStatus,
-      "phone": student.phone,
       "about": student.about,
     };
     await GetDio.getDio().put(
-        "student/update/${FirebaseAuth.instance.currentUser.uid}",
+        "student/update/",
         data: jsonEncode(body));
     return;
   }
@@ -43,3 +42,5 @@ class ProfileBloc {
     return;
   }
 }
+
+/// TODO: add Tests for profile update
