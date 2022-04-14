@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/variables.dart';

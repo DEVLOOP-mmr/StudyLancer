@@ -3,27 +3,30 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'dio.dart';
+import '../dio.dart';
 
-class HomeBloc {
-  static Future<StudentHome> getStudentHome({
+class HomeBloc extends Cubit<HomeState> {
+  HomeBloc() : super(UnAuthenticatedHomeState());
+
+  Future<StudentHomeState> getStudentHome({
     BuildContext context,
     FirebaseAuth firebaseAuth,
   }) async {
+    emit(StudentHomeState(loadState: LoadState.loading));
     firebaseAuth ??= FirebaseAuth.instance;
     assert(firebaseAuth.currentUser != null);
-    StudentHome homeData = StudentHome();
+    StudentHomeState homeData = StudentHomeState();
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences
@@ -39,7 +42,7 @@ class HomeBloc {
 
     if (result.statusCode < 299) {
       var data = result.data;
-      homeData.self = parseStudentData(data["student"]);
+      homeData.student = parseStudentData(data["student"]);
       homeData.agents = [];
       if (data['agents'] is! String) {
         List agentList = data["agents"];
@@ -50,7 +53,7 @@ class HomeBloc {
     } else {
       await handleInvalidResult(result, context);
     }
-
+    emit(homeData.copyWith(loadState: LoadState.done));
     return homeData;
   }
 
@@ -116,7 +119,6 @@ class HomeBloc {
       return homeData;
     } else {
       handleInvalidResult(result, context);
-     
     }
   }
 

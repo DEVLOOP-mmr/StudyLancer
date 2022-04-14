@@ -1,7 +1,8 @@
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timelines/timelines.dart';
 
 import 'NewVideo.dart';
@@ -55,14 +56,19 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   void initState() {
     super.initState();
-    HomeBloc.getStudentHome().then((value) {
-      if (mounted)
-        setState(() {
-          //video
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<HomeBloc>(context, listen: false)
+          .getStudentHome()
+          .then((value) {
+       if (mounted)
+          setState(() {
+            //video
 
-          progress = value.self.timeline;
-        });
+            progress = value.student.timeline;
+          });
+      });
     });
+   
   }
 
   bool play = true;

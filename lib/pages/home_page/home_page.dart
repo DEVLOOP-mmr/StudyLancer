@@ -1,5 +1,4 @@
-
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/chat/rooms.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_document_page.dart';
@@ -12,6 +11,7 @@ import 'package:elite_counsel/pages/tutorial_pages.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum _SelectedTab { home, docs, message, profile }
 
@@ -33,6 +33,19 @@ class _HomePageState extends State<HomePage> {
           _selectedTab = _SelectedTab.values[i];
         });
       }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (Variables.sharedPreferences.get(Variables.userType) ==
+        Variables.userTypeStudent) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        BlocProvider.of<HomeBloc>(context, listen: false)
+            .getStudentHome(context: context);
+      });
     }
   }
 
@@ -93,36 +106,24 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  FutureBuilder<StudentHome> buildStudentHomePage(BuildContext context) {
-    return FutureBuilder<StudentHome>(
-        future: HomeBloc.getStudentHome(context: context),
-        builder: (context, snapshot) {
-          var views = [
-            Container(
-              color: Variables.backgroundColor,
-              child: const Center(child: CircularProgressIndicator()),
-            ),
-            ApplicationPage(),
-            const RoomsPage(),
-            const StudentProfilePage(),
-          ];
-          if (snapshot.hasData) {
-            views[0] = StudentHomePage(
-              homeData: snapshot.data,
-            );
-          }
+  Widget buildStudentHomePage(BuildContext context) {
+    var views = [
+      StudentHomePage(),
+      ApplicationPage(),
+      const RoomsPage(),
+      const StudentProfilePage(),
+    ];
 
-          return Scaffold(
-            backgroundColor: Variables.backgroundColor,
-            body: views[_selectedTab.index],
-            bottomNavigationBar: Container(
-              color: const Color(0xff1C1F22),
-              child: SafeArea(
-                child: buildDotNavigationBar(),
-              ),
-            ),
-          );
-        });
+    return Scaffold(
+      backgroundColor: Variables.backgroundColor,
+      body: views[_selectedTab.index],
+      bottomNavigationBar: Container(
+        color: const Color(0xff1C1F22),
+        child: SafeArea(
+          child: buildDotNavigationBar(),
+        ),
+      ),
+    );
   }
 
   FloatingNavbar buildDotNavigationBar() {

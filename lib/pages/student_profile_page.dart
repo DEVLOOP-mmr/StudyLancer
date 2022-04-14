@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
@@ -10,6 +10,7 @@ import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +28,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   Student selfData = Student();
 //date of birth
 
-  Future<StudentHome> initFuture;
+  Future<StudentHomeState> initFuture;
   var formKey = GlobalKey<FormState>();
   DateTime currentDate = DateTime(2000);
 
@@ -49,7 +50,14 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   @override
   void initState() {
     super.initState();
-    initFuture = HomeBloc.getStudentHome();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        initFuture =
+            BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
+
+        ;
+      });
+    });
   }
 
   void _showImagePicker() async {
@@ -85,7 +93,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<StudentHome>(
+    return FutureBuilder<StudentHomeState>(
         future: initFuture,
         builder: (context, snapshot) {
           if (snapshot.data == null) {
@@ -96,7 +104,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
               ),
             );
           }
-          selfData = snapshot.data.self;
+          selfData = snapshot.data.student;
           return Scaffold(
             key: _scaffoldKey,
             backgroundColor: Variables.backgroundColor,
@@ -481,7 +489,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                   fontFamily: 'Roboto',
                                   fontSize: 12),
                               dropdownColor: Colors.black,
-                              items: ["s", "m", ]
+                              items: [
+                                "s",
+                                "m",
+                              ]
                                   .map((label) => DropdownMenuItem(
                                         child: Container(
                                             color: Colors.black,

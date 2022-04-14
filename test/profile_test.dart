@@ -1,4 +1,4 @@
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
@@ -30,8 +30,8 @@ class ProfileTestSuite {
     Variables.sharedPreferences.put(Variables.userType, 'student');
     final mockAuth = MockFirebaseAuth();
     final studentHomeData =
-        await HomeBloc.getStudentHome(firebaseAuth: mockAuth);
-    final student = studentHomeData.self;
+        await HomeBloc().getStudentHome(firebaseAuth: mockAuth);
+    final student = studentHomeData.student;
     return student;
   }
 

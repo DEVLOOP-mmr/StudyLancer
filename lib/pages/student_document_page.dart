@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:elite_counsel/widgets/inner_shadow.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
@@ -31,13 +32,15 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
   void initState() {
     super.initState();
 
-    HomeBloc.getStudentHome().then((value) {
+    BlocProvider.of<HomeBloc>(context, listen: false)
+        .getStudentHome(context: context)
+        .then((value) {
       setState(() {
         loading = false;
       });
       if (mounted) {
         setState(() {
-          student = value.self;
+          student = value.student;
         });
       }
     });
@@ -58,9 +61,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
       await DocumentBloc.parseAndUploadFilePickerResult(result);
       EasyLoading.dismiss();
 
-      HomeBloc.getStudentHome().then((value) {
+      BlocProvider.of<HomeBloc>(context, listen: false)
+          .getStudentHome()
+          .then((value) {
         setState(() {
-          student = value.self;
+          student = value.student;
         });
         setState(() {
           loading = false;
@@ -188,7 +193,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                               String filePath = '';
                                               var dir =
                                                   await getApplicationDocumentsDirectory();
-                                             
+
                                               try {
                                                 filePath = dir.path +
                                                     "/" +
@@ -266,7 +271,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                               alignment: Alignment.center,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                children:const [
+                                children: const [
                                   Icon(
                                     Icons.upload_sharp,
                                     color: Colors.white,
@@ -313,10 +318,12 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
         content: Text("Document removed"),
       ));
     }
-    HomeBloc.getStudentHome().then((value) {
+    BlocProvider.of<HomeBloc>(context, listen: false)
+        .getStudentHome()
+        .then((value) {
       if (mounted) {
         setState(() {
-          student = value.self;
+          student = value.student;
         });
       }
     });

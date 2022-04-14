@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/widgets/drawer.dart';

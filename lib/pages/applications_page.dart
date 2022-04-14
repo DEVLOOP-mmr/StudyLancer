@@ -1,5 +1,5 @@
 import 'package:accordion/accordion.dart';
-import 'package:elite_counsel/bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
@@ -8,6 +8,7 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
@@ -26,11 +27,15 @@ class _ApplicationPageState extends State<ApplicationPage> {
   @override
   void initState() {
     super.initState();
-    HomeBloc.getStudentHome().then((value) {
-      if (mounted)
-        setState(() {
-          selfData = value.self;
-        });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<HomeBloc>(context, listen: false)
+          .getStudentHome()
+          .then((value) {
+        if (mounted)
+          setState(() {
+            selfData = value.student;
+          });
+      });
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/review.dart';
 import 'package:elite_counsel/models/student.dart';
@@ -18,7 +19,6 @@ class CountryImage {
   CountryImage(this.description, this.image);
 }
 
-
 class Agent {
   String name,
       id,
@@ -38,9 +38,6 @@ class Agent {
   bool verified;
   List<Document> otherDoc;
 }
-
-
-
 
 class AgentReviews {
   List<Review> reviews;
@@ -65,12 +62,44 @@ class Offer {
   bool accepted;
 }
 
-class StudentHome {
-  Student self;
+class StudentHomeState extends HomeState {
+  LoadState loadState;
+  Student student;
   List<Agent> agents;
+  StudentHomeState({
+     this.loadState,
+    this.student,
+    this.agents,
+  });
+
+  StudentHomeState copyWith({
+    LoadState loadState,
+    Student student,
+    List<Agent> agents,
+  }) {
+    return StudentHomeState(
+      loadState: loadState ?? this.loadState,
+      student: student ?? this.student,
+      agents: agents ?? this.agents,
+    );
+  }
 }
 
-class AgentHome {
+class AgentHome extends HomeState {
   Agent self;
   List<Student> students;
+  AgentHome({
+    this.self,
+    this.students,
+  });
+
+  AgentHome copyWith({
+    Agent self,
+    List<Student> students,
+  }) {
+    return AgentHome(
+      self: self ?? this.self,
+      students: students ?? this.students,
+    );
+  }
 }

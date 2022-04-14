@@ -22,6 +22,7 @@ dependencies:
   floating_bottom_navigation_bar: ^1.5.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
   flutter_easyloading: ^3.0.0
   flutter_feather_icons: ^2.0.0+1
   flutter_html: null
