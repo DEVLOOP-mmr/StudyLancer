@@ -15,7 +15,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../variables.dart';
-
+/// TODO: inject home bloc
 class ApplicationPage extends StatefulWidget {
   @override
   _ApplicationPageState createState() => _ApplicationPageState();

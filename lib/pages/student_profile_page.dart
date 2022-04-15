@@ -17,6 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 
+/// TODO: emit student changes
+
 class StudentProfilePage extends StatefulWidget {
   const StudentProfilePage({Key key}) : super(key: key);
 

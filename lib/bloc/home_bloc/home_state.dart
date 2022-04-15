@@ -1,3 +1,6 @@
+import 'package:elite_counsel/models/agent.dart';
+import 'package:equatable/equatable.dart';
+
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
 
@@ -39,14 +42,15 @@ class StudentHomeState extends HomeState {
   }
 }
 
-class AgentHomeState extends HomeState {
+class AgentHomeState extends HomeState with EquatableMixin {
   Agent agent;
   List<Student> students;
+
   LoadState loadState;
   AgentHomeState({
     this.agent,
     this.students,
-     this.loadState,
+    this.loadState,
   });
 
   AgentHomeState copyWith({
@@ -60,4 +64,7 @@ class AgentHomeState extends HomeState {
       loadState: loadState ?? this.loadState,
     );
   }
+
+  @override
+  List<Object> get props => [agent, students, loadState];
 }

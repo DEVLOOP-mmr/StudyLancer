@@ -1,5 +1,6 @@
 import 'package:elite_counsel/bloc/review_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

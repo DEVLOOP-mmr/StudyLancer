@@ -14,9 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'agent_document_page.dart';
-
-/// TODO: inject HomeBloc
+import 'document_page/agent/agent_document_page.dart';
 
 class AgentProfilePage extends StatelessWidget {
   AgentProfilePage({Key key}) : super(key: key);
@@ -26,10 +24,9 @@ class AgentProfilePage extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
 
   void _showImagePicker(BuildContext context) async {
-    final agent = (BlocProvider.of<HomeBloc>(context, listen: false).state
-            as AgentHomeState)
-        .agent;
-    final result = await ImagePicker().getImage(
+    var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
+    var agent = (bloc.state as AgentHomeState).agent;
+    final result = await ImagePicker().pickImage(
       imageQuality: 70,
       maxWidth: 1440,
       source: ImageSource.gallery,
@@ -46,15 +43,15 @@ class AgentProfilePage extends StatelessWidget {
         final reference = FirebaseStorage.instance.ref(imageName);
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
-        /// TODO
-        // setState(() {
-        //   agent.photo = uri;
-        // });
-        ProfileBloc.setAgentProfile(agent);
-        await FirebaseAuth.instance.currentUser
-            .updateProfile(photoURL: agent.photo);
+
+
+
+        agent.photo = uri;
+        bloc.emitNewAgent(agent);
+        ProfileBloc.setAgentProfile(agent)
+            .then((value) => bloc.getAgentHome(context: context));
       } on FirebaseException catch (e) {
-        print(e);
+        EasyLoading.showInfo(e.message);
       }
     } else {
       // User canceled the picker
@@ -65,7 +62,7 @@ class AgentProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       if (state.loadState == LoadState.loading) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       }
@@ -77,7 +74,7 @@ class AgentProfilePage extends StatelessWidget {
         appBar: AppBar(
           leading: Navigator.of(context).canPop()
               ? IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: const Icon(Icons.arrow_back_ios),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -96,10 +93,10 @@ class AgentProfilePage extends StatelessWidget {
         ),
         extendBodyBehindAppBar: true,
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: Color(0xff1E2224),
               image: DecorationImage(
-                  image: AssetImage(
+                  image: const AssetImage(
                     "assets/background.png",
                   ),
                   fit: BoxFit.fill)),
@@ -126,16 +123,16 @@ class AgentProfilePage extends StatelessWidget {
                                   "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                             ),
                             boxShadow: [
-                              BoxShadow(
+                              const BoxShadow(
                                 color: Color(0xff131618),
-                                offset: Offset(-6, -5),
+                                offset: const Offset(-6, -5),
                                 spreadRadius: 0,
                                 blurRadius: 45.0,
                               ),
                             ],
                             border: Border.all(
                               width: 10,
-                              color: Color(0xff1C1F22),
+                              color: const Color(0xff1C1F22),
                             ),
                             // color: Color(0xff1E2022),
                             borderRadius: BorderRadius.circular(40),
@@ -149,9 +146,9 @@ class AgentProfilePage extends StatelessWidget {
                       child: NeumorphicButton(
                         padding: EdgeInsets.zero,
                         child: Container(
-                          color: Color(0xff294A91),
+                          color: const Color(0xff294A91),
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               gradient: Variables.buttonGradient,
                             ),
@@ -160,12 +157,12 @@ class AgentProfilePage extends StatelessWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.insert_drive_file_outlined,
                                     color: Colors.white,
                                   ),
-                                  SizedBox(width: 4),
-                                  Text(
+                                  const SizedBox(width: 4),
+                                  const Text(
                                     "My Documents",
                                     style: TextStyle(
                                         color: Colors.white,
@@ -194,11 +191,11 @@ class AgentProfilePage extends StatelessWidget {
                                 BorderRadius.circular(30))),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Full Name*",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -209,9 +206,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -226,7 +223,7 @@ class AgentProfilePage extends StatelessWidget {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -243,9 +240,9 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "About you",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -258,9 +255,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -277,7 +274,7 @@ class AgentProfilePage extends StatelessWidget {
                           autocorrect: false,
                           minLines: 3,
                           maxLines: 3,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -294,11 +291,11 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Licence Number*",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -309,9 +306,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -326,7 +323,7 @@ class AgentProfilePage extends StatelessWidget {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -347,9 +344,9 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Enter Email*",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -362,9 +359,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -383,7 +380,7 @@ class AgentProfilePage extends StatelessWidget {
                             return null;
                           },
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -400,11 +397,11 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Phone Number",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -415,9 +412,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8.0),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -427,7 +424,7 @@ class AgentProfilePage extends StatelessWidget {
                           },
                           readOnly: true,
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -498,11 +495,11 @@ class AgentProfilePage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Marital Status",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -513,9 +510,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -533,7 +530,7 @@ class AgentProfilePage extends StatelessWidget {
                           onChanged: (value) {
                             agent.maritalStatus = value;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -545,7 +542,7 @@ class AgentProfilePage extends StatelessWidget {
                                         color: Colors.black,
                                         child: Text(
                                           label,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Roboto',
@@ -557,11 +554,11 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "City*",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -572,9 +569,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -589,7 +586,7 @@ class AgentProfilePage extends StatelessWidget {
                             return null;
                           },
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -606,11 +603,11 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Country*",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -621,9 +618,9 @@ class AgentProfilePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -644,7 +641,7 @@ class AgentProfilePage extends StatelessWidget {
                             }
                             return null;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -656,7 +653,7 @@ class AgentProfilePage extends StatelessWidget {
                                         color: Colors.black,
                                         child: Text(
                                           label,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Roboto',
@@ -668,20 +665,20 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: NeumorphicButton(
                           padding: EdgeInsets.zero,
                           child: Container(
-                            color: Color(0xff294A91),
+                            color: const Color(0xff294A91),
                             child: Container(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
-                              child: Align(
+                              child: const Align(
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Submit",
@@ -719,7 +716,7 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),

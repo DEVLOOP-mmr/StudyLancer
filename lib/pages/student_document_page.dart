@@ -19,7 +19,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../variables.dart';
 
-
 /// TODO: subsections for required documents
 class StudentDocumentPage extends StatelessWidget {
   const StudentDocumentPage({Key key}) : super(key: key);
@@ -37,9 +36,7 @@ class StudentDocumentPage extends StatelessWidget {
       await DocumentBloc.parseAndUploadFilePickerResult(result);
       EasyLoading.dismiss();
 
-      BlocProvider.of<HomeBloc>(context, listen: false)
-          .getStudentHome()
-          .then((value) {});
+      BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
     } else {
       // User canceled the picker
     }
@@ -297,8 +294,6 @@ class StudentDocumentPage extends StatelessWidget {
         content: Text("Document removed"),
       ));
     }
-    BlocProvider.of<HomeBloc>(context, listen: false)
-        .getStudentHome()
-        .then((value) {});
+    BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
   }
 }

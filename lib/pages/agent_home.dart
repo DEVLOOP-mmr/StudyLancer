@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/classes/classes.dart';
@@ -13,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:accordion/accordion.dart';
-
 
 class AgentHomePage extends StatefulWidget {
   const AgentHomePage({Key key}) : super(key: key);
@@ -77,27 +77,27 @@ class _AgentHomePageState extends State<AgentHomePage>
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state is! AgentHomeState) {
-                  return Container(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Container();
                 }
                 final agentHomePageState = state as AgentHomeState;
                 final agent = agentHomePageState.agent;
-                return Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    agent.photo ??
-                        "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
-                    fit: BoxFit.cover,
-                    height: 25,
-                    width: 25,
-                  ),
-                );
+                return agent == null
+                    ? Container()
+                    : Container(
+                        height: 25,
+                        width: 25,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: CachedNetworkImage(
+                          imageUrl: agent.photo ??
+                              "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
+                          fit: BoxFit.cover,
+                          height: 25,
+                          width: 25,
+                        ),
+                      );
               },
             ),
           ),
@@ -436,14 +436,14 @@ class _AgentHomePageState extends State<AgentHomePage>
             controller: _tabController,
             children: [
               ListView.builder(
-                  itemCount:agentHomePageState.students.where((element) {
+                  itemCount: agentHomePageState.students.where((element) {
                     if (element.optionStatus == 1) {
                       return true;
                     }
                     return false;
                   }).length,
                   itemBuilder: (context, index) {
-                    var student =agentHomePageState. students.where((element) {
+                    var student = agentHomePageState.students.where((element) {
                       if (element.optionStatus == 1) {
                         return true;
                       }
@@ -572,7 +572,7 @@ class _AgentHomePageState extends State<AgentHomePage>
                     );
                   }),
               ListView.builder(
-                  itemCount:agentHomePageState.students.where((element) {
+                  itemCount: agentHomePageState.students.where((element) {
                     if (element.optionStatus == 0) {
                       return true;
                     }

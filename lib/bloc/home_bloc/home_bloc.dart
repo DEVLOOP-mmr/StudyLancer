@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
@@ -100,13 +101,20 @@ class HomeBloc extends Cubit<HomeState> {
     return message;
   }
 
-  Future<AgentHomeState> getAgentHome(
-      {BuildContext context, FirebaseAuth auth}) async {
+  Future<AgentHomeState> getAgentHome({
+    BuildContext context,
+    FirebaseAuth auth,
+  }) async {
     auth ??= FirebaseAuth.instance;
     assert(auth.currentUser != null);
 
     AgentHomeState homeData = AgentHomeState();
-    emit(homeData.copyWith(loadState: LoadState.loading));
+    if (state is! AgentHomeState) {
+      emit(homeData.copyWith(loadState: LoadState.loading));
+    } else {
+      // emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
+    }
+
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences

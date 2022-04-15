@@ -1,7 +1,7 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/chat/rooms.dart';
 import 'package:elite_counsel/classes/classes.dart';
-import 'package:elite_counsel/pages/agent_document_page.dart';
+import 'package:elite_counsel/pages/document_page/agent/agent_document_page.dart';
 import 'package:elite_counsel/pages/agent_home.dart';
 import 'package:elite_counsel/pages/agent_profile_page.dart';
 import 'package:elite_counsel/pages/applications_page.dart';
@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (Variables.sharedPreferences.get(Variables.userType) ==
         Variables.userTypeStudent) {
@@ -79,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       AgentHomePage(),
       AgentDocumentPage(),
       const RoomsPage(),
-       AgentProfilePage(),
+      AgentProfilePage(),
     ];
 
     return Scaffold(

@@ -13,6 +13,8 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+
+  /// TODO: inject home bloc
   int progress = 1;
   bool viewVisible = false;
 
