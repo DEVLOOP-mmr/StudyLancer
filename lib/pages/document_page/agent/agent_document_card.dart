@@ -18,7 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentCard extends StatelessWidget {
+class AgentDocumentCard extends StatefulWidget {
   final Document doc;
   final String icon;
   final String requiredDocKey;
@@ -31,6 +31,13 @@ class AgentDocumentCard extends StatelessWidget {
   });
 
   @override
+  State<AgentDocumentCard> createState() => _AgentDocumentCardState();
+}
+
+class _AgentDocumentCardState extends State<AgentDocumentCard> {
+  bool editEnabled = false;
+  String newDocName = '';
+  @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
     return BlocBuilder<HomeBloc, HomeState>(
@@ -40,18 +47,18 @@ class AgentDocumentCard extends StatelessWidget {
         }
         final agent = (state as AgentHomeState).agent;
         return Dismissible(
-          key: ValueKey(doc.id),
+          key: ValueKey(widget.doc.id),
           onDismissed: (direction) {
             DocumentBloc.deleteDocument(
-              doc.name,
-              doc.id,
+              widget.doc.name,
+              widget.doc.id,
               FirebaseAuth.instance.currentUser.uid,
             );
-            if (requiredDocKey != null) {
-              agent.requiredDocuments[requiredDocKey] = null;
+            if (widget.requiredDocKey != null) {
+              agent.requiredDocuments[widget.requiredDocKey] = null;
               bloc.emitNewAgent(agent);
-            } else if (index != null) {
-              agent.documents.removeAt(index);
+            } else if (widget.index != null) {
+              agent.documents.removeAt(widget.index);
               bloc.emitNewAgent(agent);
             } else {
               return;
@@ -63,38 +70,78 @@ class AgentDocumentCard extends StatelessWidget {
             ));
           },
           child: Container(
+            
             padding: const EdgeInsets.only(bottom: 8),
-            child: InnerShadow(
-              blur: 20,
-              offset: const Offset(5, 5),
-              color: Colors.black.withOpacity(0.38),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Variables.backgroundColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ListTile(
-                  onTap: () async {
-                    if (await Permission.storage.request().isGranted) {
-                      String filePath = '';
-                      var dir = await getApplicationDocumentsDirectory();
-                      print(doc.link);
-                      try {
-                        filePath = dir.path + "/" + doc.name + "." + doc.type;
-                        EasyLoading.show(status: "Downloading..");
-                        await Dio().download(doc.link, filePath);
-                        EasyLoading.dismiss();
-                        OpenFile.open(filePath);
-                      } catch (ex) {
-                        filePath = 'Can not fetch url';
-                      }
-                    } else {
-                      EasyLoading.showError("Please allow storage permissions");
+            child: Container(
+             
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: ListTile(
+                
+                onTap: () async {
+                  if (await Permission.storage.request().isGranted) {
+                    String filePath = '';
+                    var dir = await getApplicationDocumentsDirectory();
+                    print(widget.doc.link);
+                    try {
+                      filePath = dir.path +
+                          "/" +
+                          widget.doc.name +
+                          "." +
+                          widget.doc.type;
+                      EasyLoading.show(status: "Downloading..");
+                      await Dio().download(widget.doc.link, filePath);
+                      EasyLoading.dismiss();
+                      OpenFile.open(filePath);
+                    } catch (ex) {
+                      filePath = 'Can not fetch url';
                     }
-                  },
-                  contentPadding: const EdgeInsets.all(15),
-                  leading: Image.asset(icon,width: 46,),
-                  trailing: Container(
+                  } else {
+                    EasyLoading.showError("Please allow storage permissions");
+                  }
+                },
+                contentPadding: const EdgeInsets.all(15),
+                leading: Image.asset(
+                  widget.icon,
+                  width: 46,
+                ),
+                trailing: Wrap(spacing: 20, children: [
+                  widget.requiredDocKey != null
+                      ? SizedBox(
+                          width: 1,
+                          height: 1,
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (editEnabled) {
+                              DocumentBloc.updateDocument(
+                                  widget.doc.id, agent.id, newDocName);
+                              
+                            }
+                            
+                            setState(() {
+                              editEnabled = !editEnabled;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                                color: Color(0x3fC1C1C1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            child: Icon(
+                              editEnabled
+                                  ? Ionicons.checkmark
+                                  : Ionicons.pencil,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                  Container(
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
                         color: Color(0x3fC1C1C1),
@@ -104,14 +151,28 @@ class AgentDocumentCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  title: Container(
-                    constraints: BoxConstraints(maxWidth: 10),
-                    child: AutoSizeText(
-                      doc.name,
-                      maxLines:3,
-                      style: const TextStyle(color: Colors.white,fontSize: 16),
-                    ),
-                  ),
+                ]),
+                title: Container(
+                  child: editEnabled
+                      ? TextFormField(
+                          initialValue: widget.doc.name,
+                          onChanged: (string) {
+                            setState(() {
+                              newDocName = string;
+                            });
+                          },
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                          decoration:
+                              InputDecoration(border: InputBorder.none),
+                        )
+                      : AutoSizeText(
+                          widget.doc.name,
+                          maxFontSize: 14,
+                          maxLines: 2,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                        ),
                 ),
               ),
             ),

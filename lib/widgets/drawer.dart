@@ -69,12 +69,12 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () {
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (_) {
-                    return HomePage();
+                    return const HomePage();
                   }), (route) => false);
                 },
-                title: Text(
+                title: const Text(
                   "Home",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -96,9 +96,9 @@ class _MyDrawerState extends State<MyDrawer> {
                       return ProgressPage();
                     }));
                   },
-                  title: Text(
+                  title: const Text(
                     "Progress",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -118,7 +118,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     return ScholarshipPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "Scholarship",
                   style: TextStyle(
                       color: Colors.white,
@@ -140,9 +140,9 @@ class _MyDrawerState extends State<MyDrawer> {
                     return Accommodation();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "Accommodation",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -162,9 +162,9 @@ class _MyDrawerState extends State<MyDrawer> {
                       ? launch("https://studylancer.co")
                       : print("Cannot open website");
                 },
-                title: Text(
+                title: const Text(
                   "Website",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -184,9 +184,9 @@ class _MyDrawerState extends State<MyDrawer> {
                     return AboutUsPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "About Us",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -206,7 +206,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     return FaqPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "FAQ",
                   style: TextStyle(
                       color: Colors.white,
@@ -227,9 +227,9 @@ class _MyDrawerState extends State<MyDrawer> {
                   FeatherIcons.share2,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Share with Friends",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -256,9 +256,9 @@ class _MyDrawerState extends State<MyDrawer> {
                         androidAppId: 'com.elite_counsel',
                         iOSAppId: "com.elitecounsel");
                   },
-                  child: Text(
+                  child: const Text(
                     "Rate Us",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -283,9 +283,9 @@ class _MyDrawerState extends State<MyDrawer> {
                   FeatherIcons.messageCircle,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Helpdesk",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -301,20 +301,20 @@ class _MyDrawerState extends State<MyDrawer> {
                   Variables.sharedPreferences.clear();
                   BlocProvider.of<HomeBloc>(context, listen: false).reset();
 
-                  Future.delayed(Duration.zero, () {
-                    Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (context) {
-                      return UserTypeSelectPage();
-                    }), (route) => false);
-                  });
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return const UserTypeSelectPage();
+                    }),
+                  );
                 },
                 trailing: Icon(
                   FeatherIcons.logOut,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Log Out",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',

@@ -161,13 +161,13 @@ class _ApplicationPageState extends State<ApplicationPage> {
               if (result != null) {
                 if (result == "asc") {
                   setState(() {
-                    selfData.previousOffers.sort((a, b) =>
+                    selfData.applications.sort((a, b) =>
                         (int.parse(a.courseFees))
                             .compareTo((int.parse(b.courseFees))));
                   });
                 } else if (result == "desc") {
                   setState(() {
-                    selfData.previousOffers.sort((b, a) =>
+                    selfData.applications.sort((b, a) =>
                         (int.parse(a.courseFees))
                             .compareTo((int.parse(b.courseFees))));
                   });
@@ -189,13 +189,13 @@ class _ApplicationPageState extends State<ApplicationPage> {
           children: [
             Divider(color: Colors.white),
             Expanded(
-              child: (selfData.previousOffers ?? []).length != 0
+              child: (selfData.applications ?? []).length != 0
                   ? ListView.builder(
                       shrinkWrap: true,
-                      itemCount: (selfData.previousOffers ?? []).length,
+                      itemCount: (selfData.applications ?? []).length,
                       itemBuilder: (context, index) {
-                        Offer offer;
-                        offer = selfData.previousOffers[index];
+                        Application offer;
+                        offer = selfData.applications[index];
                         return Padding(
                           padding: EdgeInsets.only(bottom: 8),
                           child: Neumorphic(

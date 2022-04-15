@@ -1,9 +1,6 @@
-import 'package:equatable/equatable.dart';
 
-import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
-import 'package:elite_counsel/models/document.dart';
+
 import 'package:elite_counsel/models/review.dart';
-import 'package:elite_counsel/models/student.dart';
 
 class Country {
   String id, countryName;
@@ -26,7 +23,7 @@ class AgentReviews {
   bool studentHasReviewed;
 }
 
-class Offer {
+class Application {
   String studentID,
       agentID,
       agentName,
@@ -41,12 +38,15 @@ class Offer {
       courseLink,
       color,
       applicationFees;
+  Map<String, String> location; //city, country
+  int status;
   bool accepted;
-  Offer({
+  Application({
     this.accepted,
   });
-  factory Offer.parseOffer(offerData) {
-    Offer offer = Offer();
+  factory Application.parseApplication(offerData) {
+    Application offer = Application();
+    offer.location = offerData['location'];
     offer.country = offerData["location"]["country"];
     offer.offerId = offerData["_id"];
     offer.city = offerData["location"]["city"];
@@ -61,6 +61,7 @@ class Offer {
     offer.agentName = offerData["agent"]["name"];
     offer.agentImage = offerData["agent"]["photo"];
     offer.color = offerData["color"];
+    offer.status = offerData['status'];
     return offer;
   }
 }

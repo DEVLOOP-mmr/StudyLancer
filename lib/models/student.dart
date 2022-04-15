@@ -29,9 +29,10 @@ class Student {
   int timeline;
   bool verified;
   Map<String, dynamic> marksheet;
-  List<Offer> previousOffers;
+  List<Application> applications;
   List<Document> documents;
   Map<String, Document> requiredDocuments;
+ 
   Student({
     this.name,
     this.email,
@@ -51,7 +52,7 @@ class Student {
     this.timeline,
     this.verified,
     this.marksheet,
-    this.previousOffers,
+    this.applications,
     this.documents,
   });
   bool isValid() {
@@ -87,7 +88,7 @@ class Student {
       'timeline': timeline,
       'verified': verified,
       'marksheet': marksheet,
-      'previousOffers': previousOffers,
+      'previousOffers': applications,
       'otherDoc': documents,
     };
   }
@@ -113,9 +114,9 @@ class Student {
         studentData["applyingFor"] ?? "Masters in Computer Science";
     student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
     student.year = studentData["year"] ?? DateTime.now().year.toString();
-    student.previousOffers = [];
+    student.applications = [];
     (studentData["previousApplications"] as List).forEach((element) {
-      if (element is Map) student.previousOffers.add(Offer.parseOffer(element));
+      if (element is Map) student.applications.add(Application.parseApplication(element));
     });
     student.documents = [];
     student.requiredDocuments = {};
@@ -144,6 +145,6 @@ class Student {
 
   @override
   String toString() {
-    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $previousOffers, otherDoc: $documents)';
+    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $applications, otherDoc: $documents)';
   }
 }

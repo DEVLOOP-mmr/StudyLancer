@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dio.dart';
 
 class OfferBloc {
-  static Future<void> addOffer(Offer offer) async {
+  static Future<void> addOffer(Application offer) async {
     offer.agentID = FirebaseAuth.instance.currentUser.uid;
     Map body = {
       "studentID": offer.studentID,
@@ -25,7 +25,7 @@ class OfferBloc {
     return;
   }
 
-  static Future<void> acceptOffer(Offer offer) async {
+  static Future<void> acceptOffer(Application offer) async {
     offer.agentID = FirebaseAuth.instance.currentUser.uid;
     Map body = {
       "studentID": FirebaseAuth.instance.currentUser.uid,

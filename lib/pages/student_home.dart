@@ -131,6 +131,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
               );
             }
             final studentHomeState = state as StudentHomeState;
+            if (studentHomeState.student == null) {
+              return Center(
+                child: Container(
+                  child: const CircularProgressIndicator(),
+                ),
+              );
+            }
             return state.loadState == LoadState.loading
                 ? Center(
                     child: Container(

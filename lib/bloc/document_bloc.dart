@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
+
 class DocumentBloc {
   static Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
       {String requiredDocType}) async {
@@ -26,7 +27,7 @@ class DocumentBloc {
         DocumentBloc.postDocument(
                 Document(
                   link: uri,
-                  name:requiredDocType?? fileName,
+                  name: requiredDocType ?? fileName,
                   type: x.extension ?? "",
                 ),
                 FirebaseAuth.instance.currentUser.uid)
@@ -41,7 +42,7 @@ class DocumentBloc {
       }
     }
   }
-  
+
   static Future<Response> postDocument(Document document, String uid,
       {String overrideUserType}) async {
     final userType = overrideUserType ??
@@ -60,7 +61,8 @@ class DocumentBloc {
         .post("$userType/createDoc", data: jsonEncode(body));
   }
 
-  static Future<Response> deleteDocument(String docName,String documentID, String uid,
+  static Future<Response> updateDocument(
+      String documentID, String uid, String name,
       {String overrideUserType}) async {
     final userType = overrideUserType ??
         (await Variables.sharedPreferences.get(Variables.userType)).toString();
@@ -68,7 +70,28 @@ class DocumentBloc {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
-      'docName':docName
+      "name": name,
+    };
+
+    final response = await GetDio.getDio()
+        .post("$userType/updateDoc", data: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      EasyLoading.showInfo('Updated Successfully');
+    }
+    return response;
+  }
+
+  static Future<Response> deleteDocument(
+      String docName, String documentID, String uid,
+      {String overrideUserType}) async {
+    final userType = overrideUserType ??
+        (await Variables.sharedPreferences.get(Variables.userType)).toString();
+
+    Map body = {
+      "${userType}ID": uid,
+      "documentID": documentID,
+      'docName': docName
     };
 
     return await GetDio.getDio()
