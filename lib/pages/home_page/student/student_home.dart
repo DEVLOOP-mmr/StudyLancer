@@ -9,13 +9,13 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_list_page.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
 
-import 'package:elite_counsel/pages/student_profile_page.dart';
+import 'package:elite_counsel/pages/profile_page/student/student_profile_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'agent_details_page_view.dart';
+import '../../agent_details_page_view.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({

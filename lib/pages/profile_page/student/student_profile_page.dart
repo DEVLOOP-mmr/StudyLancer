@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/classes/classes.dart';
-import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
 
 import 'package:elite_counsel/variables.dart';
@@ -17,8 +15,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-
-
 class StudentProfilePage extends StatefulWidget {
   const StudentProfilePage({Key key}) : super(key: key);
 
@@ -27,7 +23,7 @@ class StudentProfilePage extends StatefulWidget {
 }
 
 class _StudentProfilePageState extends State<StudentProfilePage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   var formKey = GlobalKey<FormState>();
   DateTime currentDate = DateTime(2000);
@@ -40,10 +36,11 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         firstDate: DateTime(1947),
         lastDate: DateTime(2022));
 
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
         currentDate = pickedDate;
       });
+    }
   }
 //end
 

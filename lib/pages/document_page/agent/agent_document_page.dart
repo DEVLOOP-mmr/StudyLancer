@@ -154,7 +154,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                   )
                                 : BlocBuilder<HomeBloc, HomeState>(
                                     builder: (context, state) {
-                                      print(state);
+                                     
                                       return requiredDocumentsList();
                                     },
                                   ),

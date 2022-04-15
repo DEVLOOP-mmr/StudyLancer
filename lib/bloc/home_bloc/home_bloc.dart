@@ -132,15 +132,15 @@ class HomeBloc extends Cubit<HomeState> {
       var data = result.data;
       homeData.agent = Agent.parseAgentData(data["agent"]);
       homeData.students = [];
-      List studentList = data["students"];
+      List studentList = data["studentdata"];
       if(studentList!=null){
         
         studentList.forEach((element) {
-          if (element is Map) {
+         
             var student = Student.parseStudentData(element);
-            student.optionStatus = 1;
+
             homeData.students.add(student);
-          }
+          
         });
       }
      

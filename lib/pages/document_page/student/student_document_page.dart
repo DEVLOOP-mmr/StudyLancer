@@ -153,7 +153,6 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                   )
                                 : BlocBuilder<HomeBloc, HomeState>(
                                     builder: (context, state) {
-                                      print(state);
                                       return requiredDocumentsList();
                                     },
                                   ),
