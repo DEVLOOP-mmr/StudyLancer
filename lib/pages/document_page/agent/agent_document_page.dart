@@ -49,31 +49,28 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: requiredDocTitles.keys
                 .toList()
-                .map((key) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            requiredDocTitles[key],
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.white),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          agent.requiredDocuments[key] != null
-                              ? AgentDocumentCard(
-                                  doc: agent.requiredDocuments[key],
-                                  icon: "assets/imageicon.png",
-                                  requiredDocKey: key,
-                                )
-                              : UploadButton(key)
-                        ],
-                      ),
-                    ))
+                .map((key) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      requiredDocTitles[key],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    agent.requiredDocuments[key] != null
+                        ? AgentDocumentCard(
+                            doc: agent.requiredDocuments[key],
+                            icon: "assets/imageicon.png",
+                            requiredDocKey: key,
+                          )
+                        : UploadButton(key)
+                  ],
+                ))
                 .toList(),
           );
         },
@@ -130,7 +127,11 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                     if (state is UnAuthenticatedHomeState) {
                       return Container();
                     }
+
                     final agent = (state as AgentHomeState).agent;
+                    if(agent==null){
+                      return Container();
+                    }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,

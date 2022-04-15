@@ -3,7 +3,7 @@ import 'package:elite_counsel/chat/rooms.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/document_page/agent/agent_document_page.dart';
 import 'package:elite_counsel/pages/agent_home.dart';
-import 'package:elite_counsel/pages/agent_profile_page.dart';
+import 'package:elite_counsel/pages/profile_page/agent/agent_profile_page.dart';
 import 'package:elite_counsel/pages/applications_page.dart';
 import 'package:elite_counsel/pages/student_home.dart';
 import 'package:elite_counsel/pages/student_profile_page.dart';

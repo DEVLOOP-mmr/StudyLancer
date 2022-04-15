@@ -42,6 +42,7 @@ class AgentDocumentCard extends StatelessWidget {
           key: ValueKey(doc.id),
           onDismissed: (direction) {
             DocumentBloc.deleteDocument(
+              doc.name,
               doc.id,
               FirebaseAuth.instance.currentUser.uid,
             );

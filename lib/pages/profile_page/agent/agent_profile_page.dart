@@ -1,67 +1,33 @@
-import 'dart:io';
-
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/pages/profile_page/agent/agent_profile_header.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'document_page/agent/agent_document_page.dart';
 
 class AgentProfilePage extends StatelessWidget {
   AgentProfilePage({Key key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  var formKey = GlobalKey<FormState>();
-
-  void _showImagePicker(BuildContext context) async {
-    var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
-    var agent = (bloc.state as AgentHomeState).agent;
-    final result = await ImagePicker().pickImage(
-      imageQuality: 70,
-      maxWidth: 1440,
-      source: ImageSource.gallery,
-    );
-
-    if (result != null) {
-      final file = File(result.path);
-      final size = file.lengthSync();
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-      final imageName = result.path.split('/').last;
-
-      try {
-        final reference = FirebaseStorage.instance.ref(imageName);
-        await reference.putFile(file);
-        final uri = await reference.getDownloadURL();
-
-
-
-        agent.photo = uri;
-        bloc.emitNewAgent(agent);
-        ProfileBloc.setAgentProfile(agent)
-            .then((value) => bloc.getAgentHome(context: context));
-      } on FirebaseException catch (e) {
-        EasyLoading.showInfo(e.message);
-      }
-    } else {
-      // User canceled the picker
-    }
-  }
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+    return BlocBuilder<HomeBloc, HomeState>(builder: (
+      context,
+      state,
+    ) {
       if (state.loadState == LoadState.loading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (state is UnAuthenticatedHomeState) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -107,90 +73,7 @@ class AgentProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: InkWell(
-                        onTap: () {
-                          _showImagePicker(context);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(10.0),
-                          width: 133.0,
-                          height: 133.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(agent.photo ??
-                                  "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
-                            ),
-                            boxShadow: [
-                              const BoxShadow(
-                                color: Color(0xff131618),
-                                offset: const Offset(-6, -5),
-                                spreadRadius: 0,
-                                blurRadius: 45.0,
-                              ),
-                            ],
-                            border: Border.all(
-                              width: 10,
-                              color: const Color(0xff1C1F22),
-                            ),
-                            // color: Color(0xff1E2022),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 100.0, vertical: 16),
-                      child: NeumorphicButton(
-                        padding: EdgeInsets.zero,
-                        child: Container(
-                          color: const Color(0xff294A91),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              gradient: Variables.buttonGradient,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
-                                    Icons.insert_drive_file_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  const Text(
-                                    "My Documents",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return AgentDocumentPage();
-                          }));
-                        },
-                        style: NeumorphicStyle(
-                            border: NeumorphicBorder(
-                                isEnabled: true,
-                                color: Variables.backgroundColor,
-                                width: 2),
-                            shadowLightColor: Colors.white.withOpacity(0.6),
-                            // color: Color(0xff294A91),
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(30))),
-                      ),
-                    ),
+                    AgentProfileHeader(),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
                       child: const Text(
@@ -208,7 +91,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -257,7 +141,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -308,7 +193,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -361,7 +247,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -414,7 +301,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8.0),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -512,7 +400,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(const Radius.circular(10))),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -571,7 +460,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(const Radius.circular(10))),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -620,7 +510,8 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(

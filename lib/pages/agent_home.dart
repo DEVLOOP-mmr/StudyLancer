@@ -5,7 +5,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/agent_profile_page.dart';
+import 'package:elite_counsel/pages/profile_page/agent/agent_profile_page.dart';
 import 'package:elite_counsel/pages/student_detail_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';

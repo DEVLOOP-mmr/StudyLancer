@@ -41,7 +41,7 @@ class DocumentBloc {
       }
     }
   }
-  /// TODO: required document type for student/agent
+  
   static Future<Response> postDocument(Document document, String uid,
       {String overrideUserType}) async {
     final userType = overrideUserType ??
@@ -60,7 +60,7 @@ class DocumentBloc {
         .post("$userType/createDoc", data: jsonEncode(body));
   }
 
-  static Future<Response> deleteDocument(String documentID, String uid,
+  static Future<Response> deleteDocument(String docName,String documentID, String uid,
       {String overrideUserType}) async {
     final userType = overrideUserType ??
         (await Variables.sharedPreferences.get(Variables.userType)).toString();
@@ -68,6 +68,7 @@ class DocumentBloc {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
+      'docName':docName
     };
 
     return await GetDio.getDio()

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
@@ -47,6 +49,7 @@ void main() {
           assert(student.id.isNotEmpty);
           final lastDocID = student.documents.last.id;
           final response = await DocumentBloc.deleteDocument(
+            student.documents.last.name,
             lastDocID,
             MockFirebaseStudentUser().uid,
           );

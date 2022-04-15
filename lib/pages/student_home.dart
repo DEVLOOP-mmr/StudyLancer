@@ -36,6 +36,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
     _countryPageController = PageController();
 
     CountryBloc.getCountries().then((countries) {
+      if (countries.isEmpty) {
+        countries = [
+          Country(id: 'CA', countryName: 'Canada'),
+          Country(id: 'AU', countryName: 'Australia')
+        ];
+      }
+
       if (mounted) {
         setState(() {
           country = countries.firstWhere((element) =>

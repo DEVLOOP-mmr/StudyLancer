@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
@@ -34,7 +35,9 @@ class ProfileBloc {
       "licenseNo": agent.licenseNo,
       "martialStatus": agent.maritalStatus,
     };
-    await GetDio.getDio().put("agent/update/", data: jsonEncode(body));
+    final request =
+        await GetDio.getDio().put("agent/update/", data: jsonEncode(body));
+    log(request.statusCode.toString());
     return;
   }
 }

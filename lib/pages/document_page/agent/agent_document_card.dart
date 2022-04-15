@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
@@ -42,6 +43,7 @@ class AgentDocumentCard extends StatelessWidget {
           key: ValueKey(doc.id),
           onDismissed: (direction) {
             DocumentBloc.deleteDocument(
+              doc.name,
               doc.id,
               FirebaseAuth.instance.currentUser.uid,
             );
@@ -60,7 +62,7 @@ class AgentDocumentCard extends StatelessWidget {
               content: const Text("Document Removed"),
             ));
           },
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.only(bottom: 8),
             child: InnerShadow(
               blur: 20,
@@ -91,7 +93,7 @@ class AgentDocumentCard extends StatelessWidget {
                     }
                   },
                   contentPadding: const EdgeInsets.all(15),
-                  leading: Image.asset(icon),
+                  leading: Image.asset(icon,width: 46,),
                   trailing: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
@@ -102,9 +104,13 @@ class AgentDocumentCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  title: Text(
-                    doc.name,
-                    style: const TextStyle(color: Colors.white),
+                  title: Container(
+                    constraints: BoxConstraints(maxWidth: 10),
+                    child: AutoSizeText(
+                      doc.name,
+                      maxLines:3,
+                      style: const TextStyle(color: Colors.white,fontSize: 16),
+                    ),
                   ),
                 ),
               ),
