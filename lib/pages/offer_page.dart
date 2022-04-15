@@ -727,7 +727,7 @@ class _OfferPageState extends State<OfferPage> {
                           .createUserInFirestore(otherUser);
                       final room =
                       await FirebaseChatCore.instance.createRoom(otherUser);
-                      EasyLoading.showError("offer sent");
+
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => HomePage(

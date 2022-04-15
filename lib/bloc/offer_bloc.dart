@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
 
@@ -21,7 +22,9 @@ class OfferBloc {
     };
     var request = await GetDio.getDio()
         .post("application/create", data: jsonEncode(body));
-    print(request);
+    if (request.statusCode == 200) {
+      EasyLoading.showError("offer sent");
+    }
     return;
   }
 

@@ -50,27 +50,27 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
             children: requiredDocTitles.keys
                 .toList()
                 .map((key) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      requiredDocTitles[key],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    agent.requiredDocuments[key] != null
-                        ? AgentDocumentCard(
-                            doc: agent.requiredDocuments[key],
-                            icon: "assets/imageicon.png",
-                            requiredDocKey: key,
-                          )
-                        : UploadButton(key)
-                  ],
-                ))
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          requiredDocTitles[key],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        agent.requiredDocuments[key] != null
+                            ? AgentDocumentCard(
+                                doc: agent.requiredDocuments[key],
+                                icon: "assets/imageicon.png",
+                                requiredDocKey: key,
+                              )
+                            : UploadButton(key)
+                      ],
+                    ))
                 .toList(),
           );
         },
@@ -129,7 +129,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                     }
 
                     final agent = (state as AgentHomeState).agent;
-                    if(agent==null){
+                    if (agent == null) {
                       return Container();
                     }
                     return Column(
@@ -154,7 +154,6 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                   )
                                 : BlocBuilder<HomeBloc, HomeState>(
                                     builder: (context, state) {
-                                     
                                       return requiredDocumentsList();
                                     },
                                   ),

@@ -55,7 +55,7 @@ class StudentDocumentCard extends StatelessWidget {
             } else {
               return;
             }
-            bloc.getStudentHome(context: context);
+           // bloc.getStudentHome(context: context);
 
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: const Text("Document Removed"),

@@ -390,14 +390,14 @@ class AgentHomePageState extends State<AgentHomePage>
   ListView OngoingStudents(AgentHomeState agentHomePageState) {
     return ListView.builder(
         itemCount: agentHomePageState.students.where((element) {
-          if (element.optionStatus == 3) {
+          if (element.applications.first.status == 3) {
             return true;
           }
           return false;
         }).length,
         itemBuilder: (context, index) {
           var student = agentHomePageState.students.where((element) {
-            if (element.optionStatus == 3) {
+            if (element.applications.first.status == 3) {
               return true;
             }
             return false;
@@ -521,14 +521,14 @@ class AgentHomePageState extends State<AgentHomePage>
   ListView OptionsProvidedStudents(AgentHomeState agentHomePageState) {
     return ListView.builder(
         itemCount: agentHomePageState.students.where((element) {
-          if (element.optionStatus == 2) {
+          if (element.applications.first.status == 2) {
             return true;
           }
           return false;
         }).length,
         itemBuilder: (context, index) {
           var student = agentHomePageState.students.where((element) {
-            if (element.optionStatus == 2) {
+            if (element.applications.first.status == 2) {
               return true;
             }
             return false;

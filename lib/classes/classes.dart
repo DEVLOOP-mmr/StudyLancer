@@ -46,7 +46,7 @@ class Application {
   });
   factory Application.parseApplication(offerData) {
     Application offer = Application();
-    offer.location = offerData['location'];
+    
     offer.country = offerData["location"]["country"];
     offer.offerId = offerData["_id"];
     offer.city = offerData["location"]["city"];
@@ -57,9 +57,8 @@ class Application {
     offer.courseFees = offerData["courseFees"].toString();
     offer.courseName = offerData["courseName"];
     offer.courseLink = offerData["courseLink"];
-    offer.agentID = offerData["agent"]["agentID"];
-    offer.agentName = offerData["agent"]["name"];
-    offer.agentImage = offerData["agent"]["photo"];
+    offer.agentID = offerData["agent"];
+ 
     offer.color = offerData["color"];
     offer.status = offerData['status'];
     return offer;
