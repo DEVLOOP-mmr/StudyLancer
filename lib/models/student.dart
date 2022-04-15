@@ -6,6 +6,11 @@ import 'package:elite_counsel/models/document.dart';
 import 'package:flutter/material.dart';
 
 class Student {
+  static final requiredDocs = [
+    'passport',
+    'englishProficiencyTest',
+    'academics'
+  ];
   String name;
   String email;
   String photo;
@@ -20,13 +25,13 @@ class Student {
   String applyingFor;
   String about;
   String country;
-  int optionStatus=1;
+  int optionStatus = 1;
   int timeline;
   bool verified;
   Map<String, dynamic> marksheet;
   List<Offer> previousOffers;
   List<Document> documents;
-  List<Document> requiredDocuments;
+  Map<String, Document> requiredDocuments;
   Student({
     this.name,
     this.email,
@@ -87,7 +92,7 @@ class Student {
     };
   }
 
-   factory Student.parseStudentData(studentData) {
+  factory Student.parseStudentData(studentData) {
     Student student = Student();
     student.name = studentData["name"];
     student.email = studentData["email"];
@@ -113,17 +118,25 @@ class Student {
       if (element is Map) student.previousOffers.add(Offer.parseOffer(element));
     });
     student.documents = [];
+    student.requiredDocuments = {};
+
     List documents = studentData["documents"];
     documents.forEach((element) {
       if (element is Map) {
-        student.documents.add(Document()
+        var document = Document();
+        document
           ..name = element["name"]
           ..id = element["_id"]
           ..link = element["link"]
-          ..type = element["type"]);
+          ..type = element["type"];
+        if (Student.requiredDocs.contains(document.name)) {
+          student.requiredDocuments[document.name] = document;
+        } else {
+          student.documents.add(document);
+        }
       }
     });
-  
+
     return student;
   }
 
@@ -134,4 +147,3 @@ class Student {
     return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $previousOffers, otherDoc: $documents)';
   }
 }
-/// TODO: parse required docs data

@@ -1,4 +1,4 @@
-import 'package:elite_counsel/pages/document_page/agent/agent_document_card.dart';
+import 'package:elite_counsel/pages/document_page/student/student_document_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,27 +13,27 @@ import 'package:elite_counsel/widgets/drawer.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentPage extends StatefulWidget {
-  const AgentDocumentPage({Key key}) : super(key: key);
+class StudentDocumentPage extends StatefulWidget {
+  const StudentDocumentPage({Key key}) : super(key: key);
 
   @override
-  State<AgentDocumentPage> createState() => _AgentDocumentPageState();
+  State<StudentDocumentPage> createState() => _StudentDocumentPageState();
 }
 
-class _AgentDocumentPageState extends State<AgentDocumentPage> {
+class _StudentDocumentPageState extends State<StudentDocumentPage> {
   Map<String, String> requiredDocTitles = {
-    'license': 'License',
-    'personalID': 'Personal Identification',
-    'registrationCertificate': 'Registration Certificate'
+    'passport': 'Passport',
+    'englishProficiencyTest': 'English Proficiency Test',
+    'academics': 'Academics'
   };
   @override
   void initState() {
     super.initState();
   }
 
-  void getAgentData(BuildContext context) async {
-    await BlocProvider.of<HomeBloc>(context, listen: false).getAgentHome();
-    await BlocProvider.of<HomeBloc>(context, listen: false).getAgentHome();
+  void getStudentData(BuildContext context) async {
+    await BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
+    await BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
   }
 
   Widget requiredDocumentsList() {
@@ -41,10 +41,10 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
       padding: const EdgeInsets.only(left: 11),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state is! AgentHomeState) {
+          if (state is! StudentHomeState) {
             return Container(child: const CircularProgressIndicator());
           }
-          final agent = (state as AgentHomeState).agent;
+          final student = (state as StudentHomeState).student;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: requiredDocTitles.keys
@@ -64,9 +64,9 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          agent.requiredDocuments[key] != null
-                              ? AgentDocumentCard(
-                                  doc: agent.requiredDocuments[key],
+                          student.requiredDocuments[key] != null
+                              ? StudentDocumentCard(
+                                  doc: student.requiredDocuments[key],
                                   icon: "assets/imageicon.png",
                                   requiredDocKey: key,
                                 )
@@ -118,7 +118,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          getAgentData(context);
+          getStudentData(context);
         },
         child: Stack(
           children: [
@@ -130,7 +130,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                     if (state is UnAuthenticatedHomeState) {
                       return Container();
                     }
-                    final agent = (state as AgentHomeState).agent;
+                    final student = (state as StudentHomeState).student;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -139,15 +139,15 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Image.asset("assets/images/agent_docs_required.png"),
+                        Image.asset("assets/images/student_docs_required.png"),
                         const SizedBox(
                           height: 16,
                         ),
-                        agent == null
+                        student == null
                             ? const Center(
                                 child: const CircularProgressIndicator(),
                               )
-                            : agent.id == null
+                            : student.id == null
                                 ? const Center(
                                     child: const CircularProgressIndicator(),
                                   )
@@ -166,16 +166,16 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                             color: Color(0xffFF8B86),
                           ),
                         ),
-                        agent.id == null
+                        student.id == null
                             ? const Center(
                                 child: const CircularProgressIndicator(),
                               )
                             : Flexible(
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: (agent.documents ?? []).length,
+                                  itemCount: (student.documents ?? []).length,
                                   itemBuilder: (context, index) {
-                                    Document doc = agent.documents[index];
+                                    Document doc = student.documents[index];
                                     if (doc.link == null) {
                                       return Container();
                                     }
@@ -190,7 +190,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                     }
 
                                     return Center(
-                                      child: AgentDocumentCard(
+                                      child: StudentDocumentCard(
                                         doc: doc,
                                         icon: icon,
                                         index: index,
@@ -220,7 +220,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     final result = await FilePicker.platform
         .pickFiles(type: FileType.any, allowMultiple: true);
     var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
-    final agent = (bloc.state as AgentHomeState).agent;
+    final student = (bloc.state as StudentHomeState).student;
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
@@ -229,15 +229,15 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
-          agent.requiredDocuments[requiredDocType] =
+          student.requiredDocuments[requiredDocType] =
               Document(name: result.files.first.name);
-          bloc.emitNewAgent(agent);
+          bloc.emitNewStudent(student);
         } else {
-          agent.documents.add(Document(name: result.files.first.name));
-          bloc.emitNewAgent(agent);
+          student.documents.add(Document(name: result.files.first.name));
+          bloc.emitNewStudent(student);
         }
       } catch (e) {}
-      getAgentData(context);
+      getStudentData(context);
     } else {
       // User canceled the picker
     }

@@ -32,17 +32,17 @@ class CountryBloc {
         if (kReleaseMode) {
           EasyLoading.showToast('Something Went Wrong');
         }
-
+        countries = [
+          Country(id: 'CA', countryName: 'Canada'),
+          Country(id: 'AU', countryName: 'Australia')
+        ];
         throw Exception('countries/:' + result.statusCode.toString());
       }
     } on DioError catch (e) {
-      if (kDebugMode) {
-        rethrow;
-      } else {
-        EasyLoading.showToast('Cant connect');
-      }
-
-      return [];
+      countries = [
+        Country(id: 'CA', countryName: 'Canada'),
+        Country(id: 'AU', countryName: 'Australia')
+      ];
     }
     return countries;
   }

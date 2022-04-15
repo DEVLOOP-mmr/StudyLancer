@@ -1,3 +1,4 @@
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/pages/about_us_page.dart';
 import 'package:elite_counsel/pages/accomodation.dart';
 import 'package:elite_counsel/pages/faq_page.dart';
@@ -8,6 +9,7 @@ import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:share/share.dart';
@@ -15,7 +17,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:salesiq_mobilisten/salesiq_mobilisten.dart';
 
 import 'package:store_redirect/store_redirect.dart';
-
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -25,21 +26,19 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   //new
 
-
   @override
   void initState() {
     super.initState();
 
-    ZohoSalesIQ.init( "Z1vo2KMwVNQqUwCGsAgqhTyNDXamuReL_in", "79YYpdjt9qzHu5jgOkOZDTDS2dPa8FG1TcOr2O6gNvQ2HEfKHJc2jYA5aDZqV%2F4u4Omh2YM%2BoWVVkdE0ZV9WNoHNRclocYWLBtYPa%2FT5dO252yG183hcTFS9kTIft%2BcRBw0AGGZRO%2FOV5t6YUZC%2FGZ75C4eZBqoN");
-
+    ZohoSalesIQ.init("Z1vo2KMwVNQqUwCGsAgqhTyNDXamuReL_in",
+        "79YYpdjt9qzHu5jgOkOZDTDS2dPa8FG1TcOr2O6gNvQ2HEfKHJc2jYA5aDZqV%2F4u4Omh2YM%2BoWVVkdE0ZV9WNoHNRclocYWLBtYPa%2FT5dO252yG183hcTFS9kTIft%2BcRBw0AGGZRO%2FOV5t6YUZC%2FGZ75C4eZBqoN");
   }
+
   void chatButton() async {
     ZohoSalesIQ.openNewChat();
   }
 
   //new
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -270,7 +269,6 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
             ),
             InkWell(
-
               onTap: chatButton,
               // onTap: () async {
               //   const url = 'mailto:helpdesk@studylancer.com';
@@ -301,6 +299,8 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   Variables.sharedPreferences.clear();
+                  BlocProvider.of<HomeBloc>(context, listen: false).reset();
+
                   Future.delayed(Duration.zero, () {
                     Navigator.pushAndRemoveUntil(context,
                         MaterialPageRoute(builder: (context) {

@@ -23,7 +23,7 @@ class Agent extends Equatable {
   String countryLookingFor;
   String reviewCount;
   bool verified;
-  List<Document> document;
+  List<Document> documents;
   Map<String, Document> requiredDocuments;
   Agent();
 
@@ -47,9 +47,9 @@ class Agent extends Equatable {
     agent.countryLookingFor = agentData["countryLookingFor"];
     agent.city = agentData["location"]["city"];
     agent.country = agentData["location"]["country"];
-    agent.document = [];
+    agent.documents = [];
     List otherDoc = agentData["documents"];
-    agent.document = [];
+    agent.documents = [];
     agent.requiredDocuments = {};
     otherDoc.forEach((element) {
       if (element is Map) {
@@ -62,7 +62,7 @@ class Agent extends Equatable {
         if (Agent.requiredDocNames.contains(document.name)) {
           agent.requiredDocuments[document.name] = document;
         } else {
-          agent.document.add(document);
+          agent.documents.add(document);
         }
       }
     });
@@ -88,7 +88,7 @@ class Agent extends Equatable {
       countryLookingFor,
       reviewCount,
       verified,
-      document,
+      documents,
       requiredDocuments,
     ];
   }

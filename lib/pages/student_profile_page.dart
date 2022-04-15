@@ -5,7 +5,8 @@ import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/student_document_page.dart';
+import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
+
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';

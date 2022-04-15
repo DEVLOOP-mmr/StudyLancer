@@ -35,10 +35,14 @@ class HomeBloc extends Cubit<HomeState> {
     BuildContext context,
     FirebaseAuth firebaseAuth,
   }) async {
-    emit(StudentHomeState(loadState: LoadState.loading));
     firebaseAuth ??= FirebaseAuth.instance;
     assert(firebaseAuth.currentUser != null);
     StudentHomeState homeData = StudentHomeState();
+    if (state is! StudentHomeState) {
+      emit(homeData.copyWith(loadState: LoadState.loading));
+    } else {
+      // emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
+    }
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
       "countryLookingFor": Variables.sharedPreferences.get(
@@ -143,5 +147,9 @@ class HomeBloc extends Cubit<HomeState> {
     } else {
       handleInvalidResult(result, context);
     }
+  }
+
+  void reset() {
+    emit(UnAuthenticatedHomeState());
   }
 }

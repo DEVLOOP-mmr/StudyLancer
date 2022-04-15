@@ -17,12 +17,12 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentCard extends StatelessWidget {
+class StudentDocumentCard extends StatelessWidget {
   final Document doc;
   final String icon;
   final String requiredDocKey;
   final int index;
-  const AgentDocumentCard({
+  const StudentDocumentCard({
     @required this.doc,
     @required this.icon,
     this.requiredDocKey,
@@ -37,7 +37,7 @@ class AgentDocumentCard extends StatelessWidget {
         if (state is UnAuthenticatedHomeState) {
           return Container();
         }
-        final agent = (state as AgentHomeState).agent;
+        final student = (state as StudentHomeState).student;
         return Dismissible(
           key: ValueKey(doc.id),
           onDismissed: (direction) {
@@ -46,15 +46,15 @@ class AgentDocumentCard extends StatelessWidget {
               FirebaseAuth.instance.currentUser.uid,
             );
             if (requiredDocKey != null) {
-              agent.requiredDocuments[requiredDocKey] = null;
-              bloc.emitNewAgent(agent);
+              student.requiredDocuments[requiredDocKey] = null;
+              bloc.emitNewStudent(student);
             } else if (index != null) {
-              agent.documents.removeAt(index);
-              bloc.emitNewAgent(agent);
+              student.documents.removeAt(index);
+              bloc.emitNewStudent(student);
             } else {
               return;
             }
-            bloc.getAgentHome(context: context);
+            bloc.getStudentHome(context: context);
 
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: const Text("Document Removed"),
