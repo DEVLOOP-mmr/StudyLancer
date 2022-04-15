@@ -14,7 +14,7 @@ class AgentHomePage extends StatefulWidget {
   const AgentHomePage({Key key}) : super(key: key);
 
   @override
-  _AgentHomePageState createState() => _AgentHomePageState();
+  AgentHomePageState createState() => AgentHomePageState();
 }
 
 class Country {
@@ -24,9 +24,10 @@ class Country {
   Country(this.image, this.name);
 }
 
-class _AgentHomePageState extends State<AgentHomePage>
+class AgentHomePageState extends State<AgentHomePage>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>();
   String country;
 
   TabController _tabController;
@@ -52,67 +53,9 @@ class _AgentHomePageState extends State<AgentHomePage>
       key: _scaffoldKey,
       backgroundColor: Variables.backgroundColor,
       endDrawer: MyDrawer(),
-      appBar: AppBar(
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : null,
-        backgroundColor: Variables.backgroundColor,
-        centerTitle: false,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AgentProfilePage()));
-            },
-            child: BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                if (state is! AgentHomeState) {
-                  return Container();
-                }
-                final agentHomePageState = state as AgentHomeState;
-                final agent = agentHomePageState.agent;
-                return agent == null
-                    ? Container()
-                    : Container(
-                        height: 25,
-                        width: 25,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: CachedNetworkImage(
-                          imageUrl: agent.photo ??
-                              "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
-                          fit: BoxFit.cover,
-                          height: 25,
-                          width: 25,
-                        ),
-                      );
-              },
-            ),
-          ),
-          GestureDetector(
-            child: Image.asset("assets/images/menu.png"),
-            onTap: () {
-              _scaffoldKey.currentState.openEndDrawer();
-            },
-          )
-        ],
-        title: Text(
-          "Study Lancer",
-          style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              foreground: Paint()
-                ..shader = const LinearGradient(
-                  colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
-                ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0))),
-        ),
+      appBar: const PreferredSize(
+        child: AgentHomeAppBar(),
+        preferredSize: Size.fromHeight(70),
       ),
       body: Container(
         child: country == null
@@ -196,7 +139,7 @@ class _AgentHomePageState extends State<AgentHomePage>
         final agent = agentHomePageState.agent;
         if (agent == null) {
           return Container(
-            child: Center(child: const CircularProgressIndicator()),
+            child: const Center(child: CircularProgressIndicator()),
           );
         }
         return Scaffold(
@@ -714,122 +657,194 @@ class _AgentHomePageState extends State<AgentHomePage>
           var student = agentHomePageState.students.where((element) {
             return element.applications.isEmpty;
           }).toList()[index];
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Neumorphic(
-              style: NeumorphicStyle(
-                  shadowLightColor: Colors.white.withOpacity(0.6),
-                  depth: -1,
-                  lightSource: LightSource.topLeft.copyWith(dx: -2, dy: -2),
-                  shadowDarkColor: Colors.black,
-                  color: Variables.backgroundColor),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return StudentDetailPage(
-                      student: student,
-                    );
-                  }));
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+          return StudentTile(context, student);
+        });
+  }
+
+  Widget StudentTile(BuildContext context, Student student) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Neumorphic(
+        style: NeumorphicStyle(
+            shadowLightColor: Colors.white.withOpacity(0.6),
+            depth: -1,
+            lightSource: LightSource.topLeft.copyWith(dx: -2, dy: -2),
+            shadowDarkColor: Colors.black,
+            color: Variables.backgroundColor),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return StudentDetailPage(
+                student: student,
+              );
+            }));
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.all(8),
+                leading: Container(
+                  height: 70,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: NetworkImage(student.photo ??
+                          "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                title: Text(
+                  (student.name ?? "") != ""
+                      ? (student.name.trim() ?? "")
+                      : "No name",
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ListTile(
-                      contentPadding: const EdgeInsets.all(8),
-                      leading: Container(
-                        height: 70,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: NetworkImage(student.photo ??
-                                "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        (student.name ?? "") != ""
-                            ? (student.name.trim() ?? "")
-                            : "No name",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      student.course + " . " + student.year,
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.4),
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white.withOpacity(0.04)),
+                      child: Text(
+                        "Applying for " + student.applyingFor,
+                        style: TextStyle(
+                            color: Variables.accentColor,
+                            fontSize: 10,
                             fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            student.course + " . " + student.year,
-                            style: TextStyle(
-                                color: Colors.white.withOpacity(0.4),
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white.withOpacity(0.04)),
-                            child: Text(
-                              "Applying for " + student.applyingFor,
-                              style: TextStyle(
-                                  color: Variables.accentColor,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                    if (student.marksheet != null)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: student.marksheet.length * 2,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: student.marksheet.length,
-                                    childAspectRatio: 2),
-                            itemBuilder: (context, index) {
-                              var markData =
-                                  student.marksheet.keys.toList(growable: true);
-                              student.marksheet.values.forEach((element) {
-                                markData.add(element.toString());
-                              });
-                              return Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Variables.accentColor
-                                          .withOpacity(0.2)),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    markData[index],
-                                    style:
-                                        TextStyle(color: Variables.accentColor),
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
                   ],
                 ),
               ),
-            ),
-          );
-        });
+              if (student.marksheet != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: student.marksheet.length * 2,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: student.marksheet.length,
+                          childAspectRatio: 2),
+                      itemBuilder: (context, index) {
+                        var markData =
+                            student.marksheet.keys.toList(growable: true);
+                        student.marksheet.values.forEach((element) {
+                          markData.add(element.toString());
+                        });
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Variables.accentColor.withOpacity(0.2)),
+                          ),
+                          child: Center(
+                            child: Text(
+                              markData[index],
+                              style: TextStyle(color: Variables.accentColor),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AgentHomeAppBar extends StatelessWidget {
+  const AgentHomeAppBar({
+    Key key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: Navigator.of(context).canPop()
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          : null,
+      backgroundColor: Variables.backgroundColor,
+      centerTitle: false,
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AgentProfilePage()));
+          },
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is! AgentHomeState) {
+                return Container();
+              }
+              final agentHomePageState = state as AgentHomeState;
+              final agent = agentHomePageState.agent;
+              return agent == null
+                  ? Container()
+                  : Container(
+                      height: 25,
+                      width: 25,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      child: CachedNetworkImage(
+                        imageUrl: agent.photo ??
+                            "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
+                        fit: BoxFit.cover,
+                        height: 25,
+                        width: 25,
+                      ),
+                    );
+            },
+          ),
+        ),
+        GestureDetector(
+          child: Image.asset("assets/images/menu.png"),
+          onTap: () {
+            AgentHomePageState._scaffoldKey.currentState.openEndDrawer();
+          },
+        )
+      ],
+      title: Text(
+        "Study Lancer",
+        style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            foreground: Paint()
+              ..shader = const LinearGradient(
+                colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
+              ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0))),
+      ),
+    );
   }
 }

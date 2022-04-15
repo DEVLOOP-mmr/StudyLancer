@@ -91,7 +91,7 @@ class DocumentBloc {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
-      'docName': docName
+      
     };
 
     return await GetDio.getDio()
