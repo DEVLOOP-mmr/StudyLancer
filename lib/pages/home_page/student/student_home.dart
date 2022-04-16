@@ -27,7 +27,7 @@ class StudentHomePage extends StatefulWidget {
 }
 
 class _StudentHomePageState extends State<StudentHomePage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PageController _countryPageController;
   Country country = Country();
   @override
@@ -146,7 +146,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   )
                 : ListView(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 354,
                         child: PageView.builder(
                           controller: _countryPageController,
@@ -167,7 +167,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                                 children: [
                                                   const Text(
                                                     "Description",
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -409,7 +409,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                           ),
                                           const Text(
                                             "See all",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal,
@@ -465,7 +465,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                     child: Container(
                                       decoration: const BoxDecoration(
                                         // borderRadius: BorderRadius.circular(16),
-                                        gradient: const LinearGradient(
+                                        gradient: LinearGradient(
                                             colors: [
                                               Colors.transparent,
                                               Colors.black

@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/agent.dart';
-import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -62,9 +59,9 @@ class HomeBloc extends Cubit<HomeState> {
       homeData.agents = [];
       if (data['agents'] is! String) {
         List agentList = data["agents"];
-        agentList.forEach((element) {
+        for (var element in agentList) {
           homeData.agents.add(Agent.parseAgentData(element));
-        });
+        }
       }
     } else {
       await handleInvalidResult(result, context);
@@ -133,17 +130,14 @@ class HomeBloc extends Cubit<HomeState> {
       homeData.agent = Agent.parseAgentData(data["agent"]);
       homeData.students = [];
       List studentList = data["studentdata"];
-      if(studentList!=null){
-        
-        studentList.forEach((element) {
-         
-            var student = Student.parseStudentData(element);
+      if (studentList != null) {
+        for (var element in studentList) {
+          var student = Student.parseStudentData(element);
 
-            homeData.students.add(student);
-          
-        });
+          homeData.students.add(student);
+        }
       }
-     
+
       assert(homeData.agent != null);
       emit(homeData.copyWith(loadState: LoadState.done));
       return homeData;

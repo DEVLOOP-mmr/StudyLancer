@@ -75,8 +75,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildAgentHomePage(BuildContext context) {
     var views = [
-      AgentHomePage(),
-      AgentDocumentPage(),
+      const AgentHomePage(),
+      const AgentDocumentPage(),
       const RoomsPage(),
       AgentProfilePage(),
     ];
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildStudentHomePage(BuildContext context) {
     var views = [
-      StudentHomePage(),
+      const StudentHomePage(),
       ApplicationPage(),
       const RoomsPage(),
       const StudentProfilePage(),

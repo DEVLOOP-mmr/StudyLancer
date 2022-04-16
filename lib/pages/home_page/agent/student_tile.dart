@@ -98,9 +98,9 @@ class StudentTile extends StatelessWidget {
                       itemBuilder: (context, index) {
                         var markData =
                             student.marksheet.keys.toList(growable: true);
-                        student.marksheet.values.forEach((element) {
+                        for (var element in student.marksheet.values) {
                           markData.add(element.toString());
-                        });
+                        }
                         return Container(
                           decoration: BoxDecoration(
                             border: Border.all(
