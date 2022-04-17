@@ -1,4 +1,6 @@
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:accordion/accordion.dart';
 
@@ -11,25 +13,13 @@ class SortButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        var result = await showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (context) => const SortDialog());
-        if (result != null) {
-          if (result == "asc") {
-            // setState(() {
-            //   selfData.applications.sort((a, b) =>
-            //       (int.parse(a.courseFees))
-            //           .compareTo((int.parse(b.courseFees))));
-            // });
-            /// TODO: sort and filter studentdata for agenthome
-          } else if (result == "desc") {
-            // setState(() {
-            //   selfData.applications.sort((b, a) =>
-            //       (int.parse(a.courseFees))
-            //           .compareTo((int.parse(b.courseFees))));
-            // });
-          }
+        var order = await showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) => const SortDialog(),
+        );
+        if (order != null) {
+          BlocProvider.of<HomeBloc>(context).sortStudentsForAgentHome(order);
         }
       },
       child: Row(

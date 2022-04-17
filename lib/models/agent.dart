@@ -27,7 +27,7 @@ class Agent extends Equatable {
   Map<String, Document> requiredDocuments;
   Agent();
 
-  /// TODO: parse required docs data
+
   factory Agent.parseAgentData(agentData) {
     Agent agent = Agent();
     agent.name = agentData["name"];

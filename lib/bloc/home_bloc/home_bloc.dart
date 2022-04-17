@@ -54,6 +54,29 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
+  void sortStudentsForAgentHome(String order) {
+    assert(order == 'asc' || order == 'desc');
+    if (state is! AgentHomeState) {
+      return;
+    }
+    var students = (state as AgentHomeState).students;
+    students.sort((a, b) {
+      if (a.applications.isEmpty) {
+        return 0;
+      }
+      if (b.applications.isEmpty) {
+        return 0;
+      }
+      return int.parse(a.applications.first.courseFees).compareTo(
+        int.parse(b.applications.first.courseFees),
+      );
+    });
+    if (order == 'desc') {
+      students = students.reversed.toList();
+    }
+    emit((state as AgentHomeState).copyWith(students: students));
+  }
+
   Future<StudentHomeState> getStudentHome({
     BuildContext context,
     FirebaseAuth firebaseAuth,

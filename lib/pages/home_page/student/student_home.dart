@@ -34,26 +34,27 @@ class _StudentHomePageState extends State<StudentHomePage> {
   void initState() {
     super.initState();
     _countryPageController = PageController();
+    if (country.images==null) {
+      CountryBloc.getCountries().then((countries) {
+        if (countries.isEmpty) {
+          countries = [
+            Country(id: 'CA', countryName: 'Canada'),
+            Country(id: 'AU', countryName: 'Australia')
+          ];
+        }
 
-    CountryBloc.getCountries().then((countries) {
-      if (countries.isEmpty) {
-        countries = [
-          Country(id: 'CA', countryName: 'Canada'),
-          Country(id: 'AU', countryName: 'Australia')
-        ];
-      }
-
-      if (mounted) {
-        setState(() {
-          country = countries.firstWhere((element) =>
-              element.id ==
-              Variables.sharedPreferences.get(
-                Variables.countryCode,
-                defaultValue: 'CA',
-              ));
-        });
-      }
-    });
+        if (mounted) {
+          setState(() {
+            country = countries.firstWhere((element) =>
+                element.id ==
+                Variables.sharedPreferences.get(
+                  Variables.countryCode,
+                  defaultValue: 'CA',
+                ));
+          });
+        }
+      });
+    }
   }
 
   @override

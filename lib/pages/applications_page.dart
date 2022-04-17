@@ -16,20 +16,11 @@ import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../variables.dart';
-/// TODO: inject home bloc
-class ApplicationPage extends StatefulWidget {
-  @override
-  _ApplicationPageState createState() => _ApplicationPageState();
-}
 
-class _ApplicationPageState extends State<ApplicationPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+class ApplicationPage extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    super.initState();
-   
-  }
+  ApplicationPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +45,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         actions: [
-           SortApplicationsButton(),
+          SortApplicationsButton(),
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
             onTap: () {
@@ -67,495 +58,523 @@ class _ApplicationPageState extends State<ApplicationPage> {
         padding: const EdgeInsets.only(left: 16.0, right: 16),
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            if(state is! StudentHomeState){
+            if (state is! StudentHomeState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
-            final studentHomeState=state as StudentHomeState;
-            final student=studentHomeState.student;
+            final studentHomeState = state as StudentHomeState;
+            final student = studentHomeState.student;
             return Column(
-                  children: [
-                    Divider(color: Colors.white),
-                    Expanded(
-                      child: (student.applications ?? []).length != 0
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: (student.applications ?? []).length,
-                              itemBuilder: (context, index) {
-                                Application offer;
-                                offer = student.applications[index];
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 8),
-                                  child: Neumorphic(
-                                    style: NeumorphicStyle(
-                                      color: Variables.backgroundColor,
-                                      shadowLightColor: Colors.white.withOpacity(0.3),
-                                      lightSource:
-                                          LightSource.topLeft.copyWith(dx: -2, dy: -2),
-                                      depth: -1,
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                color: Color(int.parse(
-                                                    offer.color.replaceFirst("#", ""))),
-                                                borderRadius: BorderRadius.circular(8)),
-                                            child: Container(
-                                              height: 200,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(16.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+              children: [
+                Divider(color: Colors.white),
+                Expanded(
+                  child: (student.applications ?? []).length != 0
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: (student.applications ?? []).length,
+                          itemBuilder: (context, index) {
+                            Application offer;
+                            offer = student.applications[index];
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Neumorphic(
+                                style: NeumorphicStyle(
+                                  color: Variables.backgroundColor,
+                                  shadowLightColor:
+                                      Colors.white.withOpacity(0.3),
+                                  lightSource: LightSource.topLeft
+                                      .copyWith(dx: -2, dy: -2),
+                                  depth: -1,
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(int.parse(offer.color
+                                                .replaceFirst("#", ""))),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Container(
+                                          height: 200,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Stack(
                                                   children: [
-                                                    Stack(
-                                                      children: [
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.centerLeft,
-                                                          child: FractionallySizedBox(
-                                                            widthFactor: 0.6,
-                                                            child: Text(
-                                                              offer.universityName ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.bold,
-                                                                  fontSize: 23,
-                                                                  color: Colors.white),
-                                                            ),
-                                                          ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child:
+                                                          FractionallySizedBox(
+                                                        widthFactor: 0.6,
+                                                        child: Text(
+                                                          offer.universityName ??
+                                                              "",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 23,
+                                                              color:
+                                                                  Colors.white),
                                                         ),
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.centerRight,
-                                                          child: FractionallySizedBox(
-                                                            widthFactor: 0.4,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors.white
-                                                                      .withOpacity(0.4),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(4.0),
-                                                                child: Row(
-                                                                  children: [
-                                                                    CircleAvatar(
-                                                                      backgroundImage: (offer
-                                                                                  .agentImage ==
-                                                                              null)
-                                                                          ? AssetImage(
-                                                                              'assets/images/abc.png')
-                                                                          : NetworkImage(
-                                                                              offer
-                                                                                  .agentImage),
-                                                                      // backgroundImage:
-                                                                      //     NetworkImage(offer
-                                                                      //         .agentImage),
-                                                                      radius: 10,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 4,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child: Text(
-                                                                        offer.agentName ??
-                                                                            "",
-                                                                        style: TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight
-                                                                                    .normal,
-                                                                            fontSize:
-                                                                                12,
-                                                                            color: Colors
-                                                                                .white),
-                                                                        maxLines: 1,
-                                                                        overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Text(
-                                                      offer.courseName ?? "",
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight.w200,
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 4,
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (context) =>
-                                                                AlertDialog(
-                                                                  backgroundColor:
-                                                                      Variables
-                                                                          .backgroundColor,
-                                                                  content: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Description",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w600,
-                                                                          fontSize: 18,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height: 20,
-                                                                      ),
-                                                                      Text(
-                                                                        offer.description ??
-                                                                            "",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize: 12,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ));
-                                                      },
-                                                      child: Text(
-                                                        "Additional Details",
-                                                        style: TextStyle(
-                                                            fontWeight: FontWeight.w200,
-                                                            fontSize: 10,
-                                                            color: Colors.white),
                                                       ),
                                                     ),
-                                                    Spacer(),
-                                                    Row(
-                                                      children: [
-                                                        RotatedBox(
-                                                          quarterTurns: 3,
-                                                          child: Icon(
-                                                            Ionicons.send,
-                                                            color: Colors.white,
-                                                            size: 14,
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child:
+                                                          FractionallySizedBox(
+                                                        widthFactor: 0.4,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color: Colors
+                                                                  .white
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(4.0),
+                                                            child: Row(
+                                                              children: [
+                                                                CircleAvatar(
+                                                                  backgroundImage: (offer
+                                                                              .agentImage ==
+                                                                          null)
+                                                                      ? AssetImage(
+                                                                          'assets/images/abc.png')
+                                                                      : NetworkImage(
+                                                                          offer
+                                                                              .agentImage),
+                                                                  // backgroundImage:
+                                                                  //     NetworkImage(offer
+                                                                  //         .agentImage),
+                                                                  radius: 10,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 4,
+                                                                ),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    offer.agentName ??
+                                                                        "",
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .white),
+                                                                    maxLines: 1,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                        SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        Text(
-                                                          (offer.city ?? "") + ", ",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.normal,
-                                                              fontSize: 12,
-                                                              color: Colors.white),
-                                                        ),
-                                                        Text(
-                                                          offer.country ?? "",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.normal,
-                                                              fontSize: 12,
-                                                              color: Colors.white),
-                                                        ),
-                                                        Spacer(),
-                                                        Text(
-                                                          "\$" + offer.courseFees ??
-                                                              "0",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.normal,
-                                                              fontSize: 12,
-                                                              color: Colors.white),
-                                                        ),
-                                                        Text(
-                                                          "/yr",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.normal,
-                                                              fontSize: 10,
-                                                              color: Colors.white),
-                                                        ),
-                                                      ],
+                                                      ),
                                                     )
                                                   ],
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          // if (offer.accepted)
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(18.0),
-                                                child: NeumorphicButton(
-                                                  padding: EdgeInsets.zero,
-                                                  child: Container(
-                                                    color: Variables.backgroundColor,
-                                                    child: Container(
-                                                      padding: EdgeInsets.symmetric(
-                                                          horizontal: 18, vertical: 12),
-                                                      child: Align(
-                                                        alignment: Alignment.center,
-                                                        child: Text(
-                                                          "Course link",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight.w600),
-                                                        ),
+                                                SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Text(
+                                                  offer.courseName ?? "",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w200,
+                                                      fontSize: 14,
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  height: 4,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                              backgroundColor:
+                                                                  Variables
+                                                                      .backgroundColor,
+                                                              content: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Text(
+                                                                    "Description",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 20,
+                                                                  ),
+                                                                  Text(
+                                                                    offer.description ??
+                                                                        "",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ));
+                                                  },
+                                                  child: Text(
+                                                    "Additional Details",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                        fontSize: 10,
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Row(
+                                                  children: [
+                                                    RotatedBox(
+                                                      quarterTurns: 3,
+                                                      child: Icon(
+                                                        Ionicons.send,
+                                                        color: Colors.white,
+                                                        size: 14,
                                                       ),
                                                     ),
+                                                    SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                    Text(
+                                                      (offer.city ?? "") + ", ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color: Colors.white),
+                                                    ),
+                                                    Text(
+                                                      offer.country ?? "",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color: Colors.white),
+                                                    ),
+                                                    Spacer(),
+                                                    Text(
+                                                      "\$" + offer.courseFees ??
+                                                          "0",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color: Colors.white),
+                                                    ),
+                                                    Text(
+                                                      "/yr",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 10,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // if (offer.accepted)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: NeumorphicButton(
+                                              padding: EdgeInsets.zero,
+                                              child: Container(
+                                                color:
+                                                    Variables.backgroundColor,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 12),
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Course link",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   ),
-                                                  onPressed: () async {
-                                                    await canLaunch(offer.courseLink)
-                                                        ? await launch(offer.courseLink)
-                                                        : EasyLoading.showError(
-                                                            "Cannot lauch link");
-                                                  },
-                                                  style: NeumorphicStyle(
-                                                      border: NeumorphicBorder(
-                                                          isEnabled: true,
-                                                          color:
-                                                              Variables.backgroundColor,
-                                                          width: 2),
-                                                      shadowLightColor:
-                                                          Colors.white.withOpacity(0.6),
-                                                      // color: Color(0xff294A91),
-                                                      boxShape:
-                                                          NeumorphicBoxShape.roundRect(
-                                                              BorderRadius.circular(
-                                                                  30))),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(18.0),
+                                              onPressed: () async {
+                                                await canLaunch(
+                                                        offer.courseLink)
+                                                    ? await launch(
+                                                        offer.courseLink)
+                                                    : EasyLoading.showError(
+                                                        "Cannot lauch link");
+                                              },
+                                              style: NeumorphicStyle(
+                                                  border: NeumorphicBorder(
+                                                      isEnabled: true,
+                                                      color: Variables
+                                                          .backgroundColor,
+                                                      width: 2),
+                                                  shadowLightColor: Colors.white
+                                                      .withOpacity(0.6),
+                                                  // color: Color(0xff294A91),
+                                                  boxShape: NeumorphicBoxShape
+                                                      .roundRect(
+                                                          BorderRadius.circular(
+                                                              30))),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: NeumorphicButton(
+                                              padding: EdgeInsets.zero,
+                                              child: Container(
+                                                color: Color(0xff294A91),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 12),
+                                                  decoration: BoxDecoration(
+                                                    gradient: Variables
+                                                        .buttonGradient,
+                                                  ),
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Chat with us",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                var otherUser = types.User(
+                                                  id: offer.studentID,
+                                                );
+                                                FirebaseChatCore.instance
+                                                    .createUserInFirestore(
+                                                        otherUser);
+                                                final room = FirebaseChatCore
+                                                    .instance
+                                                    .createRoom(otherUser);
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChatPage(
+                                                            // roomId: room.id,
+                                                            ),
+                                                  ),
+                                                );
+                                              },
+                                              style: NeumorphicStyle(
+                                                  border: NeumorphicBorder(
+                                                      isEnabled: true,
+                                                      color: Variables
+                                                          .backgroundColor,
+                                                      width: 2),
+                                                  shadowLightColor: Colors.white
+                                                      .withOpacity(0.6),
+                                                  // color: Color(0xff294A91),
+                                                  boxShape: NeumorphicBoxShape
+                                                      .roundRect(
+                                                          BorderRadius.circular(
+                                                              30))),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      if (!offer.accepted)
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                      if (!offer.accepted)
+                                        Text(
+                                          "*This college application charges \$" +
+                                              offer.applicationFees,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 12,
+                                              color: Colors.white
+                                                  .withOpacity(0.7)),
+                                        ),
+                                      if (!offer.accepted)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            // Padding(
+                                            //   padding: const EdgeInsets.all(18.0),
+                                            //   child: NeumorphicButton(
+                                            //     padding: EdgeInsets.zero,
+                                            //     child: Container(
+                                            //       color: Variables.backgroundColor,
+                                            //       child: Container(
+                                            //         padding: EdgeInsets.symmetric(
+                                            //             horizontal: 18,
+                                            //             vertical: 12),
+                                            //         child: Align(
+                                            //           alignment: Alignment.center,
+                                            //           child: Text(
+                                            //             "X",
+                                            //             style: TextStyle(
+                                            //                 color: Colors.white,
+                                            //                 fontSize: 15,
+                                            //                 fontWeight:
+                                            //                     FontWeight.w600),
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //     onPressed: () async {
+                                            //       await canLaunch(offer.courseLink)
+                                            //           ? await launch(
+                                            //               offer.courseLink)
+                                            //           : EasyLoading.showError(
+                                            //               "Cannot lauch link");
+                                            //     },
+                                            //     style: NeumorphicStyle(
+                                            //         border: NeumorphicBorder(
+                                            //             isEnabled: true,
+                                            //             color: Variables
+                                            //                 .backgroundColor,
+                                            //             width: 2),
+                                            //         shadowLightColor: Colors.white
+                                            //             .withOpacity(0.6),
+                                            //         // color: Color(0xff294A91),
+                                            //         boxShape: NeumorphicBoxShape
+                                            //             .roundRect(
+                                            //                 BorderRadius.circular(
+                                            //                     30))),
+                                            //   ),
+                                            // ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(18.0),
                                                 child: NeumorphicButton(
                                                   padding: EdgeInsets.zero,
                                                   child: Container(
                                                     color: Color(0xff294A91),
                                                     child: Container(
-                                                      padding: EdgeInsets.symmetric(
-                                                          horizontal: 18, vertical: 12),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 18,
+                                                              vertical: 12),
                                                       decoration: BoxDecoration(
-                                                        gradient:
-                                                            Variables.buttonGradient,
+                                                        gradient: Variables
+                                                            .buttonGradient,
                                                       ),
                                                       child: Align(
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Text(
-                                                          "Chat with us",
+                                                          "Accept Offer",
                                                           style: TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               fontSize: 15,
                                                               fontWeight:
-                                                                  FontWeight.w600),
+                                                                  FontWeight
+                                                                      .w600),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                  onPressed: () {
-                                                    var otherUser = types.User(
-                                                      id: offer.studentID,
-                                                    );
-                                                    FirebaseChatCore.instance
-                                                        .createUserInFirestore(
-                                                            otherUser);
-                                                    final room = FirebaseChatCore
-                                                        .instance
-                                                        .createRoom(otherUser);
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (context) => ChatPage(
-                                                            // roomId: room.id,
-                                                            ),
-                                                      ),
-                                                    );
+                                                  onPressed: () async {
+                                                    await OfferBloc.acceptOffer(
+                                                        offer);
+                                                    EasyLoading.showSuccess(
+                                                        "Accepted Offer");
                                                   },
                                                   style: NeumorphicStyle(
                                                       border: NeumorphicBorder(
                                                           isEnabled: true,
-                                                          color:
-                                                              Variables.backgroundColor,
+                                                          color: Variables
+                                                              .backgroundColor,
                                                           width: 2),
-                                                      shadowLightColor:
-                                                          Colors.white.withOpacity(0.6),
+                                                      shadowLightColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
                                                       // color: Color(0xff294A91),
                                                       boxShape:
-                                                          NeumorphicBoxShape.roundRect(
-                                                              BorderRadius.circular(
-                                                                  30))),
+                                                          NeumorphicBoxShape
+                                                              .roundRect(
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30))),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          if (!offer.accepted)
-                                            SizedBox(
-                                              height: 4,
                                             ),
-                                          if (!offer.accepted)
-                                            Text(
-                                              "*This college application charges \$" +
-                                                  offer.applicationFees,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 12,
-                                                  color: Colors.white.withOpacity(0.7)),
-                                            ),
-                                          if (!offer.accepted)
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                // Padding(
-                                                //   padding: const EdgeInsets.all(18.0),
-                                                //   child: NeumorphicButton(
-                                                //     padding: EdgeInsets.zero,
-                                                //     child: Container(
-                                                //       color: Variables.backgroundColor,
-                                                //       child: Container(
-                                                //         padding: EdgeInsets.symmetric(
-                                                //             horizontal: 18,
-                                                //             vertical: 12),
-                                                //         child: Align(
-                                                //           alignment: Alignment.center,
-                                                //           child: Text(
-                                                //             "X",
-                                                //             style: TextStyle(
-                                                //                 color: Colors.white,
-                                                //                 fontSize: 15,
-                                                //                 fontWeight:
-                                                //                     FontWeight.w600),
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //     onPressed: () async {
-                                                //       await canLaunch(offer.courseLink)
-                                                //           ? await launch(
-                                                //               offer.courseLink)
-                                                //           : EasyLoading.showError(
-                                                //               "Cannot lauch link");
-                                                //     },
-                                                //     style: NeumorphicStyle(
-                                                //         border: NeumorphicBorder(
-                                                //             isEnabled: true,
-                                                //             color: Variables
-                                                //                 .backgroundColor,
-                                                //             width: 2),
-                                                //         shadowLightColor: Colors.white
-                                                //             .withOpacity(0.6),
-                                                //         // color: Color(0xff294A91),
-                                                //         boxShape: NeumorphicBoxShape
-                                                //             .roundRect(
-                                                //                 BorderRadius.circular(
-                                                //                     30))),
-                                                //   ),
-                                                // ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(18.0),
-                                                    child: NeumorphicButton(
-                                                      padding: EdgeInsets.zero,
-                                                      child: Container(
-                                                        color: Color(0xff294A91),
-                                                        child: Container(
-                                                          padding: EdgeInsets.symmetric(
-                                                              horizontal: 18,
-                                                              vertical: 12),
-                                                          decoration: BoxDecoration(
-                                                            gradient: Variables
-                                                                .buttonGradient,
-                                                          ),
-                                                          child: Align(
-                                                            alignment: Alignment.center,
-                                                            child: Text(
-                                                              "Accept Offer",
-                                                              style: TextStyle(
-                                                                  color: Colors.white,
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight.w600),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await OfferBloc.acceptOffer(
-                                                            offer);
-                                                        EasyLoading.showSuccess(
-                                                            "Accepted Offer");
-                                                      },
-                                                      style: NeumorphicStyle(
-                                                          border: NeumorphicBorder(
-                                                              isEnabled: true,
-                                                              color: Variables
-                                                                  .backgroundColor,
-                                                              width: 2),
-                                                          shadowLightColor: Colors.white
-                                                              .withOpacity(0.6),
-                                                          // color: Color(0xff294A91),
-                                                          boxShape: NeumorphicBoxShape
-                                                              .roundRect(
-                                                                  BorderRadius.circular(
-                                                                      30))),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                        ],
-                                      ),
-                                    ),
+                                          ],
+                                        ),
+                                    ],
                                   ),
-                                );
-                              },
-                            )
-                          : Center(
-                              child: Text(
-                                "No Applications",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17,
-                                    color: Colors.white.withOpacity(0.7)),
+                                ),
                               ),
-                            ),
-                    ),
-                  ],
-                );
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            "No Applications",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color: Colors.white.withOpacity(0.7)),
+                          ),
+                        ),
+                ),
+              ],
+            );
           },
         ),
       ),
@@ -563,129 +582,130 @@ class _ApplicationPageState extends State<ApplicationPage> {
     );
   }
 
-  Widget SortApplicationsButton()  {
+  Widget SortApplicationsButton() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if(state is! StudentHomeState){
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            final studentHomeState=state as StudentHomeState;
-            final selfData=studentHomeState.student;
+        if (state is! StudentHomeState) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final studentHomeState = state as StudentHomeState;
+        final selfData = studentHomeState.student;
         return GestureDetector(
-              child: Icon(Ionicons.filter_circle_outline),
-              onTap: () async {
-                var result = await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          backgroundColor: Variables.backgroundColor,
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
+          child: Icon(Ionicons.filter_circle_outline),
+          onTap: () async {
+            var result = await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      backgroundColor: Variables.backgroundColor,
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Accordion(
+                            maxOpenSections: 1,
+                            headerBackgroundColor: Variables.backgroundColor,
+                            contentBackgroundColor: Variables.backgroundColor,
                             children: [
-                              Accordion(
-                                maxOpenSections: 1,
-                                headerBackgroundColor: Variables.backgroundColor,
-                                contentBackgroundColor: Variables.backgroundColor,
-                                children: [
-                                  AccordionSection(
-                                      header: Text(
-                                        "Sort by Tuition Fees",
-                                        style: TextStyle(
+                              AccordionSection(
+                                  header: Text(
+                                    "Sort by Tuition Fees",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        fontFamily: "roboto"),
+                                  ),
+                                  content: Column(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop("desc");
+                                        },
+                                        child: Text(
+                                          "High to Low",
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontFamily: "roboto"),
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ),
-                                      content: Column(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop("desc");
-                                            },
-                                            child: Text(
-                                              "High to Low",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop("asc");
-                                            },
-                                            child: Text(
-                                              "Low To High",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  AccordionSection(
-                                      header: Text(
-                                        "Sort by Application Fees",
-                                        style: TextStyle(
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop("asc");
+                                        },
+                                        child: Text(
+                                          "Low To High",
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            fontFamily: "roboto"),
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ),
-                                      content: Column(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop("desc");
-                                            },
-                                            child: Text(
-                                              "High To Low",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            ),
+                                    ],
+                                  )),
+                              AccordionSection(
+                                  header: Text(
+                                    "Sort by Application Fees",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        fontFamily: "roboto"),
+                                  ),
+                                  content: Column(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop("desc");
+                                        },
+                                        child: Text(
+                                          "High To Low",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
                                           ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop("asc");
-                                            },
-                                            child: Text(
-                                              "Low To High",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop("asc");
+                                        },
+                                        child: Text(
+                                          "Low To High",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
                                           ),
-                                        ],
-                                      ))
-                                ],
-                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ))
                             ],
                           ),
-                        ));
-                if (result != null) {
-                  if (result == "asc") {
-                    setState(() {
-                      selfData.applications.sort((a, b) =>
-                          (int.parse(a.courseFees))
-                              .compareTo((int.parse(b.courseFees))));
-                    });
-                  } else if (result == "desc") {
-                    setState(() {
-                      selfData.applications.sort((b, a) =>
-                          (int.parse(a.courseFees))
-                              .compareTo((int.parse(b.courseFees))));
-                    });
-                  }
-                }
-              },
-            );
+                        ],
+                      ),
+                    ));
+            if (result != null) {
+              // if (result == "asc") {
+              //   setState(() {
+              //     selfData.applications.sort((a, b) =>
+              //         (int.parse(a.courseFees))
+              //             .compareTo((int.parse(b.courseFees))));
+              //   });
+              // } else if (result == "desc") {
+              //   setState(() {
+              //     selfData.applications.sort((b, a) =>
+              //         (int.parse(a.courseFees))
+              //             .compareTo((int.parse(b.courseFees))));
+              //   });
+              // }
+              /// TODO: sort applications for student home bloc
+            }
+          },
+        );
       },
     );
   }
