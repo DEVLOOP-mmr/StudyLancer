@@ -2,18 +2,23 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:elite_counsel/models/document.dart';
-import 'package:elite_counsel/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'package:elite_counsel/models/document.dart';
+import 'package:elite_counsel/variables.dart';
+
 import 'dio.dart';
 
 class DocumentBloc {
-  static Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
+  String userType = '';
+  DocumentBloc({
+    this.userType,
+  });
+  Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
       {String requiredDocType}) async {
     for (var x in result.files) {
       final fileName = x.path.split("/").last;
@@ -24,7 +29,7 @@ class DocumentBloc {
         final reference = FirebaseStorage.instance.ref(fileName);
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
-        DocumentBloc.postDocument(
+        postDocument(
                 Document(
                   link: uri,
                   name: requiredDocType ?? fileName,
@@ -43,11 +48,10 @@ class DocumentBloc {
     }
   }
 
-  static Future<Response> postDocument(Document document, String uid,
-      {String overrideUserType}) async {
-    final userType = overrideUserType ??
-        (await Variables.sharedPreferences.get(Variables.userType)).toString();
-
+  Future<Response> postDocument(
+    Document document,
+    String uid,
+  ) async {
     Map body = {
       '${userType}ID': uid,
       "documents": {
@@ -62,7 +66,7 @@ class DocumentBloc {
   }
 
   static Future<Response> updateDocument(
-      String documentID, String uid, String name,
+      String documentID, String uid, String newName,
       {String overrideUserType}) async {
     final userType = overrideUserType ??
         (await Variables.sharedPreferences.get(Variables.userType)).toString();
@@ -70,7 +74,7 @@ class DocumentBloc {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
-      "name": name,
+      "name": newName,
     };
 
     final response = await GetDio.getDio()
@@ -82,16 +86,14 @@ class DocumentBloc {
     return response;
   }
 
-  static Future<Response> deleteDocument(
+   Future<Response> deleteDocument(
       String docName, String documentID, String uid,
-      {String overrideUserType}) async {
-    final userType = overrideUserType ??
-        (await Variables.sharedPreferences.get(Variables.userType)).toString();
+      ) async {
+  
 
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
-      
     };
 
     return await GetDio.getDio()

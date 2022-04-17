@@ -3,6 +3,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+
 class OptionsProvided extends StatelessWidget {
   const OptionsProvided({
     Key key,
@@ -22,6 +23,9 @@ class OptionsProvided extends StatelessWidget {
         }
         return ListView.builder(
           itemCount: agentHomePageState.students.where((element) {
+            if (element.applications.isEmpty) {
+              return false;
+            }
             if (element.applications.first.status == 2) {
               return true;
             }
@@ -29,6 +33,9 @@ class OptionsProvided extends StatelessWidget {
           }).length,
           itemBuilder: (context, index) {
             var student = agentHomePageState.students.where((element) {
+              if (element.applications.isEmpty) {
+                return false;
+              }
               if (element.applications.first.status == 2) {
                 return true;
               }

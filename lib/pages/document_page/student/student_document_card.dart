@@ -34,14 +34,14 @@ class StudentDocumentCard extends StatelessWidget {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is UnAuthenticatedHomeState) {
+        if (state is InitialHomeState) {
           return Container();
         }
         final student = (state as StudentHomeState).student;
         return Dismissible(
           key: ValueKey(doc.id),
           onDismissed: (direction) {
-            DocumentBloc.deleteDocument(
+            DocumentBloc(userType: 'student').deleteDocument(
               doc.name,
               doc.id,
               FirebaseAuth.instance.currentUser.uid,

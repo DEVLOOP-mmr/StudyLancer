@@ -27,7 +27,7 @@ class AgentProfileHeader extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        if (state is UnAuthenticatedHomeState) {
+        if (state is InitialHomeState) {
           return const Center(
             child: CircularProgressIndicator(),
           );

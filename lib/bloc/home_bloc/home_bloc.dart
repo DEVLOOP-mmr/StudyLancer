@@ -15,7 +15,33 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../dio.dart';
 
 class HomeBloc extends Cubit<HomeState> {
-  HomeBloc() : super(UnAuthenticatedHomeState());
+  HomeBloc() : super(InitialHomeState());
+  void setCountry(String newCountry,String userType) {
+   
+    switch (userType) {
+      case 'student':
+        if (state is! StudentHomeState) {
+          emit(StudentHomeState(
+              country: newCountry, loadState: LoadState.initial));
+          break;
+        }
+        emit((state as StudentHomeState).copyWith(country: newCountry));
+        break;
+
+      case 'agent':
+        if (state is! AgentHomeState) {
+          emit(AgentHomeState(
+              country: newCountry, loadState: LoadState.initial));
+          break;
+        }
+        emit((state as AgentHomeState).copyWith(country: newCountry));
+        break;
+      default:
+        emit((state as InitialHomeState).copyWith(country: newCountry));
+        break;
+    }
+  }
+
   void emitNewStudent(Student student) {
     if (state is StudentHomeState) {
       emit((state as StudentHomeState).copyWith(student: student));
@@ -37,15 +63,10 @@ class HomeBloc extends Cubit<HomeState> {
     StudentHomeState homeData = StudentHomeState();
     if (state is! StudentHomeState) {
       emit(homeData.copyWith(loadState: LoadState.loading));
-    } else {
-      // emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
-    }
+    } else {}
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": Variables.sharedPreferences.get(
-        Variables.countryCode,
-        defaultValue: "AU",
-      ),
+      "countryLookingFor": state.country,
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var result = await GetDio.getDio().post(
@@ -118,8 +139,7 @@ class HomeBloc extends Cubit<HomeState> {
 
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
-      "countryLookingFor": Variables.sharedPreferences
-          .get(Variables.countryCode, defaultValue: "AU"),
+      "countryLookingFor": state.country,
       "phone": auth.currentUser.phoneNumber,
     };
     var result =
@@ -147,6 +167,6 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void reset() {
-    emit(UnAuthenticatedHomeState());
+    emit(InitialHomeState());
   }
 }

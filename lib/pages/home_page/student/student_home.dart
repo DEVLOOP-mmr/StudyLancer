@@ -78,7 +78,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
             },
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
-                if (state is UnAuthenticatedHomeState) {
+                if (state is InitialHomeState) {
                   return Container();
                 }
                 StudentHomeState studentHomeState = state as StudentHomeState;
@@ -123,7 +123,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       body: Container(
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            if (state is UnAuthenticatedHomeState) {
+            if (state is InitialHomeState) {
               return Center(
                 child: Container(
                   child: const CircularProgressIndicator(),

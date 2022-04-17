@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mockito/mockito.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
-  MockFirebaseAuth() {}
+  String userType;
+  MockFirebaseAuth(this.userType) {}
 
   set currentUser(_MockFirebaseUser user) {
     currentUser = user;
@@ -11,7 +12,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
   User get currentUser {
-    final type = Variables.sharedPreferences.get(Variables.userType);
+    final type = userType;
     if (type == null) {
       return MockFirebaseStudentUser();
     }

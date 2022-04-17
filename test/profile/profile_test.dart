@@ -9,9 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../utils/setups.dart';
 
 void main() {
-  setUp(() async {
-    await TestSetups().setupHive();
-  });
+  
   group('Test to fetch profile data for:', () {
     test('student', () async {
       final student = await ProfileTestSuite().getStudentProfile();
@@ -28,18 +26,18 @@ void main() {
 
 class ProfileTestSuite {
   Future<Student> getStudentProfile() async {
-    Variables.sharedPreferences.put(Variables.userType, 'student');
-    final mockAuth = MockFirebaseAuth();
+    final mockAuth = MockFirebaseAuth('student');
+    var homeBloc = HomeBloc()..setCountry('CA','student');
     final studentHomeData =
-        await HomeBloc().getStudentHome(firebaseAuth: mockAuth);
+        await homeBloc.getStudentHome(firebaseAuth: mockAuth);
     final student = studentHomeData.student;
     return student;
   }
 
   Future<Agent> getAgentProfile() async {
-    Variables.sharedPreferences.put(Variables.userType, 'agent');
-    final mockAuth = MockFirebaseAuth();
-    final agentHomeData = await HomeBloc().getAgentHome(auth: mockAuth);
+    final mockAuth = MockFirebaseAuth('agent');
+     var homeBloc = HomeBloc()..setCountry('CA','agent');
+    final agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
     final agent = agentHomeData.agent;
     return agent;
   }

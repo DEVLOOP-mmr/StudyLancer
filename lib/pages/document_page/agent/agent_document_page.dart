@@ -124,7 +124,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
               child: SingleChildScrollView(
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                    if (state is UnAuthenticatedHomeState) {
+                    if (state is InitialHomeState) {
                       return Container();
                     }
 
@@ -224,7 +224,8 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc.parseAndUploadFilePickerResult(
+        await DocumentBloc(userType: Variables.userTypeAgent)
+            .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );

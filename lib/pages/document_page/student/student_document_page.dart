@@ -127,7 +127,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
               child: SingleChildScrollView(
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                    if (state is UnAuthenticatedHomeState) {
+                    if (state is InitialHomeState) {
                       return Container();
                     }
                     final student = (state as StudentHomeState).student;
@@ -223,7 +223,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc.parseAndUploadFilePickerResult(
+        await DocumentBloc(userType: Variables.userTypeAgent).parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );

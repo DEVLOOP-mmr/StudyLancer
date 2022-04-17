@@ -96,7 +96,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ),
         );
       }
-      if (state is UnAuthenticatedHomeState) {
+      if (state is InitialHomeState) {
         return Container(
           color: Variables.backgroundColor,
           child: Center(

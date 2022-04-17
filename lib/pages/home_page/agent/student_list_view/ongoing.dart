@@ -23,6 +23,9 @@ class OngoingStudents extends StatelessWidget {
         }
         return ListView.builder(
             itemCount: agentHomePageState.students.where((element) {
+              if (element.applications.isEmpty) {
+                return false;
+              }
               if (element.applications.first.status == 3) {
                 return true;
               }
@@ -30,6 +33,9 @@ class OngoingStudents extends StatelessWidget {
             }).length,
             itemBuilder: (context, index) {
               var student = agentHomePageState.students.where((element) {
+                if (element.applications.isEmpty) {
+                  return false;
+                }
                 if (element.applications.first.status == 3) {
                   return true;
                 }

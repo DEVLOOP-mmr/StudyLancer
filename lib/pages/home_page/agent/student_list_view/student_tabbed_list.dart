@@ -17,9 +17,9 @@ class StudentTabbedList extends StatefulWidget {
 
 class _StudentTabbedListState extends State<StudentTabbedList>
     with TickerProviderStateMixin {
-  final String country = 'All';
+  
 
-   TabController _tabController;
+  TabController _tabController;
 
   @override
   void initState() {
@@ -45,18 +45,15 @@ class _StudentTabbedListState extends State<StudentTabbedList>
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
-                // setState(() {
-                //   country = null;
-                // });
-
-                ///TODO: home bloc set country
+                BlocProvider.of<HomeBloc>(context, listen: false)
+                    .setCountry('All','agent');
               },
             ),
             actions: const [SortButton()],
             backgroundColor: Variables.backgroundColor,
             centerTitle: false,
             title: Text(
-              country.toUpperCase(),
+             state.country.toUpperCase(),
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 30,

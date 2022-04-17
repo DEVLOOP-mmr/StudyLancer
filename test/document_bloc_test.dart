@@ -1,5 +1,3 @@
-
-
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
@@ -9,9 +7,7 @@ import 'profile/profile_test.dart';
 import 'utils/setups.dart';
 
 void main() {
-  setUp(() async {
-    await TestSetups().setupHive();
-  });
+  
   group(
     'Document Operations:',
     () {
@@ -19,10 +15,9 @@ void main() {
         'Document Upload Student',
         () async {
           final mockDocument = MockDocument();
-          final response = await DocumentBloc.postDocument(
+          final response = await DocumentBloc(userType: 'student').postDocument(
             mockDocument,
             MockFirebaseStudentUser().uid,
-            overrideUserType: 'student',
           );
 
           expect(response.statusCode, 200);
@@ -39,18 +34,16 @@ void main() {
         'Document Upload Agent',
         () async {
           final mockDocument = MockDocument();
-          final response = await DocumentBloc.postDocument(
+          final response = await DocumentBloc(userType: 'agent').postDocument(
             mockDocument,
-            MockFirebaseStudentUser().uid,
-            overrideUserType: 'agent',
+            MockFirebaseAgentUser().uid,
           );
 
           expect(response.statusCode, 200);
           final agent = await ProfileTestSuite().getAgentProfile();
           assert(agent.id.isNotEmpty);
           expect(
-            agent.documents
-                .any((element) => element.name == mockDocument.name),
+            agent.documents.any((element) => element.name == mockDocument.name),
             true,
           );
         },
@@ -67,8 +60,16 @@ void main() {
         () async {
           var student = await ProfileTestSuite().getStudentProfile();
           assert(student.id.isNotEmpty);
+          var mockDocument = MockDocument();
+          if (student.documents.isEmpty) {
+            await DocumentBloc(userType: 'student').postDocument(
+              mockDocument,
+              MockFirebaseStudentUser().uid,
+            );
+            student = await ProfileTestSuite().getStudentProfile();
+          }
           final lastDocID = student.documents.last.id;
-          final response = await DocumentBloc.deleteDocument(
+          final response = await DocumentBloc(userType: 'student').deleteDocument(
             student.documents.last.name,
             lastDocID,
             MockFirebaseStudentUser().uid,
@@ -83,20 +84,26 @@ void main() {
           );
         },
       );
-       test(
+      test(
         'Document Delete Agent',
         () async {
           var agent = await ProfileTestSuite().getAgentProfile();
           assert(agent.id.isNotEmpty);
+          if (agent.documents.isEmpty) {
+            await DocumentBloc(userType: 'student').postDocument(
+              MockDocument(),
+              MockFirebaseStudentUser().uid,
+            );
+            agent = await ProfileTestSuite().getAgentProfile();
+          }
           final lastDocID = agent.documents.last.id;
-          final response = await DocumentBloc.deleteDocument(
+          final response = await DocumentBloc(userType: 'agent').deleteDocument(
             agent.documents.last.name,
             lastDocID,
             MockFirebaseStudentUser().uid,
           );
           expect(response.statusCode, 200);
-          var deletedDocumentAgent =
-              await ProfileTestSuite().getAgentProfile();
+          var deletedDocumentAgent = await ProfileTestSuite().getAgentProfile();
           expect(
             deletedDocumentAgent.documents
                 .any((element) => element.id == lastDocID),

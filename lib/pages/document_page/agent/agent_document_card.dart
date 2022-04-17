@@ -42,14 +42,14 @@ class _AgentDocumentCardState extends State<AgentDocumentCard> {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is UnAuthenticatedHomeState) {
+        if (state is InitialHomeState) {
           return Container();
         }
         final agent = (state as AgentHomeState).agent;
         return Dismissible(
           key: ValueKey(widget.doc.id),
           onDismissed: (direction) {
-            DocumentBloc.deleteDocument(
+            DocumentBloc(userType: 'agent').deleteDocument(
               widget.doc.name,
               widget.doc.id,
               FirebaseAuth.instance.currentUser.uid,
