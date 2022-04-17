@@ -43,6 +43,9 @@ class CountryBloc {
         Country(id: 'CA', countryName: 'Canada'),
         Country(id: 'AU', countryName: 'Australia')
       ];
+      if (kDebugMode) {
+        rethrow;
+      }
     }
     return countries;
   }

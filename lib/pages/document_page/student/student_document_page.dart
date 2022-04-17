@@ -128,81 +128,91 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
                     if (state is InitialHomeState) {
-                      return Container();
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     final student = (state as StudentHomeState).student;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Divider(color: Colors.white),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Image.asset("assets/images/student_docs_required.png"),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        student == null
-                            ? const Center(
-                                child: const CircularProgressIndicator(),
-                              )
-                            : student.id == null
-                                ? const Center(
-                                    child: const CircularProgressIndicator(),
-                                  )
-                                : BlocBuilder<HomeBloc, HomeState>(
-                                    builder: (context, state) {
-                                      return requiredDocumentsList();
-                                    },
-                                  ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Divider(
-                            color: Color(0xffFF8B86),
-                          ),
-                        ),
-                        student.id == null
-                            ? const Center(
-                                child: const CircularProgressIndicator(),
-                              )
-                            : Flexible(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: (student.documents ?? []).length,
-                                  itemBuilder: (context, index) {
-                                    Document doc = student.documents[index];
-                                    if (doc.link == null) {
-                                      return Container();
-                                    }
-                                    String icon = "assets/docicon.png";
-                                    if (doc.type == "pdf") {
-                                      icon = "assets/pdficon.png";
-                                    } else if (doc.type == "jpg" ||
-                                        doc.type == "png" ||
-                                        doc.type == "gif" ||
-                                        doc.type == "jpeg") {
-                                      icon = "assets/imageicon.png";
-                                    }
-
-                                    return Center(
-                                      child: StudentDocumentCard(
-                                        doc: doc,
-                                        icon: icon,
-                                        index: index,
-                                      ),
-                                    );
-                                  },
+                    return student == null
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Divider(color: Colors.white),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Image.asset(
+                                  "assets/images/student_docs_required.png"),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              student == null
+                                  ? const Center(
+                                      child: const CircularProgressIndicator(),
+                                    )
+                                  : student.id == null
+                                      ? const Center(
+                                          child:
+                                              const CircularProgressIndicator(),
+                                        )
+                                      : BlocBuilder<HomeBloc, HomeState>(
+                                          builder: (context, state) {
+                                            return requiredDocumentsList();
+                                          },
+                                        ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Divider(
+                                  color: Color(0xffFF8B86),
                                 ),
                               ),
-                        SizedBox(
-                          height: 200,
-                        )
-                      ],
-                    );
+                              student.id == null
+                                  ? const Center(
+                                      child: const CircularProgressIndicator(),
+                                    )
+                                  : Flexible(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            (student.documents ?? []).length,
+                                        itemBuilder: (context, index) {
+                                          Document doc =
+                                              student.documents[index];
+                                          if (doc.link == null) {
+                                            return Container();
+                                          }
+                                          String icon = "assets/docicon.png";
+                                          if (doc.type == "pdf") {
+                                            icon = "assets/pdficon.png";
+                                          } else if (doc.type == "jpg" ||
+                                              doc.type == "png" ||
+                                              doc.type == "gif" ||
+                                              doc.type == "jpeg") {
+                                            icon = "assets/imageicon.png";
+                                          }
+
+                                          return Center(
+                                            child: StudentDocumentCard(
+                                              doc: doc,
+                                              icon: icon,
+                                              index: index,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 200,
+                              )
+                            ],
+                          );
                   },
                 ),
               ),
@@ -223,7 +233,8 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc(userType: Variables.userTypeAgent).parseAndUploadFilePickerResult(
+        await DocumentBloc(userType: Variables.userTypeAgent)
+            .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );

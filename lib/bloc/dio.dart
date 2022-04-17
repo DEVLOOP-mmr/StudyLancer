@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -66,11 +68,27 @@ class GetDio {
   }
 
   static void logDioException(Map<String, dynamic> exception) {
-    if (Firebase.apps.isNotEmpty) {
+    if (Firebase.apps.isNotEmpty && kReleaseMode) {
       FirebaseCrashlytics.instance.recordError(exception, StackTrace.current);
     } else {
-      debugPrint(exception.toString());
+      debugPrint(prettyJson((exception)));
     }
+  }
+
+  static String prettyJson(
+    dynamic json, {
+    int indent = 2,
+  }) {
+    final spaces = ' ' * indent;
+    final encoder = JsonEncoder.withIndent(spaces, (obj) {
+      if (obj is Timestamp) {
+        return obj.toString();
+      }
+  
+      return obj;
+    });
+
+    return (encoder.convert(json));
   }
 
   static bool isTestMode() {

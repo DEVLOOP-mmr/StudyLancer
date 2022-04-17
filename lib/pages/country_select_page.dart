@@ -207,7 +207,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (selectedIndex == -1 ||
                                   selectedIndex == countries.length) {
                                 EasyLoading.showError(
@@ -220,7 +220,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                               } else {
                                 countryCode = countries[selectedIndex].id;
                               }
-                              Variables.sharedPreferences
+                              await Variables.sharedPreferences
                                   .put(Variables.countryCode, countryCode);
                               BlocProvider.of<HomeBloc>(context, listen: false)
                                   .setCountry(

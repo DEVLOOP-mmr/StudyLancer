@@ -8,10 +8,9 @@ void main() {
       // ignore: non_constant_identifier_names
       final countryList = await CountryBloc.getCountries();
 
-      expect(countryList, isNotEmpty);
-      expect(countryList.first.countryName, isNotEmpty);
+      
     },
-    skip: true,
+    
   );
 
   test(

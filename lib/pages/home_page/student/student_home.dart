@@ -47,7 +47,10 @@ class _StudentHomePageState extends State<StudentHomePage> {
         setState(() {
           country = countries.firstWhere((element) =>
               element.id ==
-              Variables.sharedPreferences.get(Variables.countryCode));
+              Variables.sharedPreferences.get(
+                Variables.countryCode,
+                defaultValue: 'CA',
+              ));
         });
       }
     });
@@ -60,14 +63,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       backgroundColor: Variables.backgroundColor,
       endDrawer: MyDrawer(),
       appBar: AppBar(
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : null,
+        leading: null,
         backgroundColor: Variables.backgroundColor,
         centerTitle: false,
         actions: [
@@ -82,7 +78,8 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   return Container();
                 }
                 StudentHomeState studentHomeState = state as StudentHomeState;
-                return state.loadState == LoadState.loading
+                return state.loadState == LoadState.loading ||
+                        studentHomeState.student == null
                     ? Container()
                     : Container(
                         height: 25,
@@ -146,137 +143,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   )
                 : ListView(
                     children: [
-                      SizedBox(
-                        height: 354,
-                        child: PageView.builder(
-                          controller: _countryPageController,
-                          itemCount: (country.images ?? []).length,
-                          itemBuilder: (context, index) {
-                            return Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                              backgroundColor:
-                                                  Variables.backgroundColor,
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Text(
-                                                    "Description",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  Text(
-                                                    country.images[index]
-                                                        .description,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 18.0),
-                                    child: Container(
-                                      height: 354,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Colors.black,
-                                          ),
-                                          BoxShadow(
-                                            color: Colors.black,
-                                            spreadRadius: -12.0,
-                                            blurRadius: 12.0,
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: CachedNetworkImage(
-                                        imageUrl: country.images[index].image,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          _countryPageController.previousPage(
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              curve: Curves.easeIn);
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.33),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: const Icon(
-                                            Icons.keyboard_arrow_left_sharp,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _countryPageController.nextPage(
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              curve: Curves.easeIn);
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.33),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: const Icon(
-                                            Icons.keyboard_arrow_right_sharp,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 24,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                      CountryImages(),
                       // (studentHomeState.self.otherDoc ?? []).length < 3
                       //     ?
                       if (!(state as StudentHomeState).student.verified)
@@ -554,6 +421,131 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   );
           },
         ),
+      ),
+    );
+  }
+
+  Widget CountryImages() {
+    return SizedBox(
+      height: 354,
+      child: PageView.builder(
+        controller: _countryPageController,
+        itemCount: (country.images ?? []).length,
+        itemBuilder: (context, index) {
+          return Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            backgroundColor: Variables.backgroundColor,
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  "Description",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  country.images[index].description,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Container(
+                    height: 354,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black,
+                        ),
+                        BoxShadow(
+                          color: Colors.black,
+                          spreadRadius: -12.0,
+                          blurRadius: 12.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    child: CachedNetworkImage(
+                      imageUrl: country.images[index].image,
+                      cacheKey: country.images[index].image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _countryPageController.previousPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.33),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: const Icon(
+                          Icons.keyboard_arrow_left_sharp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _countryPageController.nextPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.33),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: const Icon(
+                          Icons.keyboard_arrow_right_sharp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 24,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
