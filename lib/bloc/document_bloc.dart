@@ -65,12 +65,11 @@ class DocumentBloc {
         .post("$userType/createDoc", data: jsonEncode(body));
   }
 
-  static Future<Response> updateDocument(
-      String documentID, String uid, String newName,
-      {String overrideUserType}) async {
-    final userType = overrideUserType ??
-        (await Variables.sharedPreferences.get(Variables.userType)).toString();
-
+  Future<Response> updateDocument(
+    String documentID,
+    String uid,
+    String newName,
+  ) async {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,
@@ -86,11 +85,11 @@ class DocumentBloc {
     return response;
   }
 
-   Future<Response> deleteDocument(
-      String docName, String documentID, String uid,
-      ) async {
-  
-
+  Future<Response> deleteDocument(
+    String docName,
+    String documentID,
+    String uid,
+  ) async {
     Map body = {
       "${userType}ID": uid,
       "documentID": documentID,

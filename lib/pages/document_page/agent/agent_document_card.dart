@@ -70,17 +70,14 @@ class _AgentDocumentCardState extends State<AgentDocumentCard> {
             ));
           },
           child: Container(
-            
             padding: const EdgeInsets.only(bottom: 8),
             child: Container(
-             
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ListTile(
-                
                 onTap: () async {
                   if (await Permission.storage.request().isGranted) {
                     String filePath = '';
@@ -117,11 +114,10 @@ class _AgentDocumentCardState extends State<AgentDocumentCard> {
                       : GestureDetector(
                           onTap: () {
                             if (editEnabled) {
-                              DocumentBloc.updateDocument(
+                              DocumentBloc(userType: 'agent').updateDocument(
                                   widget.doc.id, agent.id, newDocName);
-                              
                             }
-                            
+
                             setState(() {
                               editEnabled = !editEnabled;
                             });
@@ -163,8 +159,7 @@ class _AgentDocumentCardState extends State<AgentDocumentCard> {
                           },
                           style: const TextStyle(
                               color: Colors.white, fontSize: 16),
-                          decoration:
-                              InputDecoration(border: InputBorder.none),
+                          decoration: InputDecoration(border: InputBorder.none),
                         )
                       : AutoSizeText(
                           widget.doc.name,
