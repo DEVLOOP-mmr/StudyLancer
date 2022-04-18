@@ -71,7 +71,7 @@ class GetDio {
     if (Firebase.apps.isNotEmpty && kReleaseMode) {
       FirebaseCrashlytics.instance.recordError(exception, StackTrace.current);
     } else {
-      debugPrint(prettyJson((exception)));
+      debugPrint(exception.toString());
     }
   }
 

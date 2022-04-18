@@ -5,8 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../profile/profile_test.dart';
 import '../utils/setups.dart';
-void main(){
-   group('Document Rename:', () {
+
+void main() {
+  group('Document Rename:', () {
     test(
       'student',
       () async {
@@ -23,8 +24,8 @@ void main(){
         final lastDocID = student.documents.last.id;
         final response = await DocumentBloc(userType: 'student').updateDocument(
           student.documents.last.id,
-          'test_name',
           MockFirebaseStudentUser().uid,
+          'test_name',
         );
         expect(response.statusCode, 200);
         var renamedDocumentStudent =
@@ -45,15 +46,15 @@ void main(){
         if (agent.documents.isEmpty) {
           await DocumentBloc(userType: 'agent').postDocument(
             mockDocument,
-            MockFirebaseStudentUser().uid,
+            MockFirebaseAgentUser().uid,
           );
           agent = await ProfileTestSuite().getAgentProfile();
         }
         final lastDocID = agent.documents.last.id;
         final response = await DocumentBloc(userType: 'agent').updateDocument(
-          agent.documents.last.id,
+          lastDocID,
+          MockFirebaseAgentUser().uid,
           'test_name',
-          MockFirebaseStudentUser().uid,
         );
         expect(response.statusCode, 200);
         var agentDocumentStudent = await ProfileTestSuite().getStudentProfile();
@@ -65,5 +66,4 @@ void main(){
       },
     );
   });
-
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:elite_counsel/models/review.dart';
 
 class Country {
@@ -44,9 +42,25 @@ class Application {
   Application({
     this.accepted,
   });
+  bool isValid() {
+    try {
+      assert(studentID != null && studentID.isNotEmpty);
+      assert(agentID != null && agentID.isNotEmpty);
+      assert(universityName != null && universityName.isNotEmpty);
+      assert(courseFees != null && courseFees.isNotEmpty);
+      assert(applicationFees != null && applicationFees.isNotEmpty);
+      assert(courseName != null && courseName.isNotEmpty);
+      assert(courseLink != null && courseLink.isNotEmpty);
+      assert(description != null && description.isNotEmpty);
+      return true;
+    } on AssertionError {
+      return false;
+    }
+  }
+
   factory Application.parseApplication(offerData) {
     Application offer = Application();
-    
+
     offer.country = offerData["location"]["country"];
     offer.offerId = offerData["_id"];
     offer.city = offerData["location"]["city"];
@@ -58,7 +72,7 @@ class Application {
     offer.courseName = offerData["courseName"];
     offer.courseLink = offerData["courseLink"];
     offer.agentID = offerData["agent"];
- 
+    offer.studentID = offerData['student'];
     offer.color = offerData["color"];
     offer.status = offerData['status'];
     return offer;
