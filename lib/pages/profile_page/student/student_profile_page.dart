@@ -678,6 +678,7 @@ class DateSelector extends StatelessWidget {
     }
     return user;
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -693,15 +694,15 @@ class DateSelector extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: GestureDetector(
               onTap: () async {
-               
-
                 var changedUser = await _selectDate(student, context);
 
                 BlocProvider.of<HomeBloc>(context, listen: false)
                     .emitNewStudent(changedUser);
               },
               child: Text(
-                student.dob ?? '',
+                DateTime.tryParse(student.dob) == null
+                    ? (student.dob ?? '')
+                    : Variables.dateFormat.format(DateTime.parse(student.dob)),
                 key: UniqueKey(),
                 style: TextStyle(
                     color: Colors.white,
