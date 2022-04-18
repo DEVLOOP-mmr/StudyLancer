@@ -57,9 +57,9 @@ void main() {
           'test_name',
         );
         expect(response.statusCode, 200);
-        var agentDocumentStudent = await ProfileTestSuite().getStudentProfile();
+        var newAgent = await ProfileTestSuite().getAgentProfile();
         expect(
-          agentDocumentStudent.documents
+          newAgent.documents
               .any((element) => element.name == 'test_name'),
           true,
         );
