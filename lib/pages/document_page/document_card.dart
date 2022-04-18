@@ -46,32 +46,29 @@ class _DocumentCardState extends State<DocumentCard> {
     return Dismissible(
       key: ValueKey(widget.doc.id),
       confirmDismiss: (direction) async {
-        showCupertinoModalPopup(
-            context: context,
-            builder: (_) => Container(
-                  width: 300,
-                  height: 250,
-                  child: Column(
-                    children: [
-                      Text('This document will be permenantly deleted, are you Sure You want to?'),
+        // showCupertinoModalPopup(
+        //     context: context,
+        //     builder: (_) => Container(
+        //           width: 300,
+        //           height: 250,
+        //           child: Column(
+        //             children: [
+        //               Text('This document will be permenantly deleted, are you Sure You want to?'),
 
-                      SizedBox(height: 10,),
-                      Text('Yes',style: TextStyle(color: Colors.blue),)
-                    ],
-                  ),
-                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.only(bottom: 20),
-                ));
-        return false;
+        //               SizedBox(height: 10,),
+        //               Text('Yes',style: TextStyle(color: Colors.blue),)
+        //             ],
+        //           ),
+        //            decoration: BoxDecoration(
+        //             color: Colors.white,
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //           padding: EdgeInsets.all(10),
+        //           margin: EdgeInsets.only(bottom: 20),
+        //         ));
+        return true;
       },
-      onDismissed: (details) {
-        
-        //widget.onDismiss(details);
-      },
+      onDismissed:widget.onDismiss,
       background: Container(
         decoration: BoxDecoration(
           color: Colors.red,
