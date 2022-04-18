@@ -424,7 +424,7 @@ class AgentProfilePage extends StatelessWidget {
                               fontFamily: 'Roboto',
                               fontSize: 12),
                           dropdownColor: Colors.black,
-                          items: ["Single", "Married", "Divorced"]
+                          items: ["Unmarried", "Married", "Divorced"]
                               .map((label) => DropdownMenuItem(
                                     child: Container(
                                         color: Colors.black,

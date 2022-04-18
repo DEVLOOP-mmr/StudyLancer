@@ -77,9 +77,12 @@ class DocumentBloc {
     };
 
     final response = await GetDio.getDio()
-        .post("$userType/updateDoc", data: jsonEncode(body));
+        .put("$userType/updateDoc", data: jsonEncode(body));
 
     if (response.statusCode == 200) {
+      if (kDebugMode) {
+        return response;
+      }
       EasyLoading.showInfo('Updated Successfully');
     }
     return response;

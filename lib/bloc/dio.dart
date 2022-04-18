@@ -17,8 +17,8 @@ class GetDio {
     Dio dio = Dio();
     var options = BaseOptions();
     options.connectTimeout = 5000;
-    options.receiveTimeout = 5000;
-    options.sendTimeout = 5000;
+    options.receiveTimeout = 7000;
+    options.sendTimeout = 7000;
     options.followRedirects = true;
     options.validateStatus = (status) {
       return true;
@@ -71,7 +71,7 @@ class GetDio {
     if (Firebase.apps.isNotEmpty && kReleaseMode) {
       FirebaseCrashlytics.instance.recordError(exception, StackTrace.current);
     } else {
-      debugPrint(prettyJson((exception)));
+      debugPrint(exception.toString());
     }
   }
 

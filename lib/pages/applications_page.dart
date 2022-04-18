@@ -5,10 +5,8 @@ import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
 import 'package:elite_counsel/chat/type/user.dart' as types;
-import 'package:elite_counsel/classes/classes.dart';
-import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -30,14 +28,14 @@ class ApplicationPage extends StatelessWidget {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               )
             : null,
         automaticallyImplyLeading: true,
-        title: Text(
+        title: const Text(
           "Applications",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
@@ -59,7 +57,7 @@ class ApplicationPage extends StatelessWidget {
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is! StudentHomeState) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -67,9 +65,9 @@ class ApplicationPage extends StatelessWidget {
             final student = studentHomeState.student;
             return Column(
               children: [
-                Divider(color: Colors.white),
+                const Divider(color: Colors.white),
                 Expanded(
-                  child: (student.applications ?? []).length != 0
+                  child: (student.applications ?? []).isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemCount: (student.applications ?? []).length,
@@ -77,7 +75,7 @@ class ApplicationPage extends StatelessWidget {
                             Application offer;
                             offer = student.applications[index];
                             return Padding(
-                              padding: EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.only(bottom: 8),
                               child: Neumorphic(
                                 style: NeumorphicStyle(
                                   color: Variables.backgroundColor,
@@ -88,7 +86,7 @@ class ApplicationPage extends StatelessWidget {
                                   depth: -1,
                                 ),
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -119,7 +117,7 @@ class ApplicationPage extends StatelessWidget {
                                                         child: Text(
                                                           offer.universityName ??
                                                               "",
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -155,7 +153,7 @@ class ApplicationPage extends StatelessWidget {
                                                                   backgroundImage: (offer
                                                                               .agentImage ==
                                                                           null)
-                                                                      ? AssetImage(
+                                                                      ? const AssetImage(
                                                                           'assets/images/abc.png')
                                                                       : NetworkImage(
                                                                           offer
@@ -165,14 +163,14 @@ class ApplicationPage extends StatelessWidget {
                                                                   //         .agentImage),
                                                                   radius: 10,
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   width: 4,
                                                                 ),
                                                                 Expanded(
                                                                   child: Text(
                                                                     offer.agentName ??
                                                                         "",
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .normal,
@@ -194,18 +192,18 @@ class ApplicationPage extends StatelessWidget {
                                                     )
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 8,
                                                 ),
                                                 Text(
                                                   offer.courseName ?? "",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.w200,
                                                       fontSize: 14,
                                                       color: Colors.white),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 4,
                                                 ),
                                                 GestureDetector(
@@ -222,10 +220,10 @@ class ApplicationPage extends StatelessWidget {
                                                                     MainAxisSize
                                                                         .min,
                                                                 children: [
-                                                                  Text(
+                                                                  const Text(
                                                                     "Description",
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       color: Colors
                                                                           .white,
                                                                       fontWeight:
@@ -235,14 +233,14 @@ class ApplicationPage extends StatelessWidget {
                                                                           18,
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     height: 20,
                                                                   ),
                                                                   Text(
                                                                     offer.description ??
                                                                         "",
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       color: Colors
                                                                           .white,
                                                                       fontSize:
@@ -253,7 +251,7 @@ class ApplicationPage extends StatelessWidget {
                                                               ),
                                                             ));
                                                   },
-                                                  child: Text(
+                                                  child: const Text(
                                                     "Additional Details",
                                                     style: TextStyle(
                                                         fontWeight:
@@ -262,10 +260,10 @@ class ApplicationPage extends StatelessWidget {
                                                         color: Colors.white),
                                                   ),
                                                 ),
-                                                Spacer(),
+                                                const Spacer(),
                                                 Row(
                                                   children: [
-                                                    RotatedBox(
+                                                    const RotatedBox(
                                                       quarterTurns: 3,
                                                       child: Icon(
                                                         Ionicons.send,
@@ -273,12 +271,12 @@ class ApplicationPage extends StatelessWidget {
                                                         size: 14,
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       width: 4,
                                                     ),
                                                     Text(
                                                       (offer.city ?? "") + ", ",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontSize: 12,
@@ -286,23 +284,23 @@ class ApplicationPage extends StatelessWidget {
                                                     ),
                                                     Text(
                                                       offer.country ?? "",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontSize: 12,
                                                           color: Colors.white),
                                                     ),
-                                                    Spacer(),
+                                                    const Spacer(),
                                                     Text(
                                                       "\$" + offer.courseFees ??
                                                           "0",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontSize: 12,
                                                           color: Colors.white),
                                                     ),
-                                                    Text(
+                                                    const Text(
                                                       "/yr",
                                                       style: TextStyle(
                                                           fontWeight:
@@ -330,10 +328,10 @@ class ApplicationPage extends StatelessWidget {
                                                 color:
                                                     Variables.backgroundColor,
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                       horizontal: 18,
                                                       vertical: 12),
-                                                  child: Align(
+                                                  child: const Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
                                                       "Course link",
@@ -352,7 +350,7 @@ class ApplicationPage extends StatelessWidget {
                                                     ? await launch(
                                                         offer.courseLink)
                                                     : EasyLoading.showError(
-                                                        "Cannot lauch link");
+                                                        "Cannot launch link");
                                               },
                                               style: NeumorphicStyle(
                                                   border: NeumorphicBorder(
@@ -374,16 +372,16 @@ class ApplicationPage extends StatelessWidget {
                                             child: NeumorphicButton(
                                               padding: EdgeInsets.zero,
                                               child: Container(
-                                                color: Color(0xff294A91),
+                                                color: const Color(0xff294A91),
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                       horizontal: 18,
                                                       vertical: 12),
                                                   decoration: BoxDecoration(
                                                     gradient: Variables
                                                         .buttonGradient,
                                                   ),
-                                                  child: Align(
+                                                  child: const Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
                                                       "Chat with us",
@@ -434,7 +432,7 @@ class ApplicationPage extends StatelessWidget {
                                         ],
                                       ),
                                       if (!offer.accepted)
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 4,
                                         ),
                                       if (!offer.accepted)
@@ -480,7 +478,7 @@ class ApplicationPage extends StatelessWidget {
                                             //           ? await launch(
                                             //               offer.courseLink)
                                             //           : EasyLoading.showError(
-                                            //               "Cannot lauch link");
+                                            //               "Cannot launch link");
                                             //     },
                                             //     style: NeumorphicStyle(
                                             //         border: NeumorphicBorder(
@@ -504,20 +502,20 @@ class ApplicationPage extends StatelessWidget {
                                                 child: NeumorphicButton(
                                                   padding: EdgeInsets.zero,
                                                   child: Container(
-                                                    color: Color(0xff294A91),
+                                                    color: const Color(0xff294A91),
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.symmetric(
+                                                          const EdgeInsets.symmetric(
                                                               horizontal: 18,
                                                               vertical: 12),
                                                       decoration: BoxDecoration(
                                                         gradient: Variables
                                                             .buttonGradient,
                                                       ),
-                                                      child: Align(
+                                                      child: const Align(
                                                         alignment:
                                                             Alignment.center,
-                                                        child: Text(
+                                                        child: const Text(
                                                           "Accept Offer",
                                                           style: TextStyle(
                                                               color:
@@ -590,14 +588,14 @@ class ApplicationPage extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is! StudentHomeState) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return const Center(
+            child: const CircularProgressIndicator(),
           );
         }
         final studentHomeState = state as StudentHomeState;
         final selfData = studentHomeState.student;
         return GestureDetector(
-          child: Icon(Ionicons.filter_circle_outline),
+          child: const Icon(Ionicons.filter_circle_outline),
           onTap: () async {
             var result = await showDialog(
                 context: context,
@@ -614,9 +612,9 @@ class ApplicationPage extends StatelessWidget {
                             contentBackgroundColor: Variables.backgroundColor,
                             children: [
                               AccordionSection(
-                                  header: Text(
+                                  header: const Text(
                                     "Sort by Tuition Fees",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontStyle: FontStyle.normal,
@@ -628,9 +626,9 @@ class ApplicationPage extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(context).pop("desc");
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           "High to Low",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
@@ -640,7 +638,7 @@ class ApplicationPage extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(context).pop("asc");
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           "Low To High",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -651,9 +649,9 @@ class ApplicationPage extends StatelessWidget {
                                     ],
                                   )),
                               AccordionSection(
-                                  header: Text(
+                                  header: const Text(
                                     "Sort by Application Fees",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontStyle: FontStyle.normal,
@@ -665,9 +663,9 @@ class ApplicationPage extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(context).pop("desc");
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           "High To Low",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
@@ -677,9 +675,9 @@ class ApplicationPage extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(context).pop("asc");
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           "Low To High",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),

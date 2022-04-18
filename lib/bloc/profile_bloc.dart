@@ -21,7 +21,7 @@ class ProfileBloc {
       "martialStatus": student.maritalStatus,
       "about": student.about,
     };
-    return await GetDio.getDio().put("student/update/", data: jsonEncode(body));
+    return await GetDio.getDio().put("student/update", data: jsonEncode(body));
     
   }
 
@@ -37,7 +37,7 @@ class ProfileBloc {
       "martialStatus": agent.maritalStatus,
     };
     final response =
-        await GetDio.getDio().put("agent/update/", data: jsonEncode(body));
+        await GetDio.getDio().put("agent/update", data: jsonEncode(body));
     log(response.statusCode.toString());
     return response;
   }

@@ -3,6 +3,7 @@ import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
 import 'package:elite_counsel/chat/type/user.dart' as types;
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
