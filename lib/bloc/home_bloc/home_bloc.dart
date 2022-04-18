@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mockito/mockito.dart';
 
 import '../dio.dart';
 
@@ -44,7 +45,9 @@ class HomeBloc extends Cubit<HomeState> {
 
   void emitNewStudent(Student student) {
     if (state is StudentHomeState) {
-      emit((state as StudentHomeState).copyWith(student: student));
+      var homeState = (state as StudentHomeState);
+      emit(homeState.copyWith(student: student));
+      
     }
   }
 
@@ -52,6 +55,25 @@ class HomeBloc extends Cubit<HomeState> {
     if (state is AgentHomeState) {
       emit((state as AgentHomeState).copyWith(agent: agent));
     }
+  }
+
+  void sortApplications(String order) {
+    assert(order == 'asc' || order == 'desc');
+    if (state is! StudentHomeState) {
+      return;
+    }
+    var applications = (state as StudentHomeState).student.applications;
+    applications.sort((a, b) {
+      return int.parse(a.courseFees).compareTo(
+        int.parse(b.courseFees),
+      );
+    });
+    if (order == 'desc') {
+      applications = applications.reversed.toList();
+    }
+    var state2 = (state as StudentHomeState);
+    state2.student.applications = applications;
+    emit(state2.copyWith(student: state2.student));
   }
 
   void sortStudentsForAgentHome(String order) {
@@ -115,13 +137,13 @@ class HomeBloc extends Cubit<HomeState> {
         }
       }
     } else {
-      await handleInvalidResult(result, context);
+      await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));
     return homeData;
   }
 
-  static Future<void> handleInvalidResult(
+  Future<void> _handleInvalidResult(
     Response<dynamic> result,
     BuildContext context,
   ) async {
@@ -131,6 +153,7 @@ class HomeBloc extends Cubit<HomeState> {
       EasyLoading.showInfo(message);
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
+      reset();
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
         return const UserTypeSelectPage();
@@ -199,7 +222,7 @@ class HomeBloc extends Cubit<HomeState> {
       emit(homeData.copyWith(loadState: LoadState.done));
       return homeData;
     } else {
-      handleInvalidResult(result, context);
+      _handleInvalidResult(result, context);
     }
   }
 

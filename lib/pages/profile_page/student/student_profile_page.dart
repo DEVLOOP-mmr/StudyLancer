@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
 
 import 'package:elite_counsel/variables.dart';
@@ -26,9 +27,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   var formKey = GlobalKey<FormState>();
-  DateTime currentDate = DateTime(2000);
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<Student> _selectDate(Student student, BuildContext context) async {
+    DateTime currentDate = DateTime.now().subtract(Duration(days: 365*18));
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: currentDate,
@@ -37,10 +38,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         lastDate: DateTime(2022));
 
     if (pickedDate != null && pickedDate != currentDate) {
-      setState(() {
-        currentDate = pickedDate;
-      });
+      currentDate = pickedDate;
+      student.dob = (Variables.dateFormat).format(currentDate);
     }
+    return student;
   }
 //end
 
@@ -104,7 +105,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ),
         );
       }
-      final student = (state as StudentHomeState).student;
+      var student = (state as StudentHomeState).student;
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Variables.backgroundColor,
@@ -387,56 +388,28 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       ),
                     ),
                     Container(
+                      width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.only(
-                          left: 30.0, right: 30.0, bottom: 8.0),
+                          left: 30.0, bottom: 8.0, right: 30),
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          onTap: () {
-                            setState(() {
-                              _selectDate(context);
-                            });
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        child: GestureDetector(
+                          onTap: () async {
+                            student = await _selectDate(student, context);
+                            BlocProvider.of<HomeBloc>(context, listen: false)
+                                .emitNewStudent(student);
                           },
-                          initialValue: student.dob == null
-                              ? ""
-                              : Variables.dateFormat
-                                  .format(DateTime.parse(student.dob)),
-                          onChanged: (value) {
-                            student.dob =
-                                Variables.dateFormat.parse(value).toString();
-                          },
-                          validator: (value) {
-                            if (value == "") {
-                              return null;
-                            }
-                            String regexDate =
-                                r'^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$';
-                            RegExp regExp = new RegExp(regexDate);
-                            if (!regExp.hasMatch(value)) {
-                              return "Enter date in dd/mm/yyyy";
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.datetime,
-                          autocorrect: true,
-                          readOnly: true,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontStyle: FontStyle.normal,
-                              fontFamily: 'Roboto',
-                              fontSize: 12),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintText:
-                                DateFormat("dd-MM-yyyy").format(currentDate),
-                            hintStyle: TextStyle(
-                                fontSize: 12,
+                          child: Text(
+                            student.dob ?? '',
+                            key: UniqueKey(),
+                            style: TextStyle(
                                 color: Colors.white,
-                                fontWeight: FontWeight.w400),
+                                fontStyle: FontStyle.normal,
+                                fontFamily: 'Roboto',
+                                fontSize: 12),
                           ),
                         ),
                       ),
@@ -483,8 +456,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               fontSize: 12),
                           dropdownColor: Colors.black,
                           items: [
-                            "s",
-                            "m",
+                            "Married",
+                            "Unmarried",
                           ]
                               .map((label) => DropdownMenuItem(
                                     child: Container(

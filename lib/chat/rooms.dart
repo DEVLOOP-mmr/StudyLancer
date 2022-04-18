@@ -32,14 +32,7 @@ class _RoomsPageState extends State<RoomsPage> {
             },
           ),
         ],
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : null,
+        leading: null,
         title: Text(
           "Chats",
           style: TextStyle(

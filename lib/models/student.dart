@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
-import 'package:flutter/material.dart';
 
-class Student {
+class Student extends Equatable {
   static final requiredDocs = [
     'passport',
     'englishProficiencyTest',
@@ -147,5 +149,32 @@ class Student {
   @override
   String toString() {
     return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $applications, otherDoc: $documents)';
+  }
+
+  @override
+  List<Object> get props {
+    return [
+      name,
+      email,
+      photo,
+      dob,
+      maritalStatus,
+      id,
+      phone,
+      countryLookingFor,
+      city,
+      course,
+      year,
+      applyingFor,
+      about,
+      country,
+      optionStatus,
+      timeline,
+      verified,
+      marksheet,
+      applications,
+      documents,
+      requiredDocuments,
+    ];
   }
 }

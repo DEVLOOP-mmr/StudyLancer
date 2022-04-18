@@ -117,13 +117,14 @@ class ApplicationPage extends StatelessWidget {
                                                         child: Text(
                                                           offer.universityName ??
                                                               "",
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 23,
-                                                              color:
-                                                                  Colors.white),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 23,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
                                                       ),
                                                     ),
@@ -328,7 +329,8 @@ class ApplicationPage extends StatelessWidget {
                                                 color:
                                                     Variables.backgroundColor,
                                                 child: Container(
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 18,
                                                       vertical: 12),
                                                   child: const Align(
@@ -374,7 +376,8 @@ class ApplicationPage extends StatelessWidget {
                                               child: Container(
                                                 color: const Color(0xff294A91),
                                                 child: Container(
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 18,
                                                       vertical: 12),
                                                   decoration: BoxDecoration(
@@ -502,12 +505,13 @@ class ApplicationPage extends StatelessWidget {
                                                 child: NeumorphicButton(
                                                   padding: EdgeInsets.zero,
                                                   child: Container(
-                                                    color: const Color(0xff294A91),
+                                                    color:
+                                                        const Color(0xff294A91),
                                                     child: Container(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                              horizontal: 18,
-                                                              vertical: 12),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 18,
+                                                          vertical: 12),
                                                       decoration: BoxDecoration(
                                                         gradient: Variables
                                                             .buttonGradient,
@@ -691,20 +695,8 @@ class ApplicationPage extends StatelessWidget {
                       ),
                     ));
             if (result != null) {
-              // if (result == "asc") {
-              //   setState(() {
-              //     selfData.applications.sort((a, b) =>
-              //         (int.parse(a.courseFees))
-              //             .compareTo((int.parse(b.courseFees))));
-              //   });
-              // } else if (result == "desc") {
-              //   setState(() {
-              //     selfData.applications.sort((b, a) =>
-              //         (int.parse(a.courseFees))
-              //             .compareTo((int.parse(b.courseFees))));
-              //   });
-              // }
-              /// TODO: sort applications for student home bloc
+              BlocProvider.of<HomeBloc>(context).sortApplications(result);
+            
             }
           },
         );

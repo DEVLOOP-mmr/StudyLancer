@@ -15,14 +15,7 @@ class AgentHomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Navigator.of(context).canPop()
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          : null,
+      leading: null,
       backgroundColor: Variables.backgroundColor,
       centerTitle: false,
       actions: [

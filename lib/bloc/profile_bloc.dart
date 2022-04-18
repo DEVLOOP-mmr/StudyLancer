@@ -19,10 +19,10 @@ class ProfileBloc {
       "photo": student.photo,
       "DOB": student.dob,
       "martialStatus": student.maritalStatus,
-      "about": student.about,
+      "bio": student.about,
     };
+    print(body);
     return await GetDio.getDio().put("student/update", data: jsonEncode(body));
-    
   }
 
   static Future<Response> setAgentProfile(Agent agent) async {
@@ -42,4 +42,3 @@ class ProfileBloc {
     return response;
   }
 }
-

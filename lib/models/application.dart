@@ -49,7 +49,7 @@ class Application {
     offer.courseFees = offerData["courseFees"].toString();
     offer.courseName = offerData["courseName"];
     offer.courseLink = offerData["courseLink"];
-    offer.agentID = offerData["agent"];
+    offer.agentID = offerData["agent"]['agentID'];
     offer.studentID = offerData['student'];
     offer.color = offerData["color"];
     offer.status = offerData['status'];
