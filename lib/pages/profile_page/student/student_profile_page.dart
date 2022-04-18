@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
 
@@ -28,21 +29,6 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
 
   var formKey = GlobalKey<FormState>();
 
-  Future<Student> _selectDate(Student student, BuildContext context) async {
-    DateTime currentDate = DateTime.now().subtract(Duration(days: 365*18));
-    final DateTime pickedDate = await showDatePicker(
-        context: context,
-        initialDate: currentDate,
-        initialDatePickerMode: DatePickerMode.year,
-        firstDate: DateTime(1947),
-        lastDate: DateTime(2022));
-
-    if (pickedDate != null && pickedDate != currentDate) {
-      currentDate = pickedDate;
-      student.dob = (Variables.dateFormat).format(currentDate);
-    }
-    return student;
-  }
 //end
 
   @override
@@ -387,33 +373,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             fontSize: 12),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.only(
-                          left: 30.0, bottom: 8.0, right: 30),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        child: GestureDetector(
-                          onTap: () async {
-                            student = await _selectDate(student, context);
-                            BlocProvider.of<HomeBloc>(context, listen: false)
-                                .emitNewStudent(student);
-                          },
-                          child: Text(
-                            student.dob ?? '',
-                            key: UniqueKey(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontStyle: FontStyle.normal,
-                                fontFamily: 'Roboto',
-                                fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ),
+                    DateSelector(),
                     Padding(
                       padding: const EdgeInsets.only(left: 35.0, bottom: 8),
                       child: Text(
@@ -696,5 +656,63 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         endDrawer: MyDrawer(),
       );
     });
+  }
+}
+
+class DateSelector extends StatelessWidget {
+  const DateSelector({
+    Key key,
+  }) : super(key: key);
+  Future<Student> _selectDate(Student user, BuildContext context) async {
+    DateTime currentDate = DateTime.now().subtract(Duration(days: 365 * 18));
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        initialDatePickerMode: DatePickerMode.year,
+        firstDate: DateTime(1947),
+        lastDate: DateTime(2022));
+
+    if (pickedDate != null && pickedDate != currentDate) {
+      currentDate = pickedDate;
+      user.dob = (Variables.dateFormat).format(currentDate);
+    }
+    return user;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        var student = (state as StudentHomeState).student;
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(left: 30.0, bottom: 8.0, right: 30),
+          decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: GestureDetector(
+              onTap: () async {
+               
+
+                var changedUser = await _selectDate(student, context);
+
+                BlocProvider.of<HomeBloc>(context, listen: false)
+                    .emitNewStudent(changedUser);
+              },
+              child: Text(
+                student.dob ?? '',
+                key: UniqueKey(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontStyle: FontStyle.normal,
+                    fontFamily: 'Roboto',
+                    fontSize: 12),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

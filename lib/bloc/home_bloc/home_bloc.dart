@@ -47,13 +47,17 @@ class HomeBloc extends Cubit<HomeState> {
     if (state is StudentHomeState) {
       var homeState = (state as StudentHomeState);
       emit(homeState.copyWith(student: student));
-      
+      emit(homeState.copyWith(loadState: LoadState.loading));
+      emit(homeState.copyWith(loadState: LoadState.done));
     }
   }
 
   void emitNewAgent(Agent agent) {
     if (state is AgentHomeState) {
-      emit((state as AgentHomeState).copyWith(agent: agent));
+      var homeState = (state as AgentHomeState);
+      emit(homeState.copyWith(agent: agent));
+      emit(homeState.copyWith(loadState: LoadState.loading));
+      emit(homeState.copyWith(loadState: LoadState.done));
     }
   }
 
