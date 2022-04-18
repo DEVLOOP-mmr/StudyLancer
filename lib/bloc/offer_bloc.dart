@@ -1,34 +1,41 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
 
 class OfferBloc {
-  static Future<void> addOffer(Offer offer) async {
-    offer.agentID = FirebaseAuth.instance.currentUser.uid;
+  static Future<Response> addOffer(
+      Application application, String agentID) async {
+    application.agentID = agentID;
     Map body = {
-      "studentID": offer.studentID,
-      "agentID": offer.agentID,
-      "universityName": offer.universityName,
-      "location": {"city": offer.city, "country": offer.country},
-      "courseFees": int.parse(offer.courseFees),
-      "applicationFees": int.parse(offer.applicationFees),
-      "courseName": offer.courseName,
-      "courseLink": offer.courseLink,
-      "description": offer.description,
+      "studentID": application.studentID,
+      "agentID": application.agentID,
+      "universityName": application.universityName,
+      "location": {"city": application.city, "country": application.country},
+      "courseFees": int.parse(application.courseFees),
+      "applicationFees": int.parse(application.applicationFees),
+      "courseName": application.courseName,
+      "courseLink": application.courseLink,
+      "description": application.description,
     };
-    await GetDio.getDio().post("application/create", data: jsonEncode(body));
-    return;
+    var request = await GetDio.getDio()
+        .post("application/create", data: jsonEncode(body));
+    if (request.statusCode == 200) {
+      EasyLoading.showError("Offer sent");
+    }
+    return request;
   }
 
-  static Future<void> acceptOffer(Offer offer) async {
-    offer.agentID = FirebaseAuth.instance.currentUser.uid;
+  static Future<void> acceptOffer(
+      String applicationID, String agentID, String studentID) async {
     Map body = {
-      "studentID": FirebaseAuth.instance.currentUser.uid,
-      "agentID": offer.agentID,
-      "applcationID": offer.offerId,
+      "studentID": studentID,
+      "agentID": agentID,
+      "applicationID": applicationID,
     };
     await GetDio.getDio()
         .post("student/application/add", data: jsonEncode(body));

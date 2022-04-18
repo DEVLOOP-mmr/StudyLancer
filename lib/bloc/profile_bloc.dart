@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:dio/dio.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:elite_counsel/classes/classes.dart';
@@ -7,7 +10,7 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'dio.dart';
 
 class ProfileBloc {
-  static Future<void> setStudentProfile(Student student) async {
+  static Future<Response> updateStudentProfile(Student student) async {
     Map body = {
       "studentID": student.id,
       "location": {"city": student.city, "country": student.country},
@@ -16,18 +19,15 @@ class ProfileBloc {
       "photo": student.photo,
       "DOB": student.dob,
       "martialStatus": student.maritalStatus,
-      "phone": student.phone,
       "about": student.about,
     };
-    await GetDio.getDio().put(
-        "student/update/${FirebaseAuth.instance.currentUser.uid}",
-        data: jsonEncode(body));
-    return;
+    return await GetDio.getDio().put("student/update/", data: jsonEncode(body));
+    
   }
 
-  static Future<void> setAgentProfile(Agent agent) async {
+  static Future<Response> setAgentProfile(Agent agent) async {
     Map body = {
-      "studentID": agent.id,
+      "agentID": agent.id,
       "location": {"city": agent.city, "country": agent.country},
       "name": agent.name,
       "email": agent.email,
@@ -35,11 +35,11 @@ class ProfileBloc {
       "bio": agent.bio,
       "licenseNo": agent.licenseNo,
       "martialStatus": agent.maritalStatus,
-      "phone": agent.phone,
     };
-    await GetDio.getDio().put(
-        "agent/update/${FirebaseAuth.instance.currentUser.uid}",
-        data: jsonEncode(body));
-    return;
+    final response =
+        await GetDio.getDio().put("agent/update/", data: jsonEncode(body));
+    log(response.statusCode.toString());
+    return response;
   }
 }
+

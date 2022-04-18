@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class Variables {
-  static final Box sharedPreferences = Hive.box('myBox');
+  static Box get sharedPreferences => Hive.box('myBox');
   static final String userType = "userType";
   static final String userTypeStudent = "student";
   static final String userTypeAgent = "agent";

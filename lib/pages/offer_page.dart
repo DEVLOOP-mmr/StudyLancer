@@ -4,8 +4,10 @@ import 'package:elite_counsel/chat/chat.dart';
 import 'package:elite_counsel/chat/type/user.dart' as types;
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/agent_home.dart';
+import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -20,7 +22,7 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
-  Offer offer = Offer();
+  Application offer = Application();
   var formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -35,11 +37,11 @@ class _OfferPageState extends State<OfferPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        )
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
             : null,
         backgroundColor: Variables.backgroundColor,
         title: Text(
@@ -157,32 +159,32 @@ class _OfferPageState extends State<OfferPage> {
                                   showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        backgroundColor:
-                                        Variables.backgroundColor,
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "Description",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18,
-                                              ),
+                                            backgroundColor:
+                                                Variables.backgroundColor,
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  "Description",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  offer.description ?? "",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(
-                                              offer.description ?? "",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ));
+                                          ));
                                 },
                                 child: Text(
                                   "Additional Details",
@@ -544,18 +546,18 @@ class _OfferPageState extends State<OfferPage> {
                           dropdownColor: Colors.black,
                           items: Variables.countries
                               .map((label) => DropdownMenuItem(
-                            child: Container(
-                                color: Colors.black,
-                                child: Text(
-                                  label,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12),
-                                )),
-                            value: label,
-                          ))
+                                    child: Container(
+                                        color: Colors.black,
+                                        child: Text(
+                                          label,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontStyle: FontStyle.normal,
+                                              fontFamily: 'Roboto',
+                                              fontSize: 12),
+                                        )),
+                                    value: label,
+                                  ))
                               .toList(),
                         ),
                       ),
@@ -717,7 +719,10 @@ class _OfferPageState extends State<OfferPage> {
                   ),
                   onPressed: () async {
                     if (formKey.currentState.validate()) {
-                      OfferBloc.addOffer(offer);
+                      await OfferBloc.addOffer(
+                        offer,
+                        FirebaseAuth.instance.currentUser.uid,
+                      );
                       var otherUser = types.User(
                           id: offer.studentID,
                           avatarUrl: widget.student.photo,
@@ -725,13 +730,13 @@ class _OfferPageState extends State<OfferPage> {
                       await FirebaseChatCore.instance
                           .createUserInFirestore(otherUser);
                       final room =
-                      await FirebaseChatCore.instance.createRoom(otherUser);
-                      EasyLoading.showError("offer sent");
-                      await Navigator.of(context).push(
+                          await FirebaseChatCore.instance.createRoom(otherUser);
+
+                      await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => AgentHomePage(
-                            // roomId: room.id,
-                          ),
+                          builder: (context) => HomePage(
+                              // roomId: room.id,
+                              ),
                         ),
                       );
                     } else {

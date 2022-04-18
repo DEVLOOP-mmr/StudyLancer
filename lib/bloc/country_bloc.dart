@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'dio.dart';
 
@@ -16,21 +20,40 @@ class CountryBloc {
 
   static Future<List<Country>> getCountries() async {
     List<Country> countries = [];
-    var result = await GetDio.getDio().get("countries");
-    if (result.statusCode < 300) {
-      var data = result.data;
-      List countryList = data["data"];
-      countryList.forEach((countryData) {
-        countries.add(parseCountryData(countryData));
-      });
+    try {
+      var result = await GetDio.getDio().get("countries/");
+      if (result.statusCode < 300) {
+        var data = result.data;
+        List countryList = data["data"];
+        countryList.forEach((countryData) {
+          countries.add(parseCountryData(countryData));
+        });
+      } else {
+        if (kReleaseMode) {
+          EasyLoading.showToast('Something Went Wrong');
+        }
+        countries = [
+          Country(id: 'CA', countryName: 'Canada'),
+          Country(id: 'AU', countryName: 'Australia')
+        ];
+        throw Exception('countries/:' + result.statusCode.toString());
+      }
+    } on DioError catch (e) {
+      countries = [
+        Country(id: 'CA', countryName: 'Canada'),
+        Country(id: 'AU', countryName: 'Australia')
+      ];
+      if (kDebugMode) {
+        rethrow;
+      }
     }
     return countries;
   }
 
-  static Future<Country> getSelfCountry() async {
+  static Future<Country> getSelfCountry([String countryID]) async {
     Country country = Country();
     Map body = {
-      "countryID": Variables.sharedPreferences
+      "countryID": countryID ??= Variables.sharedPreferences
           .get(Variables.countryCode, defaultValue: "notSure"),
     };
     var result =

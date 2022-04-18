@@ -1,8 +1,15 @@
-import 'package:elite_counsel/models/student.dart';
+
+
+import 'package:elite_counsel/models/review.dart';
 
 class Country {
   String id, countryName;
   List<CountryImage> images;
+  Country({
+    this.countryName,
+    this.images,
+    this.id,
+  });
 }
 
 class CountryImage {
@@ -11,47 +18,12 @@ class CountryImage {
   CountryImage(this.description, this.image);
 }
 
-
-class Agent {
-  String name,
-      id,
-      phone,
-      email,
-      photo,
-      licenseNo,
-      agentSince,
-      bio,
-      maritalStatus,
-      applicationsHandled,
-      city,
-      country,
-      reviewsAvg,
-      countryLookingFor,
-      reviewCount;
-  bool verified;
-  List<Document> otherDoc;
-}
-
-class Document {
-  String name, link, type, id, reqDocKey;
-}
-
-class Review {
-  String id,
-      agentId,
-      reviewerId,
-      starsRated,
-      createdAt,
-      reviewerName,
-      reviewContent;
-}
-
 class AgentReviews {
   List<Review> reviews;
   bool studentHasReviewed;
 }
 
-class Offer {
+class Application {
   String studentID,
       agentID,
       agentName,
@@ -66,15 +38,29 @@ class Offer {
       courseLink,
       color,
       applicationFees;
+  Map<String, String> location; //city, country
+  int status;
   bool accepted;
-}
-
-class StudentHome {
-  Student self;
-  List<Agent> agents;
-}
-
-class AgentHome {
-  Agent self;
-  List<Student> students;
+  Application({
+    this.accepted,
+  });
+  factory Application.parseApplication(offerData) {
+    Application offer = Application();
+    
+    offer.country = offerData["location"]["country"];
+    offer.offerId = offerData["_id"];
+    offer.city = offerData["location"]["city"];
+    offer.description = offerData["description"];
+    offer.accepted = offerData["accepted"];
+    offer.universityName = offerData["universityName"];
+    offer.applicationFees = offerData["applicationFees"].toString();
+    offer.courseFees = offerData["courseFees"].toString();
+    offer.courseName = offerData["courseName"];
+    offer.courseLink = offerData["courseLink"];
+    offer.agentID = offerData["agent"];
+ 
+    offer.color = offerData["color"];
+    offer.status = offerData['status'];
+    return offer;
+  }
 }

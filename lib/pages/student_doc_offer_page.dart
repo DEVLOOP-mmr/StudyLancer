@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -13,16 +14,11 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class StudentDocOfferPage extends StatefulWidget {
+class StudentDocOfferPage extends StatelessWidget {
   final Student student;
   const StudentDocOfferPage({Key key, @required this.student})
       : super(key: key);
 
-  @override
-  _StudentDocOfferPageState createState() => _StudentDocOfferPageState();
-}
-
-class _StudentDocOfferPageState extends State<StudentDocOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +51,9 @@ class _StudentDocOfferPageState extends State<StudentDocOfferPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: (widget.student.otherDoc ?? []).length,
+                itemCount: (student.documents ?? []).length,
                 itemBuilder: (context, index) {
-                  Document doc = widget.student.otherDoc[index];
+                  Document doc = student.documents[index];
                   if (doc.link == null) {
                     return Container();
                   }
@@ -181,7 +177,7 @@ class _StudentDocOfferPageState extends State<StudentDocOfferPage> {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return OfferPage(student: widget.student);
+                        return OfferPage(student: student);
                       }));
                     },
                     style: NeumorphicStyle(

@@ -25,6 +25,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
 
@@ -44,7 +46,7 @@ android {
         //     keyPassword "Edumate@1"
         // }
         release {
-            storeFile file("D:/nitesh/edumatekeyfile/edumateKeyfile")
+            storeFile file("edumateKeyFile")
             storePassword "Edumate@1"
             keyAlias "key0"
             keyPassword "Edumate@1"
@@ -80,5 +82,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation "androidx.browser:browser:1.2.0"
     implementation 'com.zoho.salesiq:mobilisten:4.2.1'
+    implementation platform('com.google.firebase:firebase-bom:29.3.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
 }

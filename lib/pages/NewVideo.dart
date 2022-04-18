@@ -14,8 +14,6 @@ class Videos extends StatefulWidget {
 class _VideosState extends State<Videos> {
   YoutubePlayerController _controller;
 
-
-
   List<String> video = [
     'nPt8bK2gbaU',
     'K18cpp_-gP8',
@@ -31,7 +29,6 @@ class _VideosState extends State<Videos> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: video[0],
-
       params: const YoutubePlayerParams(
         showControls: false,
         showFullscreenButton: true,
@@ -45,12 +42,13 @@ class _VideosState extends State<Videos> {
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
-      log('Entered Fullscreen');
+      debugPrint('Entered Fullscreen');
     };
     _controller.onExitFullscreen = () {
-      log('Exited Fullscreen');
+      debugPrint('Exited Fullscreen');
     };
   }
+
   @override
   Widget build(BuildContext context) {
     const player = YoutubePlayerIFrame();
@@ -68,8 +66,7 @@ class _VideosState extends State<Videos> {
               controller: _controller,
               builder: (context, value) {
                 return AnimatedCrossFade(
-                  firstChild:const SizedBox.shrink(),
-
+                  firstChild: const SizedBox.shrink(),
                   secondChild: Material(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
@@ -87,13 +84,11 @@ class _VideosState extends State<Videos> {
                         child: CircularProgressIndicator(),
                       ),
                     ),
-
                   ),
                   crossFadeState: value.isReady
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
                   duration: const Duration(milliseconds: 300),
-
                 );
               },
             ),

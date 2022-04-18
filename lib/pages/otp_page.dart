@@ -1,6 +1,5 @@
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -17,7 +16,7 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   //final _formKey = GlobalKey<FormState>();
-  var controller = TextEditingController();
+  String code = '';
 
   @override
   void dispose() {
@@ -37,7 +36,7 @@ class _OtpPageState extends State<OtpPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -47,7 +46,7 @@ class _OtpPageState extends State<OtpPage> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Color(0xff1E2224),
             image: DecorationImage(
                 image: AssetImage(
@@ -59,8 +58,8 @@ class _OtpPageState extends State<OtpPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 40.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 40.0),
                 child: Text(
                   "Enter OTP",
                   style: TextStyle(
@@ -69,7 +68,7 @@ class _OtpPageState extends State<OtpPage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Padding(
@@ -81,39 +80,44 @@ class _OtpPageState extends State<OtpPage> {
                         color: Colors.white,
                       ),
                       color: Colors.transparent,
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(50))),
                   child: PinFieldAutoFill(
+                    keyboardType: TextInputType.phone,
+                    codeLength: 6,
+                    key: const ValueKey('otp-input'),
                     decoration: UnderlineDecoration(
-                      textStyle: TextStyle(fontSize: 20, color: Colors.white),
+                      textStyle:
+                          const TextStyle(fontSize: 20, color: Colors.white),
                       colorBuilder:
                           FixedColorBuilder(Colors.black.withOpacity(0.3)),
                     ),
-                    currentCode: controller.text,
+                    currentCode: code,
                     onCodeSubmitted: (code) {},
                     onCodeChanged: (code) {
-                      controller.text = code;
-                      if (code.length == 6) {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        checkCode(code);
+                      if (mounted) {
+                        setState(() {
+                          this.code = code;
+                        });
                       }
                     },
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: NeumorphicButton(
                     padding: EdgeInsets.zero,
                     child: Container(
-                      color: Color(0xff294A91),
+                      color: const Color(0xff294A91),
                       child: Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           gradient: Variables.buttonGradient,
                         ),
-                        child: Align(
+                        child: const Align(
                           alignment: Alignment.center,
                           child: Text(
                             "Verify",
@@ -125,17 +129,17 @@ class _OtpPageState extends State<OtpPage> {
                         ),
                       ),
                     ),
-                    onPressed: controller.text.length != 6
+                    onPressed: code.length != 6
                         ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Enter OTP")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(code + ' is not 6 digits')));
                           }
                         : () {
                             EasyLoading.show(
                                 status: 'loading...',
                                 maskType: EasyLoadingMaskType.clear,
                                 dismissOnTap: false);
-                            checkCode(controller.text);
+                            checkCode(code);
                           },
                     style: NeumorphicStyle(
                         border: NeumorphicBorder(
@@ -149,7 +153,7 @@ class _OtpPageState extends State<OtpPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -158,17 +162,19 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   void checkCode(String code) async {
+    assert(code.isNotEmpty);
+    assert(code.length == 6);
     try {
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId,
-        smsCode: code ?? "",
+        smsCode: code,
       );
-      final user = await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       Future.delayed(Duration.zero, () async {
         await EasyLoading.dismiss();
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-          return CountrySelectPage();
+          return const CountrySelectPage();
         }), (route) => false);
       });
     } catch (e) {
@@ -177,7 +183,6 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   handleError(FirebaseAuthException error) {
-    print(error);
     switch (error.code) {
       case 'invalid-verification-code':
         EasyLoading.dismiss();

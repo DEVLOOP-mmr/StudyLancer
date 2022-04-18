@@ -1,4 +1,5 @@
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:flutter/material.dart';
 
 import 'agent_detail_page.dart';

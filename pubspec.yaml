@@ -8,19 +8,23 @@ environment:
 
 dependencies:
   accordion: ^2.1.2
+  auto_size_text: ^3.0.0
   cached_network_image: ^3.2.0
   cloud_firestore: ^2.2.0
   date_field: ^2.0.1
   device_preview: ^1.0.0
-  dio: ^4.0.0
+  dio: ^4.0.6
   dot_navigation_bar: ^1.0.1+3
+  equatable: ^2.0.3
   file_picker: ^4.1.1
   firebase_auth: ^3.1.1
   firebase_core: ^1.2.0
+  firebase_crashlytics: ^1.0.0
   firebase_storage: ^10.0.3
   floating_bottom_navigation_bar: ^1.5.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
   flutter_easyloading: ^3.0.0
   flutter_feather_icons: ^2.0.0+1
   flutter_html: null
@@ -29,7 +33,7 @@ dependencies:
     git:
       url: https://github.com/tsvillain/Flutter-Neumorphic.git
   flutter_svg: ^0.23.0+1
-  hive: ^2.0.4
+  hive: ^2.1.0
   hive_flutter: ^1.0.0
   image_picker: ^0.8.4+4
   in_app_review: ^2.0.2
@@ -46,11 +50,13 @@ dependencies:
   percent_indicator: ^3.0.1
   permission_handler: ^8.1.1
   photo_view: ^0.12.0
+  pretty_dio_logger: ^1.2.0-beta-1
+  random_string: ^2.3.1
   rating_dialog: ^2.0.3
   ripple_navigation: ^1.0.5
   salesiq_mobilisten: ^1.0.1
   share: ^2.0.4
-  sms_autofill: ^2.1.2
+  sms_autofill: ^2.2.0
   store_redirect: ^2.0.0
   timelines: ^0.1.0
   url_launcher: ^6.0.3

@@ -1,9 +1,10 @@
 import 'package:elite_counsel/pages/phone_login.dart';
 import 'package:elite_counsel/pages/terms_page.dart';
+import 'package:elite_counsel/pages/usertype_select/student_select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-import '../variables.dart';
+import '../../variables.dart';
 
 class UserTypeSelectPage extends StatelessWidget {
   const UserTypeSelectPage({Key key}) : super(key: key);
@@ -13,9 +14,9 @@ class UserTypeSelectPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(
+                image:  AssetImage(
                   "assets/user_select_back.png",
                 ),
                 fit: BoxFit.cover)),
@@ -23,9 +24,9 @@ class UserTypeSelectPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
+              const Spacer(),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0),
                 child: Text(
                   "Study Lancer",
                   style: TextStyle(
@@ -34,8 +35,8 @@ class UserTypeSelectPage extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 16),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, bottom: 16),
                 child: Text(
                   "It’s never been so easy!",
                   style: TextStyle(
@@ -58,43 +59,16 @@ class UserTypeSelectPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        const StudentSelectButton(),
                         InkWell(
                           onTap: () {
                             Variables.sharedPreferences.put(
-                                Variables.userType, Variables.userTypeStudent);
+                              Variables.userType,
+                              Variables.userTypeAgent,
+                            );
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return PhonePage();
-                            }));
-                          },
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              Image.asset(
-                                "assets/student.png",
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width / 2.2,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(45),
-                                child: Text(
-                                  "Student",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Variables.sharedPreferences.put(
-                                Variables.userType, Variables.userTypeAgent);
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return PhonePage();
+                              return const PhonePage();
                             }));
                           },
                           child: Stack(
@@ -105,7 +79,7 @@ class UserTypeSelectPage extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width / 2.2,
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.all(45),
                                 child: Text(
                                   "Agent",
@@ -143,7 +117,7 @@ class UserTypeSelectPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
             ],

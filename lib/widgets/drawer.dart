@@ -1,13 +1,15 @@
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/pages/about_us_page.dart';
 import 'package:elite_counsel/pages/accomodation.dart';
 import 'package:elite_counsel/pages/faq_page.dart';
-import 'package:elite_counsel/pages/home_page.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/progress_page.dart';
 import 'package:elite_counsel/pages/scholarship_page.dart';
-import 'package:elite_counsel/pages/usertype_select_page.dart';
+import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:share/share.dart';
@@ -15,7 +17,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:salesiq_mobilisten/salesiq_mobilisten.dart';
 
 import 'package:store_redirect/store_redirect.dart';
-
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -25,21 +26,19 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   //new
 
-
   @override
   void initState() {
     super.initState();
 
-    ZohoSalesIQ.init( "Z1vo2KMwVNQqUwCGsAgqhTyNDXamuReL_in", "79YYpdjt9qzHu5jgOkOZDTDS2dPa8FG1TcOr2O6gNvQ2HEfKHJc2jYA5aDZqV%2F4u4Omh2YM%2BoWVVkdE0ZV9WNoHNRclocYWLBtYPa%2FT5dO252yG183hcTFS9kTIft%2BcRBw0AGGZRO%2FOV5t6YUZC%2FGZ75C4eZBqoN");
-
+    ZohoSalesIQ.init("Z1vo2KMwVNQqUwCGsAgqhTyNDXamuReL_in",
+        "79YYpdjt9qzHu5jgOkOZDTDS2dPa8FG1TcOr2O6gNvQ2HEfKHJc2jYA5aDZqV%2F4u4Omh2YM%2BoWVVkdE0ZV9WNoHNRclocYWLBtYPa%2FT5dO252yG183hcTFS9kTIft%2BcRBw0AGGZRO%2FOV5t6YUZC%2FGZ75C4eZBqoN");
   }
+
   void chatButton() async {
     ZohoSalesIQ.openNewChat();
   }
 
   //new
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +69,12 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () {
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (_) {
-                    return HomePage();
+                    return const HomePage();
                   }), (route) => false);
                 },
-                title: Text(
+                title: const Text(
                   "Home",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -97,9 +96,9 @@ class _MyDrawerState extends State<MyDrawer> {
                       return ProgressPage();
                     }));
                   },
-                  title: Text(
+                  title: const Text(
                     "Progress",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -119,7 +118,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     return ScholarshipPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "Scholarship",
                   style: TextStyle(
                       color: Colors.white,
@@ -141,9 +140,9 @@ class _MyDrawerState extends State<MyDrawer> {
                     return Accommodation();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "Accommodation",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -163,9 +162,9 @@ class _MyDrawerState extends State<MyDrawer> {
                       ? launch("https://studylancer.co")
                       : print("Cannot open website");
                 },
-                title: Text(
+                title: const Text(
                   "Website",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -185,9 +184,9 @@ class _MyDrawerState extends State<MyDrawer> {
                     return AboutUsPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "About Us",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -207,7 +206,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     return FaqPage();
                   }));
                 },
-                title: Text(
+                title: const Text(
                   "FAQ",
                   style: TextStyle(
                       color: Colors.white,
@@ -228,9 +227,9 @@ class _MyDrawerState extends State<MyDrawer> {
                   FeatherIcons.share2,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Share with Friends",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -257,9 +256,9 @@ class _MyDrawerState extends State<MyDrawer> {
                         androidAppId: 'com.elite_counsel',
                         iOSAppId: "com.elitecounsel");
                   },
-                  child: Text(
+                  child: const Text(
                     "Rate Us",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -270,7 +269,6 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
             ),
             InkWell(
-
               onTap: chatButton,
               // onTap: () async {
               //   const url = 'mailto:helpdesk@studylancer.com';
@@ -285,9 +283,9 @@ class _MyDrawerState extends State<MyDrawer> {
                   FeatherIcons.messageCircle,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Helpdesk",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -301,20 +299,22 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   Variables.sharedPreferences.clear();
-                  Future.delayed(Duration.zero, () {
-                    Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (context) {
-                      return UserTypeSelectPage();
-                    }), (route) => false);
-                  });
+                  BlocProvider.of<HomeBloc>(context, listen: false).reset();
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return const UserTypeSelectPage();
+                    }),
+                  );
                 },
                 trailing: Icon(
                   FeatherIcons.logOut,
                   color: Variables.accentColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Log Out",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',

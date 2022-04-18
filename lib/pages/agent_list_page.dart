@@ -1,4 +1,5 @@
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/agent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:cached_network_image/cached_network_image.dart';
