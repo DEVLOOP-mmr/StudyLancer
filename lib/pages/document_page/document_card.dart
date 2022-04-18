@@ -16,25 +16,27 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../variables.dart';
+import '../../variables.dart';
 
-class AgentDocumentCard extends StatefulWidget {
+class DocumentCard extends StatefulWidget {
   final Document doc;
   final String icon;
   final String requiredDocKey;
   final int index;
-  const AgentDocumentCard({
+  final DismissDirectionCallback onDismiss;
+  const DocumentCard({
     @required this.doc,
     @required this.icon,
+    @required this.onDismiss,
     this.requiredDocKey,
     this.index,
   });
 
   @override
-  State<AgentDocumentCard> createState() => _AgentDocumentCardState();
+  State<DocumentCard> createState() => _DocumentCardState();
 }
 
-class _AgentDocumentCardState extends State<AgentDocumentCard> {
+class _DocumentCardState extends State<DocumentCard> {
   bool editEnabled = false;
   String newDocName = '';
   @override
@@ -48,27 +50,7 @@ class _AgentDocumentCardState extends State<AgentDocumentCard> {
         final agent = (state as AgentHomeState).agent;
         return Dismissible(
           key: ValueKey(widget.doc.id),
-          onDismissed: (direction) {
-            DocumentBloc(userType: 'agent').deleteDocument(
-              widget.doc.name,
-              widget.doc.id,
-              FirebaseAuth.instance.currentUser.uid,
-            );
-            if (widget.requiredDocKey != null) {
-              agent.requiredDocuments[widget.requiredDocKey] = null;
-              bloc.emitNewAgent(agent);
-            } else if (widget.index != null) {
-              agent.documents.removeAt(widget.index);
-              bloc.emitNewAgent(agent);
-            } else {
-              return;
-            }
-            bloc.getAgentHome(context: context);
-
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: const Text("Document Removed"),
-            ));
-          },
+          onDismissed: widget.onDismiss,
           child: Container(
             padding: const EdgeInsets.only(bottom: 8),
             child: Container(

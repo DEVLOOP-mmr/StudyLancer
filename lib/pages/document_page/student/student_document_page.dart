@@ -1,4 +1,4 @@
-import 'package:elite_counsel/pages/document_page/student/student_document_card.dart';
+import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,10 +65,33 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                             height: 10,
                           ),
                           student.requiredDocuments[key] != null
-                              ? StudentDocumentCard(
+                              ? DocumentCard(
                                   doc: student.requiredDocuments[key],
                                   icon: "assets/imageicon.png",
                                   requiredDocKey: key,
+                                  onDismiss: (direction) {
+                                    var doc = student.requiredDocuments[key];
+                                    final bloc =
+                                        BlocProvider.of<HomeBloc>(context);
+
+                                    DocumentBloc(
+                                      userType: 'student',
+                                    ).deleteDocument(
+                                      doc.name,
+                                      doc.id,
+                                      student.id,
+                                    );
+
+                                    student.requiredDocuments[key] = null;
+                                    bloc.emitNewStudent(student);
+
+                                    bloc.getAgentHome(context: context);
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: const Text("Document Removed"),
+                                    ));
+                                  },
                                 )
                               : UploadButton(key)
                         ],
@@ -199,10 +222,39 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                           }
 
                                           return Center(
-                                            child: StudentDocumentCard(
+                                            child: DocumentCard(
                                               doc: doc,
                                               icon: icon,
                                               index: index,
+                                              onDismiss: (direction) {
+                                                var doc =
+                                                    student.documents[index];
+                                                final bloc =
+                                                    BlocProvider.of<HomeBloc>(
+                                                        context);
+
+                                                DocumentBloc(
+                                                  userType: 'student',
+                                                ).deleteDocument(
+                                                  doc.name,
+                                                  doc.id,
+                                                  student.id,
+                                                );
+
+                                                student.documents
+                                                    .removeAt(index);
+                                                bloc.emitNewStudent(student);
+
+                                                bloc.getAgentHome(
+                                                    context: context);
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  content: const Text(
+                                                      "Document Removed"),
+                                                ));
+                                              },
                                             ),
                                           );
                                         },

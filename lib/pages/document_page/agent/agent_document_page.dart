@@ -1,4 +1,4 @@
-import 'package:elite_counsel/pages/document_page/agent/agent_document_card.dart';
+import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,10 +63,33 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                           height: 10,
                         ),
                         agent.requiredDocuments[key] != null
-                            ? AgentDocumentCard(
+                            ? DocumentCard(
                                 doc: agent.requiredDocuments[key],
                                 icon: "assets/imageicon.png",
                                 requiredDocKey: key,
+                                onDismiss: (direction) {
+                                  var doc = agent.requiredDocuments[key];
+                                  final bloc =
+                                      BlocProvider.of<HomeBloc>(context);
+
+                                  DocumentBloc(
+                                    userType: 'agent',
+                                  ).deleteDocument(
+                                    doc.name,
+                                    doc.id,
+                                    agent.id,
+                                  );
+
+                                  agent.requiredDocuments[key] = null;
+                                  bloc.emitNewAgent(agent);
+
+                                  bloc.getAgentHome(context: context);
+
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: const Text("Document Removed"),
+                                  ));
+                                },
                               )
                             : UploadButton(key)
                       ],
@@ -190,10 +213,35 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                     }
 
                                     return Center(
-                                      child: AgentDocumentCard(
+                                      child: DocumentCard(
                                         doc: doc,
                                         icon: icon,
                                         index: index,
+                                        onDismiss: (direction) {
+                                          var doc = agent.documents[index];
+                                          final bloc =
+                                              BlocProvider.of<HomeBloc>(
+                                                  context);
+
+                                          DocumentBloc(
+                                            userType: 'agent',
+                                          ).deleteDocument(
+                                            doc.name,
+                                            doc.id,
+                                            agent.id,
+                                          );
+
+                                          agent.documents.removeAt(index);
+                                          bloc.emitNewAgent(agent);
+
+                                          bloc.getAgentHome(context: context);
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content:
+                                                const Text("Document Removed"),
+                                          ));
+                                        },
                                       ),
                                     );
                                   },

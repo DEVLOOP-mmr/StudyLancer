@@ -396,22 +396,23 @@ class ApplicationPage extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 var otherUser = types.User(
                                                   id: offer.studentID,
                                                 );
                                                 FirebaseChatCore.instance
                                                     .createUserInFirestore(
                                                         otherUser);
-                                                final room = FirebaseChatCore
-                                                    .instance
-                                                    .createRoom(otherUser);
+                                                final room =
+                                                    await FirebaseChatCore
+                                                        .instance
+                                                        .createRoom(otherUser);
                                                 Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         ChatPage(
-                                                            // roomId: room.id,
-                                                            ),
+                                                      roomId: room.id,
+                                                    ),
                                                   ),
                                                 );
                                               },
@@ -531,7 +532,10 @@ class ApplicationPage extends StatelessWidget {
                                                   ),
                                                   onPressed: () async {
                                                     await OfferBloc.acceptOffer(
-                                                        offer);
+                                                      offer.offerId,
+                                                      offer.agentID,
+                                                      student.id,
+                                                    );
                                                     EasyLoading.showSuccess(
                                                         "Accepted Offer");
                                                   },
