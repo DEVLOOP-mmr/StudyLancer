@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
@@ -106,8 +107,8 @@ class _RoomsPageState extends State<RoomsPage> {
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(4),
                               ),
-                              child: Image.network(
-                                room.imageUrl ??
+                              child: CachedNetworkImage(
+                                imageUrl: room.imageUrl ??
                                     "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
                                 fit: BoxFit.cover,
                               ),

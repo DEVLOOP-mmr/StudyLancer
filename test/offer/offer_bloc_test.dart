@@ -38,7 +38,7 @@ void main() {
         );
         expect(response.statusCode, 200);
       },
-      skip: 'Crashes server',
+      
     );
   });
 }
