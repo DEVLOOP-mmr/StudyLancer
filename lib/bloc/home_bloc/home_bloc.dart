@@ -206,4 +206,18 @@ class HomeBloc extends Cubit<HomeState> {
   void reset() {
     emit(InitialHomeState());
   }
+
+  void getHome() {
+    final userType = Variables.sharedPreferences.get(Variables.userType);
+    switch (userType) {
+      case 'student':
+        getStudentHome();
+
+        break;
+      case 'agent':
+        getAgentHome();
+        break;
+      default:
+    }
+  }
 }

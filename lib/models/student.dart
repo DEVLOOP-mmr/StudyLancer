@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:flutter/material.dart';
 
