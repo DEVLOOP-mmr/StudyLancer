@@ -17,8 +17,8 @@ class GetDio {
     Dio dio = Dio();
     var options = BaseOptions();
     options.connectTimeout = 2000;
-    options.receiveTimeout = 2000;
-    options.sendTimeout = 2000;
+    options.receiveTimeout = 9000;
+    options.sendTimeout = 9000;
     options.followRedirects = true;
     options.validateStatus = (status) {
       return true;
