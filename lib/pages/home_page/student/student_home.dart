@@ -34,7 +34,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
   void initState() {
     super.initState();
     _countryPageController = PageController();
-    if (country.images==null) {
+    if (country.images == null) {
       CountryBloc.getCountries().then((countries) {
         if (countries.isEmpty) {
           countries = [
@@ -148,38 +148,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       // (studentHomeState.self.otherDoc ?? []).length < 3
                       //     ?
                       if (!(state as StudentHomeState).student.verified)
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 16.0, left: 16.0, right: 16.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const StudentDocumentPage();
-                              }));
-                            },
-                            child: Container(
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 35.0, vertical: 16),
-                                child: Text(
-                                  "Please upload your documents in order to proceed further",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/back_texture.png")),
-                                  color: const Color(0xff59B298)),
-                            ),
-                          ),
-                        ),
+                        const UploadRequiredDocumentsPrompt(),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
@@ -547,6 +516,44 @@ class _StudentHomePageState extends State<StudentHomePage> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class UploadRequiredDocumentsPrompt extends StatelessWidget {
+  const UploadRequiredDocumentsPrompt({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const StudentDocumentPage();
+          }));
+        },
+        child: Container(
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 16),
+            child: Text(
+              "Please upload your documents in order to proceed further",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              image: const DecorationImage(
+                  image: AssetImage("assets/images/back_texture.png")),
+              color: const Color(0xff59B298)),
+        ),
       ),
     );
   }

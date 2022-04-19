@@ -6,6 +6,7 @@ import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
+import 'package:elite_counsel/pages/profile_page/student/date_selector.dart';
 
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
@@ -78,16 +79,16 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
       if (state.loadState == LoadState.loading) {
         return Container(
           color: Variables.backgroundColor,
-          child: Center(
-            child: CircularProgressIndicator(),
+          child: const Center(
+            child: const CircularProgressIndicator(),
           ),
         );
       }
       if (state is InitialHomeState) {
         return Container(
           color: Variables.backgroundColor,
-          child: Center(
-            child: CircularProgressIndicator(),
+          child: const Center(
+            child: const CircularProgressIndicator(),
           ),
         );
       }
@@ -98,7 +99,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         appBar: AppBar(
           leading: Navigator.of(context).canPop()
               ? IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: const Icon(Icons.arrow_back_ios),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -117,9 +118,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         ),
         extendBodyBehindAppBar: true,
         body: Container(
-          decoration: BoxDecoration(
-              color: Color(0xff1E2224),
-              image: DecorationImage(
+          decoration: const BoxDecoration(
+              color: const Color(0xff1E2224),
+              image: const DecorationImage(
                   image: AssetImage(
                     "assets/background.png",
                   ),
@@ -147,16 +148,16 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                   "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                             ),
                             boxShadow: [
-                              BoxShadow(
-                                color: Color(0xff131618),
-                                offset: Offset(-6, -5),
+                              const BoxShadow(
+                                color: const Color(0xff131618),
+                                offset: const Offset(-6, -5),
                                 spreadRadius: 0,
                                 blurRadius: 45.0,
                               ),
                             ],
                             border: Border.all(
                               width: 10,
-                              color: Color(0xff1C1F22),
+                              color: const Color(0xff1C1F22),
                             ),
                             // color: Color(0xff1E2022),
                             borderRadius: BorderRadius.circular(40),
@@ -170,9 +171,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       child: NeumorphicButton(
                         padding: EdgeInsets.zero,
                         child: Container(
-                          color: Color(0xff294A91),
+                          color: const Color(0xff294A91),
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               gradient: Variables.buttonGradient,
                             ),
@@ -181,14 +182,14 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.insert_drive_file_outlined,
                                     color: Colors.white,
                                   ),
-                                  SizedBox(width: 4),
-                                  Text(
+                                  const SizedBox(width: 4),
+                                  const Text(
                                     "My Documents",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600),
@@ -201,7 +202,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return StudentDocumentPage();
+                            return const StudentDocumentPage();
                           }));
                         },
                         style: NeumorphicStyle(
@@ -215,9 +216,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 BorderRadius.circular(30))),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Full Name*",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -230,9 +231,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -247,7 +248,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -264,11 +265,11 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Enter Email*",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -279,9 +280,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -300,7 +301,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             return null;
                           },
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -317,9 +318,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Phone Number",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -332,9 +333,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8.0),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(const Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -344,7 +345,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           },
                           readOnly: true,
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -361,11 +362,11 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "Date Of Birth",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -373,10 +374,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             fontSize: 12),
                       ),
                     ),
-                    DateSelector(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const DateSelector(),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child:  Text(
                         "Marital Status",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -389,9 +390,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -409,7 +410,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           onChanged: (value) {
                             student.maritalStatus = value;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -424,7 +425,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                         color: Colors.black,
                                         child: Text(
                                           label,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Roboto',
@@ -436,9 +437,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
+                      child: const Text(
                         "City*",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -451,9 +452,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -468,7 +469,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             return null;
                           },
                           autocorrect: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -485,8 +486,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
                       child: Text(
                         "Country*",
                         style: TextStyle(
@@ -500,7 +501,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -523,7 +524,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             }
                             return null;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -535,7 +536,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                         color: Colors.black,
                                         child: Text(
                                           label,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Roboto',
@@ -547,8 +548,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0, bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 35.0, bottom: 8),
                       child: Text(
                         "About",
                         style: TextStyle(
@@ -562,9 +563,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 30.0, right: 30.0, bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: const BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -580,7 +581,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           },
                           maxLines: 5,
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -597,20 +598,20 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: NeumorphicButton(
                           padding: EdgeInsets.zero,
                           child: Container(
-                            color: Color(0xff294A91),
+                            color: const Color(0xff294A91),
                             child: Container(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
-                              child: Align(
+                              child: const Align(
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Submit",
@@ -646,7 +647,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -656,64 +657,5 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         endDrawer: MyDrawer(),
       );
     });
-  }
-}
-
-class DateSelector extends StatelessWidget {
-  const DateSelector({
-    Key key,
-  }) : super(key: key);
-  Future<Student> _selectDate(Student user, BuildContext context) async {
-    DateTime currentDate = DateTime.now().subtract(Duration(days: 365 * 18));
-    final DateTime pickedDate = await showDatePicker(
-        context: context,
-        initialDate: currentDate,
-        initialDatePickerMode: DatePickerMode.year,
-        firstDate: DateTime(1947),
-        lastDate: DateTime(2022));
-
-    if (pickedDate != null && pickedDate != currentDate) {
-      currentDate = pickedDate;
-      user.dob = (Variables.dateFormat).format(currentDate);
-    }
-    return user;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        var student = (state as StudentHomeState).student;
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(left: 30.0, bottom: 8.0, right: 30),
-          decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: GestureDetector(
-              onTap: () async {
-                var changedUser = await _selectDate(student, context);
-
-                BlocProvider.of<HomeBloc>(context, listen: false)
-                    .emitNewStudent(changedUser);
-              },
-              child: Text(
-                DateTime.tryParse(student.dob) == null
-                    ? (student.dob ?? '')
-                    : Variables.dateFormat.format(DateTime.parse(student.dob)),
-                key: UniqueKey(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontStyle: FontStyle.normal,
-                    fontFamily: 'Roboto',
-                    fontSize: 12),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 }

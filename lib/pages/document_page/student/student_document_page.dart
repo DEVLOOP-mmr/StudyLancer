@@ -85,7 +85,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                     student.requiredDocuments[key] = null;
                                     bloc.emitNewStudent(student);
 
-                                    bloc.getAgentHome(context: context);
+                                    bloc.getStudentHome(context: context);
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
@@ -245,7 +245,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                                     .removeAt(index);
                                                 bloc.emitNewStudent(student);
 
-                                                bloc.getAgentHome(
+                                                bloc.getStudentHome(
                                                     context: context);
 
                                                 ScaffoldMessenger.of(context)
@@ -285,7 +285,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc(userType: Variables.userTypeAgent)
+        await DocumentBloc(userType: Variables.userTypeStudent)
             .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,

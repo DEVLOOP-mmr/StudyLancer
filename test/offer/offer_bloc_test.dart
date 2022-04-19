@@ -34,7 +34,7 @@ void main() {
         var response = await OfferBloc.acceptOffer(
           application.offerId,
           application.agentID,
-          application.studentID,
+          MockFirebaseStudentUser().uid,
         );
         expect(response.statusCode, 200);
       },

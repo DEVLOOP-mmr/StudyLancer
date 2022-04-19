@@ -4,7 +4,7 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/document_page/agent/agent_document_page.dart';
 import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/profile_page/agent/agent_profile_page.dart';
-import 'package:elite_counsel/pages/applications_page.dart';
+import 'package:elite_counsel/pages/applications_page/applications_page.dart';
 import 'package:elite_counsel/pages/home_page/student/student_home.dart';
 import 'package:elite_counsel/pages/profile_page/student/student_profile_page.dart';
 import 'package:elite_counsel/pages/tutorial_pages.dart';

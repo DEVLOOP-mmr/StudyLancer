@@ -328,60 +328,7 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 35.0, bottom: 8),
-                    //   child: Text(
-                    //     "Date Of Birth",
-                    //     style: TextStyle(
-                    //         fontStyle: FontStyle.normal,
-                    //         color: Colors.white,
-                    //         fontWeight: FontWeight.w400,
-                    //         fontFamily: 'Roboto',
-                    //         fontSize: 12),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   margin: const EdgeInsets.only(
-                    //       left: 30.0, right: 30.0, bottom: 5),
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.black,
-                    //       borderRadius:
-                    //           BorderRadius.all(Radius.circular(10))),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(left: 10),
-                    //     child: DateTimeFormField(
-                    //       initialValue: agent.dob == null
-                    //           ? null
-                    //           : DateTime.parse(agent.dob),
-                    //       lastDate: DateTime(DateTime.now().year - 18,
-                    //           DateTime.now().month),
-                    //       dateTextStyle: TextStyle(
-                    //           color: Colors.white,
-                    //           fontStyle: FontStyle.normal,
-                    //           fontFamily: 'Roboto',
-                    //           fontSize: 12),
-                    //       decoration: const InputDecoration(
-                    //         hintText: 'Date of birth',
-                    //         hintStyle: TextStyle(
-                    //             fontSize: 12,
-                    //             color: Colors.white,
-                    //             fontWeight: FontWeight.w400),
-                    //         errorStyle: TextStyle(
-                    //             fontSize: 12,
-                    //             color: Colors.red,
-                    //             fontWeight: FontWeight.w400),
-                    //         suffixIcon: Icon(Icons.event_note),
-                    //       ),
-                    //       mode: DateTimeFieldPickerMode.date,
-                    //       validator: (e) => (e?.day ?? 0) == 1
-                    //           ? 'Please enter a date'
-                    //           : null,
-                    //       onDateSelected: (DateTime value) {
-                    //         agent.dob = value.toString();
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
+                    
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
                       child: Text(
