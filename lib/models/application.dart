@@ -5,7 +5,7 @@ class Application {
       agentImage,
       universityName,
       city,
-      offerId,
+      applicationID,
       country,
       courseName,
       description,
@@ -39,7 +39,7 @@ class Application {
     Application offer = Application();
 
     offer.country = offerData["location"]["country"];
-    offer.offerId = offerData["_id"];
+    offer.applicationID = offerData["_id"];
     offer.city = offerData["location"]["city"];
     offer.description = offerData["description"];
     offer.accepted = offerData["accepted"];

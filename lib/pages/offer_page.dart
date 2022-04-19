@@ -1,3 +1,4 @@
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
@@ -10,6 +11,7 @@ import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
@@ -709,7 +711,7 @@ class _OfferPageState extends State<OfferPage> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Submit ->",
+                          "Submit",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -724,6 +726,9 @@ class _OfferPageState extends State<OfferPage> {
                         offer,
                         FirebaseAuth.instance.currentUser.uid,
                       );
+                      EasyLoading.showSuccess('Application Created !');
+                      BlocProvider.of<HomeBloc>(context)
+                          .getAgentHome(context: context);
                       var otherUser = types.User(
                           id: offer.studentID,
                           avatarUrl: widget.student.photo,
@@ -735,9 +740,7 @@ class _OfferPageState extends State<OfferPage> {
 
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => HomePage(
-                              // roomId: room.id,
-                              ),
+                          builder: (context) => HomePage(),
                         ),
                       );
                     } else {

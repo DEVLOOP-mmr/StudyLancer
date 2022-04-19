@@ -32,7 +32,7 @@ void main() {
 
         final application = student.applications.last;
         var response = await OfferBloc.acceptOffer(
-          application.offerId,
+          application.applicationID,
           application.agentID,
           MockFirebaseStudentUser().uid,
         );

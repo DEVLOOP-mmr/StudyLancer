@@ -320,7 +320,7 @@ class OfferCard extends StatelessWidget {
                       fontSize: 12,
                       color: Colors.white.withOpacity(0.7)),
                 ),
-              if (offer.status==2)
+              if (offer.status == 2)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -382,10 +382,12 @@ class OfferCard extends StatelessWidget {
                               decoration: BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
-                              child:  Align(
+                              child: Align(
                                 alignment: Alignment.center,
-                                child:  Text(
-                                offer.status==3?"Offer Accepted":  "Accept Offer",
+                                child: Text(
+                                  offer.status == 3
+                                      ? "Offer Accepted"
+                                      : "Accept Offer",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -395,20 +397,18 @@ class OfferCard extends StatelessWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if(offer.status==2){
+                            if (offer.status == 2) {
                               await OfferBloc.acceptOffer(
-                                offer.offerId,
+                                offer.applicationID,
                                 offer.agentID,
                                 student.id,
                               );
                               BlocProvider.of<HomeBloc>(context)
                                   .getStudentHome();
                               EasyLoading.showSuccess("Accepted Offer");
+                            } else {
+                              EasyLoading.showSuccess("Offer Already Accepted");
                             }
-                            else{
-                               EasyLoading.showSuccess("Offer Already Accepted");
-                            }
-                          
                           },
                           style: NeumorphicStyle(
                               border: NeumorphicBorder(
