@@ -22,17 +22,23 @@ Future<void> main() async {
   await Firebase.initializeApp();
   if (kDebugMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  } else {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  }
-  runZonedGuarded<Future<void>>(() async {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
     runApp(DevicePreview(
       builder: (context) => const MaterialApp(home: MyApp()),
       enabled: false,
     ));
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+  } else {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runZonedGuarded<Future<void>>(() async {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+      runApp(DevicePreview(
+        builder: (context) => const MaterialApp(home: MyApp()),
+        enabled: false,
+      ));
+    },
+        (error, stack) =>
+            FirebaseCrashlytics.instance.recordError(error, stack));
+  }
 }
 
 class MyApp extends StatefulWidget {

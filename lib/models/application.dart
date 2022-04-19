@@ -1,4 +1,3 @@
-
 class Application {
   String studentID,
       agentID,
@@ -36,7 +35,7 @@ class Application {
     }
   }
 
-  factory Application.parseApplication(offerData) {
+  factory Application.parseApplication(Map<String, dynamic> offerData) {
     Application offer = Application();
 
     offer.country = offerData["location"]["country"];
@@ -49,7 +48,12 @@ class Application {
     offer.courseFees = offerData["courseFees"].toString();
     offer.courseName = offerData["courseName"];
     offer.courseLink = offerData["courseLink"];
-    offer.agentID = offerData["agent"]['agentID'];
+
+    offer.agentID = offerData.containsKey('agent')
+        ? offerData['agent'] == null
+            ? null
+            : offerData["agent"]['agentID']
+        : null;
     offer.studentID = offerData['student'];
     offer.color = offerData["color"];
     offer.status = offerData['status'];
