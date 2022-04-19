@@ -73,9 +73,16 @@ Future<List<types.Room>> processRoomsQuery(
 
 /// Returns a [types.User] created from Firebase document
 types.User processUserDocument(DocumentSnapshot doc) {
-  final avatarUrl = (doc.get('avatarUrl') ?? "") as String;
-  final firstName = (doc.get('firstName') ?? "") as String;
-  final lastName = (doc.get('lastName') ?? "") as String;
+  Map<String, dynamic> jsonDocData = doc.data();
+  if (jsonDocData == null) {
+    return types.User(id: doc.id);
+  }
+  if (jsonDocData.keys.isEmpty) {
+    return types.User(id: doc.id);
+  }
+  final avatarUrl = (jsonDocData['avatarUrl'] ?? "") as String;
+  final firstName = (jsonDocData['firstName'] ?? "") as String;
+  final lastName = (jsonDocData['lastName'] ?? "") as String;
 
   final user = types.User(
     avatarUrl: avatarUrl,
