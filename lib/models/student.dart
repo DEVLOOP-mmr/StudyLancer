@@ -57,7 +57,7 @@ class Student extends StudyLancerUser {
     student.city = studentData["location"]["city"];
     student.country = studentData["location"]["country"];
     student.dob = studentData["DOB"];
-    student.bio = studentData["about"];
+    student.bio = studentData["bio"];
     student.verified = studentData["verified"];
     student.optionStatus = studentData["optionStatus"] ?? 0;
     student.timeline = studentData["timeline"] ?? 1;
