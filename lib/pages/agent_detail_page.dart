@@ -21,11 +21,9 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
   void initState() {
     super.initState();
     PaletteGenerator.fromImageProvider(
-
       NetworkImage(widget.agent.photo ??
           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
       maximumColorCount: 20,
-
     ).then((value) {
       setState(() {
         paletteGenerator = value;
@@ -297,171 +295,142 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     isDismissible: true,
                                     enableDrag: true,
                                     isScrollControlled: true,
-
                                     context: context,
                                     builder: (context) {
-                                      return Container(
-
-                                        height: MediaQuery.of(context).size.height*0.62,
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.62,
                                         child: FutureBuilder<AgentReviews>(
                                             future: ReviewBloc.getAgentReview(
-                                                widget.agent.id,FirebaseAuth.instance.currentUser.uid),
+                                                widget.agent.id,
+                                                FirebaseAuth
+                                                    .instance.currentUser.uid),
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
                                                 return DraggableScrollableSheet(
                                                     initialChildSize: 1,
                                                     builder: (context,
-
                                                         scrollController) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white.withOpacity(0.9),
-                                                        borderRadius:
-                                                            const BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(50),
-                                                          topRight:
-                                                              Radius.circular(50),
-                                                        )),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              32.0),
-                                                      child: Stack(children: [
-                                                        ListView.builder(
-                                                            // shrinkWrap: true,
-                                                            controller:
-                                                                scrollController,
-                                                            itemCount: snapshot
-                                                                    .data
-                                                                    .reviews
-                                                                    .length +
-                                                                1,
-                                                            itemBuilder:
-                                                                (context, index) {
-                                                              if (index == 0) {
-                                                                return Column(
-                                                                  children: [
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          snapshot.data.reviews.length.toString() +
-                                                                              " Reviews",
-                                                                          style: const TextStyle(
-                                                                              color: Color(
-                                                                                  0xff919191),
-                                                                              fontSize:
-                                                                                  21,
-                                                                              fontWeight:
-                                                                                  FontWeight.w500),
-                                                                        ),
-                                                                        const Spacer(),
-                                                                        StarRating(
-                                                                          rating: double.parse(widget
-                                                                              .agent
-                                                                              .reviewsAvg),
-                                                                          starCount:
-                                                                              5,
-                                                                          color: Colors
-                                                                              .green,
-                                                                        ),
-                                                                        Text(
-                                                                          " (" +
-                                                                              widget.agent.reviewsAvg +
-                                                                              ")",
-                                                                          style: const TextStyle(
-                                                                              color: Colors
-                                                                                  .black,
-                                                                              fontSize:
-                                                                                  14,
-                                                                              fontWeight:
-                                                                                  FontWeight.w500),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Divider(
-                                                                      color: Variables
-                                                                          .backgroundColor
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              }
-                                                              var review = snapshot
-                                                                      .data
-                                                                      .reviews[
-                                                                  index - 1];
-                                                              return ListTile(
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                title: Text(review
-                                                                    .reviewerName),
-                                                                subtitle: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: [
-                                                                    const SizedBox(
-                                                                      height: 8,
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        StarRating(
-                                                                          rating: double.parse(widget
-                                                                              .agent
-                                                                              .reviewsAvg),
-                                                                          starCount:
-                                                                              5,
-                                                                          color: Colors
-                                                                              .green,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          width:
-                                                                              8,
-                                                                        ),
-                                                                        Text(Variables
-                                                                            .fullMonthDateformat
-                                                                            .format(
-                                                                                DateTime.parse(review.createdAt))),
-                                                                      ],
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 8,
-                                                                    ),
-                                                                    Text(review
-                                                                        .reviewContent),
-                                                                    Divider(
-                                                                      color: Variables
-                                                                          .backgroundColor
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              );
-                                                            }),
-                                                        // if (!snapshot.data
-                                                        //     .studentHasReviewed)
-                                                        //   Align(
-                                                        //     alignment: Alignment
-                                                        //         .bottomCenter,
-                                                        //     child: ,
-                                                        //   ),
-                                                      ]),
-                                                    ),
-                                                  );
-                                                });
+                                                      return Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .white
+                                                                    .withOpacity(
+                                                                        0.9),
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          50),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          50),
+                                                                )),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(32.0),
+                                                          child: Stack(
+                                                              children: [
+                                                                ListView
+                                                                    .builder(
+                                                                        // shrinkWrap: true,
+                                                                        controller:
+                                                                            scrollController,
+                                                                        itemCount:
+                                                                            snapshot.data.reviews.length +
+                                                                                1,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          if (index ==
+                                                                              0) {
+                                                                            return Column(
+                                                                              children: [
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      snapshot.data.reviews.length.toString() + " Reviews",
+                                                                                      style: const TextStyle(color: Color(0xff919191), fontSize: 21, fontWeight: FontWeight.w500),
+                                                                                    ),
+                                                                                    const Spacer(),
+                                                                                    StarRating(
+                                                                                      rating: double.parse(widget.agent.reviewsAvg),
+                                                                                      starCount: 5,
+                                                                                      color: Colors.green,
+                                                                                    ),
+                                                                                    Text(
+                                                                                      " (" + widget.agent.reviewsAvg + ")",
+                                                                                      style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                Divider(
+                                                                                  color: Variables.backgroundColor.withOpacity(0.6),
+                                                                                )
+                                                                              ],
+                                                                            );
+                                                                          }
+                                                                          var review = snapshot
+                                                                              .data
+                                                                              .reviews[index - 1];
+                                                                          return ListTile(
+                                                                            contentPadding:
+                                                                                EdgeInsets.zero,
+                                                                            title:
+                                                                                Text(review.reviewerName),
+                                                                            subtitle:
+                                                                                Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              mainAxisSize: MainAxisSize.min,
+                                                                              children: [
+                                                                                const SizedBox(
+                                                                                  height: 8,
+                                                                                ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    StarRating(
+                                                                                      rating: double.parse(widget.agent.reviewsAvg),
+                                                                                      starCount: 5,
+                                                                                      color: Colors.green,
+                                                                                    ),
+                                                                                    const SizedBox(
+                                                                                      width: 8,
+                                                                                    ),
+                                                                                    Text(Variables.fullMonthDateformat.format(DateTime.parse(review.createdAt))),
+                                                                                  ],
+                                                                                ),
+                                                                                const SizedBox(
+                                                                                  height: 8,
+                                                                                ),
+                                                                                Text(review.reviewContent),
+                                                                                Divider(
+                                                                                  color: Variables.backgroundColor.withOpacity(0.6),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        }),
+                                                                // if (!snapshot.data
+                                                                //     .studentHasReviewed)
+                                                                //   Align(
+                                                                //     alignment: Alignment
+                                                                //         .bottomCenter,
+                                                                //     child: ,
+                                                                //   ),
+                                                              ]),
+                                                        ),
+                                                      );
+                                                    });
                                               }
                                               return Container(
                                                 color: Colors.white,
                                                 child: const Center(
                                                     child:
-                                                        const CircularProgressIndicator()),
+                                                        CircularProgressIndicator()),
                                               );
                                             }),
                                       );
@@ -502,7 +471,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
   }
 }
 
-typedef void RatingChangeCallback(double rating);
+typedef RatingChangeCallback = void Function(double rating);
 
 class StarRating extends StatelessWidget {
   final int starCount;
@@ -511,7 +480,7 @@ class StarRating extends StatelessWidget {
   final Color color;
   final double starSize;
 
-  StarRating(
+  const StarRating(
       {this.starCount = 5,
       this.rating = .0,
       this.onRatingChanged,
@@ -521,25 +490,25 @@ class StarRating extends StatelessWidget {
   Widget buildStar(BuildContext context, int index) {
     Icon icon;
     if (index >= rating) {
-      icon = new Icon(
+      icon = Icon(
         Icons.star_border,
         color: Theme.of(context).buttonColor,
         size: starSize,
       );
     } else if (index > rating - 1 && index < rating) {
-      icon = new Icon(
+      icon = Icon(
         Icons.star_half,
         color: color ?? Theme.of(context).primaryColor,
         size: starSize,
       );
     } else {
-      icon = new Icon(
+      icon = Icon(
         Icons.star,
         color: color ?? Theme.of(context).primaryColor,
         size: starSize,
       );
     }
-    return new InkResponse(
+    return InkResponse(
       onTap:
           onRatingChanged == null ? null : () => onRatingChanged(index + 1.0),
       child: icon,
@@ -548,8 +517,8 @@ class StarRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(
-        children: new List.generate(
+    return Row(
+        children: List.generate(
             starCount, (index) => Container(child: buildStar(context, index))));
   }
 }

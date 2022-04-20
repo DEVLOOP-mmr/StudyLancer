@@ -68,13 +68,13 @@ class _DocumentCardState extends State<DocumentCard> {
         //         ));
         return true;
       },
-      onDismissed:widget.onDismiss,
+      onDismissed: widget.onDismiss,
       background: Container(
         decoration: BoxDecoration(
           color: Colors.red,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
       ),
       child: Container(
         padding: const EdgeInsets.only(bottom: 8),
@@ -111,7 +111,7 @@ class _DocumentCardState extends State<DocumentCard> {
             ),
             trailing: Wrap(spacing: 20, children: [
               widget.requiredDocKey != null
-                  ? SizedBox(
+                  ? const SizedBox(
                       width: 1,
                       height: 1,
                     )
@@ -167,7 +167,8 @@ class _DocumentCardState extends State<DocumentCard> {
                         });
                       },
                       style: const TextStyle(color: Colors.white, fontSize: 16),
-                      decoration: InputDecoration(border: InputBorder.none),
+                      decoration:
+                          const InputDecoration(border: InputBorder.none),
                     )
                   : AutoSizeText(
                       newDocName.isNotEmpty ? newDocName : widget.doc.name,

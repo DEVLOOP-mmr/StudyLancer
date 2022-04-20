@@ -42,13 +42,13 @@ class _TutorialPageBuilder extends State<TutorialPage> {
       ),
     );
     double zoom = 1.0 + (2.0 - 1.0) * selectedness;
-    return new Container(
+    return SizedBox(
       width: 25.0,
-      child: new Center(
-        child: new Material(
+      child: Center(
+        child: Material(
           color: Colors.white,
           type: MaterialType.circle,
-          child: new Container(
+          child: SizedBox(
             width: 8.0 * zoom,
             height: 8.0 * zoom,
           ),
@@ -83,10 +83,10 @@ class _TutorialPageBuilder extends State<TutorialPage> {
             ignoreUserGestureWhileAnimating: true,
           ),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: <Widget>[
-                Expanded(child: SizedBox()),
+                const Expanded(child: SizedBox()),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List<Widget>.generate(data.length, _buildDot),

@@ -6,16 +6,16 @@ import 'package:intl/intl.dart';
 
 class Variables {
   static Box get sharedPreferences => Hive.box('myBox');
-  static final String userType = "userType";
-  static final String userTypeStudent = "student";
-  static final String userTypeAgent = "agent";
-  static final String userId = "userId";
-  static final String isFirstTime = "isFirstTime";
-  static final String countryCode = "countryCode";
-  static final String phone = "phone";
-  static final Color accentColor = Color(0xffFFAD9A);
-  static final Color backgroundColor = Color(0xff202427);
-  static final DateFormat fullMonthDateformat = new DateFormat("MMMM yyyy");
+  static const String userType = "userType";
+  static const String userTypeStudent = "student";
+  static const String userTypeAgent = "agent";
+  static const String userId = "userId";
+  static const String isFirstTime = "isFirstTime";
+  static const String countryCode = "countryCode";
+  static const String phone = "phone";
+  static final Color accentColor = const Color(0xffFFAD9A);
+  static final Color backgroundColor = const Color(0xff202427);
+  static final DateFormat fullMonthDateformat = DateFormat("MMMM yyyy");
   static final DateFormat dateFormat = DateFormat("dd/MM/yyyy");
   static final List<String> countries = [
     "Afghanistan",
@@ -261,7 +261,7 @@ class Variables {
     "Zambia",
     "Zimbabwe"
   ];
-  static final Gradient buttonGradient = LinearGradient(
+  static final Gradient buttonGradient = const LinearGradient(
     colors: [
       Color(0xff4167B1),
       Color(0x004869A6),

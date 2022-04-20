@@ -16,7 +16,7 @@ class UserTypeSelectPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image:  AssetImage(
+                image: AssetImage(
                   "assets/user_select_back.png",
                 ),
                 fit: BoxFit.cover)),

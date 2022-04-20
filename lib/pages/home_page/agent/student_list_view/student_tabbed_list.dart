@@ -49,9 +49,9 @@ class _StudentTabbedListState extends State<StudentTabbedList>
             actions: const [SortButton()],
             backgroundColor: Variables.backgroundColor,
             centerTitle: false,
-            title: Text(
+            title: const Text(
               'ALL',
-              style: const TextStyle(
+              style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   fontWeight: FontWeight.bold),

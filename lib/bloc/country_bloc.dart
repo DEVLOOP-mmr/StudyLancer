@@ -25,9 +25,9 @@ class CountryBloc {
       if (result.statusCode < 300) {
         var data = result.data;
         List countryList = data["data"];
-        countryList.forEach((countryData) {
+        for (var countryData in countryList) {
           countries.add(parseCountryData(countryData));
-        });
+        }
       } else {
         if (kReleaseMode) {
           EasyLoading.showToast('Something Went Wrong');
@@ -38,7 +38,7 @@ class CountryBloc {
         ];
         throw Exception('countries/:' + result.statusCode.toString());
       }
-    } on DioError catch (e) {
+    } on DioError {
       countries = [
         Country(id: 'CA', countryName: 'Canada'),
         Country(id: 'AU', countryName: 'Australia')
@@ -70,19 +70,19 @@ class CountryBloc {
     Country country = Country();
     country.images = [];
     if (countryData is List) {
-      countryData.forEach((element) {
+      for (var element in countryData) {
         List images = element["countryImages"];
-        images.forEach((image) {
+        for (var image in images) {
           country.images.add(CountryImage(image["description"], image["url"]));
-        });
-      });
+        }
+      }
     } else {
       country.countryName = countryData["countryName"];
       country.id = countryData["_id"];
       List images = countryData["countryImages"];
-      images.forEach((image) {
+      for (var image in images) {
         country.images.add(CountryImage(image["description"], image["url"]));
-      });
+      }
     }
     return country;
   }

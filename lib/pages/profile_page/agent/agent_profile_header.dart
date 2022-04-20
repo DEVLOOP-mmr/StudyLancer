@@ -13,6 +13,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../document_page/agent/agent_document_page.dart';
+
 class AgentProfileHeader extends StatelessWidget {
   const AgentProfileHeader({
     Key key,
@@ -86,10 +87,10 @@ class AgentProfileHeader extends StatelessWidget {
                       image: NetworkImage(agent.photo ??
                           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                     ),
-                    boxShadow: [
-                      const BoxShadow(
+                    boxShadow: const [
+                      BoxShadow(
                         color: Color(0xff131618),
-                        offset: const Offset(-6, -5),
+                        offset: Offset(-6, -5),
                         spreadRadius: 0,
                         blurRadius: 45.0,
                       ),
@@ -120,13 +121,13 @@ class AgentProfileHeader extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
+                        children: const [
+                          Icon(
                             Icons.insert_drive_file_outlined,
                             color: Colors.white,
                           ),
-                          const SizedBox(width: 4),
-                          const Text(
+                          SizedBox(width: 4),
+                          Text(
                             "My Documents",
                             style: TextStyle(
                                 color: Colors.white,
@@ -140,7 +141,7 @@ class AgentProfileHeader extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AgentDocumentPage();
+                    return const AgentDocumentPage();
                   }));
                 },
                 style: NeumorphicStyle(

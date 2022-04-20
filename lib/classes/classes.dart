@@ -20,4 +20,3 @@ class AgentReviews {
   List<Review> reviews;
   bool studentHasReviewed;
 }
-

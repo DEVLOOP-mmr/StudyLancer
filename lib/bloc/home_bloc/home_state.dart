@@ -22,13 +22,14 @@ class InitialHomeState extends HomeState {
   }
   InitialHomeState copyWith({String country, LoadState loadState}) {
     return InitialHomeState(
-      country: country ?? this.countryCode,
+      country: country ?? countryCode,
       loadState: loadState ?? this.loadState,
     );
   }
 }
 
 class StudentHomeState extends HomeState with EquatableMixin {
+  @override
   LoadState loadState;
   Student student;
   List<Agent> agents;
@@ -41,7 +42,6 @@ class StudentHomeState extends HomeState with EquatableMixin {
     this.countryCode,
   });
 
- 
   StudentHomeState copyWith({
     LoadState loadState,
     Student student,

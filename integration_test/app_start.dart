@@ -38,7 +38,7 @@ class AppStartSuite {
     final mockUser = userType == Variables.userTypeStudent
         ? MockFirebaseStudentUser()
         : MockFirebaseAgentUser();
-    debugPrint("\n\n $userType" + ":" + mockUser.uid +"\n\n");
+    debugPrint("\n\n $userType" ":" + mockUser.uid +"\n\n");
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: mockUser.phoneNumber,
       verificationFailed: (error) {},

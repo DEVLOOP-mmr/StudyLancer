@@ -14,7 +14,7 @@ class StudentSelectButton extends StatelessWidget {
         Variables.sharedPreferences
             .put(Variables.userType, Variables.userTypeStudent);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return PhonePage();
+          return const PhonePage();
         }));
       },
       child: Stack(
@@ -25,7 +25,7 @@ class StudentSelectButton extends StatelessWidget {
             fit: BoxFit.cover,
             width: MediaQuery.of(context).size.width / 2.2,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(45),
             child: Text(
               "Student",

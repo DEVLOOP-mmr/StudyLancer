@@ -11,32 +11,32 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        tileColor: Color(0xffF3F3F3),
+        tileColor: const Color(0xffF3F3F3),
         onTap: () {
           print("${item.name} pressed");
         },
         leading: Image.asset(item.image),
         title: Text(
           item.name,
-          style: TextStyle(color: Color(0xff000000), fontSize: 16),
+          style: const TextStyle(color: Color(0xff000000), fontSize: 16),
         ),
         subtitle: Text(
           item.desc,
-          style: TextStyle(color: Color(0xff666666), fontSize: 10),
+          style: const TextStyle(color: Color(0xff666666), fontSize: 10),
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               item.place,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff2061E0),
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               item.time,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff2061E0),
                 fontWeight: FontWeight.bold,
               ),

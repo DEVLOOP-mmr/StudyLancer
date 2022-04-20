@@ -35,7 +35,7 @@ class Student extends Equatable {
   List<Application> applications;
   List<Document> documents;
   Map<String, Document> requiredDocuments;
- 
+
   Student({
     this.name,
     this.email,
@@ -60,7 +60,7 @@ class Student extends Equatable {
   });
   bool isValid() {
     try {
-      assert(this is! Null);
+      assert(this != null);
       assert(id.isNotEmpty);
       assert(name.isNotEmpty);
       assert(countryLookingFor.isNotEmpty);
@@ -118,14 +118,15 @@ class Student extends Equatable {
     student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
     student.year = studentData["year"] ?? DateTime.now().year.toString();
     student.applications = [];
-    (studentData["previousApplications"] as List).forEach((element) {
-      if (element is Map) student.applications.add(Application.parseApplication(element));
-    });
+    for (var element in (studentData["previousApplications"] as List)) {
+      if (element is Map)
+        student.applications.add(Application.parseApplication(element));
+    }
     student.documents = [];
     student.requiredDocuments = {};
 
     List documents = studentData["documents"];
-    documents.forEach((element) {
+    for (var element in documents) {
       if (element is Map) {
         var document = Document();
         document
@@ -139,7 +140,7 @@ class Student extends Equatable {
           student.documents.add(document);
         }
       }
-    });
+    }
 
     return student;
   }

@@ -90,7 +90,7 @@ class AgentHomePageState extends State<AgentHomePage>
                     child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => StudentTabbedList()));
+                              builder: (context) => const StudentTabbedList()));
                         },
                         child: AspectRatio(
                           aspectRatio: 324 / 177,

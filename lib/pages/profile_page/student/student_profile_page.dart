@@ -80,7 +80,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         return Container(
           color: Variables.backgroundColor,
           child: const Center(
-            child: const CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           ),
         );
       }
@@ -88,7 +88,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         return Container(
           color: Variables.backgroundColor,
           child: const Center(
-            child: const CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           ),
         );
       }
@@ -119,8 +119,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         extendBodyBehindAppBar: true,
         body: Container(
           decoration: const BoxDecoration(
-              color: const Color(0xff1E2224),
-              image: const DecorationImage(
+              color: Color(0xff1E2224),
+              image: DecorationImage(
                   image: AssetImage(
                     "assets/background.png",
                   ),
@@ -147,10 +147,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               image: NetworkImage(student.photo ??
                                   "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                             ),
-                            boxShadow: [
-                              const BoxShadow(
-                                color: const Color(0xff131618),
-                                offset: const Offset(-6, -5),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0xff131618),
+                                offset: Offset(-6, -5),
                                 spreadRadius: 0,
                                 blurRadius: 45.0,
                               ),
@@ -181,15 +181,15 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                               alignment: Alignment.center,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
+                                children: const [
+                                  Icon(
                                     Icons.insert_drive_file_outlined,
                                     color: Colors.white,
                                   ),
-                                  const SizedBox(width: 4),
-                                  const Text(
+                                  SizedBox(width: 4),
+                                  Text(
                                     "My Documents",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600),
@@ -218,7 +218,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: const Text(
+                      child: Text(
                         "Full Name*",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -233,7 +233,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(const Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -267,9 +267,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: const Text(
+                      child: Text(
                         "Enter Email*",
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -282,7 +282,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -294,7 +294,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             String p =
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-                            RegExp regExp = new RegExp(p);
+                            RegExp regExp = RegExp(p);
                             if (!regExp.hasMatch(value)) {
                               return "Please enter valid email";
                             }
@@ -320,7 +320,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: const Text(
+                      child: Text(
                         "Phone Number",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -335,7 +335,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8.0),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.all(const Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -364,9 +364,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: const Text(
+                      child: Text(
                         "Date Of Birth",
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
@@ -377,7 +377,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     const DateSelector(),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child:  Text(
+                      child: Text(
                         "Marital Status",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -392,7 +392,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -439,7 +439,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
-                      child: const Text(
+                      child: Text(
                         "City*",
                         style: TextStyle(
                             fontStyle: FontStyle.normal,
@@ -454,7 +454,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -565,7 +565,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(

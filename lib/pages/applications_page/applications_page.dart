@@ -67,7 +67,7 @@ class ApplicationPage extends StatelessWidget {
                 children: [
                   const Divider(color: Colors.white),
                   !(student.verified ?? false)
-                      ? Center(child: UploadRequiredDocumentsPrompt())
+                      ? const Center(child: UploadRequiredDocumentsPrompt())
                       : Expanded(
                           child: (student.applications ?? []).isNotEmpty
                               ? ListView.builder(
@@ -106,7 +106,7 @@ class ApplicationPage extends StatelessWidget {
       builder: (context, state) {
         if (state is! StudentHomeState) {
           return const Center(
-            child: const CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           );
         }
         final studentHomeState = state as StudentHomeState;
@@ -115,101 +115,103 @@ class ApplicationPage extends StatelessWidget {
           child: const Icon(Ionicons.filter_circle_outline),
           onTap: () async {
             var result = await showDialog(
-                context: context,
-                builder: (context) => SizedBox(
-                      height: 300,
-                      child: Dialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        backgroundColor: Variables.backgroundColor,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Accordion(
-                              maxOpenSections: 1,
-                              headerBackgroundColor: Variables.backgroundColor,
-                              contentBackgroundColor: Variables.backgroundColor,
-                              children: [
-                                AccordionSection(
-                                    header: const Text(
-                                      "Sort by Tuition Fees",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.normal,
-                                          fontFamily: "roboto"),
+              context: context,
+              builder: (context) => SizedBox(
+                height: 300,
+                child: Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  backgroundColor: Variables.backgroundColor,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Accordion(
+                        maxOpenSections: 1,
+                        headerBackgroundColor: Variables.backgroundColor,
+                        contentBackgroundColor: Variables.backgroundColor,
+                        children: [
+                          AccordionSection(
+                              header: const Text(
+                                "Sort by Tuition Fees",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontFamily: "roboto"),
+                              ),
+                              content: Column(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop("desc");
+                                    },
+                                    child: const Text(
+                                      "High to Low",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                    content: Column(
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop("desc");
-                                          },
-                                          child: const Text(
-                                            "High to Low",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop("asc");
-                                          },
-                                          child: const Text(
-                                            "Low To High",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                AccordionSection(
-                                    header: const Text(
-                                      "Sort by Application Fees",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.normal,
-                                          fontFamily: "roboto"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop("asc");
+                                    },
+                                    child: const Text(
+                                      "Low To High",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                    content: Column(
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop("desc");
-                                          },
-                                          child: const Text(
-                                            "High To Low",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop("asc");
-                                          },
-                                          child: const Text(
-                                            "Low To High",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ))
-                              ],
-                            ),
-                          ],
-                        ),
+                                  ),
+                                ],
+                              )),
+                          AccordionSection(
+                              header: const Text(
+                                "Sort by Application Fees",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontFamily: "roboto"),
+                              ),
+                              content: Column(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop("desc");
+                                    },
+                                    child: const Text(
+                                      "High To Low",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop("asc");
+                                    },
+                                    child: const Text(
+                                      "Low To High",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ))
+                        ],
                       ),
-                    ));
+                    ],
+                  ),
+                ),
+              ),
+            );
             if (result != null) {
               BlocProvider.of<HomeBloc>(context).sortApplications(result);
             }

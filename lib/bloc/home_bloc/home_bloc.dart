@@ -143,7 +143,6 @@ class HomeBloc extends Cubit<HomeState> {
         }
       }
     } else {
-      
       await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));

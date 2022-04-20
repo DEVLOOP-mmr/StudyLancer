@@ -13,7 +13,6 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-
   /// TODO: inject home bloc
   int progress = 1;
   bool viewVisible = false;
@@ -62,15 +61,15 @@ class _ProgressPageState extends State<ProgressPage> {
       BlocProvider.of<HomeBloc>(context, listen: false)
           .getStudentHome()
           .then((value) {
-       if (mounted)
+        if (mounted) {
           setState(() {
             //video
 
             progress = value.student.timeline;
           });
+        }
       });
     });
-   
   }
 
   bool play = true;
@@ -82,7 +81,7 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -92,14 +91,14 @@ class _ProgressPageState extends State<ProgressPage> {
       ),
       extendBodyBehindAppBar: true,
       body: ListView(
-        physics: ClampingScrollPhysics(),
-        padding: EdgeInsets.all(0),
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.all(0),
         children: [
           Image.asset("assets/images/" +
               (Variables.sharedPreferences.get(Variables.countryCode) == "AU"
                   ? "aus_timeline.jpg"
                   : "canada_timeline.jpg")),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Align(
@@ -115,18 +114,18 @@ class _ProgressPageState extends State<ProgressPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Timeline.tileBuilder(
-              padding: EdgeInsets.all(0),
-              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(0),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               theme: TimelineThemeData(
                 nodePosition: 0,
-                connectorTheme: ConnectorThemeData(
+                connectorTheme: const ConnectorThemeData(
                   thickness: 3.0,
                   color: Color(0xffd3d3d3),
                 ),
-                indicatorTheme: IndicatorThemeData(
+                indicatorTheme: const IndicatorThemeData(
                   size: 15.0,
                   color: Colors.blue,
                 ),
@@ -158,27 +157,23 @@ class _ProgressPageState extends State<ProgressPage> {
                                   : FontWeight.normal),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Visibility(
-
                           visible: viewVisible,
                           child: viewVisible == true
                               ? ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                                child: Container(
-
-                                    height: 150,
-                                    width: 230,
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                      borderRadius: BorderRadius.circular(15)
-                                    ),
-                                    child: Videos(
-
-                                    )),
-                              )
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Container(
+                                      height: 150,
+                                      width: 230,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: const Videos()),
+                                )
                               : Container())
                     ],
                   ),
@@ -196,4 +191,3 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 }
-

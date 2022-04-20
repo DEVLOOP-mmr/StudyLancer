@@ -40,14 +40,14 @@ class _OfferPageState extends State<OfferPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               )
             : null,
         backgroundColor: Variables.backgroundColor,
-        title: Text(
+        title: const Text(
           "Create Offer",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
@@ -60,27 +60,27 @@ class _OfferPageState extends State<OfferPage> {
           Form(
             key: formKey,
             child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(color: Colors.white),
-                    SizedBox(
+                    const Divider(color: Colors.white),
+                    const SizedBox(
                       height: 16,
                     ),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.pinkAccent,
                         borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage("assets/images/back_texture.png"),
                           fit: BoxFit.cover,
                         ),
                       ),
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -95,7 +95,7 @@ class _OfferPageState extends State<OfferPage> {
                                       widthFactor: 0.6,
                                       child: Text(
                                         offer.universityName ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 23,
                                             color: Colors.white),
@@ -144,17 +144,17 @@ class _OfferPageState extends State<OfferPage> {
                                   // )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Text(
                                 offer.courseName ?? "",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 14,
                                     color: Colors.white),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 4,
                               ),
                               GestureDetector(
@@ -167,7 +167,7 @@ class _OfferPageState extends State<OfferPage> {
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Description",
                                                   style: TextStyle(
                                                     color: Colors.white,
@@ -175,12 +175,12 @@ class _OfferPageState extends State<OfferPage> {
                                                     fontSize: 18,
                                                   ),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 20,
                                                 ),
                                                 Text(
                                                   offer.description ?? "",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 12,
                                                   ),
@@ -189,7 +189,7 @@ class _OfferPageState extends State<OfferPage> {
                                             ),
                                           ));
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Additional Details",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w200,
@@ -197,10 +197,10 @@ class _OfferPageState extends State<OfferPage> {
                                       color: Colors.white),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Row(
                                 children: [
-                                  RotatedBox(
+                                  const RotatedBox(
                                     quarterTurns: 3,
                                     child: Icon(
                                       Ionicons.send,
@@ -208,32 +208,32 @@ class _OfferPageState extends State<OfferPage> {
                                       size: 14,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 4,
                                   ),
                                   Text(
                                     (offer.city ?? "") + ", ",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
                                         color: Colors.white),
                                   ),
                                   Text(
                                     offer.country ?? "",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
                                         color: Colors.white),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Text(
                                     "\$" + (offer.courseFees ?? "0"),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 14,
                                         color: Colors.white),
                                   ),
-                                  Text(
+                                  const Text(
                                     "/yr",
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -247,11 +247,11 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "University Name",
                         style: TextStyle(
@@ -264,7 +264,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -283,12 +283,12 @@ class _OfferPageState extends State<OfferPage> {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: 'University Name',
@@ -300,8 +300,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Course Name",
                         style: TextStyle(
@@ -314,7 +314,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -333,12 +333,12 @@ class _OfferPageState extends State<OfferPage> {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: 'Course Name',
@@ -350,8 +350,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Course link",
                         style: TextStyle(
@@ -364,7 +364,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -383,12 +383,12 @@ class _OfferPageState extends State<OfferPage> {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: 'Course link',
@@ -400,8 +400,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Description",
                         style: TextStyle(
@@ -414,7 +414,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -435,12 +435,12 @@ class _OfferPageState extends State<OfferPage> {
                           autocorrect: false,
                           minLines: 3,
                           maxLines: 3,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: 'Description',
@@ -452,8 +452,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "City",
                         style: TextStyle(
@@ -466,7 +466,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -485,12 +485,12 @@ class _OfferPageState extends State<OfferPage> {
                             return null;
                           },
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: 'City',
@@ -502,8 +502,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Country",
                         style: TextStyle(
@@ -516,7 +516,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -541,7 +541,7 @@ class _OfferPageState extends State<OfferPage> {
                             }
                             return null;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
@@ -553,7 +553,7 @@ class _OfferPageState extends State<OfferPage> {
                                         color: Colors.black,
                                         child: Text(
                                           label,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Roboto',
@@ -565,8 +565,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Course Fees",
                         style: TextStyle(
@@ -579,7 +579,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -602,12 +602,12 @@ class _OfferPageState extends State<OfferPage> {
                           },
                           keyboardType: TextInputType.number,
                           autocorrect: false,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "Course Fees",
@@ -619,8 +619,8 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Application Fees",
                         style: TextStyle(
@@ -633,7 +633,7 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
@@ -656,12 +656,12 @@ class _OfferPageState extends State<OfferPage> {
                             }
                             return null;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Roboto',
                               fontSize: 12),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "Application Fees",
@@ -673,7 +673,7 @@ class _OfferPageState extends State<OfferPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 150,
                     ),
                   ],
@@ -684,7 +684,7 @@ class _OfferPageState extends State<OfferPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -693,7 +693,7 @@ class _OfferPageState extends State<OfferPage> {
                         color: Colors.black.withOpacity(0.4))
                   ],
                   color: Variables.backgroundColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   )),
@@ -702,13 +702,13 @@ class _OfferPageState extends State<OfferPage> {
                   padding: EdgeInsets.zero,
                   child: Container(
                     height: 50,
-                    color: Color(0xff294A91),
+                    color: const Color(0xff294A91),
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: Variables.buttonGradient,
                       ),
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text(
                           "Submit",
@@ -740,7 +740,7 @@ class _OfferPageState extends State<OfferPage> {
 
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                          builder: (context) => const HomePage(),
                         ),
                       );
                     } else {

@@ -103,7 +103,4 @@ class DocumentBloc {
   }
 }
 
-
-
-
 /// TODO: prompt to ask user to delete as ios

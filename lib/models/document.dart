@@ -5,11 +5,10 @@ class Document {
   String id;
   String reqDocKey;
   Document({
-     this.name,
-     this.link,
-     this.type,
-     this.id,
-     this.reqDocKey,
+    this.name,
+    this.link,
+    this.type,
+    this.id,
+    this.reqDocKey,
   });
-  
 }

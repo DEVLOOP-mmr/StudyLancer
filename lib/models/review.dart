@@ -9,15 +9,14 @@ class Review {
   String reviewerName;
   String reviewContent;
   Review({
-     this.id,
-     this.agentId,
-     this.studentId,
-     this.starsRated,
-     this.createdAt,
-     this.reviewerName,
-     this.reviewContent,
+    this.id,
+    this.agentId,
+    this.studentId,
+    this.starsRated,
+    this.createdAt,
+    this.reviewerName,
+    this.reviewContent,
   });
-  
 
   Map<String, dynamic> toMap() {
     return {

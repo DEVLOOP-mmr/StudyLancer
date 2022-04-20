@@ -17,8 +17,8 @@ class GetDio {
     Dio dio = Dio();
     var options = BaseOptions();
     options.connectTimeout = 2000;
-    options.receiveTimeout = 9000;
-    options.sendTimeout = 9000;
+    options.receiveTimeout = 0;
+    options.sendTimeout = 0;
     options.followRedirects = true;
     options.validateStatus = (status) {
       return true;
@@ -55,7 +55,7 @@ class GetDio {
 
       return handler.next(response); // continue
     }, onError: (DioError e, handler) {
-      if (Firebase.apps.isNotEmpty &&!kDebugMode) {
+      if (Firebase.apps.isNotEmpty && !kDebugMode) {
         FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
       } else {
         debugPrint(e.error.toString());
@@ -84,7 +84,7 @@ class GetDio {
       if (obj is Timestamp) {
         return obj.toString();
       }
-  
+
       return obj;
     });
 

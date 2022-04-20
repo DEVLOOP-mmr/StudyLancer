@@ -15,7 +15,7 @@ class RoomsPage extends StatefulWidget {
 }
 
 class _RoomsPageState extends State<RoomsPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class _RoomsPageState extends State<RoomsPage> {
           ),
         ],
         leading: null,
-        title: Text(
+        title: const Text(
           "Chats",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
@@ -109,7 +109,7 @@ class _RoomsPageState extends State<RoomsPage> {
                           ),
                           Text(
                             room.name ?? 'User',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16),

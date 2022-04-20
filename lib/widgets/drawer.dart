@@ -74,7 +74,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 },
                 title: const Text(
                   "Home",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -98,7 +98,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   },
                   title: const Text(
                     "Progress",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -142,7 +142,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 },
                 title: const Text(
                   "Accommodation",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -164,7 +164,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 },
                 title: const Text(
                   "Website",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -186,7 +186,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 },
                 title: const Text(
                   "About Us",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -229,7 +229,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 title: const Text(
                   "Share with Friends",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -258,7 +258,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   },
                   child: const Text(
                     "Rate Us",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
@@ -285,7 +285,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 title: const Text(
                   "Helpdesk",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',
@@ -314,7 +314,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 title: const Text(
                   "Log Out",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Roboto',

@@ -89,7 +89,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
-                                      content: const Text("Document Removed"),
+                                      content: Text("Document Removed"),
                                     ));
                                   },
                                 )
@@ -112,7 +112,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
         automaticallyImplyLeading: true,
         title: const Text(
           "Documents",
-          style: const TextStyle(
+          style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
         ),
         leading: Navigator.of(context).canPop()
@@ -151,13 +151,13 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
                     if (state is InitialHomeState) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
                     final student = (state as StudentHomeState).student;
                     return student == null
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : Column(
@@ -175,12 +175,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                               ),
                               student == null
                                   ? const Center(
-                                      child: const CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(),
                                     )
                                   : student.id == null
                                       ? const Center(
-                                          child:
-                                              const CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(),
                                         )
                                       : BlocBuilder<HomeBloc, HomeState>(
                                           builder: (context, state) {
@@ -198,7 +197,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                               ),
                               student.id == null
                                   ? const Center(
-                                      child: const CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(),
                                     )
                                   : Flexible(
                                       child: ListView.builder(
@@ -251,8 +250,8 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                         const SnackBar(
-                                                  content: const Text(
-                                                      "Document Removed"),
+                                                  content:
+                                                      Text("Document Removed"),
                                                 ));
                                               },
                                             ),
@@ -260,7 +259,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                         },
                                       ),
                                     ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 200,
                               )
                             ],

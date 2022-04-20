@@ -27,10 +27,11 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
     CountryBloc.getCountries().then((value) {
       EasyLoading.dismiss();
 
-      if (mounted)
+      if (mounted) {
         setState(() {
           countries = value;
         });
+      }
 
       if (countries.isEmpty) {
         EasyLoading.dismiss();
@@ -146,9 +147,9 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                     child: NeumorphicButton(
                       child: const Padding(
                         padding: EdgeInsets.all(8),
-                        child: const Text(
+                        child: Text(
                           "Not Sure ?",
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w600),
@@ -197,9 +198,9 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                 ),
                                 child: const Align(
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child: Text(
                                     "Next",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600),
@@ -264,16 +265,16 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
+                                      children: const [
+                                        Icon(
                                           Icons.phone_outlined,
                                           color: Colors.white,
                                           size: 14,
                                         ),
-                                        const SizedBox(width: 4),
-                                        const Text(
+                                        SizedBox(width: 4),
+                                        Text(
                                           "Request Callback",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600),
@@ -303,11 +304,10 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                       children: [
                                                         const Padding(
                                                           padding:
-                                                              EdgeInsets
-                                                                      .only(
+                                                              EdgeInsets.only(
                                                                   bottom: 20),
-                                                          child: const Center(
-                                                            child: const Text(
+                                                          child: Center(
+                                                            child: Text(
                                                               "Request a callback",
                                                               style: TextStyle(
                                                                   color: Colors
@@ -323,8 +323,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                         ),
                                                         const Padding(
                                                           padding:
-                                                              EdgeInsets
-                                                                      .only(
+                                                              EdgeInsets.only(
                                                                   bottom: 8),
                                                           child: Text(
                                                             "Phone Number",
@@ -351,7 +350,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               color:
                                                                   Colors.black,
                                                               borderRadius: BorderRadius
-                                                                  .all(const Radius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           10))),
                                                           child: Padding(
@@ -413,10 +412,9 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                         ),
                                                         const Padding(
                                                           padding:
-                                                              EdgeInsets
-                                                                      .only(
+                                                              EdgeInsets.only(
                                                                   bottom: 8),
-                                                          child: const Text(
+                                                          child: Text(
                                                             "Message",
                                                             style: TextStyle(
                                                                 fontStyle:
@@ -440,7 +438,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                           decoration: const BoxDecoration(
                                                               color:
                                                                   Colors.black,
-                                                              borderRadius: const BorderRadius
+                                                              borderRadius: BorderRadius
                                                                   .all(Radius
                                                                       .circular(
                                                                           10))),
@@ -521,19 +519,19 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                                     Container(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(
-                                                                              12),
+                                                                          .all(12),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     gradient:
                                                                         Variables
                                                                             .buttonGradient,
                                                                   ),
-                                                                  child: const Align(
+                                                                  child:
+                                                                      const Align(
                                                                     alignment:
                                                                         Alignment
                                                                             .center,
-                                                                    child: const Text(
+                                                                    child: Text(
                                                                       "Submit",
                                                                       style: TextStyle(
                                                                           color: Colors
@@ -621,7 +619,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                               child: NeumorphicButton(
                                 child: const Padding(
                                   padding: EdgeInsets.all(4.0),
-                                  child: const Icon(
+                                  child: Icon(
                                     Ionicons.logo_whatsapp,
                                     color: Colors.greenAccent,
                                     size: 17,

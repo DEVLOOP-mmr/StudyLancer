@@ -37,7 +37,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
             appBar: AppBar(
               leading: Navigator.of(context).canPop()
                   ? IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
+                      icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -64,7 +64,6 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-
                     // borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(colors: [
                       Colors.transparent,
@@ -80,7 +79,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -93,7 +92,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 6,
                               ),
                               Row(
@@ -105,7 +104,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                         .dominantColor.titleTextColor,
                                     size: 14,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 6,
                                   ),
                                   Text(
@@ -123,14 +122,14 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           if (widget.student.marksheet != null)
                             Padding(
                               padding: const EdgeInsets.only(right: 32.0),
                               child: GridView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount:
                                       widget.student.marksheet.length * 2,
@@ -142,10 +141,10 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                   itemBuilder: (context, index) {
                                     var markData = widget.student.marksheet.keys
                                         .toList(growable: true);
-                                    widget.student.marksheet.values
-                                        .forEach((element) {
+                                    for (var element
+                                        in widget.student.marksheet.values) {
                                       markData.add(element.toString());
-                                    });
+                                    }
                                     return Container(
                                       decoration: BoxDecoration(
                                         border: Border.all(
@@ -165,7 +164,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                     );
                                   }),
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           InkWell(

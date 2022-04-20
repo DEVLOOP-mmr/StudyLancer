@@ -43,7 +43,7 @@ class OfferCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Color(int.parse(offer.color.replaceFirst("#", ""))),
                     borderRadius: BorderRadius.circular(8)),
-                child: Container(
+                child: SizedBox(
                   height: 200,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -135,7 +135,7 @@ class OfferCard extends StatelessWidget {
                                         children: [
                                           const Text(
                                             "Description",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18,
@@ -388,7 +388,7 @@ class OfferCard extends StatelessWidget {
                                   offer.status == 3
                                       ? "Offer Accepted"
                                       : "Accept Offer",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600),

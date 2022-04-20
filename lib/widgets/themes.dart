@@ -20,7 +20,8 @@ class MyTheme {
       appBarTheme: AppBarTheme(
         color: Colors.white,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Color(0xffFFAC97)),
-        textTheme: Theme.of(context).textTheme,
+        iconTheme: const IconThemeData(color: Color(0xffFFAC97)),
+        toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
+        titleTextStyle: Theme.of(context).textTheme.headline6,
       ));
 }

@@ -90,8 +90,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -140,8 +139,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -192,8 +190,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -246,8 +243,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -259,7 +255,7 @@ class AgentProfilePage extends StatelessWidget {
                             String p =
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-                            RegExp regExp =  RegExp(p);
+                            RegExp regExp = RegExp(p);
                             if (!regExp.hasMatch(value)) {
                               return "Please enter valid email";
                             }
@@ -300,8 +296,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8.0),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -328,7 +323,6 @@ class AgentProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
                     const Padding(
                       padding: EdgeInsets.only(left: 35.0, bottom: 8),
                       child: Text(
@@ -346,8 +340,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -406,8 +399,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
@@ -456,8 +448,7 @@ class AgentProfilePage extends StatelessWidget {
                           left: 30.0, right: 30.0, bottom: 8),
                       decoration: const BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
@@ -532,7 +523,6 @@ class AgentProfilePage extends StatelessWidget {
                               EasyLoading.show(status: "Updating");
                               ProfileBloc.setAgentProfile(agent)
                                   .then((value) async {
-                               
                                 EasyLoading.dismiss();
                                 EasyLoading.showSuccess("Updated Successfully");
                               });

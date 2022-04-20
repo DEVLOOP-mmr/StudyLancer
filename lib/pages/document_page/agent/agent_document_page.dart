@@ -87,7 +87,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
 
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
-                                    content: const Text("Document Removed"),
+                                    content: Text("Document Removed"),
                                   ));
                                 },
                               )
@@ -109,7 +109,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
         automaticallyImplyLeading: true,
         title: const Text(
           "Documents",
-          style: const TextStyle(
+          style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
         ),
         leading: Navigator.of(context).canPop()
@@ -169,11 +169,11 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                         ),
                         agent == null
                             ? const Center(
-                                child: const CircularProgressIndicator(),
+                                child: CircularProgressIndicator(),
                               )
                             : agent.id == null
                                 ? const Center(
-                                    child: const CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(),
                                   )
                                 : BlocBuilder<HomeBloc, HomeState>(
                                     builder: (context, state) {
@@ -191,7 +191,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                         ),
                         agent.id == null
                             ? const Center(
-                                child: const CircularProgressIndicator(),
+                                child: CircularProgressIndicator(),
                               )
                             : Flexible(
                                 child: ListView.builder(
@@ -238,8 +238,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
 
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
-                                            content:
-                                                const Text("Document Removed"),
+                                            content: Text("Document Removed"),
                                           ));
                                         },
                                       ),
@@ -247,7 +246,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                   },
                                 ),
                               ),
-                        SizedBox(
+                        const SizedBox(
                           height: 200,
                         )
                       ],

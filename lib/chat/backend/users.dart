@@ -1,5 +1,6 @@
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../chat.dart';
 import 'firebase_chat_core.dart';
@@ -24,8 +25,8 @@ class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
         title: const Text('Users'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: StreamBuilder<List<types.User>>(
         stream: FirebaseChatCore.instance.users(),

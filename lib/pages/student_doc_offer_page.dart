@@ -26,13 +26,13 @@ class StudentDocOfferPage extends StatelessWidget {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               )
             : null,
-        title: Text(
+        title: const Text(
           "Documents",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
@@ -42,8 +42,8 @@ class StudentDocOfferPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Divider(color: Colors.white),
           ),
           Expanded(
@@ -67,7 +67,7 @@ class StudentDocOfferPage extends StatelessWidget {
                     icon = "assets/imageicon.png";
                   }
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: InnerShadow(
                       blur: 20,
                       offset: const Offset(5, 5),
@@ -99,22 +99,22 @@ class StudentDocOfferPage extends StatelessWidget {
                                   "Please allow storage permissions");
                             }
                           },
-                          contentPadding: EdgeInsets.all(15),
+                          contentPadding: const EdgeInsets.all(15),
                           leading: Image.asset(icon),
                           trailing: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
                                 color: Color(0x3fC1C1C1),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30))),
-                            child: Icon(
+                            child: const Icon(
                               Ionicons.cloud_download_outline,
                               color: Colors.white,
                             ),
                           ),
                           title: Text(
                             doc.name,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -125,7 +125,7 @@ class StudentDocOfferPage extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -134,7 +134,7 @@ class StudentDocOfferPage extends StatelessWidget {
                       color: Colors.black.withOpacity(0.4))
                 ],
                 color: Variables.backgroundColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 )),
@@ -149,20 +149,20 @@ class StudentDocOfferPage extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 SafeArea(
                   child: NeumorphicButton(
                     padding: EdgeInsets.zero,
                     child: Container(
-                      color: Color(0xff294A91),
+                      color: const Color(0xff294A91),
                       child: Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           gradient: Variables.buttonGradient,
                         ),
-                        child: Align(
+                        child: const Align(
                           alignment: Alignment.center,
                           child: Text(
                             "Provide Option ->",

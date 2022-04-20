@@ -29,7 +29,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-
   bool _isAttachmentUploading = false;
   List<types.User> roomUsers = [];
 
@@ -77,9 +76,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _onPreviewDataFetched(
-      types.TextMessage message,
-      types.PreviewData previewData,
-      ) {
+    types.TextMessage message,
+    types.PreviewData previewData,
+  ) {
     final updatedMessage = message.copyWith(previewData: previewData);
     FirebaseChatCore.instance.updateMessage(updatedMessage, widget.roomId);
   }
@@ -130,7 +129,7 @@ class _ChatPageState extends State<ChatPage> {
 
     if (result != null) {
       _setAttachmentUploading(true);
-      for(var x in result.files){
+      for (var x in result.files) {
         final fileName = x.path.split("/").last;
         final filePath = x.path;
         final file = File(filePath ?? '');
@@ -157,24 +156,18 @@ class _ChatPageState extends State<ChatPage> {
           print(e);
         }
       }
-    }
-    else {
+    } else {
       // User canceled the picker
     }
   }
 
   //new
 
-
-
   void _showImagePicker() async {
-    final result = await ImagePicker(
-
-    ).pickImage(
+    final result = await ImagePicker().pickImage(
       imageQuality: 70,
       maxWidth: 1440,
-
-       source: ImageSource.gallery,
+      source: ImageSource.gallery,
     );
 
     if (result != null) {
@@ -191,7 +184,6 @@ class _ChatPageState extends State<ChatPage> {
         final uri = await reference.getDownloadURL();
 
         final message = types.PartialImage(
-
           height: image.height.toDouble(),
           imageName: imageName,
           size: size,
@@ -238,8 +230,8 @@ class _ChatPageState extends State<ChatPage> {
           onPressed: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: ((context) {
-                  return HomePage();
-                })));
+              return const HomePage();
+            })));
           },
         ),
       ),
@@ -251,14 +243,14 @@ class _ChatPageState extends State<ChatPage> {
             print(snapshot.data);
             print(widget.roomId);
             print("@123kjxncslkjkdn");
-            snapshot.data.forEach((element) {
+            for (var element in snapshot.data) {
               if (element.status != types.Status.read &&
-                  element.authorId != FirebaseChatCore.instance.user.uid ??
+                      element.authorId != FirebaseChatCore.instance.user.uid ??
                   '') {
                 FirebaseChatCore.instance.updateMessage(
                     element.copyWith(status: types.Status.read), widget.roomId);
               }
-            });
+            }
           }
           return Chat(
             isAttachmentUploading: _isAttachmentUploading,

@@ -46,7 +46,7 @@ class OfferBloc {
         }
       }
       return response;
-    } on DioError catch (e) {
+    } on DioError {
       EasyLoading.show(status: 'Cant connect please try again later');
     }
   }
@@ -78,7 +78,7 @@ class OfferBloc {
         }
       }
       return response;
-    } on DioError catch (e) {
+    } on DioError {
       EasyLoading.show(status: 'Cant connect please try again later');
     }
   }

@@ -8,6 +8,14 @@
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+  errors:
+    missing_required_param: error
+
+
 dart_code_metrics:
   anti-patterns:
     - long-method
@@ -26,10 +34,7 @@ dart_code_metrics:
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
-analyzer:
-  errors:
-    missing_required_param: error
-
+    
 linter:
   
   

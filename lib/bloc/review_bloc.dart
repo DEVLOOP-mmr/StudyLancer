@@ -24,11 +24,11 @@ class ReviewBloc {
         var data = result.data;
         List reviewListData = data["data"];
         agentReviews.studentHasReviewed = data["studentHasReviewed"] ?? false;
-        reviewListData.forEach((reviewData) {
+        for (var reviewData in reviewListData) {
           var review = parseReviewData(reviewData['review']);
 
           agentReviews.reviews.add(review);
-        });
+        }
       } else {
         return null;
       }

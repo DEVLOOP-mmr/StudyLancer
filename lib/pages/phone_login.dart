@@ -24,7 +24,7 @@ class _PhonePageState extends State<PhonePage> {
         backgroundColor: Colors.transparent,
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -32,7 +32,7 @@ class _PhonePageState extends State<PhonePage> {
             : null,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Color(0xff1E2224),
             image: DecorationImage(
                 image: AssetImage(
@@ -42,9 +42,9 @@ class _PhonePageState extends State<PhonePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SafeArea(
+            const SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 150.0),
+                padding: EdgeInsets.only(left: 16.0, right: 150.0),
                 child: Text(
                   "Let’s get started",
                   style: TextStyle(
@@ -62,13 +62,12 @@ class _PhonePageState extends State<PhonePage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(50)),
                 child: IntlPhoneField(
-                  
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     errorBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(bottom: 8),
+                    contentPadding: const EdgeInsets.only(bottom: 8),
                     disabledBorder: InputBorder.none,
                     alignLabelWithHint: true,
                     counter: Container(),
@@ -77,34 +76,34 @@ class _PhonePageState extends State<PhonePage> {
                     labelStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
                   ),
                   initialCountryCode: 'IN',
-                  
                   countryCodeTextColor: Colors.white,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                   onChanged: (phone) {
-                    if (mounted)
+                    if (mounted) {
                       setState(() {
                         phoneNumber = phone.completeNumber;
                       });
+                    }
                   },
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: NeumorphicButton(
                   padding: EdgeInsets.zero,
                   child: Container(
-                    color: Color(0xff294A91),
+                    color: const Color(0xff294A91),
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: Variables.buttonGradient,
                       ),
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text(
                           "Get OTP",
@@ -119,7 +118,8 @@ class _PhonePageState extends State<PhonePage> {
                   onPressed: phoneNumber == null
                       ? () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Enter Phone Number")));
+                              const SnackBar(
+                                  content: Text("Enter Phone Number")));
                         }
                       : () {
                           EasyLoading.show(
@@ -138,7 +138,7 @@ class _PhonePageState extends State<PhonePage> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HomePage(),
+                                        builder: (context) => const HomePage(),
                                       ),
                                       (_) => false);
                                 }).catchError((e) {
@@ -175,7 +175,7 @@ class _PhonePageState extends State<PhonePage> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),

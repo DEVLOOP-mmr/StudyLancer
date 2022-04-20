@@ -27,7 +27,6 @@ class Agent extends Equatable {
   Map<String, Document> requiredDocuments;
   Agent();
 
-
   factory Agent.parseAgentData(agentData) {
     Agent agent = Agent();
     agent.name = agentData["name"];
@@ -51,7 +50,7 @@ class Agent extends Equatable {
     List otherDoc = agentData["documents"];
     agent.documents = [];
     agent.requiredDocuments = {};
-    otherDoc.forEach((element) {
+    for (var element in otherDoc) {
       if (element is Map) {
         var document = Document();
         document
@@ -65,7 +64,7 @@ class Agent extends Equatable {
           agent.documents.add(document);
         }
       }
-    });
+    }
     return agent;
   }
 

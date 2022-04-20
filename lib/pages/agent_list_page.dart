@@ -13,7 +13,6 @@ class AgentListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Variables.backgroundColor,
-
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
@@ -37,7 +36,6 @@ class AgentListPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
-
               itemCount: agents.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -55,7 +53,7 @@ class AgentListPage extends StatelessWidget {
                       );
                     }));
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width - 40,
                     child: Neumorphic(
                       style: NeumorphicStyle(
@@ -74,7 +72,7 @@ class AgentListPage extends StatelessWidget {
                         ),
                         child: Container(
                           decoration: const BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                                 colors: [Colors.transparent, Colors.black],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter),

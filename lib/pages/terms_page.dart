@@ -13,7 +13,7 @@ class TermsPage extends StatelessWidget {
           backgroundColor: Variables.backgroundColor,
           leading: Navigator.of(context).canPop()
               ? IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
+                  icon: const Icon(Icons.arrow_back_ios),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -24,7 +24,7 @@ class TermsPage extends StatelessWidget {
             'Terms & Conditions',
             style: TextStyle(
                 foreground: Paint()
-                  ..shader = LinearGradient(
+                  ..shader = const LinearGradient(
                     colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
                   ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
                 //color: Colors.blue[900],
@@ -37,7 +37,7 @@ class TermsPage extends StatelessWidget {
         body: SafeArea(
           child: Container(
               color: Variables.backgroundColor,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
