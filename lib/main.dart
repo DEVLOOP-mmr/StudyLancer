@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
@@ -83,8 +84,17 @@ class _MyAppState extends State<MyApp> {
                     : const CountrySelectPage()
                 : const UserTypeSelectPage();
           }
-          return BlocProvider(
-            create: (context) => HomeBloc(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => HomeBloc(),
+              ),
+              BlocProvider(
+                lazy: false,
+                create: (context) =>
+                    FirebaseChatBloc(homeBloc: context.read<HomeBloc>()),
+              ),
+            ],
             child: MaterialApp(
               themeMode: ThemeMode.light,
               color: Variables.accentColor,

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/variables.dart';

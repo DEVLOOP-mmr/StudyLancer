@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/models/study_lancer_user.dart';
-import 'package:elite_counsel/pages/home_page/home_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:elite_counsel/chat/ui/widgets/chat.dart';
 
@@ -20,10 +22,10 @@ import 'package:path_provider/path_provider.dart';
 class ChatPage extends StatefulWidget {
   const ChatPage({
     Key key,
-    @required this.roomId,
+    @required this.room,
   }) : super(key: key);
 
-  final String roomId;
+  final types.Room room;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -81,13 +83,14 @@ class _ChatPageState extends State<ChatPage> {
     types.PreviewData previewData,
   ) {
     final updatedMessage = message.copyWith(previewData: previewData);
-    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.roomId);
+    BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+        .updateMessage(updatedMessage, widget.room.id);
   }
 
   void _onSendPressed(types.PartialText message) {
-    FirebaseChatCore.instance.sendMessage(
+    BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
       message,
-      widget.roomId,
+      widget.room.id,
     );
     // var selfUser = Functions.getSelUserID();
     // roomUsers.forEach((element) {
@@ -147,14 +150,16 @@ class _ChatPageState extends State<ChatPage> {
             uri: uri,
           );
 
-          FirebaseChatCore.instance.sendMessage(
+          BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
             message,
-            widget.roomId,
+            widget.room.id,
           );
           _setAttachmentUploading(false);
         } on FirebaseException catch (e) {
           _setAttachmentUploading(false);
-          print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
       }
     } else {
@@ -192,14 +197,16 @@ class _ChatPageState extends State<ChatPage> {
           width: image.width.toDouble(),
         );
 
-        FirebaseChatCore.instance.sendMessage(
+        BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
           message,
-          widget.roomId,
+          widget.room.id,
         );
         _setAttachmentUploading(false);
       } on FirebaseException catch (e) {
         _setAttachmentUploading(false);
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     } else {
       // User canceled the picker
@@ -208,8 +215,9 @@ class _ChatPageState extends State<ChatPage> {
 
   //new
   getRoomUsers() async {
-    roomUsers =
-        (await FirebaseChatCore.instance.getRoomDetail(widget.roomId)).users;
+    roomUsers = (await BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+            .getRoomDetail(widget.room.id))
+        .users;
   }
 
   @override
@@ -223,33 +231,36 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Variables.backgroundColor,
-        title: const Text(
-          'Chat',
-          style: TextStyle(color: Colors.white),
+        title: Title(
+          color: Variables.backgroundColor,
+          child: AutoSizeText(
+            widget.room.name,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
         leading: BackButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: ((context) {
-              return const HomePage();
-            })));
+            Navigator.pop(context);
           },
         ),
       ),
       body: StreamBuilder<List<types.Message>>(
-        stream: FirebaseChatCore.instance.messages(widget.roomId),
+        stream: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+            .messages(widget.room.id),
         initialData: const [],
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data);
-            print(widget.roomId);
-            print("@123kjxncslkjkdn");
             for (var element in snapshot.data) {
               if (element.status != types.Status.read &&
-                      element.authorId != FirebaseChatCore.instance.user.uid ??
+                      element.authorId !=
+                          BlocProvider.of<FirebaseChatBloc>(context,
+                                  listen: false)
+                              .user
+                              .uid ??
                   '') {
-                FirebaseChatCore.instance.updateMessage(
-                    element.copyWith(status: types.Status.read), widget.roomId);
+                BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+                    .updateMessage(element.copyWith(status: types.Status.read),
+                        widget.room.id);
               }
             }
           }
@@ -261,7 +272,10 @@ class _ChatPageState extends State<ChatPage> {
             onPreviewDataFetched: _onPreviewDataFetched,
             onSendPressed: _onSendPressed,
             user: types.User(
-              id: FirebaseChatCore.instance.user.uid ?? '',
+              id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+                      .user
+                      .uid ??
+                  '',
               avatarUrl: FirebaseAuth.instance.currentUser.photoURL,
               firstName: FirebaseAuth.instance.currentUser.displayName,
             ),

@@ -1,18 +1,12 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/offer_bloc.dart';
-import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
-import 'package:elite_counsel/chat/chat.dart';
-import 'package:elite_counsel/chat/type/user.dart' as types;
-import 'package:elite_counsel/classes/classes.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/models/study_lancer_user.dart';
-import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -736,7 +730,8 @@ class _OfferPageState extends State<OfferPage> {
                       bloc.getAgentHome(context: context);
                       var otherUser = widget.student;
 
-                      await FirebaseChatCore.instance
+                      await BlocProvider.of<FirebaseChatBloc>(context,
+                              listen: false)
                           .createRoom(agent, otherUser);
 
                       await Navigator.of(context).pushReplacement(

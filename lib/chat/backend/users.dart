@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../chat.dart';
-import 'firebase_chat_core.dart';
-
+import 'firebase_chat_bloc/firebase_chat_bloc.dart';
 
 @Deprecated("Figma has no page to show list of users, unused in Widget Tree")
 class UsersPage extends StatelessWidget {
@@ -31,60 +30,62 @@ class UsersPage extends StatelessWidget {
         title: const Text('Users'),
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
-      body: StreamBuilder<List<types.User>>(
-        stream: FirebaseChatCore.instance.users(),
-        initialData: const [],
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data.isEmpty) {
-            return Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(
-                bottom: 200,
-              ),
-              child: const Text('No users'),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              final user = snapshot.data[index];
-
-              return GestureDetector(
-                onTap: () {
-                 /// TODO: _handlePressed(user, context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        margin: const EdgeInsets.only(
-                          right: 16,
-                        ),
-                        width: 40,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          child: Image.network(
-                            user.avatarUrl ?? '',
-                          ),
-                        ),
-                      ),
-                      Text('${user.firstName} ${user.lastName}'),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
     );
+    //   body: StreamBuilder<List<types.User>>(
+    //     stream: BlocProvider.of<FirebaseChatBloc>(context,
+                              
+    //     initialData: const [],
+    //     builder: (context, snapshot) {
+    //       if (!snapshot.hasData || snapshot.data.isEmpty) {
+    //         return Container(
+    //           alignment: Alignment.center,
+    //           margin: const EdgeInsets.only(
+    //             bottom: 200,
+    //           ),
+    //           child: const Text('No users'),
+    //         );
+    //       }
+
+    //       return ListView.builder(
+    //         itemCount: snapshot.data.length,
+    //         itemBuilder: (context, index) {
+    //           final user = snapshot.data[index];
+
+    //           return GestureDetector(
+    //             onTap: () {
+    //               /// TODO: _handlePressed(user, context);
+    //             },
+    //             child: Container(
+    //               padding: const EdgeInsets.symmetric(
+    //                 horizontal: 16,
+    //                 vertical: 8,
+    //               ),
+    //               child: Row(
+    //                 children: [
+    //                   Container(
+    //                     height: 40,
+    //                     margin: const EdgeInsets.only(
+    //                       right: 16,
+    //                     ),
+    //                     width: 40,
+    //                     child: ClipRRect(
+    //                       borderRadius: const BorderRadius.all(
+    //                         Radius.circular(20),
+    //                       ),
+    //                       child: Image.network(
+    //                         user.avatarUrl ?? '',
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   Text('${user.firstName} ${user.lastName}'),
+    //                 ],
+    //               ),
+    //             ),
+    //           );
+    //         },
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

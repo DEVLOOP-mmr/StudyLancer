@@ -1,17 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'backend_util.dart';
+import '../backend_util.dart';
 
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to aceess methods.
-class FirebaseChatCore {
-  FirebaseChatCore._privateConstructor() {
+class FirebaseChatBloc extends Cubit<FirebaseChatState> {
+  HomeBloc homeBloc;
+  FirebaseChatBloc({this.homeBloc})
+      : super(const FirebaseChatState(rooms: [], loadState: LoadState.initial)) {
     user = FirebaseAuth.instance.currentUser;
+
+    homeBloc.stream.listen((state) {
+      if (state.loadState == LoadState.done) {
+        if (state is AgentHomeState) {
+          var agentState = state;
+          fetchRooms(agentState.agent);
+        } else if (state is StudentHomeState) {
+          var studentState = state;
+          fetchRooms(studentState.student);
+        }
+      }
+    });
   }
+
+  // FirebaseChatCore._privateConstructor() {
+  //   user = FirebaseAuth.instance.currentUser;
+  // }
 
   void resetLoginData() {
     user = null;
@@ -23,8 +45,8 @@ class FirebaseChatCore {
 
   User user;
 
-  static final FirebaseChatCore instance =
-      FirebaseChatCore._privateConstructor();
+  // static final FirebaseChatCore instance =
+  //     FirebaseChatCore._privateConstructor();
 
   Future<types.Room> createGroupRoom({
     String imageUrl,
@@ -83,7 +105,6 @@ class FirebaseChatCore {
       // Create a new room instead
     }
 
-   
     final users = [currentUser, otherUser];
 
     final room = await FirebaseFirestore.instance.collection('rooms').add({
@@ -136,7 +157,7 @@ class FirebaseChatCore {
         );
 
         imageUrl = otherUser.photo;
-        name = '${otherUser.name}';
+        name = otherUser.name;
       } catch (e) {
         // Do nothing if other user is not found, because he should be found.
         // Consider falling back to some default values.
@@ -186,19 +207,19 @@ class FirebaseChatCore {
     );
   }
 
-  /// Returns a stream of rooms from Firebase. Only rooms where current
+  /// Emits a stream of rooms from Firebase. Only rooms where current
   /// logged in user exist are returned.
-  Stream<List<types.Room>> rooms(StudyLancerUser currentUser) {
-    if (currentUser == null) return const Stream.empty();
-
+  void fetchRooms(StudyLancerUser currentUser) {
+    // if (currentUser == null) return const Stream.empty();
+    emit(state.copyWith(loadState: LoadState.loading));
     var snapshots = FirebaseFirestore.instance
         .collection('rooms')
         .where('userIds', arrayContains: user.uid)
         .snapshots();
-
-    var rooms = snapshots.asyncMap((query) => processRoomsQuery(currentUser, query));
-   
-    return rooms;
+    snapshots.listen((query) async {
+      final rooms = await processRoomsQuery(currentUser, query);
+      emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
+    });
   }
 
   /// Sends a message to the Firestore. Accepts any partial message and a
