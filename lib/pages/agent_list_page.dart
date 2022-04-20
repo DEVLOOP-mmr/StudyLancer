@@ -1,6 +1,4 @@
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/agent.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -19,7 +17,7 @@ class AgentListPage extends StatelessWidget {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -41,7 +39,7 @@ class AgentListPage extends StatelessWidget {
           child: GridView.builder(
 
               itemCount: agents.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.7,
                   crossAxisSpacing: 16,
@@ -75,8 +73,8 @@ class AgentListPage extends StatelessWidget {
                           ),
                         ),
                         child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                          decoration: const BoxDecoration(
+                            gradient: const LinearGradient(
                                 colors: [Colors.transparent, Colors.black],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter),
@@ -86,28 +84,28 @@ class AgentListPage extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   agents[index].name ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                                 Text(
                                   (agents[index].applicationsHandled ?? "0") +
                                       " Students",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 7,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                                 Row(
@@ -117,7 +115,7 @@ class AgentListPage extends StatelessWidget {
                                       color: Colors.white.withOpacity(0.6),
                                       size: 10,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 6,
                                     ),
                                     Text(

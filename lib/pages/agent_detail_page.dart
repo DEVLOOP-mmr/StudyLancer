@@ -41,7 +41,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
             appBar: AppBar(
               leading: Navigator.of(context).canPop()
                   ? IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
+                      icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -82,7 +82,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Spacer(),
+                          const Spacer(),
                           Stack(
                             children: [
                               Align(
@@ -102,7 +102,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 6,
                                       ),
                                       Row(
@@ -114,7 +114,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                 .dominantColor.titleTextColor,
                                             size: 14,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 6,
                                           ),
                                           Text(
@@ -143,7 +143,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         color: paletteGenerator
                                             .dominantColor.titleTextColor
                                             .withOpacity(0.3),
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(20),
                                             bottomLeft: Radius.circular(20))),
                                     child: Padding(
@@ -157,7 +157,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                 .dominantColor.titleTextColor,
                                             size: 20,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 6,
                                           ),
                                           Text(
@@ -177,7 +177,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Padding(
@@ -193,7 +193,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Row(
@@ -216,7 +216,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                             .withOpacity(0.7),
                                         size: 14,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 6,
                                       ),
                                       Text(
@@ -239,7 +239,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 12,
                               ),
                               Container(
@@ -260,7 +260,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                             .withOpacity(0.7),
                                         size: 14,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 6,
                                       ),
                                       Text(
@@ -281,7 +281,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Padding(
@@ -289,7 +289,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                             child: GestureDetector(
                               onTap: () {
                                 showModalBottomSheet(
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(40),
                                             topRight: Radius.circular(40))),
@@ -317,7 +317,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                     decoration: BoxDecoration(
                                                         color: Colors.white.withOpacity(0.9),
                                                         borderRadius:
-                                                            BorderRadius.only(
+                                                            const BorderRadius.only(
                                                           topLeft:
                                                               Radius.circular(50),
                                                           topRight:
@@ -347,7 +347,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                         Text(
                                                                           snapshot.data.reviews.length.toString() +
                                                                               " Reviews",
-                                                                          style: TextStyle(
+                                                                          style: const TextStyle(
                                                                               color: Color(
                                                                                   0xff919191),
                                                                               fontSize:
@@ -355,7 +355,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                               fontWeight:
                                                                                   FontWeight.w500),
                                                                         ),
-                                                                        Spacer(),
+                                                                        const Spacer(),
                                                                         StarRating(
                                                                           rating: double.parse(widget
                                                                               .agent
@@ -369,7 +369,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                           " (" +
                                                                               widget.agent.reviewsAvg +
                                                                               ")",
-                                                                          style: TextStyle(
+                                                                          style: const TextStyle(
                                                                               color: Colors
                                                                                   .black,
                                                                               fontSize:
@@ -406,7 +406,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                       MainAxisSize
                                                                           .min,
                                                                   children: [
-                                                                    SizedBox(
+                                                                    const SizedBox(
                                                                       height: 8,
                                                                     ),
                                                                     Row(
@@ -420,7 +420,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                           color: Colors
                                                                               .green,
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                           width:
                                                                               8,
                                                                         ),
@@ -430,7 +430,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                                 DateTime.parse(review.createdAt))),
                                                                       ],
                                                                     ),
-                                                                    SizedBox(
+                                                                    const SizedBox(
                                                                       height: 8,
                                                                     ),
                                                                     Text(review
@@ -459,9 +459,9 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                               }
                                               return Container(
                                                 color: Colors.white,
-                                                child: Center(
+                                                child: const Center(
                                                     child:
-                                                        CircularProgressIndicator()),
+                                                        const CircularProgressIndicator()),
                                               );
                                             }),
                                       );

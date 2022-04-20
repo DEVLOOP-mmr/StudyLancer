@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:dio/src/response.dart';
+import 'package:dio/src/response.dart' show Response;
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
@@ -117,7 +117,9 @@ class HomeBloc extends Cubit<HomeState> {
     } else {}
     if (state.countryCode.isEmpty) {
       setCountry(
-          Variables.sharedPreferences.get(Variables.countryCode), 'student');
+        Variables.sharedPreferences.get(Variables.countryCode),
+        'student',
+      );
     }
     assert(state.countryCode.isNotEmpty);
     Map<String, String> body = {
@@ -141,6 +143,7 @@ class HomeBloc extends Cubit<HomeState> {
         }
       }
     } else {
+      
       await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));

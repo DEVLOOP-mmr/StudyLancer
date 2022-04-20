@@ -61,7 +61,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -71,7 +71,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Color(0xff1E2224),
             image: DecorationImage(
                 image: AssetImage(
@@ -89,12 +89,12 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                           Variables.userTypeStudent
                       ? "Where do you want to study ?"
                       : "Country recruiting for?",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 40,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ListView.builder(
@@ -106,14 +106,14 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                         child: NeumorphicButton(
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   countries[index].countryName,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
@@ -133,7 +133,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                           style: NeumorphicStyle(
                               depth: 0,
                               color: selectedIndex == index
-                                  ? Color(0xff294A91)
+                                  ? const Color(0xff294A91)
                                   : Colors.black,
                               boxShape: NeumorphicBoxShape.roundRect(
                                   BorderRadius.circular(30))),
@@ -144,11 +144,11 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: NeumorphicButton(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
+                      child: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: const Text(
                           "Not Sure ?",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w600),
@@ -166,14 +166,14 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                       style: NeumorphicStyle(
                           depth: 0,
                           color: selectedIndex == countries.length
-                              ? Color(0xff294A91)
+                              ? const Color(0xff294A91)
                               : Colors.black,
                           boxShape: NeumorphicBoxShape.roundRect(
                               BorderRadius.circular(30))),
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 SafeArea(
                   child: Column(
                     children: [
@@ -185,21 +185,21 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                             child: Container(
                               color: selectedIndex < countries.length &&
                                       selectedIndex > -1
-                                  ? Color(0xff294A91)
+                                  ? const Color(0xff294A91)
                                   : Variables.backgroundColor,
                               child: Container(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                   gradient: selectedIndex < countries.length &&
                                           selectedIndex > -1
                                       ? Variables.buttonGradient
                                       : null,
                                 ),
-                                child: Align(
+                                child: const Align(
                                   alignment: Alignment.center,
-                                  child: Text(
+                                  child: const Text(
                                     "Next",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600),
@@ -229,7 +229,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                           .get(Variables.userType));
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()),
+                                      builder: (context) => const HomePage()),
                                   (route) => false);
                             },
                             style: NeumorphicStyle(
@@ -244,7 +244,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       Divider(
@@ -265,15 +265,15 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.phone_outlined,
                                           color: Colors.white,
                                           size: 14,
                                         ),
-                                        SizedBox(width: 4),
-                                        Text(
+                                        const SizedBox(width: 4),
+                                        const Text(
                                           "Request Callback",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600),
@@ -301,13 +301,13 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Padding(
+                                                        const Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                       .only(
                                                                   bottom: 20),
-                                                          child: Center(
-                                                            child: Text(
+                                                          child: const Center(
+                                                            child: const Text(
                                                               "Request a callback",
                                                               style: TextStyle(
                                                                   color: Colors
@@ -321,9 +321,9 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                             ),
                                                           ),
                                                         ),
-                                                        Padding(
+                                                        const Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                       .only(
                                                                   bottom: 8),
                                                           child: Text(
@@ -347,11 +347,11 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   bottom: 8),
-                                                          decoration: BoxDecoration(
+                                                          decoration: const BoxDecoration(
                                                               color:
                                                                   Colors.black,
                                                               borderRadius: BorderRadius
-                                                                  .all(Radius
+                                                                  .all(const Radius
                                                                       .circular(
                                                                           10))),
                                                           child: Padding(
@@ -375,7 +375,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                                 return null;
                                                               },
                                                               autocorrect: true,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .white,
                                                                   fontStyle:
@@ -411,12 +411,12 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                             ),
                                                           ),
                                                         ),
-                                                        Padding(
+                                                        const Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                       .only(
                                                                   bottom: 8),
-                                                          child: Text(
+                                                          child: const Text(
                                                             "Message",
                                                             style: TextStyle(
                                                                 fontStyle:
@@ -437,10 +437,10 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   bottom: 8),
-                                                          decoration: BoxDecoration(
+                                                          decoration: const BoxDecoration(
                                                               color:
                                                                   Colors.black,
-                                                              borderRadius: BorderRadius
+                                                              borderRadius: const BorderRadius
                                                                   .all(Radius
                                                                       .circular(
                                                                           10))),
@@ -467,7 +467,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               autocorrect: true,
                                                               minLines: 3,
                                                               maxLines: 4,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .white,
                                                                   fontStyle:
@@ -515,12 +515,12 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                                   EdgeInsets
                                                                       .zero,
                                                               child: Container(
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xff294A91),
                                                                 child:
                                                                     Container(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               12),
                                                                   decoration:
@@ -529,11 +529,11 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                                         Variables
                                                                             .buttonGradient,
                                                                   ),
-                                                                  child: Align(
+                                                                  child: const Align(
                                                                     alignment:
                                                                         Alignment
                                                                             .center,
-                                                                    child: Text(
+                                                                    child: const Text(
                                                                       "Submit",
                                                                       style: TextStyle(
                                                                           color: Colors
@@ -608,20 +608,20 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                           color: Variables.backgroundColor,
                                           width: 2),
                                       color: selectedIndex == countries.length
-                                          ? Color(0xff294A91)
+                                          ? const Color(0xff294A91)
                                           : Variables.backgroundColor,
                                       boxShape: NeumorphicBoxShape.roundRect(
                                           BorderRadius.circular(30))),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Align(
                               alignment: Alignment.center,
                               child: NeumorphicButton(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Icon(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: const Icon(
                                     Ionicons.logo_whatsapp,
                                     color: Colors.greenAccent,
                                     size: 17,
@@ -646,9 +646,9 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                       color: Variables.backgroundColor,
                                       width: 2),
                                   color: selectedIndex == countries.length
-                                      ? Color(0xff294A91)
+                                      ? const Color(0xff294A91)
                                       : Variables.backgroundColor,
-                                  boxShape: NeumorphicBoxShape.circle(),
+                                  boxShape: const NeumorphicBoxShape.circle(),
                                 ),
                               ),
                             ),
