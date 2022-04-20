@@ -64,6 +64,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                         ),
                         agent.requiredDocuments[key] != null
                             ? DocumentCard(
+                                renameEnabled: true,
                                 doc: agent.requiredDocuments[key],
                                 icon: "assets/imageicon.png",
                                 requiredDocKey: key,
@@ -215,6 +216,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                     return Center(
                                       child: DocumentCard(
                                         doc: doc,
+                                        renameEnabled: true,
                                         icon: icon,
                                         index: index,
                                         onDismiss: (direction) {

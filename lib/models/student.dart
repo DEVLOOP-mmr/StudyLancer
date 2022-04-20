@@ -67,8 +67,9 @@ class Student extends StudyLancerUser {
     student.year = studentData["year"] ?? DateTime.now().year.toString();
     student.applications = [];
     for (var element in (studentData["previousApplications"] as List)) {
-      if (element is Map)
+      if (element is Map) {
         student.applications.add(Application.parseApplication(element));
+      }
     }
     student.documents = [];
     student.requiredDocuments = {};

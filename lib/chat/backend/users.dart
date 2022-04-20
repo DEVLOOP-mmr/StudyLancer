@@ -33,7 +33,7 @@ class UsersPage extends StatelessWidget {
     );
     //   body: StreamBuilder<List<types.User>>(
     //     stream: BlocProvider.of<FirebaseChatBloc>(context,
-                              
+
     //     initialData: const [],
     //     builder: (context, snapshot) {
     //       if (!snapshot.hasData || snapshot.data.isEmpty) {

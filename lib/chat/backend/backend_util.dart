@@ -51,7 +51,7 @@ Future<List<types.Room>> processRoomsQuery(
       type: type == 'direct' ? types.RoomType.direct : types.RoomType.group,
       users: users,
     );
-    
+
     return room;
   });
 

@@ -26,7 +26,7 @@ class TermsPage extends StatelessWidget {
                 foreground: Paint()
                   ..shader = const LinearGradient(
                     colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
-                  ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                  ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
                 //color: Colors.blue[900],
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.normal,

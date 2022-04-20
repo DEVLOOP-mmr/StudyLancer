@@ -36,5 +36,7 @@ abstract class StudyLancerUser {
     this.requiredDocuments,
   });
 
-  factory StudyLancerUser.fromMap(Map<String, dynamic> map) {}
+  factory StudyLancerUser.fromMap(Map<String, dynamic> map) {
+    
+  }
 }

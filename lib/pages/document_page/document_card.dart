@@ -25,10 +25,12 @@ class DocumentCard extends StatefulWidget {
   final String requiredDocKey;
   final int index;
   final DismissDirectionCallback onDismiss;
+  final bool renameEnabled;
   const DocumentCard({
     @required this.doc,
     @required this.icon,
     @required this.onDismiss,
+    @required this.renameEnabled,
     this.requiredDocKey,
     this.index,
   });
@@ -115,36 +117,43 @@ class _DocumentCardState extends State<DocumentCard> {
                       width: 1,
                       height: 1,
                     )
-                  : GestureDetector(
-                      onTap: () {
-                        if (editEnabled) {
-                          DocumentBloc(
-                                  userType: Variables.sharedPreferences
-                                      .get(Variables.userType))
-                              .updateDocument(
-                                  widget.doc.id,
-                                  FirebaseAuth.instance.currentUser.uid,
-                                  newDocName);
-                          bloc.getHome();
-                        }
+                  : !(widget.renameEnabled ?? false)
+                      ? const SizedBox(
+                          width: 1,
+                          height: 1,
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (editEnabled) {
+                              DocumentBloc(
+                                      userType: Variables.sharedPreferences
+                                          .get(Variables.userType))
+                                  .updateDocument(
+                                      widget.doc.id,
+                                      FirebaseAuth.instance.currentUser.uid,
+                                      newDocName);
+                              bloc.getHome();
+                            }
 
-                        setState(() {
-                          editEnabled = !editEnabled;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                            color: Color(0x3fC1C1C1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        child: Icon(
-                          editEnabled ? Ionicons.checkmark : Ionicons.pencil,
-                          color: Colors.white,
-                          size: 20,
+                            setState(() {
+                              editEnabled = !editEnabled;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                                color: Color(0x3fC1C1C1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            child: Icon(
+                              editEnabled
+                                  ? Ionicons.checkmark
+                                  : Ionicons.pencil,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(

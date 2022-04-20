@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/inner_shadow.dart';
@@ -35,7 +38,10 @@ class StudentDocOfferPage extends StatelessWidget {
         title: const Text(
           "Documents",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         backgroundColor: Variables.backgroundColor,
@@ -66,134 +72,94 @@ class StudentDocOfferPage extends StatelessWidget {
                       doc.type == "jpeg") {
                     icon = "assets/imageicon.png";
                   }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: InnerShadow(
-                      blur: 20,
-                      offset: const Offset(5, 5),
-                      color: Colors.black.withOpacity(0.38),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Variables.backgroundColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ListTile(
-                          onTap: () async {
-                            if (await Permission.storage.request().isGranted) {
-                              String filePath = '';
-                              var dir =
-                                  await getApplicationDocumentsDirectory();
-                              print(doc.link);
-                              try {
-                                filePath =
-                                    dir.path + "/" + doc.name + "." + doc.type;
-                                EasyLoading.show(status: "Downloading..");
-                                await Dio().download(doc.link, filePath);
-                                EasyLoading.dismiss();
-                                OpenFile.open(filePath);
-                              } catch (ex) {
-                                filePath = 'Can not fetch url';
-                              }
-                            } else {
-                              EasyLoading.showError(
-                                  "Please allow storage permissions");
-                            }
-                          },
-                          contentPadding: const EdgeInsets.all(15),
-                          leading: Image.asset(icon),
-                          trailing: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                                color: Color(0x3fC1C1C1),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: const Icon(
-                              Ionicons.cloud_download_outline,
-                              color: Colors.white,
-                            ),
-                          ),
-                          title: Text(
-                            doc.name,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
+
+                  return DocumentCard(
+                    doc: doc,
+                    icon: icon,
+                    onDismiss: (_) {
+                      log('');
+                    },
+                    renameEnabled: false,
                   );
                 },
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      color: Colors.black.withOpacity(0.4))
-                ],
-                color: Variables.backgroundColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                )),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Want to provide best options acc. to documents.",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Variables.accentColor,
-                    fontWeight: FontWeight.w500,
+          student.applications.isEmpty
+              ? Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        color: Colors.black.withOpacity(0.4),
+                      ),
+                    ],
+                    color: Variables.backgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SafeArea(
-                  child: NeumorphicButton(
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      color: const Color(0xff294A91),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          gradient: Variables.buttonGradient,
-                        ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Provide Option ->",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                          ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Want to provide best options acc. to documents.",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Variables.accentColor,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return OfferPage(student: student);
-                      }));
-                    },
-                    style: NeumorphicStyle(
-                        border: NeumorphicBorder(
-                            isEnabled: true,
-                            color: Variables.backgroundColor,
-                            width: 2),
-                        shadowLightColor: Colors.white.withOpacity(0.6),
-                        // color: Color(0xff294A91),
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(30))),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      SafeArea(
+                        child: NeumorphicButton(
+                          padding: EdgeInsets.zero,
+                          child: Container(
+                            color: const Color(0xff294A91),
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                gradient: Variables.buttonGradient,
+                              ),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Provide Option ->",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return OfferPage(student: student);
+                            }));
+                          },
+                          style: NeumorphicStyle(
+                              border: NeumorphicBorder(
+                                  isEnabled: true,
+                                  color: Variables.backgroundColor,
+                                  width: 2),
+                              shadowLightColor: Colors.white.withOpacity(0.6),
+                              // color: Color(0xff294A91),
+                              boxShape: NeumorphicBoxShape.roundRect(
+                                  BorderRadius.circular(30))),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

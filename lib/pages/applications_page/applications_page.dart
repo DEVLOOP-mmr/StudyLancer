@@ -42,13 +42,13 @@ class ApplicationPage extends StatelessWidget {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         actions: [
-          SortApplicationsButton(),
+          const SortApplicationsButton(),
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
             onTap: () {
               _scaffoldKey.currentState.openEndDrawer();
             },
-          )
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -103,8 +103,15 @@ class ApplicationPage extends StatelessWidget {
       endDrawer: MyDrawer(),
     );
   }
+}
 
-  Widget SortApplicationsButton() {
+class SortApplicationsButton extends StatelessWidget {
+  const SortApplicationsButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is! StudentHomeState) {
@@ -112,7 +119,6 @@ class ApplicationPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-    
 
         return GestureDetector(
           child: const Icon(Ionicons.filter_circle_outline),
@@ -135,80 +141,83 @@ class ApplicationPage extends StatelessWidget {
                         contentBackgroundColor: Variables.backgroundColor,
                         children: [
                           AccordionSection(
-                              header: const Text(
-                                "Sort by Tuition Fees",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  fontFamily: "roboto",
+                            header: const Text(
+                              "Sort by Tuition Fees",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                fontFamily: "roboto",
+                              ),
+                            ),
+                            content: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop("desc");
+                                  },
+                                  child: const Text(
+                                    "High to Low",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              content: Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop("desc");
-                                    },
-                                    child: const Text(
-                                      "High to Low",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop("asc");
+                                  },
+                                  child: const Text(
+                                    "Low To High",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop("asc");
-                                    },
-                                    child: const Text(
-                                      "Low To High",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )),
+                                ),
+                              ],
+                            ),
+                          ),
                           AccordionSection(
-                              header: const Text(
-                                "Sort by Application Fees",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    fontFamily: "roboto",),
+                            header: const Text(
+                              "Sort by Application Fees",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                fontFamily: "roboto",
                               ),
-                              content: Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop("desc");
-                                    },
-                                    child: const Text(
-                                      "High To Low",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
+                            ),
+                            content: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop("desc");
+                                  },
+                                  child: const Text(
+                                    "High To Low",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop("asc");
-                                    },
-                                    child: const Text(
-                                      "Low To High",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop("asc");
+                                  },
+                                  child: const Text(
+                                    "Low To High",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
                                     ),
                                   ),
-                                ],
-                              ))
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],

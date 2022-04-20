@@ -69,6 +69,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                   doc: student.requiredDocuments[key],
                                   icon: "assets/imageicon.png",
                                   requiredDocKey: key,
+                                  renameEnabled: true,
                                   onDismiss: (direction) {
                                     var doc = student.requiredDocuments[key];
                                     final bloc =
@@ -225,6 +226,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                               doc: doc,
                                               icon: icon,
                                               index: index,
+                                              renameEnabled: true,
                                               onDismiss: (direction) {
                                                 var doc =
                                                     student.documents[index];

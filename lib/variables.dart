@@ -13,8 +13,8 @@ class Variables {
   static const String isFirstTime = "isFirstTime";
   static const String countryCode = "countryCode";
   static const String phone = "phone";
-  static final Color accentColor = const Color(0xffFFAD9A);
-  static final Color backgroundColor = const Color(0xff202427);
+  static const Color accentColor = const Color(0xffFFAD9A);
+  static const Color backgroundColor = const Color(0xff202427);
   static final DateFormat fullMonthDateformat = DateFormat("MMMM yyyy");
   static final DateFormat dateFormat = DateFormat("dd/MM/yyyy");
   static final List<String> countries = [
@@ -261,7 +261,7 @@ class Variables {
     "Zambia",
     "Zimbabwe"
   ];
-  static final Gradient buttonGradient = const LinearGradient(
+  static const Gradient buttonGradient = const LinearGradient(
     colors: [
       Color(0xff4167B1),
       Color(0x004869A6),

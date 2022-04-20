@@ -35,6 +35,7 @@ class ReviewBloc {
     } on DioError catch (e) {
       debugPrint(e.toString());
     }
+
     return agentReviews;
   }
 

@@ -15,7 +15,9 @@ import '../backend_util.dart';
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   HomeBloc homeBloc;
   FirebaseChatBloc({this.homeBloc})
-      : super(const FirebaseChatState(rooms: [], loadState: LoadState.initial)) {
+      : super(
+          const FirebaseChatState(rooms: [], loadState: LoadState.initial),
+        ) {
     user = FirebaseAuth.instance.currentUser;
 
     homeBloc.stream.listen((state) {

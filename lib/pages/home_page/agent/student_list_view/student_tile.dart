@@ -12,11 +12,12 @@ class StudentTile extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Neumorphic(
         style: NeumorphicStyle(
-            shadowLightColor: Colors.white.withOpacity(0.6),
-            depth: -1,
-            lightSource: LightSource.topLeft.copyWith(dx: -2, dy: -2),
-            shadowDarkColor: Colors.black,
-            color: Variables.backgroundColor),
+          shadowLightColor: Colors.white.withOpacity(0.6),
+          depth: -1,
+          lightSource: LightSource.topLeft.copyWith(dx: -2, dy: -2),
+          shadowDarkColor: Colors.black,
+          color: Variables.backgroundColor,
+        ),
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
