@@ -1,24 +1,27 @@
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../chat.dart';
 import 'firebase_chat_core.dart';
 
+
+@Deprecated("Figma has no page to show list of users, unused in Widget Tree")
 class UsersPage extends StatelessWidget {
   const UsersPage({Key key}) : super(key: key);
 
-  void _handlePressed(types.User otherUser, BuildContext context) async {
-    final room = await FirebaseChatCore.instance.createRoom(otherUser);
+  void _handlePressed(StudyLancerUser otherUser, BuildContext context) async {
+    // final room = await FirebaseChatCore.instance.createRoom(otherUser);
 
-    Navigator.of(context).pop();
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ChatPage(
-          roomId: room.id,
-        ),
-      ),
-    );
+    // Navigator.of(context).pop();
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => ChatPage(
+    //       roomId: room.id,
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -49,7 +52,7 @@ class UsersPage extends StatelessWidget {
 
               return GestureDetector(
                 onTap: () {
-                  _handlePressed(user, context);
+                 /// TODO: _handlePressed(user, context);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(

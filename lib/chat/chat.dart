@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:elite_counsel/chat/ui/widgets/chat.dart';
@@ -30,7 +31,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
-  List<types.User> roomUsers = [];
+  List<StudyLancerUser> roomUsers = [];
 
   void _handleAttachmentPress() {
     showModalBottomSheet<void>(

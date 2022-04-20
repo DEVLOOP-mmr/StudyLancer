@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class FirebaseChatCore {
     String imageUrl,
     Map<String, dynamic> metadata,
     @required String name,
-    @required List<types.User> users,
+    @required List<StudyLancerUser> users,
   }) async {
     if (user == null) return Future.error('User does not exist');
 
@@ -57,7 +58,8 @@ class FirebaseChatCore {
   /// Creates a direct chat for 2 people. Add [metadata] for any additional
   /// custom data.
   Future<types.Room> createRoom(
-    types.User otherUser, {
+    StudyLancerUser currentUser,
+    StudyLancerUser otherUser, {
     Map<String, dynamic> metadata,
   }) async {
     if (user == null) return Future.error('User does not exist');
@@ -67,7 +69,7 @@ class FirebaseChatCore {
         .where('userIds', arrayContains: user.uid)
         .get();
 
-    final rooms = await processRoomsQuery(user, query);
+    final rooms = await processRoomsQuery(currentUser, query);
 
     try {
       return rooms.firstWhere((room) {
@@ -81,7 +83,7 @@ class FirebaseChatCore {
       // Create a new room instead
     }
 
-    final currentUser = await fetchUser(user.uid);
+   
     final users = [currentUser, otherUser];
 
     final room = await FirebaseFirestore.instance.collection('rooms').add({
@@ -133,8 +135,8 @@ class FirebaseChatCore {
           (u) => u.id != user.uid,
         );
 
-        imageUrl = otherUser.avatarUrl;
-        name = '${otherUser.firstName} ${otherUser.lastName}';
+        imageUrl = otherUser.photo;
+        name = '${otherUser.name}';
       } catch (e) {
         // Do nothing if other user is not found, because he should be found.
         // Consider falling back to some default values.
@@ -186,14 +188,17 @@ class FirebaseChatCore {
 
   /// Returns a stream of rooms from Firebase. Only rooms where current
   /// logged in user exist are returned.
-  Stream<List<types.Room>> rooms() {
-    if (user == null) return const Stream.empty();
+  Stream<List<types.Room>> rooms(StudyLancerUser currentUser) {
+    if (currentUser == null) return const Stream.empty();
 
-    return FirebaseFirestore.instance
+    var snapshots = FirebaseFirestore.instance
         .collection('rooms')
         .where('userIds', arrayContains: user.uid)
-        .snapshots()
-        .asyncMap((query) => processRoomsQuery(user, query));
+        .snapshots();
+
+    var rooms = snapshots.asyncMap((query) => processRoomsQuery(currentUser, query));
+   
+    return rooms;
   }
 
   /// Sends a message to the Firestore. Accepts any partial message and a

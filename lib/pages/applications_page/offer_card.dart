@@ -3,6 +3,7 @@ import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
 import 'package:elite_counsel/chat/type/user.dart' as types;
+import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/variables.dart';
@@ -279,13 +280,11 @@ class OfferCard extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        var otherUser = types.User(
-                          id: offer.studentID,
-                        );
-                        FirebaseChatCore.instance
-                            .createUserInFirestore(otherUser);
+                        var otherUser = Agent();
+                        otherUser.id = offer.agentID;
+
                         final room = await FirebaseChatCore.instance
-                            .createRoom(otherUser);
+                            .createRoom(student,otherUser);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ChatPage(

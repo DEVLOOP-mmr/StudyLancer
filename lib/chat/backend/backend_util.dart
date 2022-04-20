@@ -1,23 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/models/study_lancer_user.dart';
+import 'package:elite_counsel/variables.dart';
 
-/// Fetches user from Firebase and returns a promise
-Future<types.User> fetchUser(String userId) async {
-  var docRef = FirebaseFirestore.instance.collection('users').doc(userId);
-  var doc = await docRef.get();
-  if (!doc.exists) {
-    await FirebaseChatCore.instance
-        .createUserInFirestore(types.User(id: userId));
-    doc = await docRef.get();
-  }
-  return processUserDocument(doc);
+/// Fetches user from MongoDB databsse and returs either a [Student] or [Agent]
+Future<StudyLancerUser> fetchUser(String userId) async {
+  final currentUserType = Variables.sharedPreferences.get(Variables.userType);
+  var userType = '';
+  userType = currentUserType == 'student' ? 'agent' : 'student';
+  var user = ProfileBloc.getUserProfile(userType: userType, uid: userId);
+
+  return user;
 }
 
 /// Returns a list of [types.Room] created from Firebase query.
 /// If room has 2 participants, sets correct room name and image.
 Future<List<types.Room>> processRoomsQuery(
-  var user,
+  StudyLancerUser currentUser,
   QuerySnapshot query,
 ) async {
   final futures = query.docs.map((doc) async {
@@ -25,35 +26,22 @@ Future<List<types.Room>> processRoomsQuery(
     Map<String, dynamic> metadata;
     String name;
 
-    try {
-      imageUrl = doc.get('imageUrl') as String;
-      metadata = doc.get('metadata') as Map<String, dynamic>;
-      name = doc.get('name') as String;
-    } catch (e) {
-      // Ignore errors since all those fields are optional
-    }
-
     final type = doc.get('type') as String;
-    final userIds = doc.get('userIds') as List<dynamic>;
+    final List<dynamic> userIds = doc.get('userIds') as List<dynamic>;
 
-    final users = await Future.wait(
-      userIds.map(
-        (userId) => fetchUser(userId as String),
-      ),
-    );
+    final List<StudyLancerUser> users = [currentUser];
+    String otherUserID =
+        userIds.firstWhere((element) => element != currentUser.id);
+    final otherUser = await fetchUser(otherUserID);
+    users.add(otherUser);
 
-    if (type == 'direct') {
-      try {
-        final otherUser = users.firstWhere(
-          (u) => u.id != user.id,
-        );
+    if (type == "direct") {
+      final otherUser = users.firstWhere(
+        (u) => u.id != currentUser.id,
+      );
 
-        imageUrl = otherUser.avatarUrl;
-        name = '${otherUser.firstName} ${otherUser.lastName}';
-      } catch (e) {
-        // Do nothing if other user is not found, because he should be found.
-        // Consider falling back to some default values.
-      }
+      imageUrl = otherUser.photo;
+      name = otherUser.name;
     }
 
     final room = types.Room(
@@ -64,7 +52,7 @@ Future<List<types.Room>> processRoomsQuery(
       type: type == 'direct' ? types.RoomType.direct : types.RoomType.group,
       users: users,
     );
-
+    
     return room;
   });
 

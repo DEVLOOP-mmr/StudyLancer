@@ -1,4 +1,5 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_core.dart';
 import 'package:elite_counsel/chat/chat.dart';
@@ -6,6 +7,7 @@ import 'package:elite_counsel/chat/type/user.dart' as types;
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -722,21 +724,20 @@ class _OfferPageState extends State<OfferPage> {
                   ),
                   onPressed: () async {
                     if (formKey.currentState.validate()) {
+                      var bloc =
+                          BlocProvider.of<HomeBloc>(context, listen: false);
+                      var agent = (bloc.state as AgentHomeState).agent;
                       await OfferBloc.addOffer(
                         offer,
                         FirebaseAuth.instance.currentUser.uid,
                       );
                       EasyLoading.showSuccess('Application Created !');
-                      BlocProvider.of<HomeBloc>(context)
-                          .getAgentHome(context: context);
-                      var otherUser = types.User(
-                          id: offer.studentID,
-                          avatarUrl: widget.student.photo,
-                          firstName: widget.student.name);
+
+                      bloc.getAgentHome(context: context);
+                      var otherUser = widget.student;
+
                       await FirebaseChatCore.instance
-                          .createUserInFirestore(otherUser);
-                      final room =
-                          await FirebaseChatCore.instance.createRoom(otherUser);
+                          .createRoom(agent, otherUser);
 
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(

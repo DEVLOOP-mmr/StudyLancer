@@ -134,18 +134,19 @@ class HomeBloc extends Cubit<HomeState> {
 
     if (result.statusCode < 299) {
       var data = result.data;
-      homeData.student = Student.parseStudentData(data["student"]);
+      homeData.student = Student.fromMap(data["student"]);
       homeData.agents = [];
       if (data['agents'] is! String) {
         List agentList = data["agents"];
         for (var element in agentList) {
-          homeData.agents.add(Agent.parseAgentData(element));
+          homeData.agents.add(Agent.fromMap(element));
         }
       }
     } else {
       await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));
+
     return homeData;
   }
 
@@ -213,12 +214,12 @@ class HomeBloc extends Cubit<HomeState> {
 
     if (result.statusCode < 300) {
       var data = result.data;
-      homeData.agent = Agent.parseAgentData(data["agent"]);
+      homeData.agent = Agent.fromMap(data["agent"]);
       homeData.students = [];
       List studentList = data["studentdata"];
       if (studentList != null) {
         for (var element in studentList) {
-          var student = Student.parseStudentData(element);
+          var student = Student.fromMap(element);
 
           homeData.students.add(student);
         }

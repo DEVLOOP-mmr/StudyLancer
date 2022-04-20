@@ -1,3 +1,4 @@
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:meta/meta.dart';
 
 import 'user.dart';
@@ -36,5 +37,5 @@ class Room {
   final String name;
 
   /// List of users which are in the room
-  final List<User> users;
+  final List<StudyLancerUser> users;
 }

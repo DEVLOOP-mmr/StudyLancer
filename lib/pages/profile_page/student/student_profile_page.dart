@@ -569,9 +569,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
-                          initialValue: student.about,
+                          initialValue: student.bio,
                           onChanged: (value) {
-                            student.about = value;
+                            student.bio = value;
                           },
                           validator: (value) {
                             if (value == "") {

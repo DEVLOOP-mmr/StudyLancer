@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -8,56 +9,27 @@ import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 
-class Student extends Equatable {
+class Student extends StudyLancerUser {
   static final requiredDocs = [
     'passport',
     'englishProficiencyTest',
     'academics'
   ];
-  String name;
-  String email;
-  String photo;
+
   String dob;
-  String maritalStatus;
-  String id;
-  String phone;
-  String countryLookingFor;
-  String city;
+
   String course;
   String year;
   String applyingFor;
-  String about;
-  String country;
+
   int optionStatus = 1;
   int timeline;
-  bool verified;
+
   Map<String, dynamic> marksheet;
   List<Application> applications;
-  List<Document> documents;
-  Map<String, Document> requiredDocuments;
 
-  Student({
-    this.name,
-    this.email,
-    this.photo,
-    this.dob,
-    this.maritalStatus,
-    this.id,
-    this.phone,
-    this.countryLookingFor,
-    this.city,
-    this.course,
-    this.year,
-    this.applyingFor,
-    this.about,
-    this.country,
-    this.optionStatus,
-    this.timeline,
-    this.verified,
-    this.marksheet,
-    this.applications,
-    this.documents,
-  });
+  Student();
+
   bool isValid() {
     try {
       assert(this != null);
@@ -71,32 +43,8 @@ class Student extends Equatable {
     }
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'email': email,
-      'photo': photo,
-      'dob': dob,
-      'maritalStatus': maritalStatus,
-      'id': id,
-      'phone': phone,
-      'countryLookingFor': countryLookingFor,
-      'city': city,
-      'course': course,
-      'year': year,
-      'applyingFor': applyingFor,
-      'about': about,
-      'country': country,
-      'optionStatus': optionStatus,
-      'timeline': timeline,
-      'verified': verified,
-      'marksheet': marksheet,
-      'previousOffers': applications,
-      'otherDoc': documents,
-    };
-  }
-
-  factory Student.parseStudentData(studentData) {
+  @override
+  factory Student.fromMap(Map<String, dynamic> studentData) {
     Student student = Student();
     student.name = studentData["name"];
     student.email = studentData["email"];
@@ -109,7 +57,7 @@ class Student extends Equatable {
     student.city = studentData["location"]["city"];
     student.country = studentData["location"]["country"];
     student.dob = studentData["DOB"];
-    student.about = studentData["about"];
+    student.bio = studentData["about"];
     student.verified = studentData["verified"];
     student.optionStatus = studentData["optionStatus"] ?? 0;
     student.timeline = studentData["timeline"] ?? 1;
@@ -145,11 +93,9 @@ class Student extends Equatable {
     return student;
   }
 
-  String toJson() => json.encode(toMap());
-
   @override
   String toString() {
-    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $about, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $applications, otherDoc: $documents)';
+    return 'Student(name: $name, email: $email, photo: $photo, dob: $dob, maritalStatus: $maritalStatus, id: $id, phone: $phone, countryLookingFor: $countryLookingFor, city: $city, course: $course, year: $year, applyingFor: $applyingFor, about: $bio, country: $country, optionStatus: $optionStatus, timeline: $timeline, verified: $verified, marksheet: $marksheet, previousOffers: $applications, otherDoc: $documents)';
   }
 
   @override
@@ -167,7 +113,7 @@ class Student extends Equatable {
       course,
       year,
       applyingFor,
-      about,
+      bio,
       country,
       optionStatus,
       timeline,

@@ -1,33 +1,26 @@
 import 'package:elite_counsel/models/document.dart';
+import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:equatable/equatable.dart';
 
-class Agent extends Equatable {
+class Agent extends StudyLancerUser with EquatableMixin {
   static final requiredDocNames = [
     'license',
     'registrationCertificate',
     'personalID'
   ];
-  String name;
-  String id;
-  String phone;
-  String email;
-  String photo;
+
   String licenseNo;
   String agentSince;
-  String bio;
-  String maritalStatus;
-  String applicationsHandled;
-  String city;
-  String country;
-  String reviewsAvg;
-  String countryLookingFor;
-  String reviewCount;
-  bool verified;
-  List<Document> documents;
-  Map<String, Document> requiredDocuments;
-  Agent();
 
-  factory Agent.parseAgentData(agentData) {
+  String applicationsHandled;
+
+  String reviewsAvg;
+
+  String reviewCount;
+
+  Agent();
+  @override
+  factory Agent.fromMap(Map<String, dynamic> agentData) {
     Agent agent = Agent();
     agent.name = agentData["name"];
     agent.email = agentData["email"];
@@ -65,6 +58,7 @@ class Agent extends Equatable {
         }
       }
     }
+
     return agent;
   }
 

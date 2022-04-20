@@ -16,7 +16,7 @@ class GetDio {
   static Dio getDio() {
     Dio dio = Dio();
     var options = BaseOptions();
-    options.connectTimeout = 2000;
+    options.connectTimeout = 20000;
     options.receiveTimeout = 0;
     options.sendTimeout = 0;
     options.followRedirects = true;
@@ -38,33 +38,37 @@ class GetDio {
   }
 
   static InterceptorsWrapper dioInterceptor() {
-    return InterceptorsWrapper(onRequest: (options, handler) {
-      return handler.next(options); //continue
-    }, onResponse: (response, handler) {
-      if (response.statusCode > 299) {
-        var exceptionData = {
-          'url': response.requestOptions.uri.toString(),
-          'statusCode': '${response.statusCode}',
-          'requestBody': response.requestOptions.data,
-          'responseBody': response.data,
-          'params': response.requestOptions.queryParameters
-        };
+    return InterceptorsWrapper(
+      onRequest: (options, handler) {
+        return handler.next(options); //continue
+      },
+      onResponse: (response, handler) {
+        if (response.statusCode > 299 && response.statusCode != 403) {
+          var exceptionData = {
+            'url': response.requestOptions.uri.toString(),
+            'statusCode': '${response.statusCode}',
+            'requestBody': response.requestOptions.data,
+            'responseBody': response.data,
+            'params': response.requestOptions.queryParameters,
+          };
 
-        logDioException(exceptionData);
-      }
+          logDioException(exceptionData);
+        }
 
-      return handler.next(response); // continue
-    }, onError: (DioError e, handler) {
-      if (Firebase.apps.isNotEmpty && !kDebugMode) {
-        FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
-      } else {
-        debugPrint(e.error.toString());
-      }
+        return handler.next(response); // continue
+      },
+      onError: (DioError e, handler) {
+        if (Firebase.apps.isNotEmpty && !kDebugMode) {
+          FirebaseCrashlytics.instance.recordError(e.toString(), e.stackTrace);
+        } else {
+          debugPrint(e.error.toString());
+        }
 
-      return handler.next(e); //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: `handler.resolve(response)`.
-    });
+        return handler.next(e); //continue
+        // If you want to resolve the request with some custom data，
+        // you can resolve a `Response` object eg: `handler.resolve(response)`.
+      },
+    );
   }
 
   static void logDioException(Map<String, dynamic> exception) {

@@ -34,7 +34,10 @@ class ApplicationPage extends StatelessWidget {
         title: const Text(
           "Applications",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         backgroundColor: Colors.transparent,
@@ -109,8 +112,8 @@ class ApplicationPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        final studentHomeState = state as StudentHomeState;
-        final selfData = studentHomeState.student;
+    
+
         return GestureDetector(
           child: const Icon(Ionicons.filter_circle_outline),
           onTap: () async {
@@ -135,10 +138,11 @@ class ApplicationPage extends StatelessWidget {
                               header: const Text(
                                 "Sort by Tuition Fees",
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    fontFamily: "roboto"),
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  fontFamily: "roboto",
+                                ),
                               ),
                               content: Column(
                                 children: [
@@ -175,7 +179,7 @@ class ApplicationPage extends StatelessWidget {
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
-                                    fontFamily: "roboto"),
+                                    fontFamily: "roboto",),
                               ),
                               content: Column(
                                 children: [

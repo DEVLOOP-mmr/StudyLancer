@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 /// A class that represents user.
 @immutable
+@Deprecated('Use [StudyLancerUser] which uses data from MongoDB main backend instead of Firestore')
 class User {
   /// Creates a user.
   const User({
