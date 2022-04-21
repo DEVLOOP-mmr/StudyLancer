@@ -66,6 +66,7 @@ class ApplicationPage extends StatelessWidget {
               }
               final studentHomeState = state as StudentHomeState;
               final student = studentHomeState.student;
+
               return Column(
                 children: [
                   const Divider(color: Colors.white),
@@ -80,17 +81,21 @@ class ApplicationPage extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     Application offer;
                                     offer = student.applications[index];
+
                                     return OfferCard(
-                                        offer: offer, student: student);
+                                      offer: offer,
+                                      student: student,
+                                    );
                                   },
                                 )
                               : Center(
                                   child: Text(
                                     "No Applications",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17,
-                                        color: Colors.white.withOpacity(0.7)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.white.withOpacity(0.7),
+                                    ),
                                   ),
                                 ),
                         ),

@@ -38,7 +38,7 @@ Future<void> main() async {
       ));
     },
         (error, stack) =>
-            FirebaseCrashlytics.instance.recordError(error, stack));
+            FirebaseCrashlytics.instance.recordError(error, stack),);
   }
 }
 
@@ -55,6 +55,7 @@ class _MyAppState extends State<MyApp> {
   Future<bool> deviceInit() async {
     await Hive.initFlutter();
     await Hive.openBox("myBox");
+    
     return true;
   }
 
