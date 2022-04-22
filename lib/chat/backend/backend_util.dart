@@ -31,16 +31,14 @@ Future<List<types.Room>> processRoomsQuery(
     final List<StudyLancerUser> users = [currentUser];
     String otherUserID =
         userIds.firstWhere((element) => element != currentUser.id);
-    final otherUser = await fetchUser(otherUserID);
+    final otherUser = StudyLancerUser(id: otherUserID);
     users.add(otherUser);
 
     if (type == "direct") {
-      final otherUser = users.firstWhere(
-        (u) => u.id != currentUser.id,
-      );
-
-      imageUrl = otherUser.photo;
-      name = otherUser.name;
+      Map<String,dynamic> map = doc.data();
+     
+      imageUrl = map['userData'][otherUserID]['imageUrl'];
+      name =  map['userData'][otherUserID]['name'];
     }
 
     final room = types.Room(

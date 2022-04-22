@@ -124,7 +124,9 @@ class HomeBloc extends Cubit<HomeState> {
     assert(state.countryCode.isNotEmpty);
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": state.countryCode,
+      "countryLookingFor": state.countryCode.isEmpty
+          ? Variables.sharedPreferences.get(Variables.countryCode)
+          : state.countryCode,
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var result = await GetDio.getDio().post(
@@ -206,7 +208,9 @@ class HomeBloc extends Cubit<HomeState> {
     assert(state.countryCode.isNotEmpty);
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
-      "countryLookingFor": state.countryCode,
+      "countryLookingFor": state.countryCode.isEmpty
+          ? Variables.sharedPreferences.get(Variables.countryCode)
+          : state.countryCode,
       "phone": auth.currentUser.phoneNumber,
     };
     var result =

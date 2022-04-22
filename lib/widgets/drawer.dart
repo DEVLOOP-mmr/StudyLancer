@@ -1,4 +1,5 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/pages/about_us_page.dart';
 import 'package:elite_counsel/pages/accomodation.dart';
 import 'package:elite_counsel/pages/faq_page.dart';
@@ -300,6 +301,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   await FirebaseAuth.instance.signOut();
                   Variables.sharedPreferences.clear();
                   BlocProvider.of<HomeBloc>(context, listen: false).reset();
+                    BlocProvider.of<FirebaseChatBloc>(context, listen: false).resetLoginData();
 
                   Navigator.pushReplacement(
                     context,

@@ -39,10 +39,12 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
 
   void resetLoginData() {
     user = null;
+     emit(FirebaseChatState(rooms:[],loadState:LoadState.initial));
   }
 
   void setUserData() {
     user = FirebaseAuth.instance.currentUser;
+   
   }
 
   User user;
@@ -107,17 +109,30 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       // Create a new room instead
     }
 
+    
+    otherUser = await fetchUser(otherUser.id);
     final users = [currentUser, otherUser];
-
     final room = await FirebaseFirestore.instance.collection('rooms').add({
       'imageUrl': null,
       'metadata': metadata,
       'name': null,
       'type': 'direct',
+      'userData':{
+        currentUser.id:{
+          'name':currentUser.name,
+          'imageUrl':currentUser.photo,
+        },
+          otherUser.id:{
+          'name':otherUser.name,
+          'imageUrl':otherUser.photo,
+        },
+      },
       'userIds': users.map((u) => u.id).toList(),
     });
 
     return types.Room(
+      name:otherUser.name,
+      imageUrl:otherUser.photo,
       id: room.id,
       metadata: metadata,
       type: types.RoomType.direct,

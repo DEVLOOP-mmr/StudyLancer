@@ -1,5 +1,8 @@
-import 'package:elite_counsel/models/study_lancer_user.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+
+import 'package:elite_counsel/models/study_lancer_user.dart';
 
 import 'user.dart';
 
@@ -38,4 +41,27 @@ class Room {
 
   /// List of users which are in the room
   final List<StudyLancerUser> users;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is Room &&
+      other.id == id &&
+      other.imageUrl == imageUrl &&
+      other.type == type &&
+      mapEquals(other.metadata, metadata) &&
+      other.name == name &&
+      listEquals(other.users, users);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      imageUrl.hashCode ^
+      type.hashCode ^
+      metadata.hashCode ^
+      name.hashCode ^
+      users.hashCode;
+  }
 }

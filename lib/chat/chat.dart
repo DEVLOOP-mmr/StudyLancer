@@ -215,6 +215,7 @@ class _ChatPageState extends State<ChatPage> {
 
   //new
   getRoomUsers() async {
+    /// TODO: get room users
     roomUsers = (await BlocProvider.of<FirebaseChatBloc>(context, listen: false)
             .getRoomDetail(widget.room.id))
         .users;
@@ -234,7 +235,7 @@ class _ChatPageState extends State<ChatPage> {
         title: Title(
           color: Variables.backgroundColor,
           child: AutoSizeText(
-            widget.room.name,
+            widget.room.name??'',
             style: const TextStyle(color: Colors.white),
           ),
         ),
