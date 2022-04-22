@@ -32,12 +32,14 @@ class DateSelector extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         var student = (state as StudentHomeState).student;
+
         return Container(
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(left: 30.0, bottom: 8.0, right: 30),
           decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+            color: Colors.black,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
           child: Container(
             padding: const EdgeInsets.all(20),
             child: GestureDetector(
@@ -48,15 +50,19 @@ class DateSelector extends StatelessWidget {
                     .emitNewStudent(changedUser);
               },
               child: Text(
-                DateTime.tryParse(student.dob) == null
-                    ? (student.dob ?? '')
-                    : Variables.dateFormat.format(DateTime.parse(student.dob)),
+                student.dob == null
+                    ? ''
+                    : DateTime.tryParse(student.dob) == null
+                        ? (student.dob ?? '')
+                        : Variables.dateFormat
+                            .format(DateTime.parse(student.dob)),
                 key: UniqueKey(),
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontStyle: FontStyle.normal,
-                    fontFamily: 'Roboto',
-                    fontSize: 12),
+                  color: Colors.white,
+                  fontStyle: FontStyle.normal,
+                  fontFamily: 'Roboto',
+                  fontSize: 12,
+                ),
               ),
             ),
           ),

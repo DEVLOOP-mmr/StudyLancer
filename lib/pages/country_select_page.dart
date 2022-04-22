@@ -201,9 +201,10 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                   child: Text(
                                     "Next",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -212,36 +213,42 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                               if (selectedIndex == -1 ||
                                   selectedIndex == countries.length) {
                                 EasyLoading.showError(
-                                    'Error! Please select a country or request callback');
+                                  'Error! Please select a country or request callback',
+                                );
+
                                 return;
                               }
                               String countryCode;
-                              if (selectedIndex == countries.length) {
-                                countryCode = "notSure";
-                              } else {
-                                countryCode = countries[selectedIndex].id;
-                              }
+                              countryCode = selectedIndex == countries.length
+                                  ? "notSure"
+                                  : countries[selectedIndex].id;
                               await Variables.sharedPreferences
                                   .put(Variables.countryCode, countryCode);
                               BlocProvider.of<HomeBloc>(context, listen: false)
                                   .setCountry(
-                                      countryCode,
-                                      Variables.sharedPreferences
-                                          .get(Variables.userType),);
+                                countryCode,
+                                Variables.sharedPreferences
+                                    .get(Variables.userType),
+                              );
                               Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage(),),
-                                  (route) => false);
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
+                                (route) => false,
+                              );
                             },
                             style: NeumorphicStyle(
-                                border: const NeumorphicBorder(
-                                    isEnabled: true,
-                                    color: Variables.backgroundColor,
-                                    width: 2),
-                                shadowLightColor: Colors.white.withOpacity(0.6),
-                                // color: Color(0xff294A91),
-                                boxShape: NeumorphicBoxShape.roundRect(
-                                    BorderRadius.circular(30)),),
+                              border: const NeumorphicBorder(
+                                isEnabled: true,
+                                color: Variables.backgroundColor,
+                                width: 2,
+                              ),
+                              shadowLightColor: Colors.white.withOpacity(0.6),
+                              // color: Color(0xff294A91),
+                              boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(30),
+                              ),
+                            ),
                           ),
                         ),
                       ),

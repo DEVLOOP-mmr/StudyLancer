@@ -36,9 +36,10 @@ Future<List<types.Room>> processRoomsQuery(
 
     if (type == "direct") {
       Map<String, dynamic> map = doc.data();
-
-      imageUrl = map['userData'][otherUserID]['imageUrl'];
-      name = map['userData'][otherUserID]['name'];
+      if (map['userData'] != null) {
+        imageUrl = map['userData'][otherUserID]['imageUrl'];
+        name = map['userData'][otherUserID]['name'];
+      }
     }
 
     final room = types.Room(

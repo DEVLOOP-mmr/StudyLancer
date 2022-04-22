@@ -231,7 +231,9 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// Emits a stream of rooms from Firebase. Only rooms where current
   /// logged in user exist are returned.
   void fetchRooms(StudyLancerUser currentUser) {
-    // if (currentUser == null) return const Stream.empty();
+    if (currentUser == null) {
+      return;
+    }
 
     var snapshots = FirebaseFirestore.instance
         .collection('rooms')

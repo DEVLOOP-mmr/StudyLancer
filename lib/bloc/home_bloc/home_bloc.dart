@@ -122,11 +122,12 @@ class HomeBloc extends Cubit<HomeState> {
       );
     }
     assert(state.countryCode.isNotEmpty);
+    String countryLookingFor = state.countryCode.isEmpty
+        ? Variables.sharedPreferences.get(Variables.countryCode)
+        : state.countryCode;
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": state.countryCode.isEmpty
-          ? Variables.sharedPreferences.get(Variables.countryCode)
-          : state.countryCode,
+      "countryLookingFor": countryLookingFor.isEmpty ? "CA" : countryLookingFor,
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var result = await GetDio.getDio().post(
@@ -206,11 +207,12 @@ class HomeBloc extends Cubit<HomeState> {
       );
     }
     assert(state.countryCode.isNotEmpty);
+    String countryLookingFor = state.countryCode.isEmpty
+        ? Variables.sharedPreferences.get(Variables.countryCode)
+        : state.countryCode;
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
-      "countryLookingFor": state.countryCode.isEmpty
-          ? Variables.sharedPreferences.get(Variables.countryCode)
-          : state.countryCode,
+      "countryLookingFor": countryLookingFor.isEmpty ? "CA" : countryLookingFor,
       "phone": auth.currentUser.phoneNumber,
     };
     var result =

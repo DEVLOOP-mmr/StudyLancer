@@ -721,11 +721,11 @@ class _OfferPageState extends State<OfferPage> {
                       var bloc =
                           BlocProvider.of<HomeBloc>(context, listen: false);
                       var agent = (bloc.state as AgentHomeState).agent;
+                      EasyLoading.show(status: 'Creating Offer');
                       await OfferBloc.addOffer(
                         offer,
                         FirebaseAuth.instance.currentUser.uid,
                       );
-                      EasyLoading.showSuccess('Application Created !');
 
                       bloc.getAgentHome(context: context);
                       var otherUser = widget.student;
