@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
-import 'package:elite_counsel/chat/chat.dart';
+import 'package:elite_counsel/chat/chat_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:elite_counsel/widgets/drawer.dart';
 import 'package:flutter/material.dart';

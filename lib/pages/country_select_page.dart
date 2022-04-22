@@ -227,10 +227,10 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                   .setCountry(
                                       countryCode,
                                       Variables.sharedPreferences
-                                          .get(Variables.userType));
+                                          .get(Variables.userType),);
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
+                                      builder: (context) => const HomePage(),),
                                   (route) => false);
                             },
                             style: NeumorphicStyle(
@@ -241,7 +241,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                 shadowLightColor: Colors.white.withOpacity(0.6),
                                 // color: Color(0xff294A91),
                                 boxShape: NeumorphicBoxShape.roundRect(
-                                    BorderRadius.circular(30))),
+                                    BorderRadius.circular(30)),),
                           ),
                         ),
                       ),

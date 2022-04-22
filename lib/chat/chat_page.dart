@@ -254,17 +254,20 @@ class _ChatPageState extends State<ChatPage> {
             for (var element in snapshot.data) {
               if (element.status != types.Status.read &&
                       element.authorId !=
-                          BlocProvider.of<FirebaseChatBloc>(context,
-                                  listen: false)
-                              .user
-                              .uid ??
+                          BlocProvider.of<FirebaseChatBloc>(
+                            context,
+                            listen: false,
+                          ).user.uid ??
                   '') {
                 BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                    .updateMessage(element.copyWith(status: types.Status.read),
-                        widget.room.id);
+                    .updateMessage(
+                  element.copyWith(status: types.Status.read),
+                  widget.room.id,
+                );
               }
             }
           }
+          
           return Chat(
             isAttachmentUploading: _isAttachmentUploading,
             messages: snapshot.data ?? [],

@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../backend_util.dart';
 
 /// Provides access to Firebase chat data. Singleton, use
-/// FirebaseChatCore.instance to aceess methods.
+/// FirebaseChatCore.instance to access methods.
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   FirebaseChatBloc({this.homeBloc})
       : super(
@@ -247,7 +247,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   }
 
   /// Sends a message to the Firestore. Accepts any partial message and a
-  /// room ID. If arbitraty data is provided in the [partialMessage]
+  /// room ID. If arbitrary data is provided in the [partialMessage]
   /// does nothing.
   void sendMessage(dynamic partialMessage, String roomId) async {
     if (user == null) return;
