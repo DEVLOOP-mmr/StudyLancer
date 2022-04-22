@@ -11,7 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 class OfferCard extends StatelessWidget {
   const OfferCard({
     Key key,
@@ -281,11 +281,11 @@ class OfferCard extends StatelessWidget {
                       onPressed: () async {
                         var otherUser = Agent();
                         otherUser.id = offer.agentID;
-
+                        var currentStudent=(BlocProvider.of<HomeBloc>(context).state as StudentHomeState).student;
                         final room = await BlocProvider.of<FirebaseChatBloc>(
                                 context,
                                 listen: false)
-                            .createRoom(student, otherUser);
+                            .createRoom(currentStudent, otherUser);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ChatPage(

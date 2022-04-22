@@ -9,11 +9,18 @@ void main() {
   group('Offer Tests', () {
     test('Test to create an offer', () async {
       var mockApplication = MockApplication();
-      final response = await OfferBloc.addOffer(
+      var
+       response = await OfferBloc.addOffer(
         mockApplication,
         MockFirebaseAgentUser().uid,
       );
-
+      if (response.statusCode == 500) {
+        await ProfileTestSuite().updateStudentRequiredDocs();
+        response = await OfferBloc.addOffer(
+          mockApplication,
+          MockFirebaseAgentUser().uid,
+        );
+      }
       expect(response.statusCode, 201);
 
       var agentHome = await ProfileTestSuite().getAgentHome();

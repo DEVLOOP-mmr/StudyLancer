@@ -19,7 +19,10 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       : super(
           const FirebaseChatState(rooms: [], loadState: LoadState.initial),
         ) {
-    user = FirebaseAuth.instance.currentUser;
+          FirebaseAuth.instance.userChanges().listen((event) { if(event!=null){
+              user = FirebaseAuth.instance.currentUser;
+          } });
+  
     roomSnapshotsStream = null;
     homeBloc.stream.listen((state) {
       if (state.loadState == LoadState.done) {
@@ -93,11 +96,11 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     StudyLancerUser otherUser, {
     Map<String, dynamic> metadata,
   }) async {
-    if (user == null) return Future.error('User does not exist');
+    if (currentUser == null) return Future.error('User does not exist');
 
     final query = await FirebaseFirestore.instance
         .collection('rooms')
-        .where('userIds', arrayContains: user.uid)
+        .where('userIds', arrayContains: currentUser.id)
         .get();
 
     final rooms = await processRoomsQuery(currentUser, query);
