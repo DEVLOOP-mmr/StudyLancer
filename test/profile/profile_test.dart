@@ -1,4 +1,5 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/agent.dart';
@@ -34,20 +35,31 @@ void main() {
 
 class ProfileTestSuite {
   Future<Student> getStudentProfile() async {
-    final mockAuth = MockFirebaseAuth('student');
-    var homeBloc = HomeBloc()..setCountry('CA', 'student');
-    final studentHomeData =
-        await homeBloc.getStudentHome(firebaseAuth: mockAuth);
+    StudentHomeState studentHomeData = await getStudentHome();
     final student = studentHomeData.student;
     
     return student;
   }
 
+  Future<StudentHomeState> getStudentHome() async {
+     final mockAuth = MockFirebaseAuth('student');
+    var homeBloc = HomeBloc()..setCountry('CA', 'student');
+    final studentHomeData =
+        await homeBloc.getStudentHome(firebaseAuth: mockAuth);
+
+    return studentHomeData;
+  }
+
   Future<Agent> getAgentProfile() async {
+    AgentHomeState agentHomeData = await getAgentHome();
+    final agent = agentHomeData.agent;
+    return agent;
+  }
+
+  Future<AgentHomeState> getAgentHome() async {
     final mockAuth = MockFirebaseAuth('agent');
     var homeBloc = HomeBloc()..setCountry('CA', 'agent');
     final agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
-    final agent = agentHomeData.agent;
-    return agent;
+    return agentHomeData;
   }
 }

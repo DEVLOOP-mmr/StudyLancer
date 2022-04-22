@@ -728,7 +728,7 @@ class _OfferPageState extends State<OfferPage> {
                       );
                       EasyLoading.dismiss();
 
-                      bloc.getAgentHome(context: context);
+                      await bloc.getAgentHome(context: context);
                       var otherUser = widget.student;
 
                       BlocProvider.of<FirebaseChatBloc>(context, listen: false)

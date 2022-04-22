@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
+import 'package:elite_counsel/models/study_lancer_user.dart';
 
-class Student extends StudyLancerUser {
+class Student extends StudyLancerUser with EquatableMixin {
   static final requiredDocs = [
     'passport',
     'englishProficiencyTest',
@@ -102,27 +102,14 @@ class Student extends StudyLancerUser {
   @override
   List<Object> get props {
     return [
-      name,
-      email,
-      photo,
       dob,
-      maritalStatus,
-      id,
-      phone,
-      countryLookingFor,
-      city,
       course,
       year,
       applyingFor,
-      bio,
-      country,
       optionStatus,
       timeline,
-      verified,
       marksheet,
       applications,
-      documents,
-      requiredDocuments,
     ];
   }
 }

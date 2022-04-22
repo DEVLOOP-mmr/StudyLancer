@@ -15,14 +15,32 @@ void main() {
       );
 
       expect(response.statusCode, 201);
+
+      var agentHome = await ProfileTestSuite().getAgentHome();
+      assert(agentHome != null);
+
+      bool applicationIsInOptionsProvided = agentHome.students.any((student) {
+        if (student.applications.isEmpty) {
+          return false;
+        }
+
+        return student.applications.any(
+          (app) =>
+              app.courseName == mockApplication.courseName &&
+              app.agentID == agentHome.agent.id &&
+              app.status == 2,
+        );
+      });
+
+      expect(applicationIsInOptionsProvided, true);
     });
 
     test(
       'Test to accept an offer',
       () async {
         var student = await ProfileTestSuite().getStudentProfile();
+        var mockApplication = MockApplication();
         if (student.applications.isEmpty) {
-          var mockApplication = MockApplication();
           await OfferBloc.addOffer(
             mockApplication,
             MockFirebaseAgentUser().uid,
@@ -31,12 +49,30 @@ void main() {
         }
 
         final application = student.applications.last;
+        mockApplication.courseName = application.courseName;
         var response = await OfferBloc.acceptOffer(
           application.applicationID,
           application.agentID,
           MockFirebaseStudentUser().uid,
         );
         expect(response.statusCode, 200);
+
+        var agentHome = await ProfileTestSuite().getAgentHome();
+        assert(agentHome != null);
+        bool applicationIsInOngoing = agentHome.students.any((student) {
+          if (student.applications.isEmpty) {
+            return false;
+          }
+
+          return student.applications.any(
+            (app) =>
+                app.courseName == mockApplication.courseName &&
+                app.agentID == agentHome.agent.id &&
+                app.status == 3,
+          );
+        });
+
+        expect(applicationIsInOngoing, true);
       },
     );
   });

@@ -403,7 +403,7 @@ class OfferCard extends StatelessWidget {
                                 offer.agentID,
                                 student.id,
                               );
-                              BlocProvider.of<HomeBloc>(context)
+                              await BlocProvider.of<HomeBloc>(context)
                                   .getStudentHome();
                               EasyLoading.showSuccess("Accepted Offer");
                             } else {
