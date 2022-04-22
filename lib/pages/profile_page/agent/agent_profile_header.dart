@@ -114,7 +114,7 @@ class AgentProfileHeader extends StatelessWidget {
                   color: const Color(0xff294A91),
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: Variables.buttonGradient,
                     ),
                     child: Align(
@@ -145,7 +145,7 @@ class AgentProfileHeader extends StatelessWidget {
                   }));
                 },
                 style: NeumorphicStyle(
-                    border: NeumorphicBorder(
+                    border: const NeumorphicBorder(
                         isEnabled: true,
                         color: Variables.backgroundColor,
                         width: 2),

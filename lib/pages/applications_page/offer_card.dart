@@ -244,7 +244,7 @@ class OfferCard extends StatelessWidget {
                             : EasyLoading.showError("Cannot launch link");
                       },
                       style: NeumorphicStyle(
-                          border: NeumorphicBorder(
+                          border: const NeumorphicBorder(
                               isEnabled: true,
                               color: Variables.backgroundColor,
                               width: 2),
@@ -263,7 +263,7 @@ class OfferCard extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 18, vertical: 12),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             gradient: Variables.buttonGradient,
                           ),
                           child: const Align(
@@ -295,7 +295,7 @@ class OfferCard extends StatelessWidget {
                         );
                       },
                       style: NeumorphicStyle(
-                          border: NeumorphicBorder(
+                          border: const NeumorphicBorder(
                               isEnabled: true,
                               color: Variables.backgroundColor,
                               width: 2),
@@ -379,7 +379,7 @@ class OfferCard extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 18, vertical: 12),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
                               child: Align(
@@ -411,7 +411,7 @@ class OfferCard extends StatelessWidget {
                             }
                           },
                           style: NeumorphicStyle(
-                              border: NeumorphicBorder(
+                              border: const NeumorphicBorder(
                                   isEnabled: true,
                                   color: Variables.backgroundColor,
                                   width: 2),

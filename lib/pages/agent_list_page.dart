@@ -23,7 +23,7 @@ class AgentListPage extends StatelessWidget {
               )
             : null,
         backgroundColor: Variables.backgroundColor,
-        title: Text(
+        title: const Text(
           "Our Expert Agents",
           style: TextStyle(
             fontSize: 18,

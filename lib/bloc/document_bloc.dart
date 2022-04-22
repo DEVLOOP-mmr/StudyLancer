@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:elite_counsel/models/document.dart';
-import 'package:elite_counsel/variables.dart';
 
 import 'dio.dart';
 
@@ -19,7 +18,7 @@ class DocumentBloc {
     this.userType,
   });
   Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
-      {String requiredDocType}) async {
+      {String requiredDocType,}) async {
     for (var x in result.files) {
       final fileName = x.path.split("/").last;
       final filePath = x.path;
@@ -35,7 +34,7 @@ class DocumentBloc {
                   name: requiredDocType ?? fileName,
                   type: x.extension ?? "",
                 ),
-                FirebaseAuth.instance.currentUser.uid)
+                FirebaseAuth.instance.currentUser.uid,)
             .then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
@@ -58,7 +57,7 @@ class DocumentBloc {
         "link": document.link.toString(),
         "name": document.name.toString(),
         "type": document.type.toString() ?? "",
-      }
+      },
     };
 
     return await GetDio.getDio()
@@ -85,6 +84,7 @@ class DocumentBloc {
       }
       EasyLoading.showInfo('Updated Successfully');
     }
+    
     return response;
   }
 

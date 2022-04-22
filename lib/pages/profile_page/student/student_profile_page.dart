@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/models/agent.dart';
-import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
 import 'package:elite_counsel/pages/profile_page/student/date_selector.dart';
 
@@ -16,7 +14,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class StudentProfilePage extends StatefulWidget {
   const StudentProfilePage({Key key}) : super(key: key);
@@ -93,6 +90,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         );
       }
       var student = (state as StudentHomeState).student;
+
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Variables.backgroundColor,
@@ -174,7 +172,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           color: const Color(0xff294A91),
                           child: Container(
                             padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               gradient: Variables.buttonGradient,
                             ),
                             child: Align(
@@ -206,7 +204,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                           }));
                         },
                         style: NeumorphicStyle(
-                            border: NeumorphicBorder(
+                            border: const NeumorphicBorder(
                                 isEnabled: true,
                                 color: Variables.backgroundColor,
                                 width: 2),
@@ -608,7 +606,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             color: const Color(0xff294A91),
                             child: Container(
                               padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
                               child: const Align(
@@ -636,7 +634,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             }
                           },
                           style: NeumorphicStyle(
-                              border: NeumorphicBorder(
+                              border: const NeumorphicBorder(
                                   isEnabled: true,
                                   color: Variables.backgroundColor,
                                   width: 2),

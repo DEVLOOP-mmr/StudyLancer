@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       const AgentHomePage(),
       const AgentDocumentPage(),
       const RoomsPage(),
-      AgentProfilePage(),
+      const AgentProfilePage(),
     ];
 
     return Scaffold(

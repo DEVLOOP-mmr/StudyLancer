@@ -149,8 +149,8 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       //     ?
                       if (!(state as StudentHomeState).student.verified)
                         const UploadRequiredDocumentsPrompt(),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: Text(
                           "Our Expert Agents",
                           style: TextStyle(

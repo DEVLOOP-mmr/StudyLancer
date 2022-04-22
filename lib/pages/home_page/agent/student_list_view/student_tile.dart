@@ -77,7 +77,7 @@ class StudentTile extends StatelessWidget {
                           color: Colors.white.withOpacity(0.04)),
                       child: Text(
                         "Applying for " + student.applyingFor,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Variables.accentColor,
                             fontSize: 10,
                             fontWeight: FontWeight.bold),
@@ -110,7 +110,8 @@ class StudentTile extends StatelessWidget {
                           child: Center(
                             child: Text(
                               markData[index],
-                              style: TextStyle(color: Variables.accentColor),
+                              style:
+                                  const TextStyle(color: Variables.accentColor),
                             ),
                           ),
                         );

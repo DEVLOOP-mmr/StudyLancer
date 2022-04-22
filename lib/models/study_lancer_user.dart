@@ -2,7 +2,7 @@
 import 'package:elite_counsel/models/document.dart';
 
 /// Abstract parent class for [Student] and [Agent]
- class StudyLancerUser {
+class StudyLancerUser {
   String name;
   String email;
   String photo;
@@ -37,6 +37,6 @@ import 'package:elite_counsel/models/document.dart';
   });
 
   factory StudyLancerUser.fromMap(Map<String, dynamic> map) {
-    
+    throw UnimplementedError('Use either Student or Agent Model');
   }
 }

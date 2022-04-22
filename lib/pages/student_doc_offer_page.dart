@@ -106,7 +106,7 @@ class StudentDocOfferPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         "Want to provide best options acc. to documents.",
                         style: TextStyle(
                           fontSize: 12,
@@ -124,7 +124,7 @@ class StudentDocOfferPage extends StatelessWidget {
                             color: const Color(0xff294A91),
                             child: Container(
                               padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
                               child: const Align(
@@ -146,7 +146,7 @@ class StudentDocOfferPage extends StatelessWidget {
                             }));
                           },
                           style: NeumorphicStyle(
-                              border: NeumorphicBorder(
+                              border: const NeumorphicBorder(
                                   isEnabled: true,
                                   color: Variables.backgroundColor,
                                   width: 2),

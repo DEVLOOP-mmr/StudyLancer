@@ -114,7 +114,7 @@ class _OtpPageState extends State<OtpPage> {
                       color: const Color(0xff294A91),
                       child: Container(
                         padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: Variables.buttonGradient,
                         ),
                         child: const Align(
@@ -142,7 +142,7 @@ class _OtpPageState extends State<OtpPage> {
                             checkCode(code);
                           },
                     style: NeumorphicStyle(
-                        border: NeumorphicBorder(
+                        border: const NeumorphicBorder(
                             isEnabled: true,
                             color: Variables.backgroundColor,
                             width: 2),

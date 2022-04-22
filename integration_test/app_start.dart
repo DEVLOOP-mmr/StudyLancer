@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 
 class AppStartSuite {
   Future<WidgetTester> startApp(WidgetTester tester, String userType,
-      {bool autoSignIn}) async {
+      {bool autoSignIn,}) async {
     autoSignIn = autoSignIn ?? false;
     await Hive.initFlutter();
     await Hive.openBox("myBox");

@@ -234,7 +234,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                   (route) => false);
                             },
                             style: NeumorphicStyle(
-                                border: NeumorphicBorder(
+                                border: const NeumorphicBorder(
                                     isEnabled: true,
                                     color: Variables.backgroundColor,
                                     width: 2),
@@ -521,7 +521,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                                       const EdgeInsets
                                                                           .all(12),
                                                                   decoration:
-                                                                      BoxDecoration(
+                                                                      const BoxDecoration(
                                                                     gradient:
                                                                         Variables
                                                                             .buttonGradient,
@@ -573,7 +573,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               },
                                                               style:
                                                                   NeumorphicStyle(
-                                                                      border: NeumorphicBorder(
+                                                                      border: const NeumorphicBorder(
                                                                           isEnabled:
                                                                               true,
                                                                           color: Variables
@@ -601,7 +601,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                   style: NeumorphicStyle(
                                       shadowLightColor:
                                           Colors.white.withOpacity(0.6),
-                                      border: NeumorphicBorder(
+                                      border: const NeumorphicBorder(
                                           isEnabled: true,
                                           color: Variables.backgroundColor,
                                           width: 2),
@@ -639,7 +639,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                 style: NeumorphicStyle(
                                   shadowLightColor:
                                       Colors.white.withOpacity(0.6),
-                                  border: NeumorphicBorder(
+                                  border: const NeumorphicBorder(
                                       isEnabled: true,
                                       color: Variables.backgroundColor,
                                       width: 2),

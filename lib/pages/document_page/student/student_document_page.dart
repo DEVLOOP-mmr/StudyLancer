@@ -325,7 +325,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                   clipBehavior: Clip.hardEdge,
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: Variables.buttonGradient,
                     ),
                     child: Align(

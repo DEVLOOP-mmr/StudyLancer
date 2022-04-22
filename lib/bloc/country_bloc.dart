@@ -34,14 +34,14 @@ class CountryBloc {
         }
         countries = [
           Country(id: 'CA', countryName: 'Canada'),
-          Country(id: 'AU', countryName: 'Australia')
+          Country(id: 'AU', countryName: 'Australia'),
         ];
         throw Exception('countries/:' + result.statusCode.toString());
       }
     } on DioError {
       countries = [
         Country(id: 'CA', countryName: 'Canada'),
-        Country(id: 'AU', countryName: 'Australia')
+        Country(id: 'AU', countryName: 'Australia'),
       ];
       if (kDebugMode) {
         rethrow;

@@ -8,19 +8,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class AgentProfilePage extends StatelessWidget {
-  AgentProfilePage({Key key}) : super(key: key);
+class AgentProfilePage extends StatefulWidget {
+  const AgentProfilePage({Key key}) : super(key: key);
 
+  @override
+  State<AgentProfilePage> createState() => _AgentProfilePageState();
+}
+
+class _AgentProfilePageState extends State<AgentProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final formKey = GlobalKey<FormState>();
+  var formKey;
+  @override
+  void initState() {
+    super.initState();
+    formKey = GlobalKey<FormState>();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(builder: (
-      context,
-      state,
-    ) {
+    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       if (state.loadState == LoadState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
@@ -33,6 +40,7 @@ class AgentProfilePage extends StatelessWidget {
       }
 
       final agent = (state as AgentHomeState).agent;
+
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Variables.backgroundColor,
@@ -59,12 +67,14 @@ class AgentProfilePage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         body: Container(
           decoration: const BoxDecoration(
-              color: Color(0xff1E2224),
-              image: DecorationImage(
-                  image: AssetImage(
-                    "assets/background.png",
-                  ),
-                  fit: BoxFit.fill)),
+            color: Color(0xff1E2224),
+            image: DecorationImage(
+              image: AssetImage(
+                "assets/background.png",
+              ),
+              fit: BoxFit.fill,
+            ),
+          ),
           child: SafeArea(
             child: SingleChildScrollView(
               child: Form(
@@ -503,7 +513,7 @@ class AgentProfilePage extends StatelessWidget {
                             color: const Color(0xff294A91),
                             child: Container(
                               padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: Variables.buttonGradient,
                               ),
                               child: const Align(
@@ -531,7 +541,7 @@ class AgentProfilePage extends StatelessWidget {
                             }
                           },
                           style: NeumorphicStyle(
-                              border: NeumorphicBorder(
+                              border: const NeumorphicBorder(
                                   isEnabled: true,
                                   color: Variables.backgroundColor,
                                   width: 2),

@@ -46,14 +46,15 @@ class UserTypeSelectPage extends StatelessWidget {
                 ),
               ),
               Container(
-                decoration:
-                    BoxDecoration(color: Variables.backgroundColor, boxShadow: [
-                  BoxShadow(
+                decoration: const BoxDecoration(
                     color: Variables.backgroundColor,
-                    spreadRadius: 15,
-                    blurRadius: 20,
-                  ),
-                ]),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Variables.backgroundColor,
+                        spreadRadius: 15,
+                        blurRadius: 20,
+                      ),
+                    ]),
                 child: Column(
                   children: [
                     Row(

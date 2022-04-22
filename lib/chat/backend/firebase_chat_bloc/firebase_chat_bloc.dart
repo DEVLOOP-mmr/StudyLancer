@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
@@ -13,13 +15,12 @@ import '../backend_util.dart';
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to aceess methods.
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
-  HomeBloc homeBloc;
   FirebaseChatBloc({this.homeBloc})
       : super(
           const FirebaseChatState(rooms: [], loadState: LoadState.initial),
         ) {
     user = FirebaseAuth.instance.currentUser;
-
+    roomSnapshotsStream = null;
     homeBloc.stream.listen((state) {
       if (state.loadState == LoadState.done) {
         if (state is AgentHomeState) {
@@ -33,21 +34,25 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     });
   }
 
+  HomeBloc homeBloc;
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> roomSnapshotsStream;
+  User user;
+
   // FirebaseChatCore._privateConstructor() {
   //   user = FirebaseAuth.instance.currentUser;
   // }
 
-  void resetLoginData() {
+  void resetLoginData() async {
     user = null;
-     emit(FirebaseChatState(rooms:[],loadState:LoadState.initial));
+
+    emit(const FirebaseChatState(rooms: [], loadState: LoadState.initial));
+    await roomSnapshotsStream.cancel();
+    roomSnapshotsStream = null;
   }
 
   void setUserData() {
     user = FirebaseAuth.instance.currentUser;
-   
   }
-
-  User user;
 
   // static final FirebaseChatCore instance =
   //     FirebaseChatCore._privateConstructor();
@@ -109,7 +114,6 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       // Create a new room instead
     }
 
-    
     otherUser = await fetchUser(otherUser.id);
     final users = [currentUser, otherUser];
     final room = await FirebaseFirestore.instance.collection('rooms').add({
@@ -117,22 +121,22 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       'metadata': metadata,
       'name': null,
       'type': 'direct',
-      'userData':{
-        currentUser.id:{
-          'name':currentUser.name,
-          'imageUrl':currentUser.photo,
+      'userData': {
+        currentUser.id: {
+          'name': currentUser.name,
+          'imageUrl': currentUser.photo,
         },
-          otherUser.id:{
-          'name':otherUser.name,
-          'imageUrl':otherUser.photo,
+        otherUser.id: {
+          'name': otherUser.name,
+          'imageUrl': otherUser.photo,
         },
       },
       'userIds': users.map((u) => u.id).toList(),
     });
 
     return types.Room(
-      name:otherUser.name,
-      imageUrl:otherUser.photo,
+      name: otherUser.name,
+      imageUrl: otherUser.photo,
       id: room.id,
       metadata: metadata,
       type: types.RoomType.direct,
@@ -228,12 +232,15 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// logged in user exist are returned.
   void fetchRooms(StudyLancerUser currentUser) {
     // if (currentUser == null) return const Stream.empty();
-    emit(state.copyWith(loadState: LoadState.loading));
+
     var snapshots = FirebaseFirestore.instance
         .collection('rooms')
-        .where('userIds', arrayContains: user.uid)
+        .where(
+          'userIds',
+          arrayContains: currentUser.id,
+        )
         .snapshots();
-    snapshots.listen((query) async {
+    roomSnapshotsStream ??= snapshots.listen((query) async {
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
     });

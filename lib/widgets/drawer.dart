@@ -63,7 +63,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.home,
                   color: Variables.accentColor,
                 ),
@@ -88,7 +88,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 Variables.userTypeStudent)
               InkWell(
                 child: ListTile(
-                  trailing: Icon(
+                  trailing: const Icon(
                     FeatherIcons.loader,
                     color: Variables.accentColor,
                   ),
@@ -110,7 +110,7 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.school_outlined,
                   color: Variables.accentColor,
                 ),
@@ -132,7 +132,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.bed_outlined,
                   color: Variables.accentColor,
                 ),
@@ -154,7 +154,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.mousePointer,
                   color: Variables.accentColor,
                 ),
@@ -176,7 +176,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.info,
                   color: Variables.accentColor,
                 ),
@@ -198,7 +198,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             InkWell(
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.helpCircle,
                   color: Variables.accentColor,
                 ),
@@ -223,12 +223,12 @@ class _MyDrawerState extends State<MyDrawer> {
                 Share.share(
                     'Check out Study Lancer at https://play.google.com/store/apps/details?id=com.elite_counsel');
               },
-              child: ListTile(
+              child: const ListTile(
                 trailing: Icon(
                   FeatherIcons.share2,
                   color: Variables.accentColor,
                 ),
-                title: const Text(
+                title: Text(
                   "Share with Friends",
                   style: TextStyle(
                       color: Colors.white,
@@ -247,7 +247,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 }
               },
               child: ListTile(
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.star,
                   color: Variables.accentColor,
                 ),
@@ -279,12 +279,12 @@ class _MyDrawerState extends State<MyDrawer> {
               //     throw 'Could not launch $url';
               //   }
               // },
-              child: ListTile(
+              child: const ListTile(
                 trailing: Icon(
                   FeatherIcons.messageCircle,
                   color: Variables.accentColor,
                 ),
-                title: const Text(
+                title: Text(
                   "Helpdesk",
                   style: TextStyle(
                       color: Colors.white,
@@ -301,7 +301,8 @@ class _MyDrawerState extends State<MyDrawer> {
                   await FirebaseAuth.instance.signOut();
                   Variables.sharedPreferences.clear();
                   BlocProvider.of<HomeBloc>(context, listen: false).reset();
-                    BlocProvider.of<FirebaseChatBloc>(context, listen: false).resetLoginData();
+                  BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+                      .resetLoginData();
 
                   Navigator.pushReplacement(
                     context,
@@ -310,7 +311,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     }),
                   );
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   FeatherIcons.logOut,
                   color: Variables.accentColor,
                 ),

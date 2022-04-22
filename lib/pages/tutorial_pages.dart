@@ -103,7 +103,7 @@ class _TutorialPageBuilder extends State<TutorialPage> {
                   Variables.sharedPreferences.put(Variables.isFirstTime, false);
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   "Skip",
                   style: TextStyle(color: Variables.accentColor),
                 ),
@@ -128,7 +128,7 @@ class _TutorialPageBuilder extends State<TutorialPage> {
                         page: liquidController.currentPage + 1);
                   }
                 },
-                child: Text(
+                child: const Text(
                   "Next",
                   style: TextStyle(color: Variables.accentColor),
                 ),

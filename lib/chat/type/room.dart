@@ -45,23 +45,23 @@ class Room {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Room &&
-      other.id == id &&
-      other.imageUrl == imageUrl &&
-      other.type == type &&
-      mapEquals(other.metadata, metadata) &&
-      other.name == name &&
-      listEquals(other.users, users);
+        other.id == id &&
+        other.imageUrl == imageUrl &&
+        other.type == type &&
+        mapEquals(other.metadata, metadata) &&
+        other.name == name &&
+        listEquals(other.users, users);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      imageUrl.hashCode ^
-      type.hashCode ^
-      metadata.hashCode ^
-      name.hashCode ^
-      users.hashCode;
+        imageUrl.hashCode ^
+        type.hashCode ^
+        metadata.hashCode ^
+        name.hashCode ^
+        users.hashCode;
   }
 }

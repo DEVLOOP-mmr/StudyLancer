@@ -21,8 +21,8 @@ class AgentHomeAppBar extends StatelessWidget {
       actions: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AgentProfilePage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AgentProfilePage()));
           },
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {

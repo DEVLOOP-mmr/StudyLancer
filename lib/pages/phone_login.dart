@@ -100,7 +100,7 @@ class _PhonePageState extends State<PhonePage> {
                     color: const Color(0xff294A91),
                     child: Container(
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: Variables.buttonGradient,
                       ),
                       child: const Align(
@@ -164,7 +164,7 @@ class _PhonePageState extends State<PhonePage> {
                               codeAutoRetrievalTimeout: (verificationId) {});
                         },
                   style: NeumorphicStyle(
-                      border: NeumorphicBorder(
+                      border: const NeumorphicBorder(
                           isEnabled: true,
                           color: Variables.backgroundColor,
                           width: 2),

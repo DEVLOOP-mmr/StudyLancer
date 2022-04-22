@@ -29,16 +29,17 @@ Future<void> main() async {
     ));
   } else {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    runZonedGuarded<Future<void>>(() async {
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runZonedGuarded<Future<void>>(
+      () async {
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-      runApp(DevicePreview(
-        builder: (context) => const MaterialApp(home: MyApp()),
-        enabled: false,
-      ));
-    },
-        (error, stack) =>
-            FirebaseCrashlytics.instance.recordError(error, stack),);
+        runApp(DevicePreview(
+          builder: (context) => const MaterialApp(home: MyApp()),
+          enabled: false,
+        ));
+      },
+      (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack),
+    );
   }
 }
 
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   Future<bool> deviceInit() async {
     await Hive.initFlutter();
     await Hive.openBox("myBox");
-    
+
     return true;
   }
 

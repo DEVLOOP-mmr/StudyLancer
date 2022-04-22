@@ -235,7 +235,7 @@ class _ChatPageState extends State<ChatPage> {
         title: Title(
           color: Variables.backgroundColor,
           child: AutoSizeText(
-            widget.room.name??'',
+            widget.room.name ?? '',
             style: const TextStyle(color: Colors.white),
           ),
         ),
