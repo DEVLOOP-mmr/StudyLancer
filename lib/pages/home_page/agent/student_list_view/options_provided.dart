@@ -21,26 +21,25 @@ class OptionsProvided extends StatelessWidget {
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        return ListView.builder(
-          itemCount: agentHomePageState.students.where((element) {
-            if (element.applications.isEmpty) {
-              return false;
-            }
-            if (element.applications.first.status == 2) {
-              return true;
-            }
+        final optionsProvided = agentHomePageState.students.where((element) {
+          if (element.applications.isEmpty) {
             return false;
-          }).length,
+          }
+          bool agentIDMatchesApplicationAgentID = element.applications.any(
+            (application) =>
+                application.status == 2 && application.agentID == agent.id,
+          );
+
+          return agentIDMatchesApplicationAgentID;
+        }).toList();
+
+        return ListView.builder(
+          itemCount: optionsProvided.length,
           itemBuilder: (context, index) {
-            var student = agentHomePageState.students.where((element) {
-              if (element.applications.isEmpty) {
-                return false;
-              }
-              if (element.applications.first.status == 2) {
-                return true;
-              }
-              return false;
-            }).toList()[index];
+            var student = optionsProvided[index];
+            student.applyingFor = student.applications
+                .firstWhere((app) => app.status == 2)
+                .courseName;
             return StudentTile(student: student);
           },
         );

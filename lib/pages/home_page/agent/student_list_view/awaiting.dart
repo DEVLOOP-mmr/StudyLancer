@@ -31,7 +31,7 @@ class AwaitingStudents extends StatelessWidget {
             var student = agentHomePageState.students.where((element) {
               return element.applications.isEmpty;
             }).toList()[index];
-
+            
             return StudentTile(student: student);
           },
         );

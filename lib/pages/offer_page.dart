@@ -726,15 +726,15 @@ class _OfferPageState extends State<OfferPage> {
                         offer,
                         FirebaseAuth.instance.currentUser.uid,
                       );
+                      EasyLoading.dismiss();
 
                       bloc.getAgentHome(context: context);
                       var otherUser = widget.student;
 
-                      await BlocProvider.of<FirebaseChatBloc>(context,
-                              listen: false)
+                      BlocProvider.of<FirebaseChatBloc>(context, listen: false)
                           .createRoom(agent, otherUser);
 
-                      await Navigator.of(context).pushReplacement(
+                      Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => const HomePage(),
                         ),

@@ -21,7 +21,7 @@ class Country {
 
 class AgentHomePageState extends State<AgentHomePage>
     with TickerProviderStateMixin {
-  static final GlobalKey<ScaffoldState> scaffoldKey =
+   final GlobalKey<ScaffoldState> scaffoldKey =
       GlobalKey<ScaffoldState>();
 
   List<Country> data = [
@@ -37,8 +37,8 @@ class AgentHomePageState extends State<AgentHomePage>
       key: scaffoldKey,
       backgroundColor: Variables.backgroundColor,
       endDrawer: MyDrawer(),
-      appBar: const PreferredSize(
-        child: AgentHomeAppBar(),
+      appBar:  PreferredSize(
+        child: AgentHomeAppBar(scaffoldKey: scaffoldKey,),
         preferredSize: Size.fromHeight(70),
       ),
       body: Container(

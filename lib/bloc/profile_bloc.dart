@@ -5,10 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
+import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 
 import 'dio.dart';
 
@@ -54,13 +56,15 @@ class ProfileBloc {
   }
 
   static Future<Response> updateStudentProfile(Student student) async {
+    String dob = student.dob;
+    var dateTime = DateTime.tryParse(dob) ?? Variables.dateFormat.parse(dob);
     Map body = {
       "studentID": student.id,
       "location": {"city": student.city, "country": student.country},
       "name": student.name,
       "email": student.email,
       "photo": student.photo,
-      "DOB": student.dob,
+      "DOB": dateTime.toIso8601String(),
       "martialStatus": student.maritalStatus,
       "bio": student.bio,
     };

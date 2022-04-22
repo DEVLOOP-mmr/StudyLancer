@@ -21,26 +21,25 @@ class OngoingStudents extends StatelessWidget {
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        return ListView.builder(
-          itemCount: agentHomePageState.students.where((element) {
-            if (element.applications.isEmpty) {
-              return false;
-            }
-            if (element.applications.first.status == 3) {
-              return true;
-            }
+        final ongoingStudents = agentHomePageState.students.where((element) {
+          if (element.applications.isEmpty) {
             return false;
-          }).length,
+          }
+          bool agentIDMatchesApplicationAgentID = element.applications.any(
+            (application) =>
+                application.status == 3 && application.agentID == agent.id,
+          );
+
+          return agentIDMatchesApplicationAgentID;
+        }).toList();
+
+        return ListView.builder(
+          itemCount: ongoingStudents.length,
           itemBuilder: (context, index) {
-            var student = agentHomePageState.students.where((element) {
-              if (element.applications.isEmpty) {
-                return false;
-              }
-              if (element.applications.first.status == 3) {
-                return true;
-              }
-              return false;
-            }).toList()[index];
+            var student = ongoingStudents[index];
+             student.applyingFor = student.applications
+                .firstWhere((app) => app.status == 3)
+                .courseName;
             return StudentTile(student: student);
           },
         );

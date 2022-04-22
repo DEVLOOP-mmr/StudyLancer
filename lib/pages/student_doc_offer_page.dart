@@ -52,6 +52,42 @@ class StudentDocOfferPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Divider(color: Colors.white),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 20),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: (student.requiredDocuments.keys ?? []).length,
+              itemBuilder: (context, index) {
+                var key = student.requiredDocuments.keys.toList()[index];
+                Document doc = student.requiredDocuments[key];
+                if (doc == null) {
+                  return Container();
+                }
+                if (doc.link == null) {
+                  return Container();
+                }
+                String icon = "assets/docicon.png";
+                if (doc.type == "pdf") {
+                  icon = "assets/pdficon.png";
+                } else if (doc.type == "jpg" ||
+                    doc.type == "png" ||
+                    doc.type == "gif" ||
+                    doc.type == "jpeg") {
+                  icon = "assets/imageicon.png";
+                }
+
+                return DocumentCard(
+                  doc: doc,
+                  icon: icon,
+                  onDismiss: (_) {
+                    log('');
+                  },
+                  renameEnabled: false,
+                );
+              },
+            ),
+          ),
+         
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

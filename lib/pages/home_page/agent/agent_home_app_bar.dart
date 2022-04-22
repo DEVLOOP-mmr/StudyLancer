@@ -10,8 +10,9 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 class AgentHomeAppBar extends StatelessWidget {
   const AgentHomeAppBar({
     Key key,
+    @required this.scaffoldKey,
   });
-
+  final scaffoldKey;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -54,7 +55,7 @@ class AgentHomeAppBar extends StatelessWidget {
         GestureDetector(
           child: Image.asset("assets/images/menu.png"),
           onTap: () {
-            AgentHomePageState.scaffoldKey.currentState.openEndDrawer();
+            scaffoldKey.currentState.openEndDrawer();
           },
         )
       ],

@@ -76,7 +76,9 @@ class StudentTile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white.withOpacity(0.04)),
                       child: Text(
-                        "Applying for " + student.applyingFor,
+                        student.applyingFor.isEmpty
+                            ? "Verified"
+                            : "Applying for " + student.applyingFor,
                         style: const TextStyle(
                             color: Variables.accentColor,
                             fontSize: 10,

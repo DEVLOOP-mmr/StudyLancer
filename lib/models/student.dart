@@ -62,7 +62,7 @@ class Student extends StudyLancerUser {
     student.optionStatus = studentData["optionStatus"] ?? 0;
     student.timeline = studentData["timeline"] ?? 1;
     student.applyingFor =
-        studentData["applyingFor"] ?? "Masters in Computer Science";
+        studentData["applyingFor"] ?? "";
     student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
     student.year = studentData["year"] ?? DateTime.now().year.toString();
     student.applications = [];

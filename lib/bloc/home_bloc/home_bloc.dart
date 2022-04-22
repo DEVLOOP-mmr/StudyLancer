@@ -127,7 +127,7 @@ class HomeBloc extends Cubit<HomeState> {
         : state.countryCode;
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": countryLookingFor.isEmpty ? "CA" : countryLookingFor,
+      "countryLookingFor": countryLookingFor??'CA',
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var result = await GetDio.getDio().post(
@@ -212,7 +212,7 @@ class HomeBloc extends Cubit<HomeState> {
         : state.countryCode;
     Map<String, String> body = {
       "agentID": auth.currentUser.uid,
-      "countryLookingFor": countryLookingFor.isEmpty ? "CA" : countryLookingFor,
+      "countryLookingFor": countryLookingFor ?? "CA",
       "phone": auth.currentUser.phoneNumber,
     };
     var result =
