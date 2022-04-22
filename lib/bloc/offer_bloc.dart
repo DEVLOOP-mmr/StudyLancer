@@ -34,21 +34,21 @@ class OfferBloc {
         if (kDebugMode) {
           return response;
         }
-        EasyLoading.showError("Offer sent");
+        EasyLoading.showSuccess("Offer sent");
       } else {
         if (kDebugMode) {
           return response;
         }
         var data = response.data;
         if (data.containsKey('message')) {
-          EasyLoading.show(status: data['message']);
+          EasyLoading.showError(data['message']);
         } else {
-          EasyLoading.show(status: 'Something went wrong');
+          EasyLoading.showError('Something went wrong');
         }
       }
       return response;
     } on DioError {
-      EasyLoading.show(status: 'Cant connect please try again later');
+      EasyLoading.showError( 'Cant connect please try again later');
     }
   }
 
