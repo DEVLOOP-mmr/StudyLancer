@@ -18,8 +18,9 @@ class OfferBloc {
         "agentID": application.agentID,
         "universityName": application.universityName,
         "location": {
-          "city": application.city??application.location['city']??'',
-          "country": application.country??application.location['country'] ?? '',
+          "city": application.city ?? application.location['city'] ?? '',
+          "country":
+              application.country ?? application.location['country'] ?? '',
         },
         "courseFees": int.parse(application.courseFees),
         "applicationFees": int.parse(application.applicationFees),

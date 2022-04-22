@@ -56,33 +56,53 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                   fontSize: 30,
                   fontWeight: FontWeight.bold),
             ),
-            bottom: TabBar(
-              labelColor: Variables.accentColor,
-              indicatorColor: Colors.transparent,
-              unselectedLabelColor: Colors.white.withOpacity(0.6),
-              isScrollable: true,
-              controller: _tabController,
-              tabs: const [
-                Tab(
-                  text: "Awaiting",
-                ),
-                Tab(
-                  text: "Options Provided",
-                ),
-                Tab(
-                  text: "Ongoing",
-                ),
-              ],
-            ),
           ),
           backgroundColor: Variables.backgroundColor,
-          body: TabBarView(
-            controller: _tabController,
-            children: const [
-              AwaitingStudents(),
-              OptionsProvided(),
-              OngoingStudents(),
-            ],
+          body: RefreshIndicator(
+            onRefresh: () async {
+              BlocProvider.of<HomeBloc>(context).getAgentHome(context: context);
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TabBar(
+                    labelColor: Variables.accentColor,
+                    indicatorColor: Colors.transparent,
+                    unselectedLabelColor: Colors.white.withOpacity(0.6),
+                    isScrollable: true,
+                    controller: _tabController,
+                    tabs: const [
+                      Tab(
+                        text: "Awaiting",
+                      ),
+                      Tab(
+                        text: "Options Provided",
+                      ),
+                      Tab(
+                        text: "Ongoing",
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Flexible(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height - 100,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: const [
+                          AwaitingStudents(),
+                          OptionsProvided(),
+                          OngoingStudents(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },

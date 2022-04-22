@@ -33,15 +33,28 @@ class OptionsProvided extends StatelessWidget {
           return agentIDMatchesApplicationAgentID;
         }).toList();
 
-        return ListView.builder(
-          itemCount: optionsProvided.length,
-          itemBuilder: (context, index) {
-            var student = optionsProvided[index];
-            student.applyingFor = student.applications
-                .firstWhere((app) => app.status == 2)
-                .courseName;
-            return StudentTile(student: student);
-          },
+        return SingleChildScrollView(
+          child: Column(
+            children: optionsProvided.map((student) {
+              var optionsProvidedApplications = student.applications
+                  .where((app) => app.agentID == agent.id && app.status == 2)
+                  .toList();
+
+              return Column(
+                children: List.generate(
+                  optionsProvidedApplications.length,
+                  (index) {
+                    var openApplication = optionsProvidedApplications[index];
+
+                    return StudentTile(
+                      student: student,
+                      courseName: openApplication.courseName,
+                    );
+                  },
+                ),
+              );
+            }).toList(),
+          ),
         );
       },
     );

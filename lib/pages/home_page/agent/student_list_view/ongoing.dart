@@ -33,15 +33,29 @@ class OngoingStudents extends StatelessWidget {
           return agentIDMatchesApplicationAgentID;
         }).toList();
 
-        return ListView.builder(
-          itemCount: ongoingStudents.length,
-          itemBuilder: (context, index) {
-            var student = ongoingStudents[index];
-             student.applyingFor = student.applications
-                .firstWhere((app) => app.status == 3)
-                .courseName;
-            return StudentTile(student: student);
-          },
+        return SingleChildScrollView(
+          child: Column(
+            children: ongoingStudents.map((student) {
+              var ongoingApplications = student.applications
+                  .where((app) => app.agentID == agent.id && app.status == 3)
+                  .toList();
+              print(ongoingApplications);
+
+              return Column(
+                children: List.generate(
+                  ongoingApplications.length,
+                  (index) {
+                    var ongoingApplication = ongoingApplications[index];
+
+                    return StudentTile(
+                      student: student,
+                      courseName: ongoingApplication.courseName,
+                    );
+                  },
+                ),
+              );
+            }).toList(),
+          ),
         );
       },
     );
