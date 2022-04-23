@@ -12,7 +12,7 @@ class MockApplication extends Application {
     location = {"city": "Sydney", "country": "Australia"};
     applicationFees = '2000';
     courseFees = '450000';
-    courseName = "course-"+const Uuid().v4();
+    courseName = "course-" + const Uuid().v4();
     description =
         "Please check the university reviews over google one of the best colleges";
     courseLink = "https:www.google.com";

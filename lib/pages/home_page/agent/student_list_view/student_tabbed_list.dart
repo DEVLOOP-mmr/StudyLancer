@@ -38,7 +38,7 @@ class _StudentTabbedListState extends State<StudentTabbedList>
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -85,11 +85,11 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Flexible(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height - 100,
                       child: TabBarView(
                         controller: _tabController,

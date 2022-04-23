@@ -2,7 +2,12 @@
     "git.ignoreLimitWarning": true,
     "cSpell.words": [
         "docicon",
+        "LTWH",
+        "mockito",
+        "nbsp",
+        "ndash",
         "pdficon",
+        "studentdata",
         "usertype"
     ]
 }

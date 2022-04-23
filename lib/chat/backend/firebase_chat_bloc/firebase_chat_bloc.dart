@@ -19,10 +19,12 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       : super(
           const FirebaseChatState(rooms: [], loadState: LoadState.initial),
         ) {
-          FirebaseAuth.instance.userChanges().listen((event) { if(event!=null){
-              user = FirebaseAuth.instance.currentUser;
-          } });
-  
+    FirebaseAuth.instance.userChanges().listen((event) {
+      if (event != null) {
+        user = FirebaseAuth.instance.currentUser;
+      }
+    });
+
     roomSnapshotsStream = null;
     homeBloc.stream.listen((state) {
       if (state.loadState == LoadState.done) {

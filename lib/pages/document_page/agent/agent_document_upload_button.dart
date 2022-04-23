@@ -10,6 +10,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/document.dart';
 
 import '../../../variables.dart';
+
 class AgentDocumentUploadButton extends StatelessWidget {
   const AgentDocumentUploadButton({
     Key key,
@@ -40,7 +41,6 @@ class AgentDocumentUploadButton extends StatelessWidget {
         }
       } catch (e) {}
       BlocProvider.of<HomeBloc>(context, listen: false).getAgentHome();
-      ;
     } else {
       // User canceled the picker
     }
@@ -61,8 +61,9 @@ class AgentDocumentUploadButton extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: const Color(0xff294A91),
-                      borderRadius: BorderRadius.circular(8),),
+                    color: const Color(0xff294A91),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   clipBehavior: Clip.hardEdge,
                   child: Container(
                     padding: const EdgeInsets.all(12),
@@ -82,9 +83,10 @@ class AgentDocumentUploadButton extends StatelessWidget {
                           Text(
                             "Upload ${requiredDocType ?? ''}",
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,),
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),

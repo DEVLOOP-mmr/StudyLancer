@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -99,16 +98,20 @@ class _ChatState extends State<Chat> {
     setState(() {
       _isImageViewVisible = false;
     });
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
   }
 
   void _onImagePressed(
     String uri,
     List<String> galleryItems,
   ) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom],
+    );
     setState(() {
       _isImageViewVisible = true;
       _imageViewIndex = galleryItems.indexOf(uri);

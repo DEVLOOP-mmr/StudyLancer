@@ -4,7 +4,9 @@ import 'package:elite_counsel/variables.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTile extends StatelessWidget {
-  const StudentTile({Key key, @required this.student,@required this.courseName}) : super(key: key);
+  const StudentTile(
+      {Key key, @required this.student, @required this.courseName})
+      : super(key: key);
   final Student student;
   final String courseName;
   @override
@@ -79,7 +81,7 @@ class StudentTile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white.withOpacity(0.04)),
                       child: Text(
-                       courseName.isEmpty
+                        courseName.isEmpty
                             ? "Verified"
                             : "Applying for " + courseName,
                         style: const TextStyle(

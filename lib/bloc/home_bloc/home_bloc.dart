@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+// ignore: implementation_imports
 import 'package:dio/src/response.dart' show Response;
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/agent.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:mockito/mockito.dart';
 
 import '../dio.dart';
 
@@ -22,7 +22,9 @@ class HomeBloc extends Cubit<HomeState> {
       case 'student':
         if (state is! StudentHomeState) {
           emit(StudentHomeState(
-              countryCode: newCountry, loadState: LoadState.initial));
+            countryCode: newCountry,
+            loadState: LoadState.initial,
+          ));
           break;
         }
         emit((state as StudentHomeState).copyWith(countryCode: newCountry));
@@ -31,7 +33,9 @@ class HomeBloc extends Cubit<HomeState> {
       case 'agent':
         if (state is! AgentHomeState) {
           emit(AgentHomeState(
-              countryCode: newCountry, loadState: LoadState.initial));
+            countryCode: newCountry,
+            loadState: LoadState.initial,
+          ));
           break;
         }
         emit((state as AgentHomeState).copyWith(countryCode: newCountry));
@@ -93,6 +97,7 @@ class HomeBloc extends Cubit<HomeState> {
       if (b.applications.isEmpty) {
         return 0;
       }
+
       return int.parse(a.applications.first.courseFees).compareTo(
         int.parse(b.applications.first.courseFees),
       );
@@ -114,7 +119,7 @@ class HomeBloc extends Cubit<HomeState> {
       emit(homeData.copyWith(
         loadState: LoadState.loading,
       ));
-    } else {}
+    }
     if (state.countryCode.isEmpty) {
       setCountry(
         Variables.sharedPreferences.get(Variables.countryCode),
@@ -127,7 +132,7 @@ class HomeBloc extends Cubit<HomeState> {
         : state.countryCode;
     Map<String, String> body = {
       "studentID": firebaseAuth.currentUser.uid,
-      "countryLookingFor": countryLookingFor??'CA',
+      "countryLookingFor": countryLookingFor ?? 'CA',
       "phone": firebaseAuth.currentUser.phoneNumber,
     };
     var result = await GetDio.getDio().post(
@@ -164,10 +169,13 @@ class HomeBloc extends Cubit<HomeState> {
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
       reset();
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) {
-        return const UserTypeSelectPage();
-      }), (route) => false);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return const UserTypeSelectPage();
+        }),
+        (route) => false,
+      );
     }
   }
 
@@ -175,14 +183,13 @@ class HomeBloc extends Cubit<HomeState> {
     var message = '';
     if (result.statusCode == 403) {
       Map map = (result.data);
-      if (map.containsKey('message')) {
-        message = result.data['message'];
-      } else {
-        message = 'You are not authorized to use this feature';
-      }
+      message = map.containsKey('message')
+          ? result.data['message']
+          : 'You are not authorized to use this feature';
     } else {
       message = 'Something went wrong';
     }
+
     return message;
   }
 
@@ -196,8 +203,6 @@ class HomeBloc extends Cubit<HomeState> {
     AgentHomeState homeData = AgentHomeState(countryCode: '');
     if (state is! AgentHomeState) {
       emit(homeData.copyWith(loadState: LoadState.loading));
-    } else {
-      // emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
     }
     if (state.countryCode.isEmpty) {
       var newCountry = Variables.sharedPreferences.get(Variables.countryCode);

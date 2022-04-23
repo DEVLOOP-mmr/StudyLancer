@@ -59,7 +59,7 @@ class Application extends Equatable {
     application.studentID = offerData['student'];
     application.color = offerData["color"];
     application.status = offerData['status'];
-    
+
     return application;
   }
 

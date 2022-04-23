@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:elite_counsel/main.dart' as app;
-import 'package:mockito/mockito.dart';
 
 class AppStartSuite {
   Future<WidgetTester> startApp(WidgetTester tester, String userType,

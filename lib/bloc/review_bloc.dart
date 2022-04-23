@@ -12,7 +12,9 @@ import 'dio.dart';
 
 class ReviewBloc {
   static Future<AgentReviews> getAgentReview(
-      String agentId, String studentID) async {
+    String agentId,
+    String studentID,
+  ) async {
     AgentReviews agentReviews = AgentReviews();
     agentReviews.reviews = [];
 

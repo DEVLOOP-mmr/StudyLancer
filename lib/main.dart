@@ -69,43 +69,44 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-        future: _initDone,
-        builder: (context, snapshot) {
-          Widget home = const Center(
-            child: CircularProgressIndicator(),
+      future: _initDone,
+      builder: (context, snapshot) {
+        Widget home = const Center(
+          child: CircularProgressIndicator(),
+        );
+        if (snapshot.hasError) {
+          home = Center(
+            child: Text(snapshot.error.toString()),
           );
-          if (snapshot.hasError) {
-            home = Center(
-              child: Text(snapshot.error.toString()),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            home = FirebaseAuth.instance.currentUser != null
-                ? Variables.sharedPreferences.get(Variables.countryCode) != null
-                    ? const HomePage()
-                    : const CountrySelectPage()
-                : const UserTypeSelectPage();
-          }
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => HomeBloc(),
-              ),
-              BlocProvider(
-                lazy: false,
-                create: (context) =>
-                    FirebaseChatBloc(homeBloc: context.read<HomeBloc>()),
-              ),
-            ],
-            child: MaterialApp(
-              themeMode: ThemeMode.light,
-              color: Variables.accentColor,
-              theme: MyTheme.lightTheme(context),
-              debugShowCheckedModeBanner: true,
-              builder: EasyLoading.init(),
-              home: home,
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          home = FirebaseAuth.instance.currentUser != null
+              ? Variables.sharedPreferences.get(Variables.countryCode) != null
+                  ? const HomePage()
+                  : const CountrySelectPage()
+              : const UserTypeSelectPage();
+        }
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => HomeBloc(),
             ),
-          );
-        });
+            BlocProvider(
+              lazy: false,
+              create: (context) =>
+                  FirebaseChatBloc(homeBloc: context.read<HomeBloc>()),
+            ),
+          ],
+          child: MaterialApp(
+            themeMode: ThemeMode.light,
+            color: Variables.accentColor,
+            theme: MyTheme.lightTheme(context),
+            debugShowCheckedModeBanner: true,
+            builder: EasyLoading.init(),
+            home: home,
+          ),
+        );
+      },
+    );
   }
 }

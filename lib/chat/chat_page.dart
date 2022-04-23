@@ -267,7 +267,7 @@ class _ChatPageState extends State<ChatPage> {
               }
             }
           }
-          
+
           return Chat(
             isAttachmentUploading: _isAttachmentUploading,
             messages: snapshot.data ?? [],

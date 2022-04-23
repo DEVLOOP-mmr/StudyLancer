@@ -8,8 +8,8 @@ class MockDocument extends Document {
       : super(
           link:
               'https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png',
-          id: 'test_id_generated_' + Uuid().v4(),
+          id: 'test_id_generated_' + const Uuid().v4(),
           type: 'png',
-          name: 'test_document_at_' + Uuid().v4(),
+          name: 'test_document_at_' + const Uuid().v4(),
         );
 }

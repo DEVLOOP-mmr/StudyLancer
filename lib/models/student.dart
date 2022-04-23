@@ -13,7 +13,7 @@ class Student extends StudyLancerUser with EquatableMixin {
   static final requiredDocs = [
     'passport',
     'englishProficiencyTest',
-    'academics'
+    'academics',
   ];
 
   String dob;
@@ -61,8 +61,7 @@ class Student extends StudyLancerUser with EquatableMixin {
     student.verified = studentData["verified"];
     student.optionStatus = studentData["optionStatus"] ?? 0;
     student.timeline = studentData["timeline"] ?? 1;
-    student.applyingFor =
-        studentData["applyingFor"] ?? "";
+    student.applyingFor = studentData["applyingFor"] ?? "";
     student.course = studentData["course"] ?? "B.Tech from DTU (95%)";
     student.year = studentData["year"] ?? DateTime.now().year.toString();
     student.applications = [];

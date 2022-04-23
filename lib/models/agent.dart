@@ -6,7 +6,7 @@ class Agent extends StudyLancerUser with EquatableMixin {
   static final requiredDocNames = [
     'license',
     'registrationCertificate',
-    'personalID'
+    'personalID',
   ];
 
   String licenseNo;

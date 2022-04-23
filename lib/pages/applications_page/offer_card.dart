@@ -12,6 +12,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+
 class OfferCard extends StatelessWidget {
   const OfferCard({
     Key key,
@@ -41,8 +42,9 @@ class OfferCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: Color(int.parse(offer.color.replaceFirst("#", ""))),
-                    borderRadius: BorderRadius.circular(8)),
+                  color: Color(int.parse(offer.color.replaceFirst("#", ""))),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: SizedBox(
                   height: 200,
                   child: Padding(
@@ -59,9 +61,10 @@ class OfferCard extends StatelessWidget {
                                 child: Text(
                                   offer.universityName ?? "",
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 23,
-                                      color: Colors.white),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -71,8 +74,9 @@ class OfferCard extends StatelessWidget {
                                 widthFactor: 0.4,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(20)),
+                                    color: Colors.white.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Row(
@@ -107,7 +111,7 @@ class OfferCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -281,7 +285,9 @@ class OfferCard extends StatelessWidget {
                       onPressed: () async {
                         var otherUser = Agent();
                         otherUser.id = offer.agentID;
-                        var currentStudent=(BlocProvider.of<HomeBloc>(context).state as StudentHomeState).student;
+                        var currentStudent = (BlocProvider.of<HomeBloc>(context)
+                                .state as StudentHomeState)
+                            .student;
                         final room = await BlocProvider.of<FirebaseChatBloc>(
                                 context,
                                 listen: false)

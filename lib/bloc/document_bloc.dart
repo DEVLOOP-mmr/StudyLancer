@@ -17,8 +17,10 @@ class DocumentBloc {
   DocumentBloc({
     this.userType,
   });
-  Future<void> parseAndUploadFilePickerResult(FilePickerResult result,
-      {String requiredDocType,}) async {
+  Future<void> parseAndUploadFilePickerResult(
+    FilePickerResult result, {
+    String requiredDocType,
+  }) async {
     for (var x in result.files) {
       final fileName = x.path.split("/").last;
       final filePath = x.path;
@@ -29,13 +31,13 @@ class DocumentBloc {
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
         postDocument(
-                Document(
-                  link: uri,
-                  name: requiredDocType ?? fileName,
-                  type: x.extension ?? "",
-                ),
-                FirebaseAuth.instance.currentUser.uid,)
-            .then((value) {
+          Document(
+            link: uri,
+            name: requiredDocType ?? fileName,
+            type: x.extension ?? "",
+          ),
+          FirebaseAuth.instance.currentUser.uid,
+        ).then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
       } on Exception {
@@ -84,7 +86,7 @@ class DocumentBloc {
       }
       EasyLoading.showInfo('Updated Successfully');
     }
-    
+
     return response;
   }
 

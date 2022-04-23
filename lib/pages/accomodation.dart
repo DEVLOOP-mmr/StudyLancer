@@ -25,15 +25,16 @@ class Accommodation extends StatelessWidget {
           title: Text(
             'Accommodation',
             style: TextStyle(
-                foreground: Paint()
-                  ..shader = const LinearGradient(
-                    colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
-                  ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
-                //color: Colors.blue[900],
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Roboto',
-                fontSize: 20),
+              foreground: Paint()
+                ..shader = const LinearGradient(
+                  colors: <Color>[Color(0xffFF8B86), Color(0xffAE78BE)],
+                ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+              //color: Colors.blue[900],
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.normal,
+              fontFamily: 'Roboto',
+              fontSize: 20,
+            ),
           ),
         ),
         body: SafeArea(

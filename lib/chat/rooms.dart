@@ -39,7 +39,10 @@ class _RoomsPageState extends State<RoomsPage> {
         title: const Text(
           "Chats",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            color: Colors.white,
+          ),
         ),
       ),
       endDrawer: MyDrawer(),
@@ -113,14 +116,15 @@ class _RoomsPageState extends State<RoomsPage> {
                           child: AutoSizeText(
                             room.name ?? 'User',
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           width: 20,
-                        )
+                        ),
                       ],
                     ),
                   ),

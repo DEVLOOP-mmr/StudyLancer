@@ -13,6 +13,7 @@ analyzer:
   plugins:
     - dart_code_metrics
   errors:
+    
     missing_required_param: error
 
 
@@ -24,7 +25,7 @@ dart_code_metrics:
     cyclomatic-complexity: 20
     maximum-nesting-level: 5
     number-of-parameters: 4
-    source-lines-of-code: 50
+    source-lines-of-code: 30
   metrics-exclude:
     - test/**
   rules:

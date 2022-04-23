@@ -139,7 +139,7 @@ class Message extends StatelessWidget {
                 ),
           ),
         ),
-        if (currentUserIsAuthor) _buildStatus(context)
+        if (currentUserIsAuthor) _buildStatus(context),
       ],
     );
   }
@@ -151,9 +151,11 @@ class Message extends StatelessWidget {
         InheritedChatTheme.of(context).theme.messageBorderRadius;
     final _borderRadius = BorderRadius.only(
       bottomLeft: Radius.circular(
-          _user.id == message.authorId ? _messageBorderRadius : 0),
+        _user.id == message.authorId ? _messageBorderRadius : 0,
+      ),
       bottomRight: Radius.circular(
-          _user.id == message.authorId ? 0 : _messageBorderRadius),
+        _user.id == message.authorId ? 0 : _messageBorderRadius,
+      ),
       topLeft: Radius.circular(_messageBorderRadius),
       topRight: Radius.circular(_messageBorderRadius),
     );
@@ -194,7 +196,7 @@ class Message extends StatelessWidget {
                   top: 8,
                 ),
                 child: _buildTime(_currentUserIsAuthor, context),
-              )
+              ),
           ],
         ),
       ),

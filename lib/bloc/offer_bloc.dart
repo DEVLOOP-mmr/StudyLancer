@@ -9,7 +9,9 @@ import 'dio.dart';
 
 class OfferBloc {
   static Future<Response> addOffer(
-      Application application, String agentID) async {
+    Application application,
+    String agentID,
+  ) async {
     try {
       application.agentID = agentID;
 
@@ -48,12 +50,15 @@ class OfferBloc {
       }
       return response;
     } on DioError {
-      EasyLoading.showError( 'Cant connect please try again later');
+      EasyLoading.showError('Cant connect please try again later');
     }
   }
 
   static Future<Response> acceptOffer(
-      String applicationID, String agentID, String studentID) async {
+    String applicationID,
+    String agentID,
+    String studentID,
+  ) async {
     Map body = {
       "studentID": studentID,
       "agentID": agentID,
