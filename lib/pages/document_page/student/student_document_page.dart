@@ -33,7 +33,6 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
 
   void getStudentData(BuildContext context) async {
     await BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
-    await BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
   }
 
   Widget requiredDocumentsList() {
@@ -300,9 +299,8 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
           bloc.emitNewStudent(student);
         }
       } catch (e) {}
+
       getStudentData(context);
-    } else {
-      // User canceled the picker
     }
   }
 

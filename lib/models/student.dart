@@ -73,6 +73,13 @@ class Student extends StudyLancerUser with EquatableMixin {
     student.documents = [];
     student.requiredDocuments = {};
 
+    student = _parseStudentDocs(studentData, student);
+
+    return student;
+  }
+
+  static Student _parseStudentDocs(
+      Map<String, dynamic> studentData, Student student) {
     List documents = studentData["documents"];
     for (var element in documents) {
       if (element is Map) {

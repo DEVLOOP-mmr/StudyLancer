@@ -43,6 +43,12 @@ class Agent extends StudyLancerUser with EquatableMixin {
     List otherDoc = agentData["documents"];
     agent.documents = [];
     agent.requiredDocuments = {};
+    agent = _parseAgentDocuments(otherDoc, agent);
+
+    return agent;
+  }
+
+  static Agent _parseAgentDocuments(List<dynamic> otherDoc, Agent agent) {
     for (var element in otherDoc) {
       if (element is Map) {
         var document = Document();

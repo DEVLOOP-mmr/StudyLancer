@@ -394,13 +394,15 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                               .agent
                                                                               .reviewsAvg +
                                                                           ")",
-                                                                      style: const TextStyle(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -408,14 +410,16 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                   color: Variables
                                                                       .backgroundColor
                                                                       .withOpacity(
-                                                                          0.6),
-                                                                )
+                                                                    0.6,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             );
                                                           }
                                                           var review = snapshot
                                                                   .data.reviews[
                                                               index - 1];
+
                                                           return ListTile(
                                                             contentPadding:
                                                                 EdgeInsets.zero,
@@ -449,7 +453,12 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                     Text(Variables
                                                                         .fullMonthDateformat
                                                                         .format(
-                                                                            DateTime.parse(review.createdAt))),
+                                                                      DateTime
+                                                                          .parse(
+                                                                        review
+                                                                            .createdAt,
+                                                                      ),
+                                                                    )),
                                                                   ],
                                                                 ),
                                                                 const SizedBox(
@@ -461,7 +470,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                   color: Variables
                                                                       .backgroundColor
                                                                       .withOpacity(
-                                                                          0.6),
+                                                                    0.6,
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -497,9 +507,10 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: paletteGenerator
-                                        .dominantColor.titleTextColor,
-                                    borderRadius: BorderRadius.circular(40)),
+                                  color: paletteGenerator
+                                      .dominantColor.titleTextColor,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Center(
@@ -539,12 +550,13 @@ class StarRating extends StatelessWidget {
   final Color color;
   final double starSize;
 
-  const StarRating(
-      {this.starCount = 5,
-      this.rating = .0,
-      this.onRatingChanged,
-      this.color,
-      this.starSize = 15});
+  const StarRating({
+    this.starCount = 5,
+    this.rating = .0,
+    this.onRatingChanged,
+    this.color,
+    this.starSize = 15,
+  });
 
   Widget buildStar(BuildContext context, int index) {
     Icon icon;
@@ -567,6 +579,7 @@ class StarRating extends StatelessWidget {
         size: starSize,
       );
     }
+    
     return InkResponse(
       onTap:
           onRatingChanged == null ? null : () => onRatingChanged(index + 1.0),
@@ -577,7 +590,10 @@ class StarRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-        children: List.generate(
-            starCount, (index) => Container(child: buildStar(context, index))));
+      children: List.generate(
+        starCount,
+        (index) => Container(child: buildStar(context, index)),
+      ),
+    );
   }
 }

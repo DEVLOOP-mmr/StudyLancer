@@ -37,6 +37,6 @@ class StudyLancerUser {
   });
 
   factory StudyLancerUser.fromMap(Map<String, dynamic> map) {
-    throw UnimplementedError('Use either Student or Agent Model');
+    throw UnimplementedError('Use either Student or Agent .fromMap');
   }
 }

@@ -85,7 +85,8 @@ class OfferCard extends StatelessWidget {
                                           backgroundImage: (offer.agentImage ==
                                                   null)
                                               ? const AssetImage(
-                                                  'assets/images/abc.png')
+                                                  'assets/images/abc.png',
+                                                )
                                               : NetworkImage(offer.agentImage),
                                           // backgroundImage:
                                           //     NetworkImage(offer
@@ -99,9 +100,10 @@ class OfferCard extends StatelessWidget {
                                           child: Text(
                                             offer.agentName ?? "",
                                             style: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 12,
-                                                color: Colors.white),
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -120,9 +122,10 @@ class OfferCard extends StatelessWidget {
                         Text(
                           offer.courseName ?? "",
                           style: const TextStyle(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 14,
-                              color: Colors.white),
+                            fontWeight: FontWeight.w200,
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
                         ),
                         const SizedBox(
                           height: 4,
@@ -130,41 +133,42 @@ class OfferCard extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                      backgroundColor:
-                                          Variables.backgroundColor,
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                            "Description",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            offer.description ?? "",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: Variables.backgroundColor,
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                      "Description",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
                                       ),
-                                    ));
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      offer.description ?? "",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
                           },
                           child: const Text(
                             "Additional Details",
                             style: TextStyle(
-                                fontWeight: FontWeight.w200,
-                                fontSize: 10,
-                                color: Colors.white),
+                              fontWeight: FontWeight.w200,
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         const Spacer(),
@@ -184,16 +188,18 @@ class OfferCard extends StatelessWidget {
                             Text(
                               (offer.city ?? "") + ", ",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               offer.country ?? "",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                             ),
                             const Spacer(),
                             Text(
@@ -211,7 +217,7 @@ class OfferCard extends StatelessWidget {
                                   color: Colors.white),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -289,9 +295,9 @@ class OfferCard extends StatelessWidget {
                                 .state as StudentHomeState)
                             .student;
                         final room = await BlocProvider.of<FirebaseChatBloc>(
-                                context,
-                                listen: false)
-                            .createRoom(currentStudent, otherUser);
+                          context,
+                          listen: false,
+                        ).createRoom(currentStudent, otherUser);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
@@ -301,14 +307,17 @@ class OfferCard extends StatelessWidget {
                         );
                       },
                       style: NeumorphicStyle(
-                          border: const NeumorphicBorder(
-                              isEnabled: true,
-                              color: Variables.backgroundColor,
-                              width: 2),
-                          shadowLightColor: Colors.white.withOpacity(0.6),
-                          // color: Color(0xff294A91),
-                          boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(30))),
+                        border: const NeumorphicBorder(
+                          isEnabled: true,
+                          color: Variables.backgroundColor,
+                          width: 2,
+                        ),
+                        shadowLightColor: Colors.white.withOpacity(0.6),
+                        // color: Color(0xff294A91),
+                        boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(30),
+                        ),
+                      ),
                     ),
                   ),
                 ],

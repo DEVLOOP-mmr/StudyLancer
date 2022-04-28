@@ -40,8 +40,9 @@ class AgentListPage extends StatelessWidget {
                 crossAxisCount: 2,
                 childAspectRatio: 0.7,
                 crossAxisSpacing: 16,
-                mainAxisSpacing: 16),
+                mainAxisSpacing: 16,),
             itemBuilder: (context, index) {
+              
               return InkWell(
                 onTap: () {
                   Navigator.of(context)
@@ -136,7 +137,7 @@ class AgentListPage extends StatelessWidget {
                   ),
                 ),
               );
-            }),
+            },),
       ),
     );
   }

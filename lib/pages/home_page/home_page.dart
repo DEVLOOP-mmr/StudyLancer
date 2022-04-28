@@ -128,7 +128,6 @@ class _HomePageState extends State<HomePage> {
 
     return FloatingNavbar(
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      //itemPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       currentIndex: _SelectedTab.values.indexOf(_selectedTab),
       onTap: _handleIndexChanged,
       selectedBackgroundColor: Colors.transparent,
@@ -136,8 +135,6 @@ class _HomePageState extends State<HomePage> {
       unselectedItemColor: Colors.transparent,
       backgroundColor: const Color(0xff1C1F22),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-
-      // dotIndicatorColor: Colors.black,
       items: [
         /// Home
         FloatingNavbarItem(

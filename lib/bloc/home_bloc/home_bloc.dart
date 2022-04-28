@@ -113,19 +113,13 @@ class HomeBloc extends Cubit<HomeState> {
     FirebaseAuth firebaseAuth,
   }) async {
     firebaseAuth ??= FirebaseAuth.instance;
-    assert(firebaseAuth.currentUser != null);
     StudentHomeState homeData = StudentHomeState(countryCode: '');
     if (state is! StudentHomeState) {
       emit(homeData.copyWith(
         loadState: LoadState.loading,
       ));
     }
-    if (state.countryCode.isEmpty) {
-      setCountry(
-        Variables.sharedPreferences.get(Variables.countryCode),
-        'student',
-      );
-    }
+    _setCountryCodeForStudent();
     assert(state.countryCode.isNotEmpty);
     String countryLookingFor = state.countryCode.isEmpty
         ? Variables.sharedPreferences.get(Variables.countryCode)
@@ -141,19 +135,37 @@ class HomeBloc extends Cubit<HomeState> {
     );
 
     if (result.statusCode < 299) {
-      var data = result.data;
-      homeData.student = Student.fromMap(data["student"]);
-      homeData.agents = [];
-      if (data['agents'] is! String) {
-        List agentList = data["agents"];
-        for (var element in agentList) {
-          homeData.agents.add(Agent.fromMap(element));
-        }
-      }
+      homeData = _parseStudentHomeData(result, homeData);
     } else {
       await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));
+
+    return homeData;
+  }
+
+  void _setCountryCodeForStudent() {
+    if (state.countryCode.isEmpty) {
+      setCountry(
+        Variables.sharedPreferences.get(Variables.countryCode),
+        'student',
+      );
+    }
+  }
+
+  StudentHomeState _parseStudentHomeData(
+    Response<dynamic> result,
+    StudentHomeState homeData,
+  ) {
+    var data = result.data;
+    homeData.student = Student.fromMap(data["student"]);
+    homeData.agents = [];
+    if (data['agents'] is! String) {
+      List agentList = data["agents"];
+      for (var element in agentList) {
+        homeData.agents.add(Agent.fromMap(element));
+      }
+    }
 
     return homeData;
   }
