@@ -15,12 +15,12 @@ import '../utils/setups.dart';
 void main() {
   group('Test to fetch home data for:', () {
     test('student', () async {
-      final student = await ProfileTestSuite().getStudentProfile();
+      final student = (await (ProfileTestSuite().getStudentProfile()))!;
       expect(student, isNotNull);
       expect(student.id, MockFirebaseStudentUser().uid);
     });
     test('agent', () async {
-      final agent = await ProfileTestSuite().getAgentProfile();
+      final agent = (await (ProfileTestSuite().getAgentProfile()))!;
       expect(agent, isNotNull);
       expect(agent.id, MockFirebaseAgentUser().uid);
     });
@@ -36,7 +36,7 @@ void main() {
 }
 
 class ProfileTestSuite {
-  Future<Student> getStudentProfile() async {
+  Future<Student?> getStudentProfile() async {
     StudentHomeState studentHomeData = await getStudentHome();
     final student = studentHomeData.student;
 
@@ -47,7 +47,7 @@ class ProfileTestSuite {
     final mockAuth = MockFirebaseAuth('student');
     var homeBloc = HomeBloc()..setCountry('CA', 'student');
     var studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
-    if (!studentHomeData.student.verified) {
+    if (!studentHomeData.student!.verified!) {
       await updateStudentRequiredDocs();
       homeBloc.setCountry('CA', 'student');
       studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
@@ -63,7 +63,7 @@ class ProfileTestSuite {
     }).toList());
   }
 
-  Future<Agent> getAgentProfile() async {
+  Future<Agent?> getAgentProfile() async {
     AgentHomeState agentHomeData = await getAgentHome();
     final agent = agentHomeData.agent;
     return agent;
@@ -73,9 +73,9 @@ class ProfileTestSuite {
     final mockAuth = MockFirebaseAuth('agent');
     var homeBloc = HomeBloc()..setCountry('CA', 'agent');
     var agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
-    if (!agentHomeData.agent.verified) {
+    if (!agentHomeData.agent!.verified!) {
       await updateAgentRequiredDocs();
-       homeBloc.setCountry('CA', 'agent');
+      homeBloc.setCountry('CA', 'agent');
       agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
     }
     return agentHomeData;

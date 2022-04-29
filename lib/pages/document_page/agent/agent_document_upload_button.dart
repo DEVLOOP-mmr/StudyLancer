@@ -13,12 +13,12 @@ import '../../../variables.dart';
 
 class AgentDocumentUploadButton extends StatelessWidget {
   const AgentDocumentUploadButton({
-    Key key,
+    Key? key,
     this.requiredDocType,
   }) : super(key: key);
-  final String requiredDocType;
+  final String? requiredDocType;
 
-  void _showFilePicker(BuildContext context, [String requiredDocType]) async {
+  void _showFilePicker(BuildContext context, [String? requiredDocType]) async {
     final result = await FilePicker.platform
         .pickFiles(type: FileType.any, allowMultiple: true);
     var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
@@ -32,11 +32,11 @@ class AgentDocumentUploadButton extends StatelessWidget {
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
-          agent.requiredDocuments[requiredDocType] =
+          agent!.requiredDocuments![requiredDocType] =
               Document(name: result.files.first.name);
           bloc.emitNewAgent(agent);
         } else {
-          agent.documents.add(Document(name: result.files.first.name));
+          agent!.documents!.add(Document(name: result.files.first.name));
           bloc.emitNewAgent(agent);
         }
       } catch (e) {}

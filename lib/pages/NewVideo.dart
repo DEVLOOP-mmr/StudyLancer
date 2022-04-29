@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class Videos extends StatefulWidget {
-  const Videos({Key key}) : super(key: key);
+  const Videos({Key? key}) : super(key: key);
 
   @override
   _VideosState createState() => _VideosState();
 }
 
 class _VideosState extends State<Videos> {
-  YoutubePlayerController _controller;
+  YoutubePlayerController? _controller;
 
   List<String> video = [
     'nPt8bK2gbaU',
@@ -38,14 +38,14 @@ class _VideosState extends State<Videos> {
         useHybridComposition: true,
       ),
     );
-    _controller.onEnterFullscreen = () {
+    _controller!.onEnterFullscreen = () {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
       debugPrint('Entered Fullscreen');
     };
-    _controller.onExitFullscreen = () {
+    _controller!.onExitFullscreen = () {
       debugPrint('Exited Fullscreen');
     };
   }
@@ -58,7 +58,7 @@ class _VideosState extends State<Videos> {
       width: MediaQuery.of(context).size.width,
       color: Colors.black,
       child: YoutubePlayerControllerProvider(
-        controller: _controller,
+        controller: _controller!,
         child: Stack(
           fit: StackFit.expand,
           children: [

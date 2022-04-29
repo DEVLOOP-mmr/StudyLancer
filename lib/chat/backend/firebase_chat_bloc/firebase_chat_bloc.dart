@@ -15,7 +15,7 @@ import '../backend_util.dart';
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to access methods.
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
-  FirebaseChatBloc({this.homeBloc})
+  FirebaseChatBloc({required this.homeBloc})
       : super(
           const FirebaseChatState(rooms: [], loadState: LoadState.initial),
         ) {
@@ -40,8 +40,8 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   }
 
   HomeBloc homeBloc;
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> roomSnapshotsStream;
-  User user;
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? roomSnapshotsStream;
+  User? user;
 
   // FirebaseChatCore._privateConstructor() {
   //   user = FirebaseAuth.instance.currentUser;
@@ -51,7 +51,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     user = null;
 
     emit(const FirebaseChatState(rooms: [], loadState: LoadState.initial));
-    await roomSnapshotsStream.cancel();
+    await roomSnapshotsStream!.cancel();
     roomSnapshotsStream = null;
   }
 
@@ -63,14 +63,14 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   //     FirebaseChatCore._privateConstructor();
 
   Future<types.Room> createGroupRoom({
-    String imageUrl,
-    Map<String, dynamic> metadata,
-    @required String name,
-    @required List<StudyLancerUser> users,
+    String? imageUrl,
+    Map<String, dynamic>? metadata,
+    required String name,
+    required List<StudyLancerUser> users,
   }) async {
     if (user == null) return Future.error('User does not exist');
 
-    final currentUser = await fetchUser(user.uid);
+    final currentUser = await fetchUser(user!.uid);
     final roomUsers = [currentUser] + users;
 
     final room = await FirebaseFirestore.instance.collection('rooms').add({
@@ -94,9 +94,9 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// Creates a direct chat for 2 people. Add [metadata] for any additional
   /// custom data.
   Future<types.Room> createRoom(
-    StudyLancerUser currentUser,
-    StudyLancerUser otherUser, {
-    Map<String, dynamic> metadata,
+    StudyLancerUser? currentUser,
+    StudyLancerUser? otherUser, {
+    Map<String, dynamic>? metadata,
   }) async {
     if (currentUser == null) return Future.error('User does not exist');
 
@@ -111,15 +111,15 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       return rooms.firstWhere((room) {
         if (room.type == types.RoomType.group) return false;
 
-        final userIds = room.users.map((u) => u.id);
-        return userIds.contains(user.uid) && userIds.contains(otherUser.id);
+        final userIds = room.users.map((u) => u!.id);
+        return userIds.contains(user!.uid) && userIds.contains(otherUser!.id);
       });
     } catch (e) {
       // Do nothing if room does not exist
       // Create a new room instead
     }
 
-    otherUser = await fetchUser(otherUser.id);
+    otherUser = await fetchUser(otherUser!.id);
     final users = [currentUser, otherUser];
     final room = await FirebaseFirestore.instance.collection('rooms').add({
       'imageUrl': null,
@@ -136,7 +136,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
           'imageUrl': otherUser.photo,
         },
       },
-      'userIds': users.map((u) => u.id).toList(),
+      'userIds': users.map((u) => u!.id).toList(),
     });
 
     return types.Room(
@@ -155,19 +155,19 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     final doc =
         await FirebaseFirestore.instance.collection('rooms').doc(roomId).get();
 
-    String imageUrl;
-    Map<String, dynamic> metadata;
-    String name;
+    String? imageUrl;
+    Map<String, dynamic>? metadata;
+    String? name;
 
     try {
-      imageUrl = doc.get('imageUrl') as String;
-      metadata = doc.get('metadata') as Map<String, dynamic>;
-      name = doc.get('name') as String;
+      imageUrl = doc.get('imageUrl') as String?;
+      metadata = doc.get('metadata') as Map<String, dynamic>?;
+      name = doc.get('name') as String?;
     } catch (e) {
       // Ignore errors since all those fields are optional
     }
 
-    final type = doc.get('type') as String;
+    final type = doc.get('type') as String?;
     final userIds = doc.get('userIds') as List<dynamic>;
 
     final users = await Future.wait(
@@ -179,7 +179,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     if (type == 'direct') {
       try {
         final otherUser = users.firstWhere(
-          (u) => u.id != user.uid,
+          (u) => u.id != user!.uid,
         );
 
         imageUrl = otherUser.photo;
@@ -235,7 +235,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
 
   /// Emits a stream of rooms from Firebase. Only rooms where current
   /// logged in user exist are returned.
-  void fetchRooms(StudyLancerUser currentUser) {
+  void fetchRooms(StudyLancerUser? currentUser) {
     if (currentUser == null) {
       return;
     }
@@ -259,23 +259,23 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   void sendMessage(dynamic partialMessage, String roomId) async {
     if (user == null) return;
 
-    types.Message message;
+    types.Message? message;
 
     if (partialMessage is types.PartialFile) {
       message = types.FileMessage.fromPartial(
-        authorId: user.uid,
+        authorId: user!.uid,
         id: '',
         partialFile: partialMessage,
       );
     } else if (partialMessage is types.PartialImage) {
       message = types.ImageMessage.fromPartial(
-        authorId: user.uid,
+        authorId: user!.uid,
         id: '',
         partialImage: partialMessage,
       );
     } else if (partialMessage is types.PartialText) {
       message = types.TextMessage.fromPartial(
-        authorId: user.uid,
+        authorId: user!.uid,
         id: '',
         partialText: partialMessage,
       );
@@ -296,7 +296,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// room ID. Message will probably be taken from the [messages] stream.
   void updateMessage(types.Message message, String roomId) async {
     if (user == null) return;
-    if (message.authorId == user.uid) return;
+    if (message.authorId == user!.uid) return;
 
     final messageMap = message.toJson();
     messageMap.removeWhere((key, value) => key == 'id' || key == 'timestamp');
@@ -314,7 +314,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
           (snapshot) => snapshot.docs.fold<List<types.User>>(
             [],
             (previousValue, element) {
-              if (user.uid == element.id) return previousValue;
+              if (user!.uid == element.id) return previousValue;
 
               return [...previousValue, processUserDocument(element)];
             },

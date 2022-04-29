@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Review {
-  String id;
-  String agentId;
-  String studentId;
-  String starsRated;
-  String createdAt;
-  String reviewerName;
-  String reviewContent;
+  String? id;
+  String? agentId;
+  String? studentId;
+  String? starsRated;
+  String? createdAt;
+  String? reviewerName;
+  String? reviewContent;
   Review({
     this.id,
     this.agentId,

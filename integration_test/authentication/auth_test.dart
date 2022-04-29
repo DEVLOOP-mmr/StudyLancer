@@ -14,7 +14,7 @@ class AuthenticationTestSuite {
   Future<WidgetTester> loginWithPhoneNumber(
     WidgetTester tester,
     String userType, {
-    bool autoSignIn,
+    bool? autoSignIn,
   }) async {
     tester = await AppStartSuite().startApp(
       tester,
@@ -31,7 +31,7 @@ class AuthenticationTestSuite {
         ? MockFirebaseStudentUser()
         : MockFirebaseAgentUser();
     await tester.enterText(find.byType(IntlPhoneField),
-        mockUser.phoneNumber.replaceFirst('+91', ''));
+        mockUser.phoneNumber!.replaceFirst('+91', ''));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Get OTP'));
     await tester.pumpAndSettle();

@@ -5,15 +5,15 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTile extends StatelessWidget {
   const StudentTile(
-      {Key key, @required this.student, @required this.courseName})
+      {Key? key, required this.student, required this.courseName})
       : super(key: key);
   final Student student;
-  final String courseName;
+  final String? courseName;
   @override
   Widget build(BuildContext context) {
     return Padding(
       key:
-          student.applyingFor.isNotEmpty ? ValueKey(student.applyingFor) : null,
+          student.applyingFor!.isNotEmpty ? ValueKey(student.applyingFor) : null,
       padding: const EdgeInsets.all(8.0),
       child: Neumorphic(
         style: NeumorphicStyle(
@@ -51,7 +51,7 @@ class StudentTile extends StatelessWidget {
                 ),
                 title: Text(
                   (student.name ?? "") != ""
-                      ? (student.name.trim() ?? "")
+                      ? (student.name!.trim() ?? "")
                       : "No name",
                   style: const TextStyle(
                       color: Colors.white,
@@ -65,7 +65,7 @@ class StudentTile extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      student.course + " . " + student.year,
+                      student.course! + " . " + student.year!,
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.4),
                           fontSize: 10,
@@ -81,9 +81,9 @@ class StudentTile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white.withOpacity(0.04)),
                       child: Text(
-                        courseName.isEmpty
+                        courseName!.isEmpty
                             ? "Verified"
-                            : "Applying for " + courseName,
+                            : "Applying for " + courseName!,
                         style: const TextStyle(
                             color: Variables.accentColor,
                             fontSize: 10,
@@ -99,14 +99,14 @@ class StudentTile extends StatelessWidget {
                   child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: student.marksheet.length * 2,
+                      itemCount: student.marksheet!.length * 2,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: student.marksheet.length,
+                          crossAxisCount: student.marksheet!.length,
                           childAspectRatio: 2),
                       itemBuilder: (context, index) {
                         var markData =
-                            student.marksheet.keys.toList(growable: true);
-                        for (var element in student.marksheet.values) {
+                            student.marksheet!.keys.toList(growable: true);
+                        for (var element in student.marksheet!.values) {
                           markData.add(element.toString());
                         }
                         return Container(

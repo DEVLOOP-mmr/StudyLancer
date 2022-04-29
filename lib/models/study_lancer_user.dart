@@ -3,23 +3,23 @@ import 'package:elite_counsel/models/document.dart';
 
 /// Abstract parent class for [Student] and [Agent]
 class StudyLancerUser {
-  String name;
-  String email;
-  String photo;
+  String? name;
+  String? email;
+  String? photo;
 
-  String maritalStatus;
-  String id;
-  String phone;
-  String countryLookingFor;
-  String city;
+  String? maritalStatus;
+  String? id;
+  String? phone;
+  String? countryLookingFor;
+  String? city;
 
-  String bio;
-  String country;
+  String? bio;
+  String? country;
 
-  bool verified;
+  bool? verified;
 
-  List<Document> documents;
-  Map<String, Document> requiredDocuments;
+  List<Document>? documents;
+  Map<String?, Document?>? requiredDocuments;
   StudyLancerUser({
     this.name,
     this.email,

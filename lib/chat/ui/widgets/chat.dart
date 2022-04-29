@@ -20,24 +20,24 @@ import 'message.dart';
 class Chat extends StatefulWidget {
   /// Creates a chat widget
   const Chat({
-    Key key,
+    Key? key,
     this.dateLocale,
     this.isAttachmentUploading,
     this.l10n = const ChatL10nEn(),
-    @required this.messages,
+    required this.messages,
     this.onAttachmentPressed,
     this.onFilePressed,
     this.onPreviewDataFetched,
-    @required this.onSendPressed,
+    required this.onSendPressed,
     this.theme = const DefaultChatTheme(),
-    @required this.user,
+    required this.user,
   }) : super(key: key);
 
   /// See [Message.dateLocale]
-  final String dateLocale;
+  final String? dateLocale;
 
   /// See [Input.isAttachmentUploading]
-  final bool isAttachmentUploading;
+  final bool? isAttachmentUploading;
 
   /// Localized copy. Extend [ChatL10n] class to create your own copy or use
   /// existing one, like the default [ChatL10nEn]. You can customize only
@@ -48,13 +48,13 @@ class Chat extends StatefulWidget {
   final List<types.Message> messages;
 
   /// See [Input.onAttachmentPressed]
-  final void Function() onAttachmentPressed;
+  final void Function()? onAttachmentPressed;
 
   /// See [Message.onFilePressed]
-  final void Function(types.FileMessage) onFilePressed;
+  final void Function(types.FileMessage)? onFilePressed;
 
   /// See [Message.onPreviewDataFetched]
-  final void Function(types.TextMessage, types.PreviewData)
+  final void Function(types.TextMessage, types.PreviewData)?
       onPreviewDataFetched;
 
   /// See [Input.onSendPressed]
@@ -79,7 +79,7 @@ class _ChatState extends State<Chat> {
 
   Widget _imageGalleryLoadingBuilder(
     BuildContext context,
-    ImageChunkEvent event,
+    ImageChunkEvent? event,
   ) {
     return Center(
       child: SizedBox(
@@ -88,7 +88,7 @@ class _ChatState extends State<Chat> {
         child: CircularProgressIndicator(
           value: event == null || event.expectedTotalBytes == null
               ? 0
-              : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+              : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
         ),
       ),
     );
@@ -106,7 +106,7 @@ class _ChatState extends State<Chat> {
 
   void _onImagePressed(
     String uri,
-    List<String> galleryItems,
+    List<String?> galleryItems,
   ) {
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
@@ -131,7 +131,7 @@ class _ChatState extends State<Chat> {
     widget.onPreviewDataFetched?.call(message, previewData);
   }
 
-  Widget _renderImageGallery(List<String> galleryItems) {
+  Widget _renderImageGallery(List<String?> galleryItems) {
     return Dismissible(
       key: const Key('photo_view_gallery'),
       direction: DismissDirection.down,
@@ -169,12 +169,12 @@ class _ChatState extends State<Chat> {
         min(MediaQuery.of(context).size.width * 0.77, 440).floor();
 
     final galleryItems =
-        widget.messages.fold<List<String>>([], (previousValue, element) {
+        widget.messages.fold<List<String?>>([], (previousValue, element) {
       // Check if element is image message
       if (element is types.ImageMessage) {
         // For web add only remote uri, local files are not yet supported
         if (kIsWeb) {
-          if (element.uri.startsWith('http')) {
+          if (element.uri!.startsWith('http')) {
             return [element.uri, ...previousValue];
           } else {
             return previousValue;
@@ -254,11 +254,11 @@ class _ChatState extends State<Chat> {
                                                   .timestamp !=
                                               null &&
                                           DateTime.fromMillisecondsSinceEpoch(
-                                                message.timestamp * 1000,
+                                                message.timestamp! * 1000,
                                               ).day !=
                                               DateTime
                                                   .fromMillisecondsSinceEpoch(
-                                                nextMessage.timestamp * 1000,
+                                                nextMessage.timestamp! * 1000,
                                               ).day;
                                       nextMessageSameAuthor =
                                           nextMessage.authorId ==
@@ -273,8 +273,8 @@ class _ChatState extends State<Chat> {
                                               null &&
                                           previousMessage.timestamp != null &&
                                           (!previousMessageSameAuthor ||
-                                              previousMessage.timestamp -
-                                                      message.timestamp >=
+                                              previousMessage.timestamp! -
+                                                      message.timestamp! >=
                                                   60);
                                     }
 
@@ -294,7 +294,7 @@ class _ChatState extends State<Chat> {
                                               getVerboseDateTimeRepresentation(
                                                 DateTime
                                                     .fromMillisecondsSinceEpoch(
-                                                  message.timestamp * 1000,
+                                                  message.timestamp! * 1000,
                                                 ),
                                                 widget.dateLocale,
                                                 widget.l10n.today,
@@ -311,7 +311,12 @@ class _ChatState extends State<Chat> {
                                           key: ValueKey(message),
                                           dateLocale: widget.dateLocale,
                                           onImagePressed: (uri) {
-                                            _onImagePressed(uri, galleryItems);
+                                            if (uri != null) {
+                                              _onImagePressed(
+                                                uri,
+                                                galleryItems,
+                                              );
+                                            }
                                           },
                                           message: message,
                                           messageWidth: _messageWidth,

@@ -6,31 +6,31 @@ import 'package:flutter/material.dart';
 abstract class ChatTheme {
   /// Creates a new chat theme based on provided colors and text styles.
   const ChatTheme({
-    @required this.attachmentButtonIcon,
-    @required this.backgroundColor,
-    @required this.body1,
-    @required this.body2,
-    @required this.caption,
-    @required this.captionColor,
-    @required this.deliveredIcon,
-    @required this.documentIcon,
-    @required this.errorColor,
-    @required this.inputBackgroundColor,
-    @required this.inputBorderRadius,
-    @required this.inputTextColor,
-    @required this.messageBorderRadius,
-    @required this.primaryColor,
-    @required this.primaryTextColor,
-    @required this.readIcon,
-    @required this.secondaryColor,
-    @required this.secondaryTextColor,
-    @required this.sendButtonIcon,
-    @required this.subtitle1,
-    @required this.subtitle2,
+    required this.attachmentButtonIcon,
+    required this.backgroundColor,
+    required this.body1,
+    required this.body2,
+    required this.caption,
+    required this.captionColor,
+    required this.deliveredIcon,
+    required this.documentIcon,
+    required this.errorColor,
+    required this.inputBackgroundColor,
+    required this.inputBorderRadius,
+    required this.inputTextColor,
+    required this.messageBorderRadius,
+    required this.primaryColor,
+    required this.primaryTextColor,
+    required this.readIcon,
+    required this.secondaryColor,
+    required this.secondaryTextColor,
+    required this.sendButtonIcon,
+    required this.subtitle1,
+    required this.subtitle2,
   });
 
   /// Icon for select attachment button
-  final String attachmentButtonIcon;
+  final String? attachmentButtonIcon;
 
   /// Used as a background color of a chat widget
   final Color backgroundColor;
@@ -48,10 +48,10 @@ abstract class ChatTheme {
   final Color captionColor;
 
   /// Icon for message's `delivered` status
-  final String deliveredIcon;
+  final String? deliveredIcon;
 
   /// Icon inside file message
-  final String documentIcon;
+  final String? documentIcon;
 
   /// Color to indicate something bad happened (usually - shades of red)
   final Color errorColor;
@@ -75,7 +75,7 @@ abstract class ChatTheme {
   final Color primaryTextColor;
 
   /// Icon for message's `read` status
-  final String readIcon;
+  final String? readIcon;
 
   /// Secondary color, used as a background of received messages
   final Color secondaryColor;
@@ -84,7 +84,7 @@ abstract class ChatTheme {
   final Color secondaryTextColor;
 
   /// Icon for send button
-  final String sendButtonIcon;
+  final String? sendButtonIcon;
 
   /// Largest text style, used for displaying title of a link preview
   final TextStyle subtitle1;
@@ -100,7 +100,7 @@ class DefaultChatTheme extends ChatTheme {
   /// override only a couple of variables, otherwise create a new class
   /// which extends [ChatTheme]
   const DefaultChatTheme({
-    String attachmentButtonIcon,
+    String? attachmentButtonIcon,
     Color backgroundColor = const Color(0xff202427),
     TextStyle body1 = const TextStyle(
       fontFamily: 'Avenir',
@@ -121,8 +121,8 @@ class DefaultChatTheme extends ChatTheme {
       height: 1.333,
     ),
     Color captionColor = const Color(0xff9e9cab),
-    String deliveredIcon,
-    String documentIcon,
+    String? deliveredIcon,
+    String? documentIcon,
     Color errorColor = const Color(0xffff6767),
     Color inputBackgroundColor = const Color(0xff1d1d21),
     BorderRadius inputBorderRadius = const BorderRadius.vertical(
@@ -132,10 +132,10 @@ class DefaultChatTheme extends ChatTheme {
     double messageBorderRadius = 20.0,
     Color primaryColor = const Color(0xff131313),
     Color primaryTextColor = const Color(0xffffffff),
-    String readIcon,
+    String? readIcon,
     Color secondaryColor = const Color(0xff462E28),
     Color secondaryTextColor = const Color(0xffffffff),
-    String sendButtonIcon,
+    String? sendButtonIcon,
     TextStyle subtitle1 = const TextStyle(
       fontFamily: 'Avenir',
       fontSize: 16,
@@ -180,7 +180,7 @@ class DarkChatTheme extends ChatTheme {
   /// override only a couple of variables, otherwise create a new class
   /// which extends [ChatTheme]
   const DarkChatTheme({
-    String attachmentButtonIcon,
+    String? attachmentButtonIcon,
     Color backgroundColor = const Color(0xff1f1c38),
     TextStyle body1 = const TextStyle(
       fontFamily: 'Avenir',
@@ -201,8 +201,8 @@ class DarkChatTheme extends ChatTheme {
       height: 1.333,
     ),
     Color captionColor = const Color(0xff9e9cab),
-    String deliveredIcon,
-    String documentIcon,
+    String? deliveredIcon,
+    String? documentIcon,
     Color errorColor = const Color(0xffff6767),
     Color inputBackgroundColor = const Color(0xff2b2250),
     BorderRadius inputBorderRadius = const BorderRadius.vertical(
@@ -212,10 +212,10 @@ class DarkChatTheme extends ChatTheme {
     double messageBorderRadius = 20.0,
     Color primaryColor = const Color(0xff6f61e8),
     Color primaryTextColor = const Color(0xffffffff),
-    String readIcon,
+    String? readIcon,
     Color secondaryColor = const Color(0xff2b2250),
     Color secondaryTextColor = const Color(0xffffffff),
-    String sendButtonIcon,
+    String? sendButtonIcon,
     TextStyle subtitle1 = const TextStyle(
       fontFamily: 'Avenir',
       fontSize: 16,

@@ -11,7 +11,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  User get currentUser {
+  _MockFirebaseUser get currentUser {
     final type = userType;
     if (type == null) {
       return MockFirebaseStudentUser();

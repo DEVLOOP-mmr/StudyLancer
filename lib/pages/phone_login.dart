@@ -8,14 +8,14 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class PhonePage extends StatefulWidget {
-  const PhonePage({Key key}) : super(key: key);
+  const PhonePage({Key? key}) : super(key: key);
 
   @override
   _PhonePageState createState() => _PhonePageState();
 }
 
 class _PhonePageState extends State<PhonePage> {
-  String phoneNumber;
+  String? phoneNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +76,7 @@ class _PhonePageState extends State<PhonePage> {
                     labelStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
                   ),
                   initialCountryCode: 'IN',
-                  countryCodeTextColor: Colors.white,
+            
                   style: const TextStyle(
                     color: Colors.white,
                   ),
@@ -127,7 +127,7 @@ class _PhonePageState extends State<PhonePage> {
                               maskType: EasyLoadingMaskType.clear,
                               dismissOnTap: false);
                           FirebaseAuth.instance.verifyPhoneNumber(
-                              phoneNumber: phoneNumber,
+                              phoneNumber: phoneNumber!,
                               verificationCompleted: (credential) {
                                 EasyLoading.dismiss();
                                 Variables.sharedPreferences

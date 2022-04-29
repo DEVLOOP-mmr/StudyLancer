@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class AgentHomePage extends StatefulWidget {
-  const AgentHomePage({Key key}) : super(key: key);
+  const AgentHomePage({Key? key}) : super(key: key);
 
   @override
   AgentHomePageState createState() => AgentHomePageState();

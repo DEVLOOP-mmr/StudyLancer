@@ -43,7 +43,7 @@ class GetDio {
         return handler.next(options); //continue
       },
       onResponse: (response, handler) {
-        if (response.statusCode > 299 && response.statusCode != 403) {
+        if (response.statusCode! > 299 && response.statusCode != 403) {
           var exceptionData = {
             'url': response.requestOptions.uri.toString(),
             'statusCode': '${response.statusCode}',

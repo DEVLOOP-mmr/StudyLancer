@@ -9,8 +9,7 @@ void main() {
   group('Offer Tests', () {
     test('Test to create an offer', () async {
       var mockApplication = MockApplication();
-      var
-       response = await OfferBloc.addOffer(
+      var response = await OfferBloc.addOffer(
         mockApplication,
         MockFirebaseAgentUser().uid,
       );
@@ -26,15 +25,15 @@ void main() {
       var agentHome = await ProfileTestSuite().getAgentHome();
       assert(agentHome != null);
 
-      bool applicationIsInOptionsProvided = agentHome.students.any((student) {
-        if (student.applications.isEmpty) {
+      bool applicationIsInOptionsProvided = agentHome.students!.any((student) {
+        if (student.applications!.isEmpty) {
           return false;
         }
 
-        return student.applications.any(
+        return student.applications!.any(
           (app) =>
               app.courseName == mockApplication.courseName &&
-              app.agentID == agentHome.agent.id &&
+              app.agentID == agentHome.agent!.id &&
               app.status == 2,
         );
       });
@@ -45,17 +44,17 @@ void main() {
     test(
       'Test to accept an offer',
       () async {
-        var student = await ProfileTestSuite().getStudentProfile();
+        var student = (await (ProfileTestSuite().getStudentProfile()))!;
         var mockApplication = MockApplication();
-        if (student.applications.isEmpty) {
+        if (student.applications!.isEmpty) {
           await OfferBloc.addOffer(
             mockApplication,
             MockFirebaseAgentUser().uid,
           );
-          student = await ProfileTestSuite().getStudentProfile();
+          student = (await (ProfileTestSuite().getStudentProfile()))!;
         }
 
-        final application = student.applications.last;
+        final application = student.applications!.last;
         mockApplication.courseName = application.courseName;
         var response = await OfferBloc.acceptOffer(
           application.applicationID,
@@ -66,15 +65,15 @@ void main() {
 
         var agentHome = await ProfileTestSuite().getAgentHome();
         assert(agentHome != null);
-        bool applicationIsInOngoing = agentHome.students.any((student) {
-          if (student.applications.isEmpty) {
+        bool applicationIsInOngoing = agentHome.students!.any((student) {
+          if (student.applications!.isEmpty) {
             return false;
           }
 
-          return student.applications.any(
+          return student.applications!.any(
             (app) =>
                 app.courseName == mockApplication.courseName &&
-                app.agentID == agentHome.agent.id &&
+                app.agentID == agentHome.agent!.id &&
                 app.status == 3,
           );
         });

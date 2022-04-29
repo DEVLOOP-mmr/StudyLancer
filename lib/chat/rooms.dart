@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RoomsPage extends StatefulWidget {
-  const RoomsPage({Key key}) : super(key: key);
+  const RoomsPage({Key? key}) : super(key: key);
 
   @override
   _RoomsPageState createState() => _RoomsPageState();
@@ -31,7 +31,7 @@ class _RoomsPageState extends State<RoomsPage> {
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
             onTap: () {
-              _scaffoldKey.currentState.openEndDrawer();
+              _scaffoldKey.currentState!.openEndDrawer();
             },
           ),
         ],
@@ -53,7 +53,7 @@ class _RoomsPageState extends State<RoomsPage> {
               child: CircularProgressIndicator(),
             );
           }
-          if (state.rooms.isEmpty) {
+          if (state.rooms!.isEmpty) {
             return Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.only(
@@ -67,9 +67,9 @@ class _RoomsPageState extends State<RoomsPage> {
           }
 
           return ListView.builder(
-            itemCount: state.rooms.length,
+            itemCount: state.rooms!.length,
             itemBuilder: (context, index) {
-              final room = state.rooms[index];
+              final room = state.rooms![index];
 
               return GestureDetector(
                 onTap: () {

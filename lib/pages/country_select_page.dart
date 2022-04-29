@@ -11,7 +11,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CountrySelectPage extends StatefulWidget {
-  const CountrySelectPage({Key key}) : super(key: key);
+  const CountrySelectPage({Key? key}) : super(key: key);
 
   @override
   _CountrySelectPageState createState() => _CountrySelectPageState();
@@ -113,7 +113,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  countries[index].countryName,
+                                  countries[index].countryName!,
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -218,7 +218,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
 
                                 return;
                               }
-                              String countryCode;
+                              String? countryCode;
                               countryCode = selectedIndex == countries.length
                                   ? "notSure"
                                   : countries[selectedIndex].id;
@@ -294,7 +294,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                String phone, message;
+                                                String? phone, message;
                                                 var formKey =
                                                     GlobalKey<FormState>();
                                                 return AlertDialog(
@@ -553,7 +553,7 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                                               ),
                                                               onPressed: () {
                                                                 if (formKey
-                                                                    .currentState
+                                                                    .currentState!
                                                                     .validate()) {
                                                                   EasyLoading.show(
                                                                       status:

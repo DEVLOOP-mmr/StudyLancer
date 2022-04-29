@@ -6,8 +6,8 @@ import '../variables.dart';
 import 'agent_details_page_view.dart';
 
 class AgentListPage extends StatelessWidget {
-  final List<Agent> agents;
-  const AgentListPage({Key key, this.agents}) : super(key: key);
+  final List<Agent>? agents;
+  const AgentListPage({Key? key, this.agents}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class AgentListPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
-            itemCount: agents.length,
+            itemCount: agents!.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.7,
@@ -64,7 +64,7 @@ class AgentListPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: CachedNetworkImageProvider(
-                            agents[index].photo ??
+                            agents![index].photo ??
                                 "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
                           ),
                           fit: BoxFit.cover,
@@ -84,7 +84,7 @@ class AgentListPage extends StatelessWidget {
                             children: [
                               const Spacer(),
                               Text(
-                                agents[index].name ?? "",
+                                agents![index].name ?? "",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
@@ -95,7 +95,7 @@ class AgentListPage extends StatelessWidget {
                                 height: 6,
                               ),
                               Text(
-                                (agents[index].applicationsHandled ?? "0") +
+                                (agents![index].applicationsHandled ?? "0") +
                                     " Students",
                                 style: const TextStyle(
                                   fontSize: 7,
@@ -117,9 +117,9 @@ class AgentListPage extends StatelessWidget {
                                     width: 6,
                                   ),
                                   Text(
-                                    (agents[index].reviewsAvg ?? "") +
+                                    (agents![index].reviewsAvg ?? "") +
                                         " (" +
-                                        (agents[index].reviewCount ?? "0") +
+                                        (agents![index].reviewCount ?? "0") +
                                         " Reviews)",
                                     style: TextStyle(
                                       fontSize: 8,

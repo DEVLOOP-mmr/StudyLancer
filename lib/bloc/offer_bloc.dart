@@ -20,19 +20,19 @@ class OfferBloc {
         "agentID": application.agentID,
         "universityName": application.universityName,
         "location": {
-          "city": application.city ?? application.location['city'] ?? '',
+          "city": application.city ?? application.location!['city'] ?? '',
           "country":
-              application.country ?? application.location['country'] ?? '',
+              application.country ?? application.location!['country'] ?? '',
         },
-        "courseFees": int.parse(application.courseFees),
-        "applicationFees": int.parse(application.applicationFees),
+        "courseFees": int.parse(application.courseFees!),
+        "applicationFees": int.parse(application.applicationFees!),
         "courseName": application.courseName,
         "courseLink": application.courseLink,
         "description": application.description,
       };
       var response = await GetDio.getDio()
           .post("application/create", data: jsonEncode(body));
-      if (response.statusCode < 299) {
+      if (response.statusCode! < 299) {
         if (kDebugMode) {
           return response;
         }
@@ -49,15 +49,16 @@ class OfferBloc {
         }
       }
       return response;
-    } on DioError {
+    } on DioError catch (e) {
       EasyLoading.showError('Cant connect please try again later');
+      rethrow;
     }
   }
 
   static Future<Response> acceptOffer(
-    String applicationID,
-    String agentID,
-    String studentID,
+    String? applicationID,
+    String? agentID,
+    String? studentID,
   ) async {
     Map body = {
       "studentID": studentID,
@@ -67,7 +68,7 @@ class OfferBloc {
     try {
       final response = await GetDio.getDio()
           .post("student/application/add", data: jsonEncode(body));
-      if (response.statusCode < 299) {
+      if (response.statusCode! < 299) {
         if (kDebugMode) {
           return response;
         }
@@ -86,6 +87,7 @@ class OfferBloc {
       return response;
     } on DioError {
       EasyLoading.show(status: 'Cant connect please try again later');
+      rethrow;
     }
   }
 }

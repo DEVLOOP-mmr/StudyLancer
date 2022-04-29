@@ -7,7 +7,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../../variables.dart';
 
 class UserTypeSelectPage extends StatelessWidget {
-  const UserTypeSelectPage({Key key}) : super(key: key);
+  const UserTypeSelectPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

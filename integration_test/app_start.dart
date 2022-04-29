@@ -10,7 +10,7 @@ import 'package:elite_counsel/main.dart' as app;
 
 class AppStartSuite {
   Future<WidgetTester> startApp(WidgetTester tester, String userType,
-      {bool autoSignIn,}) async {
+      {bool? autoSignIn,}) async {
     autoSignIn = autoSignIn ?? false;
     await Hive.initFlutter();
     await Hive.openBox("myBox");
@@ -38,7 +38,7 @@ class AppStartSuite {
         : MockFirebaseAgentUser();
     debugPrint("\n\n $userType" ":" + mockUser.uid +"\n\n");
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: mockUser.phoneNumber,
+      phoneNumber: mockUser.phoneNumber!,
       verificationFailed: (error) {},
       verificationCompleted: (phoneAuthCredential) {},
       codeAutoRetrievalTimeout: (verificationId) {},

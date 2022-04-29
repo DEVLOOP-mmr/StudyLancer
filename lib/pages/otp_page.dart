@@ -9,14 +9,14 @@ import '../variables.dart';
 class OtpPage extends StatefulWidget {
   final String verificationId;
 
-  const OtpPage({Key key, @required this.verificationId}) : super(key: key);
+  const OtpPage({Key? key, required this.verificationId}) : super(key: key);
   @override
   _OtpPageState createState() => _OtpPageState();
 }
 
 class _OtpPageState extends State<OtpPage> {
   //final _formKey = GlobalKey<FormState>();
-  String code = '';
+  String? code = '';
 
   @override
   void dispose() {
@@ -129,17 +129,17 @@ class _OtpPageState extends State<OtpPage> {
                         ),
                       ),
                     ),
-                    onPressed: code.length != 6
+                    onPressed: code!.length != 6
                         ? () {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(code + ' is not 6 digits')));
+                                content: Text(code! + ' is not 6 digits')));
                           }
                         : () {
                             EasyLoading.show(
                                 status: 'loading...',
                                 maskType: EasyLoadingMaskType.clear,
                                 dismissOnTap: false);
-                            checkCode(code);
+                            checkCode(code!);
                           },
                     style: NeumorphicStyle(
                         border: const NeumorphicBorder(
@@ -178,7 +178,9 @@ class _OtpPageState extends State<OtpPage> {
         }), (route) => false);
       });
     } catch (e) {
-      handleError(e);
+      if (e is FirebaseAuthException) {
+        handleError(e);
+      }
     }
   }
 

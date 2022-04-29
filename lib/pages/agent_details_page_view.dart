@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'agent_detail_page.dart';
 
 class AgentDetailsPageView extends StatefulWidget {
-  final List<Agent> agents;
-  final int pageNumber;
-  const AgentDetailsPageView({Key key, this.agents, this.pageNumber})
+  final List<Agent>? agents;
+  final int? pageNumber;
+  const AgentDetailsPageView({Key? key, this.agents, this.pageNumber})
       : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class AgentDetailsPageView extends StatefulWidget {
 }
 
 class _AgentDetailsPageViewState extends State<AgentDetailsPageView> {
-  PageController _controller;
+  PageController? _controller;
   @override
   void initState() {
     super.initState();
@@ -27,11 +27,11 @@ class _AgentDetailsPageViewState extends State<AgentDetailsPageView> {
         pageSnapping: true,
         controller: _controller,
         allowImplicitScrolling: true,
-        itemCount: widget.agents.length,
+        itemCount: widget.agents!.length,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
           return AgentDetailPage(
-            agent: widget.agents[index],
+            agent: widget.agents![index],
           );
         },);
   }

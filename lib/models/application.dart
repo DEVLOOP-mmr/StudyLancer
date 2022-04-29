@@ -1,36 +1,36 @@
 import 'package:equatable/equatable.dart';
 
 class Application extends Equatable {
-  String studentID;
-  String agentID;
-  String agentName;
-  String agentImage;
-  String universityName;
-  String city;
-  String applicationID;
-  String country;
-  String courseName;
-  String description;
-  String courseFees;
-  String courseLink;
-  String color;
-  String applicationFees;
-  Map<String, String> location; //city, country
-  int status;
-  bool accepted;
+  String? studentID;
+  String? agentID;
+  String? agentName;
+  String? agentImage;
+  String? universityName;
+  String? city;
+  String? applicationID;
+  String? country;
+  String? courseName;
+  String? description;
+  String? courseFees;
+  String? courseLink;
+  String? color;
+  String? applicationFees;
+  Map<String, String>? location; //city, country
+  int? status;
+  bool? accepted;
   Application({
     this.accepted,
   });
   bool isValid() {
     try {
-      assert(studentID != null && studentID.isNotEmpty);
-      assert(agentID != null && agentID.isNotEmpty);
-      assert(universityName != null && universityName.isNotEmpty);
-      assert(courseFees != null && courseFees.isNotEmpty);
-      assert(applicationFees != null && applicationFees.isNotEmpty);
-      assert(courseName != null && courseName.isNotEmpty);
-      assert(courseLink != null && courseLink.isNotEmpty);
-      assert(description != null && description.isNotEmpty);
+      assert(studentID != null && studentID!.isNotEmpty);
+      assert(agentID != null && agentID!.isNotEmpty);
+      assert(universityName != null && universityName!.isNotEmpty);
+      assert(courseFees != null && courseFees!.isNotEmpty);
+      assert(applicationFees != null && applicationFees!.isNotEmpty);
+      assert(courseName != null && courseName!.isNotEmpty);
+      assert(courseLink != null && courseLink!.isNotEmpty);
+      assert(description != null && description!.isNotEmpty);
       return true;
     } on AssertionError {
       return false;
@@ -64,7 +64,7 @@ class Application extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       studentID,
       agentID,

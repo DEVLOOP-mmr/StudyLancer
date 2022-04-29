@@ -1,4 +1,5 @@
 import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,10 +21,12 @@ void main() {
           );
 
           expect(response.statusCode, 200);
-          final student = await ProfileTestSuite().getStudentProfile();
-          assert(student.id.isNotEmpty);
+          final Student student =
+              (await (ProfileTestSuite().getStudentProfile()))!;
+
+          assert(student.id!.isNotEmpty);
           expect(
-            student.documents
+            student.documents!
                 .any((element) => element.name == mockDocument.name),
             true,
           );
@@ -39,15 +42,15 @@ void main() {
           );
 
           expect(response.statusCode, 200);
-          final agent = await ProfileTestSuite().getAgentProfile();
-          assert(agent.id.isNotEmpty);
+          final agent = (await (ProfileTestSuite().getAgentProfile()))!;
+          assert(agent.id!.isNotEmpty);
           expect(
-            agent.documents.any((element) => element.name == mockDocument.name),
+            agent.documents!
+                .any((element) => element.name == mockDocument.name),
             true,
           );
         },
       );
- 
     },
   );
 }

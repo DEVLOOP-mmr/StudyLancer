@@ -15,9 +15,9 @@ import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
 class OfferCard extends StatelessWidget {
   const OfferCard({
-    Key key,
-    @required this.offer,
-    @required this.student,
+    Key? key,
+    required this.offer,
+    required this.student,
   }) : super(key: key);
 
   final Application offer;
@@ -42,7 +42,7 @@ class OfferCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Color(int.parse(offer.color.replaceFirst("#", ""))),
+                  color: Color(int.parse(offer.color!.replaceFirst("#", ""))),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: SizedBox(
@@ -82,12 +82,12 @@ class OfferCard extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundImage: (offer.agentImage ==
+                                          backgroundImage: ((offer.agentImage ==
                                                   null)
                                               ? const AssetImage(
                                                   'assets/images/abc.png',
                                                 )
-                                              : NetworkImage(offer.agentImage),
+                                              : NetworkImage(offer.agentImage!)) as ImageProvider<Object>?,
                                           // backgroundImage:
                                           //     NetworkImage(offer
                                           //         .agentImage),
@@ -203,7 +203,7 @@ class OfferCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              "\$" + offer.courseFees ?? "0",
+                              "\$" + offer.courseFees! ?? "0",
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
@@ -249,8 +249,8 @@ class OfferCard extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await canLaunch(offer.courseLink)
-                            ? await launch(offer.courseLink)
+                        await canLaunch(offer.courseLink!)
+                            ? await launch(offer.courseLink!)
                             : EasyLoading.showError("Cannot launch link");
                       },
                       style: NeumorphicStyle(
@@ -322,14 +322,14 @@ class OfferCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (!offer.accepted)
+              if (!offer.accepted!)
                 const SizedBox(
                   height: 4,
                 ),
-              if (!offer.accepted)
+              if (!offer.accepted!)
                 Text(
                   "*This college application charges \$" +
-                      offer.applicationFees,
+                      offer.applicationFees!,
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 12,

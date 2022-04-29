@@ -17,7 +17,7 @@ import '../dio.dart';
 
 class HomeBloc extends Cubit<HomeState> {
   HomeBloc() : super(InitialHomeState());
-  void setCountry(String newCountry, String userType) {
+  void setCountry(String? newCountry, String? userType) {
     switch (userType) {
       case 'student':
         if (state is! StudentHomeState) {
@@ -44,10 +44,10 @@ class HomeBloc extends Cubit<HomeState> {
         emit((state as InitialHomeState).copyWith(country: newCountry));
         break;
     }
-    assert(state.countryCode.isNotEmpty);
+    assert(state.countryCode!.isNotEmpty);
   }
 
-  void emitNewStudent(Student student) {
+  void emitNewStudent(Student? student) {
     if (state is StudentHomeState) {
       var homeState = (state as StudentHomeState);
       emit(homeState.copyWith(student: student));
@@ -56,7 +56,7 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  void emitNewAgent(Agent agent) {
+  void emitNewAgent(Agent? agent) {
     if (state is AgentHomeState) {
       var homeState = (state as AgentHomeState);
       emit(homeState.copyWith(agent: agent));
@@ -70,17 +70,17 @@ class HomeBloc extends Cubit<HomeState> {
     if (state is! StudentHomeState) {
       return;
     }
-    var applications = (state as StudentHomeState).student.applications;
+    var applications = (state as StudentHomeState).student!.applications!;
     applications.sort((a, b) {
-      return int.parse(a.courseFees).compareTo(
-        int.parse(b.courseFees),
+      return int.parse(a.courseFees!).compareTo(
+        int.parse(b.courseFees!),
       );
     });
     if (order == 'desc') {
       applications = applications.reversed.toList();
     }
     var state2 = (state as StudentHomeState);
-    state2.student.applications = applications;
+    state2.student!.applications = applications;
     emit(state2.copyWith(student: state2.student));
   }
 
@@ -89,17 +89,17 @@ class HomeBloc extends Cubit<HomeState> {
     if (state is! AgentHomeState) {
       return;
     }
-    var students = (state as AgentHomeState).students;
+    var students = (state as AgentHomeState).students!;
     students.sort((a, b) {
-      if (a.applications.isEmpty) {
+      if (a.applications!.isEmpty) {
         return 0;
       }
-      if (b.applications.isEmpty) {
+      if (b.applications!.isEmpty) {
         return 0;
       }
 
-      return int.parse(a.applications.first.courseFees).compareTo(
-        int.parse(b.applications.first.courseFees),
+      return int.parse(a.applications!.first.courseFees!).compareTo(
+        int.parse(b.applications!.first.courseFees!),
       );
     });
     if (order == 'desc') {
@@ -109,8 +109,8 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<StudentHomeState> getStudentHome({
-    BuildContext context,
-    FirebaseAuth firebaseAuth,
+    BuildContext? context,
+    FirebaseAuth? firebaseAuth,
   }) async {
     firebaseAuth ??= FirebaseAuth.instance;
     StudentHomeState homeData = StudentHomeState(countryCode: '');
@@ -120,21 +120,21 @@ class HomeBloc extends Cubit<HomeState> {
       ));
     }
     _setCountryCodeForStudent();
-    assert(state.countryCode.isNotEmpty);
-    String countryLookingFor = state.countryCode.isEmpty
+    assert(state.countryCode!.isNotEmpty);
+    String? countryLookingFor = state.countryCode!.isEmpty
         ? Variables.sharedPreferences.get(Variables.countryCode)
         : state.countryCode;
-    Map<String, String> body = {
-      "studentID": firebaseAuth.currentUser.uid,
+    Map<String, String?> body = {
+      "studentID": firebaseAuth.currentUser!.uid,
       "countryLookingFor": countryLookingFor ?? 'CA',
-      "phone": firebaseAuth.currentUser.phoneNumber,
+      "phone": firebaseAuth.currentUser!.phoneNumber,
     };
     var result = await GetDio.getDio().post(
       "student/home",
       data: jsonEncode(body),
     );
 
-    if (result.statusCode < 299) {
+    if (result.statusCode! < 299) {
       homeData = _parseStudentHomeData(result, homeData);
     } else {
       await _handleInvalidResult(result, context);
@@ -145,7 +145,7 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void _setCountryCodeForStudent() {
-    if (state.countryCode.isEmpty) {
+    if (state.countryCode!.isEmpty) {
       setCountry(
         Variables.sharedPreferences.get(Variables.countryCode),
         'student',
@@ -163,7 +163,7 @@ class HomeBloc extends Cubit<HomeState> {
     if (data['agents'] is! String) {
       List agentList = data["agents"];
       for (var element in agentList) {
-        homeData.agents.add(Agent.fromMap(element));
+        homeData.agents!.add(Agent.fromMap(element));
       }
     }
 
@@ -172,12 +172,12 @@ class HomeBloc extends Cubit<HomeState> {
 
   Future<void> _handleInvalidResult(
     Response<dynamic> result,
-    BuildContext context,
+    BuildContext? context,
   ) async {
     final message = forbiddenRequestMessage(result);
     debugPrint(message);
     if (context != null) {
-      EasyLoading.showInfo(message);
+      EasyLoading.showInfo(message!);
       await FirebaseAuth.instance.signOut();
       Variables.sharedPreferences.clear();
       reset();
@@ -191,8 +191,8 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  static String forbiddenRequestMessage(Response<dynamic> result) {
-    var message = '';
+  static String? forbiddenRequestMessage(Response<dynamic> result) {
+    String? message = '';
     if (result.statusCode == 403) {
       Map map = (result.data);
       message = map.containsKey('message')
@@ -206,8 +206,8 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<AgentHomeState> getAgentHome({
-    BuildContext context,
-    FirebaseAuth auth,
+    BuildContext? context,
+    FirebaseAuth? auth,
   }) async {
     auth ??= FirebaseAuth.instance;
     assert(auth.currentUser != null);
@@ -216,35 +216,35 @@ class HomeBloc extends Cubit<HomeState> {
     if (state is! AgentHomeState) {
       emit(homeData.copyWith(loadState: LoadState.loading));
     }
-    if (state.countryCode.isEmpty) {
+    if (state.countryCode!.isEmpty) {
       var newCountry = Variables.sharedPreferences.get(Variables.countryCode);
       setCountry(
         newCountry,
         'agent',
       );
     }
-    assert(state.countryCode.isNotEmpty);
-    String countryLookingFor = state.countryCode.isEmpty
+    assert(state.countryCode!.isNotEmpty);
+    String? countryLookingFor = state.countryCode!.isEmpty
         ? Variables.sharedPreferences.get(Variables.countryCode)
         : state.countryCode;
-    Map<String, String> body = {
-      "agentID": auth.currentUser.uid,
+    Map<String, String?> body = {
+      "agentID": auth.currentUser!.uid,
       "countryLookingFor": countryLookingFor ?? "CA",
-      "phone": auth.currentUser.phoneNumber,
+      "phone": auth.currentUser!.phoneNumber,
     };
     var result =
         await GetDio.getDio().post("agent/home", data: jsonEncode(body));
 
-    if (result.statusCode < 300) {
+    if (result.statusCode! < 300) {
       var data = result.data;
       homeData.agent = Agent.fromMap(data["agent"]);
       homeData.students = [];
-      List studentList = data["studentdata"];
+      List? studentList = data["studentdata"];
       if (studentList != null) {
         for (var element in studentList) {
           var student = Student.fromMap(element);
 
-          homeData.students.add(student);
+          homeData.students!.add(student);
         }
       }
 
@@ -253,6 +253,8 @@ class HomeBloc extends Cubit<HomeState> {
       return homeData;
     } else {
       _handleInvalidResult(result, context);
+
+      return homeData;
     }
   }
 

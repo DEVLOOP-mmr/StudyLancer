@@ -16,26 +16,26 @@ class Student extends StudyLancerUser with EquatableMixin {
     'academics',
   ];
 
-  String dob;
+  String? dob;
 
-  String course;
-  String year;
-  String applyingFor;
+  String? course;
+  String? year;
+  String? applyingFor;
 
   int optionStatus = 1;
-  int timeline;
+  int? timeline;
 
-  Map<String, dynamic> marksheet;
-  List<Application> applications;
+  Map<String, dynamic>? marksheet;
+  List<Application>? applications;
 
   Student();
 
   bool isValid() {
     try {
       assert(this != null);
-      assert(id.isNotEmpty);
-      assert(name.isNotEmpty);
-      assert(countryLookingFor.isNotEmpty);
+      assert(id!.isNotEmpty);
+      assert(name!.isNotEmpty);
+      assert(countryLookingFor!.isNotEmpty);
       return true;
     } on AssertionError catch (e) {
       debugPrint(e.toString());
@@ -67,7 +67,7 @@ class Student extends StudyLancerUser with EquatableMixin {
     student.applications = [];
     for (var element in (studentData["previousApplications"] as List)) {
       if (element is Map) {
-        student.applications.add(Application.parseApplication(element));
+        student.applications!.add(Application.parseApplication(element as Map<String, dynamic>));
       }
     }
     student.documents = [];
@@ -90,9 +90,9 @@ class Student extends StudyLancerUser with EquatableMixin {
           ..link = element["link"]
           ..type = element["type"];
         if (Student.requiredDocs.contains(document.name)) {
-          student.requiredDocuments[document.name] = document;
+          student.requiredDocuments![document.name] = document;
         } else {
-          student.documents.add(document);
+          student.documents!.add(document);
         }
       }
     }
@@ -106,7 +106,7 @@ class Student extends StudyLancerUser with EquatableMixin {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       dob,
       course,

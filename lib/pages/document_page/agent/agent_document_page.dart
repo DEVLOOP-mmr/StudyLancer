@@ -14,7 +14,7 @@ import 'package:elite_counsel/widgets/drawer.dart';
 import '../../../variables.dart';
 
 class AgentDocumentPage extends StatefulWidget {
-  const AgentDocumentPage({Key key}) : super(key: key);
+  const AgentDocumentPage({Key? key}) : super(key: key);
 
   @override
   State<AgentDocumentPage> createState() => _AgentDocumentPageState();
@@ -127,7 +127,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                   shrinkWrap: true,
                                   itemCount: (agent.documents ?? []).length,
                                   itemBuilder: (context, index) {
-                                    Document doc = agent.documents[index];
+                                    Document doc = agent.documents![index];
                                     if (doc.link == null) {
                                       return Container();
                                     }
@@ -148,7 +148,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                         icon: icon,
                                         index: index,
                                         onDismiss: (direction) {
-                                          var doc = agent.documents[index];
+                                          var doc = agent.documents![index];
                                           final bloc =
                                               BlocProvider.of<HomeBloc>(
                                             context,
@@ -162,7 +162,7 @@ class _AgentDocumentPageState extends State<AgentDocumentPage> {
                                             agent.id,
                                           );
 
-                                          agent.documents.removeAt(index);
+                                          agent.documents!.removeAt(index);
                                           bloc.emitNewAgent(agent);
 
                                           bloc.getAgentHome(context: context);

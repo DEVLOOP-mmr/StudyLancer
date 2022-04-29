@@ -14,7 +14,7 @@ import 'package:elite_counsel/widgets/drawer.dart';
 import '../../../variables.dart';
 
 class StudentDocumentPage extends StatefulWidget {
-  const StudentDocumentPage({Key key}) : super(key: key);
+  const StudentDocumentPage({Key? key}) : super(key: key);
 
   @override
   State<StudentDocumentPage> createState() => _StudentDocumentPageState();
@@ -43,7 +43,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
           if (state is! StudentHomeState) {
             return Container(child: const CircularProgressIndicator());
           }
-          final student = (state as StudentHomeState).student;
+          final student = state.student;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: requiredDocTitles.keys
@@ -54,7 +54,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            requiredDocTitles[key],
+                            requiredDocTitles[key]!,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -63,14 +63,14 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          student.requiredDocuments[key] != null
+                          student!.requiredDocuments![key] != null
                               ? DocumentCard(
-                                  doc: student.requiredDocuments[key],
+                                  doc: student.requiredDocuments![key],
                                   icon: "assets/imageicon.png",
                                   requiredDocKey: key,
                                   renameEnabled: true,
                                   onDismiss: (direction) {
-                                    var doc = student.requiredDocuments[key];
+                                    var doc = student.requiredDocuments![key]!;
                                     final bloc =
                                         BlocProvider.of<HomeBloc>(context);
 
@@ -82,7 +82,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                       student.id,
                                     );
 
-                                    student.requiredDocuments[key] = null;
+                                    student.requiredDocuments![key] = null;
                                     bloc.emitNewStudent(student);
 
                                     bloc.getStudentHome(context: context);
@@ -206,7 +206,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                             (student.documents ?? []).length,
                                         itemBuilder: (context, index) {
                                           Document doc =
-                                              student.documents[index];
+                                              student.documents![index];
                                           if (doc.link == null) {
                                             return Container();
                                           }
@@ -228,7 +228,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                               renameEnabled: true,
                                               onDismiss: (direction) {
                                                 var doc =
-                                                    student.documents[index];
+                                                    student.documents![index];
                                                 final bloc =
                                                     BlocProvider.of<HomeBloc>(
                                                         context);
@@ -241,7 +241,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                                   student.id,
                                                 );
 
-                                                student.documents
+                                                student.documents!
                                                     .removeAt(index);
                                                 bloc.emitNewStudent(student);
 
@@ -277,7 +277,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     );
   }
 
-  void _showFilePicker(BuildContext context, [String requiredDocType]) async {
+  void _showFilePicker(BuildContext context, [String? requiredDocType]) async {
     final result = await FilePicker.platform
         .pickFiles(type: FileType.any, allowMultiple: true);
     var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
@@ -291,11 +291,11 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
-          student.requiredDocuments[requiredDocType] =
+          student!.requiredDocuments![requiredDocType] =
               Document(name: result.files.first.name);
           bloc.emitNewStudent(student);
         } else {
-          student.documents.add(Document(name: result.files.first.name));
+          student!.documents!.add(Document(name: result.files.first.name));
           bloc.emitNewStudent(student);
         }
       } catch (e) {}
@@ -304,7 +304,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     }
   }
 
-  Widget UploadButton([String requiredDocType]) {
+  Widget UploadButton([String? requiredDocType]) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: InkWell(

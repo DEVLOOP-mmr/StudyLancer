@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 class Size {
   /// Creates [Size] from width and height
   const Size({
-    @required this.height,
-    @required this.width,
+    required this.height,
+    required this.width,
   });
 
   /// Height

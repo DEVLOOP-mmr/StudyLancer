@@ -14,8 +14,8 @@ class IOConditional extends BaseConditional {
   /// Returns [NetworkImage] if URI starts with http
   /// otherwise uses IO to create File
   @override
-  ImageProvider getProvider(String uri) {
-    if (uri.startsWith('http')) {
+  ImageProvider getProvider(String? uri) {
+    if (uri!.startsWith('http')) {
       return NetworkImage(uri);
     } else {
       return FileImage(File(uri));

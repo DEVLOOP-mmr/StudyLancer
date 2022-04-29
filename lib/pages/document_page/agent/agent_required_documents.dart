@@ -9,7 +9,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
 class AgentRequiredDocuments extends StatelessWidget {
-  const AgentRequiredDocuments({Key key}) : super(key: key);
+  const AgentRequiredDocuments({Key? key}) : super(key: key);
   final Map<String, String> requiredDocTitles = const {
     'license': 'License',
     'personalID': 'Personal Identification',
@@ -24,7 +24,7 @@ class AgentRequiredDocuments extends StatelessWidget {
           if (state is! AgentHomeState) {
             return const CircularProgressIndicator();
           }
-          final agent = (state as AgentHomeState).agent;
+          final agent = state.agent;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +34,7 @@ class AgentRequiredDocuments extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          requiredDocTitles[key],
+                          requiredDocTitles[key]!,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -44,14 +44,14 @@ class AgentRequiredDocuments extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        agent.requiredDocuments[key] != null
+                        agent!.requiredDocuments![key] != null
                             ? DocumentCard(
                                 renameEnabled: true,
-                                doc: agent.requiredDocuments[key],
+                                doc: agent.requiredDocuments![key],
                                 icon: "assets/imageicon.png",
                                 requiredDocKey: key,
                                 onDismiss: (direction) {
-                                  var doc = agent.requiredDocuments[key];
+                                  var doc = agent.requiredDocuments![key]!;
                                   final bloc =
                                       BlocProvider.of<HomeBloc>(context);
 
@@ -63,7 +63,7 @@ class AgentRequiredDocuments extends StatelessWidget {
                                     agent.id,
                                   );
 
-                                  agent.requiredDocuments[key] = null;
+                                  agent.requiredDocuments![key] = null;
                                   bloc.emitNewAgent(agent);
 
                                   bloc.getAgentHome(context: context);

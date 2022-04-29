@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTabbedList extends StatefulWidget {
-  const StudentTabbedList({Key key}) : super(key: key);
+  const StudentTabbedList({Key? key}) : super(key: key);
 
   @override
   State<StudentTabbedList> createState() => _StudentTabbedListState();
@@ -17,7 +17,7 @@ class StudentTabbedList extends StatefulWidget {
 
 class _StudentTabbedListState extends State<StudentTabbedList>
     with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _StudentTabbedListState extends State<StudentTabbedList>
         if (state is! AgentHomeState) {
           return const CircularProgressIndicator();
         }
-        final agentHomePageState = state as AgentHomeState;
+        final agentHomePageState = state;
         final agent = agentHomePageState.agent;
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());

@@ -15,12 +15,12 @@ class PreviewData {
 
   /// Creates preview data from a map (decoded JSON).
   PreviewData.fromJson(Map<String, dynamic> json)
-      : description = json['description'] as String,
+      : description = json['description'] as String?,
         image = json['image'] == null
             ? null
             : PreviewDataImage.fromJson(json['image'] as Map<String, dynamic>),
-        link = json['link'] as String,
-        title = json['title'] as String;
+        link = json['link'] as String?,
+        title = json['title'] as String?;
 
   /// Converts preview data to the map representation, encodable to JSON.
   Map<String, dynamic> toJson() => {
@@ -31,16 +31,16 @@ class PreviewData {
       };
 
   /// Link description (usually og:description meta tag)
-  final String description;
+  final String? description;
 
   /// See [PreviewDataImage]
-  final PreviewDataImage image;
+  final PreviewDataImage? image;
 
   /// Remote resource URL
-  final String link;
+  final String? link;
 
   /// Link title (usually og:title meta tag)
-  final String title;
+  final String? title;
 }
 
 /// A utility class that forces image's width and height to be stored
@@ -51,16 +51,16 @@ class PreviewData {
 class PreviewDataImage {
   /// Creates preview data image.
   const PreviewDataImage({
-    @required this.height,
-    @required this.url,
-    @required this.width,
+    required this.height,
+    required this.url,
+    required this.width,
   });
 
   /// Creates preview data image from a map (decoded JSON).
   PreviewDataImage.fromJson(Map<String, dynamic> json)
-      : height = json['height'] as double,
-        url = json['url'] as String,
-        width = json['width'] as double;
+      : height = json['height'] as double?,
+        url = json['url'] as String?,
+        width = json['width'] as double?;
 
   /// Converts preview data image to the map representation, encodable to JSON.
   Map<String, dynamic> toJson() => {
@@ -70,11 +70,11 @@ class PreviewDataImage {
       };
 
   /// Image height in pixels
-  final double height;
+  final double? height;
 
   /// Remote image URL
-  final String url;
+  final String? url;
 
   /// Image width in pixels
-  final double width;
+  final double? width;
 }

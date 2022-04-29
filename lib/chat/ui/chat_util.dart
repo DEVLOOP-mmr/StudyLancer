@@ -15,7 +15,7 @@ String formatBytes(int size, [int fractionDigits = 2]) {
 /// chat history. Supports today, yesterday and formatted date values.
 String getVerboseDateTimeRepresentation(
   DateTime dateTime,
-  String locale,
+  String? locale,
   String todayText,
   String yesterdayText,
 ) {

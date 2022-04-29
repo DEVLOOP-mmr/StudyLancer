@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 enum _SelectedTab { home, docs, message, profile }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -41,12 +41,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (Variables.sharedPreferences.get(Variables.userType) ==
         Variables.userTypeStudent) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getStudentHome(context: context);
       });
     } else {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getAgentHome(context: context);
       });

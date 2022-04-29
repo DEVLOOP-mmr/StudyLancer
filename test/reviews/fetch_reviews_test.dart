@@ -14,13 +14,13 @@ void main() {
 
       expect(success is bool, true);
 
-      final agentReviews = await ReviewBloc.getAgentReview(
-          MockFirebaseAgentUser().uid, MockFirebaseStudentUser().uid);
+      final agentReviews = (await (ReviewBloc.getAgentReview(
+          MockFirebaseAgentUser().uid, MockFirebaseStudentUser().uid) ))!;
 
       expect(agentReviews, isNotNull);
       expect(agentReviews.reviews, isNotEmpty);
       expect(
-          agentReviews.reviews
+          agentReviews.reviews!
               .any((element) => element.agentId == review.agentId),
           true);
     },

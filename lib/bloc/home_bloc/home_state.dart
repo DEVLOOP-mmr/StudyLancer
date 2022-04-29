@@ -7,8 +7,8 @@ import 'package:elite_counsel/models/student.dart';
 enum LoadState { initial, loading, error, done }
 
 abstract class HomeState {
-  LoadState loadState = LoadState.initial;
-  String countryCode;
+  LoadState? loadState = LoadState.initial;
+  String? countryCode;
   HomeState({
     this.loadState,
     this.countryCode,
@@ -16,11 +16,11 @@ abstract class HomeState {
 }
 
 class InitialHomeState extends HomeState {
-  InitialHomeState({String country, LoadState loadState})
+  InitialHomeState({String? country, LoadState? loadState})
       : super(countryCode: country, loadState: loadState) {
     loadState = LoadState.initial;
   }
-  InitialHomeState copyWith({String country, LoadState loadState}) {
+  InitialHomeState copyWith({String? country, LoadState? loadState}) {
     return InitialHomeState(
       country: country ?? countryCode,
       loadState: loadState ?? this.loadState,
@@ -30,11 +30,11 @@ class InitialHomeState extends HomeState {
 
 class StudentHomeState extends HomeState with EquatableMixin {
   @override
-  LoadState loadState;
-  Student student;
-  List<Agent> agents;
+  LoadState? loadState;
+  Student? student;
+  List<Agent>? agents;
   @override
-  String countryCode;
+  String? countryCode;
   StudentHomeState({
     this.loadState,
     this.student,
@@ -43,10 +43,10 @@ class StudentHomeState extends HomeState with EquatableMixin {
   });
 
   StudentHomeState copyWith({
-    LoadState loadState,
-    Student student,
-    List<Agent> agents,
-    String countryCode,
+    LoadState? loadState,
+    Student? student,
+    List<Agent>? agents,
+    String? countryCode,
   }) {
     return StudentHomeState(
       loadState: loadState ?? this.loadState,
@@ -57,16 +57,16 @@ class StudentHomeState extends HomeState with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [loadState, student, agents, countryCode];
+  List<Object?> get props => [loadState, student, agents, countryCode];
 }
 
 class AgentHomeState extends HomeState with EquatableMixin {
-  Agent agent;
-  List<Student> students;
+  Agent? agent;
+  List<Student>? students;
   @override
-  String countryCode;
+  String? countryCode;
   @override
-  LoadState loadState;
+  LoadState? loadState;
   AgentHomeState({
     this.agent,
     this.students,
@@ -75,10 +75,10 @@ class AgentHomeState extends HomeState with EquatableMixin {
   });
 
   AgentHomeState copyWith({
-    Agent agent,
-    List<Student> students,
-    String countryCode,
-    LoadState loadState,
+    Agent? agent,
+    List<Student>? students,
+    String? countryCode,
+    LoadState? loadState,
   }) {
     return AgentHomeState(
       agent: agent ?? this.agent,
@@ -89,5 +89,5 @@ class AgentHomeState extends HomeState with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [agent, students, countryCode, loadState];
+  List<Object?> get props => [agent, students, countryCode, loadState];
 }

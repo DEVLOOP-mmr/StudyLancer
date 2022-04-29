@@ -13,16 +13,16 @@ import 'package:elite_counsel/models/document.dart';
 import 'dio.dart';
 
 class DocumentBloc {
-  String userType = '';
+  String? userType = '';
   DocumentBloc({
     this.userType,
   });
   Future<void> parseAndUploadFilePickerResult(
     FilePickerResult result, {
-    String requiredDocType,
+    String? requiredDocType,
   }) async {
     for (var x in result.files) {
-      final fileName = x.path.split("/").last;
+      final fileName = x.path!.split("/").last;
       final filePath = x.path;
       final file = File(filePath ?? '');
 
@@ -36,7 +36,7 @@ class DocumentBloc {
             name: requiredDocType ?? fileName,
             type: x.extension ?? "",
           ),
-          FirebaseAuth.instance.currentUser.uid,
+          FirebaseAuth.instance.currentUser!.uid,
         ).then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
@@ -67,7 +67,7 @@ class DocumentBloc {
   }
 
   Future<Response> updateDocument(
-    String documentID,
+    String? documentID,
     String uid,
     String newName,
   ) async {
@@ -91,9 +91,9 @@ class DocumentBloc {
   }
 
   Future<Response> deleteDocument(
-    String docName,
-    String documentID,
-    String uid,
+    String? docName,
+    String? documentID,
+    String? uid,
   ) async {
     Map body = {
       "${userType}ID": uid,

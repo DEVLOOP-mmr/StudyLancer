@@ -11,27 +11,27 @@ void main() {
     test(
       'student',
       () async {
-        var student = await ProfileTestSuite().getStudentProfile();
-        assert(student.id.isNotEmpty);
+        var student = (await (ProfileTestSuite().getStudentProfile()))!;
+        assert(student.id!.isNotEmpty);
         var mockDocument = MockDocument();
-        if (student.documents.isEmpty) {
+        if (student.documents!.isEmpty) {
           await DocumentBloc(userType: 'student').postDocument(
             mockDocument,
             MockFirebaseStudentUser().uid,
           );
-          student = await ProfileTestSuite().getStudentProfile();
+          student = (await (ProfileTestSuite().getStudentProfile()))!;
         }
-        final lastDocID = student.documents.last.id;
+        final lastDocID = student.documents!.last.id;
         final response = await DocumentBloc(userType: 'student').updateDocument(
-          student.documents.last.id,
+          student.documents!.last.id,
           MockFirebaseStudentUser().uid,
           'test_name',
         );
         expect(response.statusCode, 200);
         var renamedDocumentStudent =
-            await ProfileTestSuite().getStudentProfile();
+            (await (ProfileTestSuite().getStudentProfile()))!;
         expect(
-          renamedDocumentStudent.documents
+          renamedDocumentStudent.documents!
               .any((element) => element.name == 'test_name'),
           true,
         );
@@ -40,27 +40,26 @@ void main() {
     test(
       'agent',
       () async {
-        var agent = await ProfileTestSuite().getAgentProfile();
-        assert(agent.id.isNotEmpty);
+        var agent = (await (ProfileTestSuite().getAgentProfile()))!;
+        assert(agent.id!.isNotEmpty);
         var mockDocument = MockDocument();
-        if (agent.documents.isEmpty) {
+        if (agent.documents!.isEmpty) {
           await DocumentBloc(userType: 'agent').postDocument(
             mockDocument,
             MockFirebaseAgentUser().uid,
           );
-          agent = await ProfileTestSuite().getAgentProfile();
+          agent = (await (ProfileTestSuite().getAgentProfile()))!;
         }
-        final lastDocID = agent.documents.last.id;
+        final lastDocID = agent.documents!.last.id;
         final response = await DocumentBloc(userType: 'agent').updateDocument(
           lastDocID,
           MockFirebaseAgentUser().uid,
           'test_name',
         );
         expect(response.statusCode, 200);
-        var newAgent = await ProfileTestSuite().getAgentProfile();
+        var newAgent = (await (ProfileTestSuite().getAgentProfile()))!;
         expect(
-          newAgent.documents
-              .any((element) => element.name == 'test_name'),
+          newAgent.documents!.any((element) => element.name == 'test_name'),
           true,
         );
       },

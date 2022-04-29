@@ -26,7 +26,7 @@ String _getMetaContent(Document document, String propertyValue) {
     ),
   );
 
-  return element.attributes['content'].trim();
+  return element.attributes['content']!.trim();
 }
 
 bool _hasUTF8Charset(Document document) {
@@ -37,7 +37,7 @@ bool _hasUTF8Charset(Document document) {
     orElse: () => emptyElement,
   );
   if (element == emptyElement) return true;
-  return element.attributes['charset'].toLowerCase() == 'utf-8';
+  return element.attributes['charset']!.toLowerCase() == 'utf-8';
 }
 
 String _getTitle(Document document) {
@@ -74,7 +74,7 @@ List<String> _getImageUrls(Document document, String baseUrl) {
   return elements.fold<List<String>>([], (previousValue, element) {
     final actualImageUrl = _getActualImageUrl(
       baseUrl,
-      element.attributes[attribute].trim(),
+      element.attributes[attribute]!.trim(),
     );
 
     return actualImageUrl != null
@@ -83,7 +83,7 @@ List<String> _getImageUrls(Document document, String baseUrl) {
   });
 }
 
-String _getActualImageUrl(String baseUrl, String imageUrl) {
+String? _getActualImageUrl(String baseUrl, String imageUrl) {
   if (imageUrl == null || imageUrl.isEmpty || imageUrl.startsWith('data')) {
     return null;
   }
@@ -140,10 +140,10 @@ Future<String> _getBiggestImageUrl(List<String> imageUrls) async {
 Future<PreviewData> getPreviewData(String text) async {
   const previewData = PreviewData();
 
-  String previewDataDescription;
-  PreviewDataImage previewDataImage;
-  String previewDataTitle;
-  String previewDataUrl;
+  String? previewDataDescription;
+  PreviewDataImage? previewDataImage;
+  String? previewDataTitle;
+  String? previewDataUrl;
 
   try {
     final urlRegexp = RegExp(REGEX_LINK);

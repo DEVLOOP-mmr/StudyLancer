@@ -5,7 +5,7 @@ import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/variables.dart';
 
 /// Fetches user from MongoDB databsse and returs either a [Student] or [Agent]
-Future<StudyLancerUser> fetchUser(String userId) async {
+Future<StudyLancerUser> fetchUser(String? userId) async {
   final currentUserType = Variables.sharedPreferences.get(Variables.userType);
   var userType = '';
   userType = currentUserType == 'student' ? 'agent' : 'student';
@@ -21,11 +21,11 @@ Future<List<types.Room>> processRoomsQuery(
   QuerySnapshot query,
 ) async {
   final futures = query.docs.map((doc) async {
-    String imageUrl;
-    Map<String, dynamic> metadata;
-    String name;
+    String? imageUrl;
+    Map<String, dynamic>? metadata;
+    String? name;
 
-    final type = doc.get('type') as String;
+    final type = doc.get('type') as String?;
     final List<dynamic> userIds = doc.get('userIds') as List<dynamic>;
 
     final List<StudyLancerUser> users = [currentUser];
@@ -35,7 +35,7 @@ Future<List<types.Room>> processRoomsQuery(
     users.add(otherUser);
 
     if (type == "direct") {
-      Map<String, dynamic> map = doc.data();
+      Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
       if (map['userData'] != null) {
         imageUrl = map['userData'][otherUserID]['imageUrl'];
         name = map['userData'][otherUserID]['name'];
@@ -59,7 +59,7 @@ Future<List<types.Room>> processRoomsQuery(
 
 /// Returns a [types.User] created from Firebase document
 types.User processUserDocument(DocumentSnapshot doc) {
-  Map<String, dynamic> jsonDocData = doc.data();
+  Map<String, dynamic>? jsonDocData = doc.data() as Map<String, dynamic>?;
   if (jsonDocData == null) {
     return types.User(id: doc.id);
   }

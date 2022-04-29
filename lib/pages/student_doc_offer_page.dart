@@ -21,8 +21,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class StudentDocOfferPage extends StatelessWidget {
-  final Student student;
-  const StudentDocOfferPage({Key key, @required this.student})
+  final Student? student;
+  const StudentDocOfferPage({Key? key, required this.student})
       : super(key: key);
 
   @override
@@ -54,7 +54,7 @@ class StudentDocOfferPage extends StatelessWidget {
           if (state is! AgentHomeState) {
             return Container();
           }
-          var agent = (state as AgentHomeState).agent;
+          var agent = state.agent;
 
           return Column(
             children: [
@@ -67,10 +67,10 @@ class StudentDocOfferPage extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: (student.requiredDocuments.keys ?? []).length,
+                  itemCount: (student!.requiredDocuments!.keys ?? []).length,
                   itemBuilder: (context, index) {
-                    var key = student.requiredDocuments.keys.toList()[index];
-                    Document doc = student.requiredDocuments[key];
+                    var key = student!.requiredDocuments!.keys.toList()[index];
+                    Document? doc = student!.requiredDocuments![key];
                     if (doc == null) {
                       return Container();
                     }
@@ -103,9 +103,9 @@ class StudentDocOfferPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: (student.documents ?? []).length,
+                    itemCount: (student!.documents ?? []).length,
                     itemBuilder: (context, index) {
-                      Document doc = student.documents[index];
+                      Document doc = student!.documents![index];
                       if (doc.link == null) {
                         return Container();
                       }
@@ -131,7 +131,7 @@ class StudentDocOfferPage extends StatelessWidget {
                   ),
                 ),
               ),
-              student.applications.isEmpty && agent.verified
+              student!.applications!.isEmpty && agent!.verified!
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 40,

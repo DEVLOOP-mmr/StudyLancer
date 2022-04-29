@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class StudentDetailPage extends StatefulWidget {
-  final Student student;
-  const StudentDetailPage({Key key, this.student}) : super(key: key);
+  final Student? student;
+  const StudentDetailPage({Key? key, this.student}) : super(key: key);
 
   @override
   _StudentDetailPageState createState() => _StudentDetailPageState();
 }
 
 class _StudentDetailPageState extends State<StudentDetailPage> {
-  PaletteGenerator paletteGenerator;
+  PaletteGenerator? paletteGenerator;
 
   @override
   void initState() {
     super.initState();
     PaletteGenerator.fromImageProvider(
-      NetworkImage(widget.student.photo ??
+      NetworkImage(widget.student!.photo ??
           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
       maximumColorCount: 20,
     ).then((value) {
@@ -52,10 +52,10 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                   heightFactor: 0.7,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: paletteGenerator.dominantColor.color,
+                      color: paletteGenerator!.dominantColor!.color,
                       // borderRadius: BorderRadius.circular(16),
                       image: DecorationImage(
-                        image: NetworkImage(widget.student.photo ??
+                        image: NetworkImage(widget.student!.photo ??
                             "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                         fit: BoxFit.cover,
                       ),
@@ -67,9 +67,9 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                     // borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(colors: [
                       Colors.transparent,
-                      paletteGenerator.dominantColor.color.withOpacity(0.05),
-                      paletteGenerator.dominantColor.color,
-                      paletteGenerator.dominantColor.color,
+                      paletteGenerator!.dominantColor!.color.withOpacity(0.05),
+                      paletteGenerator!.dominantColor!.color,
+                      paletteGenerator!.dominantColor!.color,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   ),
                   child: SafeArea(
@@ -84,11 +84,11 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.student.name.trim() ?? "",
+                                widget.student!.name!.trim() ?? "",
                                 style: TextStyle(
                                   fontSize: 35,
-                                  color: paletteGenerator
-                                      .dominantColor.titleTextColor,
+                                  color: paletteGenerator!
+                                      .dominantColor!.titleTextColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -100,21 +100,21 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                 children: [
                                   Icon(
                                     Icons.pin_drop_outlined,
-                                    color: paletteGenerator
-                                        .dominantColor.titleTextColor,
+                                    color: paletteGenerator!
+                                        .dominantColor!.titleTextColor,
                                     size: 14,
                                   ),
                                   const SizedBox(
                                     width: 6,
                                   ),
                                   Text(
-                                    (widget.student.city ?? "") +
+                                    (widget.student!.city ?? "") +
                                         ", " +
-                                        (widget.student.country ?? ""),
+                                        (widget.student!.country ?? ""),
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: paletteGenerator
-                                          .dominantColor.titleTextColor,
+                                      color: paletteGenerator!
+                                          .dominantColor!.titleTextColor,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -125,39 +125,39 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                           const SizedBox(
                             height: 16,
                           ),
-                          if (widget.student.marksheet != null)
+                          if (widget.student!.marksheet != null)
                             Padding(
                               padding: const EdgeInsets.only(right: 32.0),
                               child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount:
-                                      widget.student.marksheet.length * 2,
+                                      widget.student!.marksheet!.length * 2,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount:
-                                              widget.student.marksheet.length,
+                                              widget.student!.marksheet!.length,
                                           childAspectRatio: 2),
                                   itemBuilder: (context, index) {
-                                    var markData = widget.student.marksheet.keys
+                                    var markData = widget.student!.marksheet!.keys
                                         .toList(growable: true);
                                     for (var element
-                                        in widget.student.marksheet.values) {
+                                        in widget.student!.marksheet!.values) {
                                       markData.add(element.toString());
                                     }
                                     return Container(
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: paletteGenerator
-                                                .dominantColor.titleTextColor),
+                                            color: paletteGenerator!
+                                                .dominantColor!.titleTextColor),
                                       ),
                                       child: Center(
                                         child: Text(
                                           markData[index],
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              color: paletteGenerator
-                                                  .dominantColor
+                                              color: paletteGenerator!
+                                                  .dominantColor!
                                                   .titleTextColor),
                                         ),
                                       ),
@@ -179,8 +179,8 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                               padding: const EdgeInsets.only(right: 32.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: paletteGenerator
-                                        .dominantColor.titleTextColor,
+                                    color: paletteGenerator!
+                                        .dominantColor!.titleTextColor,
                                     borderRadius: BorderRadius.circular(40)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
@@ -189,8 +189,8 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                       "View Document",
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: paletteGenerator
-                                            .dominantColor.color,
+                                        color: paletteGenerator!
+                                            .dominantColor!.color,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

@@ -19,7 +19,7 @@ import '../../agent_details_page_view.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class StudentHomePage extends StatefulWidget {
 
 class _StudentHomePageState extends State<StudentHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  PageController _countryPageController;
+  PageController? _countryPageController;
   Country country = Country();
   @override
   void initState() {
@@ -90,7 +90,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                         ),
                         clipBehavior: Clip.hardEdge,
                         child: Image.network(
-                          studentHomeState.student.photo ??
+                          studentHomeState.student!.photo ??
                               "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
                           fit: BoxFit.contain,
                           height: 25,
@@ -103,7 +103,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
             onTap: () {
-              _scaffoldKey.currentState.openEndDrawer();
+              _scaffoldKey.currentState!.openEndDrawer();
             },
           )
         ],
@@ -147,7 +147,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       CountryImages(),
                       // (studentHomeState.self.otherDoc ?? []).length < 3
                       //     ?
-                      if (!(state as StudentHomeState).student.verified)
+                      if (!state.student!.verified!)
                         const UploadRequiredDocumentsPrompt(),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -273,7 +273,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                     //this one
                                     Future.delayed(const Duration(seconds: 0),
                                         () {
-                                      if (studentHomeState.agents[index] !=
+                                      if (studentHomeState.agents![index] !=
                                           null) {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
@@ -294,7 +294,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                       // borderRadius: BorderRadius.circular(16),
                                       image: DecorationImage(
                                         image: NetworkImage(studentHomeState
-                                                .agents[index].photo ??
+                                                .agents![index].photo ??
                                             "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                                         fit: BoxFit.cover,
                                       ),
@@ -319,7 +319,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                             const Spacer(),
                                             Text(
                                               studentHomeState
-                                                      .agents[index].name ??
+                                                      .agents![index].name ??
                                                   "",
                                               style: const TextStyle(
                                                 fontSize: 16,
@@ -331,7 +331,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                               height: 6,
                                             ),
                                             Text(
-                                              (studentHomeState.agents[index]
+                                              (studentHomeState.agents![index]
                                                           .applicationsHandled ??
                                                       "0") +
                                                   " Students",
@@ -358,12 +358,12 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                                 ),
                                                 Text(
                                                   (studentHomeState
-                                                              .agents[index]
+                                                              .agents![index]
                                                               .reviewsAvg ??
                                                           "") +
                                                       " (" +
                                                       (studentHomeState
-                                                              .agents[index]
+                                                              .agents![index]
                                                               .reviewCount ??
                                                           "0") +
                                                       " Reviews)",
@@ -426,7 +426,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                                   height: 20,
                                 ),
                                 Text(
-                                  country.images[index].description,
+                                  country.images![index].description!,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -456,8 +456,8 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: CachedNetworkImage(
-                      imageUrl: country.images[index].image,
-                      cacheKey: country.images[index].image,
+                      imageUrl: country.images![index].image!,
+                      cacheKey: country.images![index].image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -470,7 +470,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        _countryPageController.previousPage(
+                        _countryPageController!.previousPage(
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       },
@@ -491,7 +491,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _countryPageController.nextPage(
+                        _countryPageController!.nextPage(
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       },
@@ -523,7 +523,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
 
 class UploadRequiredDocumentsPrompt extends StatelessWidget {
   const UploadRequiredDocumentsPrompt({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

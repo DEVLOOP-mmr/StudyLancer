@@ -9,7 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class AgentProfilePage extends StatefulWidget {
-  const AgentProfilePage({Key key}) : super(key: key);
+  const AgentProfilePage({Key? key}) : super(key: key);
 
   @override
   State<AgentProfilePage> createState() => _AgentProfilePageState();
@@ -39,7 +39,7 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
         );
       }
 
-      final agent = (state as AgentHomeState).agent;
+      final agent = (state as AgentHomeState).agent!;
 
       return Scaffold(
         key: _scaffoldKey,
@@ -59,7 +59,7 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
             GestureDetector(
               child: Image.asset("assets/images/menu.png"),
               onTap: () {
-                _scaffoldKey.currentState.openEndDrawer();
+                _scaffoldKey.currentState!.openEndDrawer();
               },
             ),
           ],
@@ -266,7 +266,7 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
                             RegExp regExp = RegExp(p);
-                            if (!regExp.hasMatch(value)) {
+                            if (!regExp.hasMatch(value!)) {
                               return "Please enter valid email";
                             }
                             return null;
@@ -354,7 +354,7 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
-                          validator: (value) {
+                          validator: (dynamic value) {
                             return null;
                           },
                           hint: Text(
@@ -365,7 +365,7 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           value: agent.maritalStatus,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             agent.maritalStatus = value;
                           },
                           style: const TextStyle(
@@ -470,10 +470,10 @@ class _AgentProfilePageState extends State<AgentProfilePage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           value: agent.country,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             agent.country = value;
                           },
-                          validator: (value) {
+                          validator: (dynamic value) {
                             if ((value ?? "") == "") {
                               return "Select Country";
                             }

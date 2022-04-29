@@ -5,19 +5,19 @@ import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/chat/type/room.dart';
 
 class FirebaseChatState extends Equatable {
-  final List<Room> rooms;
-  final LoadState loadState;
+  final List<Room>? rooms;
+  final LoadState? loadState;
   const FirebaseChatState({
     this.rooms,
     this.loadState,
   });
 
   @override
-  List<Object> get props => [rooms, loadState];
+  List<Object?> get props => [rooms, loadState];
 
   FirebaseChatState copyWith({
-    List<Room> rooms,
-    LoadState loadState,
+    List<Room>? rooms,
+    LoadState? loadState,
   }) {
     return FirebaseChatState(
       rooms: rooms ?? this.rooms,

@@ -21,8 +21,8 @@ import 'package:path_provider/path_provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
-    Key key,
-    @required this.room,
+    Key? key,
+    required this.room,
   }) : super(key: key);
 
   final types.Room room;
@@ -33,7 +33,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
-  List<StudyLancerUser> roomUsers = [];
+  List<StudyLancerUser?> roomUsers = [];
 
   void _handleAttachmentPress() {
     showModalBottomSheet<void>(
@@ -103,9 +103,9 @@ class _ChatPageState extends State<ChatPage> {
   void _openFile(types.FileMessage message) async {
     var localPath = message.uri;
 
-    if (message.uri.startsWith('http')) {
+    if (message.uri!.startsWith('http')) {
       final client = http.Client();
-      final request = await client.get(Uri.parse(message.uri));
+      final request = await client.get(Uri.parse(message.uri!));
       final bytes = request.bodyBytes;
       final documentsDir = (await getApplicationDocumentsDirectory()).path;
       localPath = '$documentsDir/${message.fileName}';
@@ -134,7 +134,7 @@ class _ChatPageState extends State<ChatPage> {
     if (result != null) {
       _setAttachmentUploading(true);
       for (var x in result.files) {
-        final fileName = x.path.split("/").last;
+        final fileName = x.path!.split("/").last;
         final filePath = x.path;
         final file = File(filePath ?? '');
 
@@ -146,7 +146,7 @@ class _ChatPageState extends State<ChatPage> {
           final message = types.PartialFile(
             fileName: fileName ?? '',
             mimeType: lookupMimeType(filePath ?? ''),
-            size: x.path.length ?? 0,
+            size: x.path!.length ?? 0,
             uri: uri,
           );
 
@@ -251,14 +251,14 @@ class _ChatPageState extends State<ChatPage> {
         initialData: const [],
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            for (var element in snapshot.data) {
+            for (var element in snapshot.data!) {
               if (element.status != types.Status.read &&
                       element.authorId !=
                           BlocProvider.of<FirebaseChatBloc>(
                             context,
                             listen: false,
-                          ).user.uid ??
-                  '') {
+                          ).user!.uid ??
+                  '' as bool) {
                 BlocProvider.of<FirebaseChatBloc>(context, listen: false)
                     .updateMessage(
                   element.copyWith(status: types.Status.read),
@@ -277,11 +277,11 @@ class _ChatPageState extends State<ChatPage> {
             onSendPressed: _onSendPressed,
             user: types.User(
               id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                      .user
+                      .user!
                       .uid ??
                   '',
-              avatarUrl: FirebaseAuth.instance.currentUser.photoURL,
-              firstName: FirebaseAuth.instance.currentUser.displayName,
+              avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
+              firstName: FirebaseAuth.instance.currentUser!.displayName,
             ),
           );
         },

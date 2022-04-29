@@ -16,7 +16,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StudentProfilePage extends StatefulWidget {
-  const StudentProfilePage({Key key}) : super(key: key);
+  const StudentProfilePage({Key? key}) : super(key: key);
 
   @override
   _StudentProfilePageState createState() => _StudentProfilePageState();
@@ -32,7 +32,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       // BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
     });
   }
@@ -57,10 +57,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
         setState(() {
-          student.photo = uri;
+          student!.photo = uri;
         });
-        ProfileBloc.updateStudentProfile(student);
-        await FirebaseAuth.instance.currentUser
+        ProfileBloc.updateStudentProfile(student!);
+        await FirebaseAuth.instance.currentUser!
             .updateProfile(photoURL: student.photo);
       } on FirebaseException catch (e) {
         print(e);
@@ -89,7 +89,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ),
         );
       }
-      var student = (state as StudentHomeState).student;
+      var student = (state as StudentHomeState).student!;
 
       return Scaffold(
         key: _scaffoldKey,
@@ -109,7 +109,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
             GestureDetector(
               child: Image.asset("assets/images/menu.png"),
               onTap: () {
-                _scaffoldKey.currentState.openEndDrawer();
+                _scaffoldKey.currentState!.openEndDrawer();
               },
             ),
           ],
@@ -293,7 +293,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
                             RegExp regExp = RegExp(p);
-                            if (!regExp.hasMatch(value)) {
+                            if (!regExp.hasMatch(value!)) {
                               return "Please enter valid email";
                             }
                             return null;
@@ -394,7 +394,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: DropdownButtonFormField(
-                          validator: (value) {
+                          validator: (dynamic value) {
                             return null;
                           },
                           hint: Text(
@@ -405,7 +405,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           value: student.maritalStatus,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             student.maritalStatus = value;
                           },
                           style: const TextStyle(
@@ -513,10 +513,10 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           value: student.country,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             student.country = value;
                           },
-                          validator: (value) {
+                          validator: (dynamic value) {
                             if ((value ?? "") == "") {
                               return "Select Country";
                             }
@@ -622,7 +622,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             ),
                           ),
                           onPressed: () {
-                            if (formKey.currentState.validate()) {
+                            if (formKey.currentState!.validate()) {
                               EasyLoading.show(status: "Updating");
                               ProfileBloc.updateStudentProfile(student)
                                   .then((value) async {

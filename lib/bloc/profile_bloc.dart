@@ -16,10 +16,10 @@ import 'dio.dart';
 
 class ProfileBloc {
   static Future<StudyLancerUser> getUserProfile({
-    String uid,
-    String userType,
+    String? uid,
+    String? userType,
   }) async {
-    Map<String, String> body = {
+    Map<String, String?> body = {
       "${userType}ID": uid,
       "countryLookingFor": "CA",
       "phone": "0",
@@ -29,12 +29,12 @@ class ProfileBloc {
       data: jsonEncode(body),
     );
 
-    if (result.statusCode < 299) {
+    if (result.statusCode! < 299) {
       var data = result.data;
       StudyLancerUser profile;
-      profile = userType == 'student'
+      profile = (userType == 'student'
           ? Student.fromMap(data['student'])
-          : Agent.fromMap(data['agent']);
+          : Agent.fromMap(data['agent'])) as StudyLancerUser;
 
       return profile;
     } else if (result.statusCode == 403) {
@@ -52,11 +52,12 @@ class ProfileBloc {
       } else {
         EasyLoading.showError('Something Went Wrong');
       }
+      throw Exception('Profile:' + result.statusCode.toString());
     }
   }
 
   static Future<Response> updateStudentProfile(Student student) async {
-    String dob = student.dob;
+    String dob = student.dob!;
     var dateTime = DateTime.tryParse(dob) ?? Variables.dateFormat.parse(dob);
     Map body = {
       "studentID": student.id,

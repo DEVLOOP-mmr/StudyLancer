@@ -10,8 +10,8 @@ import 'inherited_user.dart';
 class FileMessage extends StatelessWidget {
   /// Creates a file message widget based on a [types.FileMessage]
   const FileMessage({
-    Key key,
-    @required this.message,
+    Key? key,
+    required this.message,
     this.onPressed,
   }) : super(key: key);
 
@@ -19,17 +19,17 @@ class FileMessage extends StatelessWidget {
   final types.FileMessage message;
 
   /// Called when user taps on a file
-  final void Function(types.FileMessage) onPressed;
+  final void Function(types.FileMessage)? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final _user = InheritedUser.of(context).user;
+    final _user = InheritedUser.of(context)!.user;
     final _color = _user.id == message.authorId
-        ? InheritedChatTheme.of(context).theme.primaryTextColor
-        : InheritedChatTheme.of(context).theme.primaryColor;
+        ? InheritedChatTheme.of(context)!.theme.primaryTextColor
+        : InheritedChatTheme.of(context)!.theme.primaryColor;
 
     return Semantics(
-      label: InheritedL10n.of(context).l10n.fileButtonAccessibilityLabel,
+      label: InheritedL10n.of(context)!.l10n.fileButtonAccessibilityLabel,
       child: GestureDetector(
         onTap: () => onPressed?.call(message),
         child: Container(
@@ -40,11 +40,11 @@ class FileMessage extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: _user.id == message.authorId
-                      ? InheritedChatTheme.of(context)
+                      ? InheritedChatTheme.of(context)!
                           .theme
                           .primaryTextColor
                           .withOpacity(0.2)
-                      : InheritedChatTheme.of(context)
+                      : InheritedChatTheme.of(context)!
                           .theme
                           .primaryColor
                           .withOpacity(0.2),
@@ -52,9 +52,9 @@ class FileMessage extends StatelessWidget {
                 ),
                 height: 42,
                 width: 42,
-                child: InheritedChatTheme.of(context).theme.documentIcon != null
+                child: InheritedChatTheme.of(context)!.theme.documentIcon != null
                     ? Image.asset(
-                        InheritedChatTheme.of(context).theme.documentIcon,
+                        InheritedChatTheme.of(context)!.theme.documentIcon!,
                         color: _color,
                       )
                     : Image.asset(
@@ -71,14 +71,14 @@ class FileMessage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        message.fileName,
+                        message.fileName!,
                         style:
-                            InheritedChatTheme.of(context).theme.body1.copyWith(
+                            InheritedChatTheme.of(context)!.theme.body1.copyWith(
                                   color: _user.id == message.authorId
-                                      ? InheritedChatTheme.of(context)
+                                      ? InheritedChatTheme.of(context)!
                                           .theme
                                           .primaryTextColor
-                                      : InheritedChatTheme.of(context)
+                                      : InheritedChatTheme.of(context)!
                                           .theme
                                           .secondaryTextColor,
                                 ),
@@ -89,17 +89,17 @@ class FileMessage extends StatelessWidget {
                           top: 4,
                         ),
                         child: Text(
-                          formatBytes(message.size),
-                          style: InheritedChatTheme.of(context)
+                          formatBytes(message.size!),
+                          style: InheritedChatTheme.of(context)!
                               .theme
                               .caption
                               .copyWith(
                                 color: _user.id == message.authorId
-                                    ? InheritedChatTheme.of(context)
+                                    ? InheritedChatTheme.of(context)!
                                         .theme
                                         .primaryTextColor
                                         .withOpacity(0.5)
-                                    : InheritedChatTheme.of(context)
+                                    : InheritedChatTheme.of(context)!
                                         .theme
                                         .captionColor,
                               ),

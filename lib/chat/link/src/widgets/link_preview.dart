@@ -14,45 +14,45 @@ import '../utils.dart' show getPreviewData;
 class LinkPreview extends StatelessWidget {
   /// Creates [LinkPreview]
   const LinkPreview({
-    Key key,
+    Key? key,
     this.linkStyle,
     this.metadataTextStyle,
     this.metadataTitleStyle,
     this.onPreviewDataFetched,
     this.padding,
     this.previewData,
-    @required this.text,
+    required this.text,
     this.textStyle,
-    @required this.width,
+    required this.width,
   }) : super(key: key);
 
   /// Style of highlighted links in the text
-  final TextStyle linkStyle;
+  final TextStyle? linkStyle;
 
   /// Style of preview's description
-  final TextStyle metadataTextStyle;
+  final TextStyle? metadataTextStyle;
 
   /// Style of preview's title
-  final TextStyle metadataTitleStyle;
+  final TextStyle? metadataTitleStyle;
 
   /// Callback which is called when [PreviewData] was successfully parsed.
   /// Use it to save [PreviewData] to the state and pass it back
   /// to the [LinkPreview.previewData] so the [LinkPreview] would not fetch
   /// preview data again.
-  final void Function(PreviewData) onPreviewDataFetched;
+  final void Function(PreviewData?)? onPreviewDataFetched;
 
   /// Padding around initial text widget
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   /// Pass saved [PreviewData] here so [LinkPreview] would not fetch preview
   /// data again
-  final PreviewData previewData;
+  final PreviewData? previewData;
 
   /// Text used for parsing
-  final String text;
+  final String? text;
 
   /// Style of the provided text
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// Width of the [LinkPreview] widget
   final double width;
@@ -91,21 +91,21 @@ class LinkPreview extends StatelessWidget {
                 text: text,
                 style: textStyle,
               ),
-              if (data.title != null) _titleWidget(data.title),
+              if (data.title != null) _titleWidget(data.title!),
               if (data.description != null)
-                _descriptionWidget(data.description),
+                _descriptionWidget(data.description!),
             ],
           ),
         ),
-        if (data.image.url != null) _imageWidget(data.image.url, width),
+        if (data.image!.url != null) _imageWidget(data.image!.url!, width),
       ],
     );
   }
 
   Widget _containerWidget({
-    @required double width,
+    required double width,
     bool withPadding = false,
-    @required Widget child,
+    required Widget child,
   }) {
     final _padding = padding ??
         const EdgeInsets.symmetric(
@@ -172,14 +172,14 @@ class LinkPreview extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      if (data.title != null) _titleWidget(data.title),
+                      if (data.title != null) _titleWidget(data.title!),
                       if (data.description != null)
-                        _descriptionWidget(data.description),
+                        _descriptionWidget(data.description!),
                     ],
                   ),
                 ),
               ),
-              if (data.image.url != null) _minimizedImageWidget(data.image.url),
+              if (data.image!.url != null) _minimizedImageWidget(data.image!.url!),
             ],
           ),
       ],
@@ -213,7 +213,7 @@ class LinkPreview extends StatelessWidget {
           humanize: false,
           looseUrl: true,
         ),
-        text: text,
+        text: text!,
         style: textStyle,
       ),
     );
@@ -240,7 +240,7 @@ class LinkPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final _previewData = previewData != null
         ? Future<PreviewData>.value(previewData)
-        : _fetchData(text);
+        : _fetchData(text!);
 
     return FutureBuilder<PreviewData>(
       initialData: null,
@@ -250,11 +250,11 @@ class LinkPreview extends StatelessWidget {
             snapshot.hasError ||
             snapshot.data == null) return _plainTextWidget();
 
-        onPreviewDataFetched.call(snapshot.data);
+        onPreviewDataFetched!.call(snapshot.data);
 
-        final aspectRatio = snapshot.data.image == null
+        final aspectRatio = snapshot.data!.image == null
             ? null
-            : snapshot.data.image.width / snapshot.data.image.height;
+            : snapshot.data!.image!.width! / snapshot.data!.image!.height!;
 
         final _width = aspectRatio == 1 ? width : width - 32;
 
@@ -262,8 +262,8 @@ class LinkPreview extends StatelessWidget {
           width: width,
           withPadding: aspectRatio == 1,
           child: aspectRatio == 1
-              ? _minimizedBodyWidget(snapshot.data, text)
-              : _bodyWidget(snapshot.data, text, _width),
+              ? _minimizedBodyWidget(snapshot.data!, text!)
+              : _bodyWidget(snapshot.data!, text!, _width),
         );
       },
     );

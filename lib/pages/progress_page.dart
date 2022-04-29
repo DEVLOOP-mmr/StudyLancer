@@ -14,7 +14,7 @@ class ProgressPage extends StatefulWidget {
 
 class _ProgressPageState extends State<ProgressPage> {
   /// TODO: inject home bloc
-  int progress = 1;
+  int? progress = 1;
   bool viewVisible = false;
 
   void showWidget() {
@@ -57,7 +57,7 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       BlocProvider.of<HomeBloc>(context, listen: false)
           .getStudentHome()
           .then((value) {
@@ -65,7 +65,7 @@ class _ProgressPageState extends State<ProgressPage> {
           setState(() {
             //video
 
-            progress = value.student.timeline;
+            progress = value.student!.timeline;
           });
         }
       });
@@ -149,10 +149,10 @@ class _ProgressPageState extends State<ProgressPage> {
                               ? ausEvents[index]
                               : canadaEvents[index],
                           style: TextStyle(
-                              color: index < progress
+                              color: index < progress!
                                   ? Colors.white
                                   : Colors.white38,
-                              fontWeight: index < progress
+                              fontWeight: index < progress!
                                   ? FontWeight.bold
                                   : FontWeight.normal),
                         ),

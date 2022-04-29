@@ -9,8 +9,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class AgentHomeAppBar extends StatelessWidget {
   const AgentHomeAppBar({
-    Key key,
-    @required this.scaffoldKey,
+    Key? key,
+    required this.scaffoldKey,
   });
   final scaffoldKey;
   @override
@@ -30,7 +30,7 @@ class AgentHomeAppBar extends StatelessWidget {
               if (state is! AgentHomeState) {
                 return Container();
               }
-              final agentHomePageState = state as AgentHomeState;
+              final agentHomePageState = state;
               final agent = agentHomePageState.agent;
               return agent == null
                   ? Container()

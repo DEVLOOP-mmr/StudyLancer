@@ -46,12 +46,12 @@ class CatalogModel {
 }
 
 class Item {
-  final int id;
-  final String name;
-  final String desc;
-  final String image;
-  final String place;
-  final String time;
+  final int? id;
+  final String? name;
+  final String? desc;
+  final String? image;
+  final String? place;
+  final String? time;
 
   Item({this.id, this.name, this.desc, this.image, this.place, this.time});
 }

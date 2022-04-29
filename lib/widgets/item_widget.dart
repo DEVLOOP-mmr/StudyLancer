@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ItemWidget extends StatelessWidget {
   final Item item;
-  const ItemWidget({Key key, @required this.item})
+  const ItemWidget({Key? key, required this.item})
       : assert(item != null),
         super(key: key);
 
@@ -15,27 +15,27 @@ class ItemWidget extends StatelessWidget {
         onTap: () {
           print("${item.name} pressed");
         },
-        leading: Image.asset(item.image),
+        leading: Image.asset(item.image!),
         title: Text(
-          item.name,
+          item.name!,
           style: const TextStyle(color: Color(0xff000000), fontSize: 16),
         ),
         subtitle: Text(
-          item.desc,
+          item.desc!,
           style: const TextStyle(color: Color(0xff666666), fontSize: 10),
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              item.place,
+              item.place!,
               style: const TextStyle(
                 color: Color(0xff2061E0),
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              item.time,
+              item.time!,
               style: const TextStyle(
                 color: Color(0xff2061E0),
                 fontWeight: FontWeight.bold,

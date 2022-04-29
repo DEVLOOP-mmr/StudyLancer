@@ -11,8 +11,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dio.dart';
 
 class ReviewBloc {
-  static Future<AgentReviews> getAgentReview(
-    String agentId,
+  static Future<AgentReviews?> getAgentReview(
+    String? agentId,
     String studentID,
   ) async {
     AgentReviews agentReviews = AgentReviews();
@@ -29,7 +29,7 @@ class ReviewBloc {
         for (var reviewData in reviewListData) {
           var review = parseReviewData(reviewData['review']);
 
-          agentReviews.reviews.add(review);
+          agentReviews.reviews!.add(review);
         }
       } else {
         return null;
@@ -41,7 +41,7 @@ class ReviewBloc {
     return agentReviews;
   }
 
-  static Future<bool> postAgentReview(Review review, String studentName) async {
+  static Future<bool?> postAgentReview(Review review, String studentName) async {
     Map body = {
       "studentID": review.studentId,
       "agentID": review.agentId,
@@ -62,11 +62,12 @@ class ReviewBloc {
 
         return false;
       } else {
-        debugPrint(result.statusCode.toString() + ' ' + result.statusMessage);
+        debugPrint(result.statusCode.toString() + ' ' + result.statusMessage!);
         EasyLoading.showToast('Something Went Wrong');
       }
     } on DioError {
       EasyLoading.showToast('Cant Connect, please check your connection');
+      rethrow;
     }
   }
 

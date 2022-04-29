@@ -7,21 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class AgentDetailPage extends StatefulWidget {
-  final Agent agent;
-  const AgentDetailPage({Key key, this.agent}) : super(key: key);
+  final Agent? agent;
+  const AgentDetailPage({Key? key, this.agent}) : super(key: key);
 
   @override
   _AgentDetailPageState createState() => _AgentDetailPageState();
 }
 
 class _AgentDetailPageState extends State<AgentDetailPage> {
-  PaletteGenerator paletteGenerator;
+  PaletteGenerator? paletteGenerator;
 
   @override
   void initState() {
     super.initState();
     PaletteGenerator.fromImageProvider(
-      NetworkImage(widget.agent.photo ??
+      NetworkImage(widget.agent!.photo ??
           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
       maximumColorCount: 20,
     ).then((value) {
@@ -54,10 +54,10 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                   heightFactor: 0.7,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: paletteGenerator.dominantColor.color,
+                      color: paletteGenerator!.dominantColor!.color,
                       // borderRadius: BorderRadius.circular(16),
                       image: DecorationImage(
-                        image: NetworkImage(widget.agent.photo ??
+                        image: NetworkImage(widget.agent!.photo ??
                             "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                         fit: BoxFit.cover,
                       ),
@@ -70,9 +70,9 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                     gradient: LinearGradient(
                       colors: [
                         Colors.transparent,
-                        paletteGenerator.dominantColor.color.withOpacity(0.1),
-                        paletteGenerator.dominantColor.color,
-                        paletteGenerator.dominantColor.color,
+                        paletteGenerator!.dominantColor!.color.withOpacity(0.1),
+                        paletteGenerator!.dominantColor!.color,
+                        paletteGenerator!.dominantColor!.color,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -96,11 +96,11 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.agent.name ?? "",
+                                        widget.agent!.name ?? "",
                                         style: TextStyle(
                                           fontSize: 35,
-                                          color: paletteGenerator
-                                              .dominantColor.titleTextColor,
+                                          color: paletteGenerator!
+                                              .dominantColor!.titleTextColor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -112,21 +112,21 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         children: [
                                           Icon(
                                             Icons.pin_drop_outlined,
-                                            color: paletteGenerator
-                                                .dominantColor.titleTextColor,
+                                            color: paletteGenerator!
+                                                .dominantColor!.titleTextColor,
                                             size: 14,
                                           ),
                                           const SizedBox(
                                             width: 6,
                                           ),
                                           Text(
-                                            (widget.agent.city ?? "") +
+                                            (widget.agent!.city ?? "") +
                                                 ", " +
-                                                (widget.agent.country ?? ""),
+                                                (widget.agent!.country ?? ""),
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: paletteGenerator
-                                                  .dominantColor.titleTextColor,
+                                              color: paletteGenerator!
+                                                  .dominantColor!.titleTextColor,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -142,8 +142,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   widthFactor: 0.2,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: paletteGenerator
-                                          .dominantColor.titleTextColor
+                                      color: paletteGenerator!
+                                          .dominantColor!.titleTextColor
                                           .withOpacity(0.3),
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(20),
@@ -157,19 +157,19 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         children: [
                                           Icon(
                                             Icons.star_border_purple500_sharp,
-                                            color: paletteGenerator
-                                                .dominantColor.titleTextColor,
+                                            color: paletteGenerator!
+                                                .dominantColor!.titleTextColor,
                                             size: 20,
                                           ),
                                           const SizedBox(
                                             width: 6,
                                           ),
                                           Text(
-                                            (widget.agent.reviewsAvg ?? ""),
+                                            (widget.agent!.reviewsAvg ?? ""),
                                             style: TextStyle(
                                               fontSize: 18,
-                                              color: paletteGenerator
-                                                  .dominantColor.titleTextColor,
+                                              color: paletteGenerator!
+                                                  .dominantColor!.titleTextColor,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -187,11 +187,11 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                           Padding(
                             padding: const EdgeInsets.only(right: 32.0),
                             child: Text(
-                              widget.agent.bio ?? "",
+                              widget.agent!.bio ?? "",
                               style: TextStyle(
                                 fontSize: 14,
-                                color: paletteGenerator
-                                    .dominantColor.titleTextColor
+                                color: paletteGenerator!
+                                    .dominantColor!.titleTextColor
                                     .withOpacity(0.7),
                                 fontWeight: FontWeight.bold,
                               ),
@@ -204,8 +204,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: paletteGenerator
-                                      .dominantColor.titleTextColor
+                                  color: paletteGenerator!
+                                      .dominantColor!.titleTextColor
                                       .withOpacity(0.3),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -216,8 +216,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     children: [
                                       Icon(
                                         Icons.access_time,
-                                        color: paletteGenerator
-                                            .dominantColor.titleTextColor
+                                        color: paletteGenerator!
+                                            .dominantColor!.titleTextColor
                                             .withOpacity(0.7),
                                         size: 14,
                                       ),
@@ -226,15 +226,15 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                       ),
                                       Text(
                                         "Since " +
-                                            (widget.agent.agentSince == null
+                                            (widget.agent!.agentSince == null
                                                 ? "2021"
                                                 : DateTime.parse(
-                                                    widget.agent.agentSince,
+                                                    widget.agent!.agentSince!,
                                                   ).year.toString()),
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: paletteGenerator
-                                              .dominantColor.titleTextColor
+                                          color: paletteGenerator!
+                                              .dominantColor!.titleTextColor
                                               .withOpacity(0.7),
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -248,8 +248,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: paletteGenerator
-                                      .dominantColor.titleTextColor
+                                  color: paletteGenerator!
+                                      .dominantColor!.titleTextColor
                                       .withOpacity(0.3),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -260,8 +260,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     children: [
                                       Icon(
                                         Icons.person_outline,
-                                        color: paletteGenerator
-                                            .dominantColor.titleTextColor
+                                        color: paletteGenerator!
+                                            .dominantColor!.titleTextColor
                                             .withOpacity(0.7),
                                         size: 14,
                                       ),
@@ -269,13 +269,13 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         width: 6,
                                       ),
                                       Text(
-                                        (widget.agent.applicationsHandled ??
+                                        (widget.agent!.applicationsHandled ??
                                                 "0") +
                                             " Students",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: paletteGenerator
-                                              .dominantColor.titleTextColor
+                                          color: paletteGenerator!
+                                              .dominantColor!.titleTextColor
                                               .withOpacity(0.7),
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -310,10 +310,10 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.62,
-                                      child: FutureBuilder<AgentReviews>(
+                                      child: FutureBuilder<AgentReviews?>(
                                         future: ReviewBloc.getAgentReview(
-                                          widget.agent.id,
-                                          FirebaseAuth.instance.currentUser.uid,
+                                          widget.agent!.id,
+                                          FirebaseAuth.instance.currentUser!.uid,
                                         ),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
@@ -348,8 +348,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                         controller:
                                                             scrollController,
                                                         itemCount: snapshot
-                                                                .data
-                                                                .reviews
+                                                                .data!
+                                                                .reviews!
                                                                 .length +
                                                             1,
                                                         itemBuilder:
@@ -361,8 +361,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                   children: [
                                                                     Text(
                                                                       snapshot
-                                                                              .data
-                                                                              .reviews
+                                                                              .data!
+                                                                              .reviews!
                                                                               .length
                                                                               .toString() +
                                                                           " Reviews",
@@ -381,8 +381,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                     const Spacer(),
                                                                     StarRating(
                                                                       rating: double.parse(widget
-                                                                          .agent
-                                                                          .reviewsAvg),
+                                                                          .agent!
+                                                                          .reviewsAvg!),
                                                                       starCount:
                                                                           5,
                                                                       color: Colors
@@ -391,8 +391,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                     Text(
                                                                       " (" +
                                                                           widget
-                                                                              .agent
-                                                                              .reviewsAvg +
+                                                                              .agent!
+                                                                              .reviewsAvg! +
                                                                           ")",
                                                                       style:
                                                                           const TextStyle(
@@ -417,14 +417,14 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                             );
                                                           }
                                                           var review = snapshot
-                                                                  .data.reviews[
+                                                                  .data!.reviews![
                                                               index - 1];
 
                                                           return ListTile(
                                                             contentPadding:
                                                                 EdgeInsets.zero,
                                                             title: Text(review
-                                                                .reviewerName),
+                                                                .reviewerName!),
                                                             subtitle: Column(
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
@@ -440,8 +440,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                   children: [
                                                                     StarRating(
                                                                       rating: double.parse(widget
-                                                                          .agent
-                                                                          .reviewsAvg),
+                                                                          .agent!
+                                                                          .reviewsAvg!),
                                                                       starCount:
                                                                           5,
                                                                       color: Colors
@@ -456,7 +456,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                       DateTime
                                                                           .parse(
                                                                         review
-                                                                            .createdAt,
+                                                                            .createdAt!,
                                                                       ),
                                                                     )),
                                                                   ],
@@ -465,7 +465,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                                   height: 8,
                                                                 ),
                                                                 Text(review
-                                                                    .reviewContent),
+                                                                    .reviewContent!),
                                                                 Divider(
                                                                   color: Variables
                                                                       .backgroundColor
@@ -507,8 +507,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: paletteGenerator
-                                      .dominantColor.titleTextColor,
+                                  color: paletteGenerator!
+                                      .dominantColor!.titleTextColor,
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 child: Padding(
@@ -516,12 +516,12 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   child: Center(
                                     child: Text(
                                       "Reviews (" +
-                                          (widget.agent.reviewCount ?? "0") +
+                                          (widget.agent!.reviewCount ?? "0") +
                                           ")",
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: paletteGenerator
-                                            .dominantColor.titleTextColor,
+                                        color: paletteGenerator!
+                                            .dominantColor!.titleTextColor,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -546,8 +546,8 @@ typedef RatingChangeCallback = void Function(double rating);
 class StarRating extends StatelessWidget {
   final int starCount;
   final double rating;
-  final RatingChangeCallback onRatingChanged;
-  final Color color;
+  final RatingChangeCallback? onRatingChanged;
+  final Color? color;
   final double starSize;
 
   const StarRating({
@@ -582,7 +582,7 @@ class StarRating extends StatelessWidget {
     
     return InkResponse(
       onTap:
-          onRatingChanged == null ? null : () => onRatingChanged(index + 1.0),
+          onRatingChanged == null ? null : () => onRatingChanged!(index + 1.0),
       child: icon,
     );
   }

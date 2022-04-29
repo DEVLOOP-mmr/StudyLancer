@@ -6,7 +6,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class OngoingStudents extends StatelessWidget {
   const OngoingStudents({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -16,16 +16,16 @@ class OngoingStudents extends StatelessWidget {
         if (state is! AgentHomeState) {
           return const CircularProgressIndicator();
         }
-        final agentHomePageState = state as AgentHomeState;
+        final agentHomePageState = state;
         final agent = agentHomePageState.agent;
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        final ongoingStudents = agentHomePageState.students.where((element) {
-          if (element.applications.isEmpty) {
+        final ongoingStudents = agentHomePageState.students!.where((element) {
+          if (element.applications!.isEmpty) {
             return false;
           }
-          bool agentIDMatchesApplicationAgentID = element.applications.any(
+          bool agentIDMatchesApplicationAgentID = element.applications!.any(
             (application) =>
                 application.status == 3 && application.agentID == agent.id,
           );
@@ -36,7 +36,7 @@ class OngoingStudents extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: ongoingStudents.map((student) {
-              var ongoingApplications = student.applications
+              var ongoingApplications = student.applications!
                   .where((app) => app.agentID == agent.id && app.status == 3)
                   .toList();
               print(ongoingApplications);

@@ -15,10 +15,10 @@ import 'inherited_user.dart';
 class ImageMessage extends StatefulWidget {
   /// Creates an image message widget based on [types.ImageMessage]
   const ImageMessage({
-    Key key,
-    @required this.message,
-    @required this.messageWidth,
-    @required this.onPressed,
+    Key? key,
+    required this.message,
+    required this.messageWidth,
+    required this.onPressed,
   }) : super(key: key);
 
   /// [types.ImageMessage]
@@ -28,7 +28,7 @@ class ImageMessage extends StatefulWidget {
   final int messageWidth;
 
   /// Called when user taps on an image
-  final void Function(String uri) onPressed;
+  final void Function(String? uri) onPressed;
 
   @override
   _ImageMessageState createState() => _ImageMessageState();
@@ -36,8 +36,8 @@ class ImageMessage extends StatefulWidget {
 
 /// [ImageMessage] widget state
 class _ImageMessageState extends State<ImageMessage> {
-  ImageProvider _image;
-  ImageStream _stream;
+  ImageProvider? _image;
+  ImageStream? _stream;
   Size _size = const Size(0, 0);
 
   @override
@@ -83,11 +83,11 @@ class _ImageMessageState extends State<ImageMessage> {
 
   @override
   Widget build(BuildContext context) {
-    final _user = InheritedUser.of(context).user;
+    final _user = InheritedUser.of(context)!.user;
 
     if (_size.aspectRatio == 0) {
       return Container(
-        color: InheritedChatTheme.of(context).theme.secondaryColor,
+        color: InheritedChatTheme.of(context)!.theme.secondaryColor,
         height: _size.height,
         width: _size.width,
       );
@@ -96,8 +96,8 @@ class _ImageMessageState extends State<ImageMessage> {
         onTap: () => widget.onPressed(widget.message.uri),
         child: Container(
           color: _user.id == widget.message.authorId
-              ? InheritedChatTheme.of(context).theme.primaryColor
-              : InheritedChatTheme.of(context).theme.secondaryColor,
+              ? InheritedChatTheme.of(context)!.theme.primaryColor
+              : InheritedChatTheme.of(context)!.theme.secondaryColor,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -109,7 +109,7 @@ class _ImageMessageState extends State<ImageMessage> {
                   borderRadius: BorderRadius.circular(15),
                   child: Image(
                     fit: BoxFit.cover,
-                    image: _image,
+                    image: _image!,
                   ),
                 ),
               ),
@@ -120,14 +120,14 @@ class _ImageMessageState extends State<ImageMessage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.message.imageName,
+                        widget.message.imageName!,
                         style:
-                            InheritedChatTheme.of(context).theme.body1.copyWith(
+                            InheritedChatTheme.of(context)!.theme.body1.copyWith(
                                   color: _user.id == widget.message.authorId
-                                      ? InheritedChatTheme.of(context)
+                                      ? InheritedChatTheme.of(context)!
                                           .theme
                                           .primaryTextColor
-                                      : InheritedChatTheme.of(context)
+                                      : InheritedChatTheme.of(context)!
                                           .theme
                                           .secondaryTextColor,
                                 ),
@@ -138,17 +138,17 @@ class _ImageMessageState extends State<ImageMessage> {
                           top: 4,
                         ),
                         child: Text(
-                          formatBytes(widget.message.size),
-                          style: InheritedChatTheme.of(context)
+                          formatBytes(widget.message.size!),
+                          style: InheritedChatTheme.of(context)!
                               .theme
                               .caption
                               .copyWith(
                                 color: _user.id == widget.message.authorId
-                                    ? InheritedChatTheme.of(context)
+                                    ? InheritedChatTheme.of(context)!
                                         .theme
                                         .primaryTextColor
                                         .withOpacity(0.5)
-                                    : InheritedChatTheme.of(context)
+                                    : InheritedChatTheme.of(context)!
                                         .theme
                                         .captionColor,
                               ),
@@ -171,7 +171,7 @@ class _ImageMessageState extends State<ImageMessage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: _image,
+            image: _image!,
           ),
         ),
         child: BackdropFilter(
@@ -182,7 +182,7 @@ class _ImageMessageState extends State<ImageMessage> {
               onTap: () => widget.onPressed(widget.message.uri),
               child: Image(
                 fit: BoxFit.contain,
-                image: _image,
+                image: _image!,
               ),
             ),
           ),

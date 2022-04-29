@@ -6,7 +6,7 @@ import 'package:accordion/accordion.dart';
 
 class SortButton extends StatelessWidget {
   const SortButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class SortButton extends StatelessWidget {
 
 class SortDialog extends StatelessWidget {
   const SortDialog({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

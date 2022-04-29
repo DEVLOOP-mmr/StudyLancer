@@ -7,8 +7,8 @@ import 'inherited_l10n.dart';
 class SendButton extends StatelessWidget {
   /// Creates send button widget
   const SendButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
   /// Callback for send button tap event
@@ -21,18 +21,18 @@ class SendButton extends StatelessWidget {
       margin: const EdgeInsets.only(left: 16),
       width: 24,
       child: IconButton(
-        icon: InheritedChatTheme.of(context).theme.sendButtonIcon != null
+        icon: InheritedChatTheme.of(context)!.theme.sendButtonIcon != null
             ? Image.asset(
-                InheritedChatTheme.of(context).theme.sendButtonIcon,
-                color: InheritedChatTheme.of(context).theme.inputTextColor,
+                InheritedChatTheme.of(context)!.theme.sendButtonIcon!,
+                color: InheritedChatTheme.of(context)!.theme.inputTextColor,
               )
             : Image.asset(
                 'assets/icon-send.png',
-                color: InheritedChatTheme.of(context).theme.inputTextColor,
+                color: InheritedChatTheme.of(context)!.theme.inputTextColor,
               ),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
-        tooltip: InheritedL10n.of(context).l10n.sendButtonAccessibilityLabel,
+        tooltip: InheritedL10n.of(context)!.l10n.sendButtonAccessibilityLabel,
       ),
     );
   }

@@ -16,7 +16,7 @@ import '../../document_page/agent/agent_document_page.dart';
 
 class AgentProfileHeader extends StatelessWidget {
   const AgentProfileHeader({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class AgentProfileHeader extends StatelessWidget {
           );
         }
 
-        final agent = (state as AgentHomeState).agent;
+        final agent = (state as AgentHomeState).agent!;
         return Column(
           children: [
             Center(
@@ -63,12 +63,12 @@ class AgentProfileHeader extends StatelessWidget {
                         await reference.putFile(file);
                         final uri = await reference.getDownloadURL();
 
-                        agent.photo = uri;
+                        agent!.photo = uri;
                         bloc.emitNewAgent(agent);
                         ProfileBloc.setAgentProfile(agent).then(
                             (value) => bloc.getAgentHome(context: context));
                       } on FirebaseException catch (e) {
-                        EasyLoading.showInfo(e.message);
+                        EasyLoading.showInfo(e.message!);
                       }
                     } else {
                       // User canceled the picker

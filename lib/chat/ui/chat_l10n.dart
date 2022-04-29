@@ -6,13 +6,13 @@ import 'package:flutter/cupertino.dart';
 abstract class ChatL10n {
   /// Creates a new chat l10n based on provided copy
   const ChatL10n({
-    @required this.attachmentButtonAccessibilityLabel,
-    @required this.emptyChatPlaceholder,
-    @required this.fileButtonAccessibilityLabel,
-    @required this.inputPlaceholder,
-    @required this.sendButtonAccessibilityLabel,
-    @required this.today,
-    @required this.yesterday,
+    required this.attachmentButtonAccessibilityLabel,
+    required this.emptyChatPlaceholder,
+    required this.fileButtonAccessibilityLabel,
+    required this.inputPlaceholder,
+    required this.sendButtonAccessibilityLabel,
+    required this.today,
+    required this.yesterday,
   });
 
   /// Accessibility label (hint) for the attachment button

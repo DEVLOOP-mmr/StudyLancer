@@ -9,14 +9,14 @@ class Agent extends StudyLancerUser with EquatableMixin {
     'personalID',
   ];
 
-  String licenseNo;
-  String agentSince;
+  String? licenseNo;
+  String? agentSince;
 
-  String applicationsHandled;
+  String? applicationsHandled;
 
-  String reviewsAvg;
+  String? reviewsAvg;
 
-  String reviewCount;
+  String? reviewCount;
 
   Agent();
   @override
@@ -58,9 +58,9 @@ class Agent extends StudyLancerUser with EquatableMixin {
           ..link = element["link"]
           ..type = element["type"];
         if (Agent.requiredDocNames.contains(document.name)) {
-          agent.requiredDocuments[document.name] = document;
+          agent.requiredDocuments![document.name] = document;
         } else {
-          agent.documents.add(document);
+          agent.documents!.add(document);
         }
       }
     }
@@ -69,7 +69,7 @@ class Agent extends StudyLancerUser with EquatableMixin {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       id,

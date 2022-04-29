@@ -14,21 +14,21 @@ import 'text_message.dart';
 class Message extends StatelessWidget {
   /// Creates a particular message from any message type
   const Message({
-    Key key,
+    Key? key,
     this.dateLocale,
-    @required this.message,
-    @required this.messageWidth,
+    required this.message,
+    required this.messageWidth,
     this.onFilePressed,
-    @required this.onImagePressed,
+    required this.onImagePressed,
     this.onPreviewDataFetched,
-    @required this.previousMessageSameAuthor,
-    @required this.shouldRenderTime,
+    required this.previousMessageSameAuthor,
+    required this.shouldRenderTime,
   }) : super(key: key);
 
   /// Locale will be passed to the `Intl` package. Make sure you initialized
   /// date formatting in your app before passing any locale here, otherwise
   /// an error will be thrown.
-  final String dateLocale;
+  final String? dateLocale;
 
   /// Any message type
   final types.Message message;
@@ -37,13 +37,13 @@ class Message extends StatelessWidget {
   final int messageWidth;
 
   /// See [FileMessage.onPressed]. Used it to open file preview.
-  final void Function(types.FileMessage) onFilePressed;
+  final void Function(types.FileMessage)? onFilePressed;
 
   /// See [ImageMessage.onPressed]. Will open image preview.
-  final void Function(String) onImagePressed;
+  final void Function(String?) onImagePressed;
 
   /// See [TextMessage.onPreviewDataFetched]
-  final void Function(types.TextMessage, types.PreviewData)
+  final void Function(types.TextMessage, types.PreviewData)?
       onPreviewDataFetched;
 
   /// Whether previous message was sent by the same person. Used for
@@ -84,24 +84,24 @@ class Message extends StatelessWidget {
   Widget _buildStatus(BuildContext context) {
     switch (message.status) {
       case types.Status.delivered:
-        return InheritedChatTheme.of(context).theme.deliveredIcon != null
+        return InheritedChatTheme.of(context)!.theme.deliveredIcon != null
             ? Image.asset(
-                InheritedChatTheme.of(context).theme.deliveredIcon,
-                color: InheritedChatTheme.of(context).theme.primaryColor,
+                InheritedChatTheme.of(context)!.theme.deliveredIcon!,
+                color: InheritedChatTheme.of(context)!.theme.primaryColor,
               )
             : Image.asset(
                 'assets/icon-delivered.png',
-                color: InheritedChatTheme.of(context).theme.primaryColor,
+                color: InheritedChatTheme.of(context)!.theme.primaryColor,
               );
       case types.Status.read:
-        return InheritedChatTheme.of(context).theme.readIcon != null
+        return InheritedChatTheme.of(context)!.theme.readIcon != null
             ? Image.asset(
-                InheritedChatTheme.of(context).theme.readIcon,
-                color: InheritedChatTheme.of(context).theme.primaryColor,
+                InheritedChatTheme.of(context)!.theme.readIcon!,
+                color: InheritedChatTheme.of(context)!.theme.primaryColor,
               )
             : Image.asset(
                 'assets/icon-read.png',
-                color: InheritedChatTheme.of(context).theme.primaryColor,
+                color: InheritedChatTheme.of(context)!.theme.primaryColor,
               );
       case types.Status.sending:
         return SizedBox(
@@ -111,7 +111,7 @@ class Message extends StatelessWidget {
             backgroundColor: Colors.transparent,
             strokeWidth: 2,
             valueColor: AlwaysStoppedAnimation<Color>(
-              InheritedChatTheme.of(context).theme.primaryColor,
+              InheritedChatTheme.of(context)!.theme.primaryColor,
             ),
           ),
         );
@@ -131,11 +131,11 @@ class Message extends StatelessWidget {
           child: Text(
             DateFormat.jm(dateLocale).format(
               DateTime.fromMillisecondsSinceEpoch(
-                message.timestamp * 1000,
+                message.timestamp! * 1000,
               ),
             ),
-            style: InheritedChatTheme.of(context).theme.caption.copyWith(
-                  color: InheritedChatTheme.of(context).theme.captionColor,
+            style: InheritedChatTheme.of(context)!.theme.caption.copyWith(
+                  color: InheritedChatTheme.of(context)!.theme.captionColor,
                 ),
           ),
         ),
@@ -146,9 +146,9 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _user = InheritedUser.of(context).user;
+    final _user = InheritedUser.of(context)!.user;
     final _messageBorderRadius =
-        InheritedChatTheme.of(context).theme.messageBorderRadius;
+        InheritedChatTheme.of(context)!.theme.messageBorderRadius;
     final _borderRadius = BorderRadius.only(
       bottomLeft: Radius.circular(
         _user.id == message.authorId ? _messageBorderRadius : 0,
@@ -182,8 +182,8 @@ class Message extends StatelessWidget {
                 borderRadius: _borderRadius,
                 color: !_currentUserIsAuthor ||
                         message.type == types.MessageType.image
-                    ? InheritedChatTheme.of(context).theme.secondaryColor
-                    : InheritedChatTheme.of(context).theme.primaryColor,
+                    ? InheritedChatTheme.of(context)!.theme.secondaryColor
+                    : InheritedChatTheme.of(context)!.theme.primaryColor,
               ),
               child: ClipRRect(
                 borderRadius: _borderRadius,

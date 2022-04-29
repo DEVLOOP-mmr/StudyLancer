@@ -18,8 +18,8 @@ class TutorialPage extends StatefulWidget {
 
 class _TutorialPageBuilder extends State<TutorialPage> {
   int page = 0;
-  LiquidController liquidController;
-  UpdateType updateType;
+  LiquidController? liquidController;
+  UpdateType? updateType;
 
   List<ItemData> data = [
     // ItemData("assets/tut1.jpg"),
@@ -117,15 +117,15 @@ class _TutorialPageBuilder extends State<TutorialPage> {
               padding: const EdgeInsets.all(25.0),
               child: FlatButton(
                 onPressed: () {
-                  if (liquidController.currentPage + 1 > data.length - 1) {
+                  if (liquidController!.currentPage + 1 > data.length - 1) {
                     Variables.sharedPreferences
                         .put(Variables.isFirstTime, false);
                     Future.delayed(Duration.zero, () {
                       Navigator.of(context).pop();
                     });
                   } else {
-                    liquidController.jumpToPage(
-                        page: liquidController.currentPage + 1);
+                    liquidController!.jumpToPage(
+                        page: liquidController!.currentPage + 1);
                   }
                 },
                 child: const Text(

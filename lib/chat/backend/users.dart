@@ -8,7 +8,7 @@ import 'firebase_chat_bloc/firebase_chat_bloc.dart';
 
 @Deprecated("Figma has no page to show list of users, unused in Widget Tree")
 class UsersPage extends StatelessWidget {
-  const UsersPage({Key key}) : super(key: key);
+  const UsersPage({Key? key}) : super(key: key);
 
   void _handlePressed(StudyLancerUser otherUser, BuildContext context) async {
     // final room = await FirebaseChatCore.instance.createRoom(otherUser);

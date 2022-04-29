@@ -13,8 +13,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
 
 class OfferPage extends StatefulWidget {
-  final Student student;
-  const OfferPage({Key key, @required this.student}) : super(key: key);
+  final Student? student;
+  const OfferPage({Key? key, required this.student}) : super(key: key);
 
   @override
   _OfferPageState createState() => _OfferPageState();
@@ -26,7 +26,7 @@ class _OfferPageState extends State<OfferPage> {
   @override
   void initState() {
     super.initState();
-    offer.studentID = widget.student.id;
+    offer.studentID = widget.student!.id;
   }
 
   @override
@@ -526,12 +526,12 @@ class _OfferPageState extends State<OfferPage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           value: offer.country,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             setState(() {
                               offer.country = value;
                             });
                           },
-                          validator: (value) {
+                          validator: (dynamic value) {
                             if ((value ?? "") == "") {
                               return "Select Country";
                             }
@@ -591,7 +591,7 @@ class _OfferPageState extends State<OfferPage> {
                             if (value == "") {
                               return "Enter course fees";
                             }
-                            if (int.tryParse(value) == null) {
+                            if (int.tryParse(value!) == null) {
                               return "Enter number only";
                             }
                             return null;
@@ -647,7 +647,7 @@ class _OfferPageState extends State<OfferPage> {
                             if (value == "") {
                               return "Enter application fees";
                             }
-                            if (int.tryParse(value) == null) {
+                            if (int.tryParse(value!) == null) {
                               return "Enter number only";
                             }
                             return null;
@@ -717,14 +717,14 @@ class _OfferPageState extends State<OfferPage> {
                     ),
                   ),
                   onPressed: () async {
-                    if (formKey.currentState.validate()) {
+                    if (formKey.currentState!.validate()) {
                       var bloc =
                           BlocProvider.of<HomeBloc>(context, listen: false);
                       var agent = (bloc.state as AgentHomeState).agent;
                       EasyLoading.show(status: 'Creating Offer');
                       await OfferBloc.addOffer(
                         offer,
-                        FirebaseAuth.instance.currentUser.uid,
+                        FirebaseAuth.instance.currentUser!.uid,
                       );
 
                       await bloc.getAgentHome(context: context);

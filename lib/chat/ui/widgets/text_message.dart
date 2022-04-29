@@ -10,8 +10,8 @@ import 'inherited_user.dart';
 class TextMessage extends StatelessWidget {
   /// Creates a text message widget from a [types.TextMessage] class
   const TextMessage({
-    Key key,
-    @required this.message,
+    Key? key,
+    required this.message,
     this.onPreviewDataFetched,
   }) : super(key: key);
 
@@ -19,12 +19,12 @@ class TextMessage extends StatelessWidget {
   final types.TextMessage message;
 
   /// See [LinkPreview.onPreviewDataFetched]
-  final void Function(types.TextMessage, types.PreviewData)
+  final void Function(types.TextMessage, types.PreviewData)?
       onPreviewDataFetched;
 
-  void _onPreviewDataFetched(types.PreviewData previewData) {
+  void _onPreviewDataFetched(types.PreviewData? previewData) {
     if (message.previewData == null) {
-      onPreviewDataFetched?.call(message, previewData);
+      onPreviewDataFetched?.call(message, previewData!);
     }
   }
 
@@ -34,18 +34,18 @@ class TextMessage extends StatelessWidget {
     BuildContext context,
   ) {
     final color = user.id == message.authorId
-        ? InheritedChatTheme.of(context).theme.primaryTextColor
-        : InheritedChatTheme.of(context).theme.secondaryTextColor;
+        ? InheritedChatTheme.of(context)!.theme.primaryTextColor
+        : InheritedChatTheme.of(context)!.theme.secondaryTextColor;
 
     return LinkPreview(
-      linkStyle: InheritedChatTheme.of(context).theme.body1.copyWith(
+      linkStyle: InheritedChatTheme.of(context)!.theme.body1.copyWith(
             color: color,
           ),
-      metadataTextStyle: InheritedChatTheme.of(context).theme.body2.copyWith(
+      metadataTextStyle: InheritedChatTheme.of(context)!.theme.body2.copyWith(
             color: color,
           ),
       metadataTitleStyle:
-          InheritedChatTheme.of(context).theme.subtitle1.copyWith(
+          InheritedChatTheme.of(context)!.theme.subtitle1.copyWith(
                 color: color,
               ),
       onPreviewDataFetched: _onPreviewDataFetched,
@@ -55,7 +55,7 @@ class TextMessage extends StatelessWidget {
       ),
       previewData: message.previewData,
       text: message.text,
-      textStyle: InheritedChatTheme.of(context).theme.body1.copyWith(
+      textStyle: InheritedChatTheme.of(context)!.theme.body1.copyWith(
             color: color,
           ),
       width: width,
@@ -64,11 +64,11 @@ class TextMessage extends StatelessWidget {
 
   Widget _textWidget(types.User user, BuildContext context) {
     return Text(
-      message.text,
-      style: InheritedChatTheme.of(context).theme.body1.copyWith(
+      message.text!,
+      style: InheritedChatTheme.of(context)!.theme.body1.copyWith(
             color: user.id == message.authorId
-                ? InheritedChatTheme.of(context).theme.primaryTextColor
-                : InheritedChatTheme.of(context).theme.secondaryTextColor,
+                ? InheritedChatTheme.of(context)!.theme.primaryTextColor
+                : InheritedChatTheme.of(context)!.theme.secondaryTextColor,
           ),
       textWidthBasis: TextWidthBasis.longestLine,
     );
@@ -76,11 +76,11 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _user = InheritedUser.of(context).user;
+    final _user = InheritedUser.of(context)!.user;
     final _width = MediaQuery.of(context).size.width;
 
     final urlRegexp = RegExp(REGEX_LINK);
-    final matches = urlRegexp.allMatches(message.text.toLowerCase());
+    final matches = urlRegexp.allMatches(message.text!.toLowerCase());
 
     if (matches.isNotEmpty) return _linkPreview(_user, _width, context);
 

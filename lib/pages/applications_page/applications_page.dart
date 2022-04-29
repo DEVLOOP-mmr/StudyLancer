@@ -14,7 +14,7 @@ import '../../variables.dart';
 class ApplicationPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ApplicationPage({Key key}) : super(key: key);
+  ApplicationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ApplicationPage extends StatelessWidget {
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
             onTap: () {
-              _scaffoldKey.currentState.openEndDrawer();
+              _scaffoldKey.currentState!.openEndDrawer();
             },
           ),
         ],
@@ -64,8 +64,8 @@ class ApplicationPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-              final studentHomeState = state as StudentHomeState;
-              final student = studentHomeState.student;
+              final studentHomeState = state;
+              final student = studentHomeState.student!;
 
               return Column(
                 children: [
@@ -80,7 +80,7 @@ class ApplicationPage extends StatelessWidget {
                                       (student.applications ?? []).length,
                                   itemBuilder: (context, index) {
                                     Application offer;
-                                    offer = student.applications[index];
+                                    offer = student.applications![index];
 
                                     return OfferCard(
                                       offer: offer,
@@ -112,7 +112,7 @@ class ApplicationPage extends StatelessWidget {
 
 class SortApplicationsButton extends StatelessWidget {
   const SortApplicationsButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

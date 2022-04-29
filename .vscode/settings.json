@@ -9,5 +9,6 @@
         "pdficon",
         "studentdata",
         "usertype"
-    ]
+    ],
+    "dart.flutterSdkPath": "\\Users\\dhruv\\fvm\\versions\\stable"
 }

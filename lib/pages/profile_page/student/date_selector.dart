@@ -8,12 +8,12 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class DateSelector extends StatelessWidget {
   const DateSelector({
-    Key key,
+    Key? key,
   }) : super(key: key);
   Future<Student> _selectDate(Student user, BuildContext context) async {
     DateTime currentDate =
         DateTime.now().subtract(const Duration(days: 365 * 18));
-    final DateTime pickedDate = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: currentDate,
         initialDatePickerMode: DatePickerMode.year,
@@ -31,7 +31,7 @@ class DateSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        var student = (state as StudentHomeState).student;
+        var student = (state as StudentHomeState).student!;
 
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -52,10 +52,10 @@ class DateSelector extends StatelessWidget {
               child: Text(
                 student.dob == null
                     ? ''
-                    : DateTime.tryParse(student.dob) == null
+                    : DateTime.tryParse(student.dob!) == null
                         ? (student.dob ?? '')
                         : Variables.dateFormat
-                            .format(DateTime.parse(student.dob)),
+                            .format(DateTime.parse(student.dob!)),
                 key: UniqueKey(),
                 style: const TextStyle(
                   color: Colors.white,

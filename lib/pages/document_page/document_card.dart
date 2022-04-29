@@ -20,17 +20,17 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../variables.dart';
 
 class DocumentCard extends StatefulWidget {
-  final Document doc;
+  final Document? doc;
   final String icon;
-  final String requiredDocKey;
-  final int index;
+  final String? requiredDocKey;
+  final int? index;
   final DismissDirectionCallback onDismiss;
   final bool renameEnabled;
   const DocumentCard({
-    @required this.doc,
-    @required this.icon,
-    @required this.onDismiss,
-    @required this.renameEnabled,
+    required this.doc,
+    required this.icon,
+    required this.onDismiss,
+    required this.renameEnabled,
     this.requiredDocKey,
     this.index,
   });
@@ -46,7 +46,7 @@ class _DocumentCardState extends State<DocumentCard> {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
     return Dismissible(
-      key: ValueKey(widget.doc.id),
+      key: ValueKey(widget.doc!.id),
       confirmDismiss: (direction) async {
         // showCupertinoModalPopup(
         //     context: context,
@@ -91,12 +91,12 @@ class _DocumentCardState extends State<DocumentCard> {
               if (await Permission.storage.request().isGranted) {
                 String filePath = '';
                 var dir = await getApplicationDocumentsDirectory();
-                print(widget.doc.link);
+                print(widget.doc!.link);
                 try {
                   filePath =
-                      dir.path + "/" + widget.doc.name + "." + widget.doc.type;
+                      dir.path + "/" + widget.doc!.name! + "." + widget.doc!.type!;
                   EasyLoading.show(status: "Downloading..");
-                  await Dio().download(widget.doc.link, filePath);
+                  await Dio().download(widget.doc!.link!, filePath);
                   EasyLoading.dismiss();
                   OpenFile.open(filePath);
                 } catch (ex) {
@@ -129,8 +129,8 @@ class _DocumentCardState extends State<DocumentCard> {
                                       userType: Variables.sharedPreferences
                                           .get(Variables.userType))
                                   .updateDocument(
-                                      widget.doc.id,
-                                      FirebaseAuth.instance.currentUser.uid,
+                                      widget.doc!.id,
+                                      FirebaseAuth.instance.currentUser!.uid,
                                       newDocName);
                               bloc.getHome();
                             }
@@ -169,7 +169,7 @@ class _DocumentCardState extends State<DocumentCard> {
               child: editEnabled
                   ? TextFormField(
                       initialValue:
-                          newDocName.isNotEmpty ? newDocName : widget.doc.name,
+                          newDocName.isNotEmpty ? newDocName : widget.doc!.name,
                       onChanged: (string) {
                         setState(() {
                           newDocName = string;
@@ -180,7 +180,7 @@ class _DocumentCardState extends State<DocumentCard> {
                           const InputDecoration(border: InputBorder.none),
                     )
                   : AutoSizeText(
-                      newDocName.isNotEmpty ? newDocName : widget.doc.name,
+                      newDocName.isNotEmpty ? newDocName : widget.doc!.name!,
                       maxFontSize: 14,
                       maxLines: 2,
                       style: const TextStyle(color: Colors.white, fontSize: 16),

@@ -14,12 +14,12 @@ enum RoomType { direct, group }
 class Room {
   /// Creates a [Room]
   const Room({
-    @required this.id,
+    required this.id,
     this.imageUrl,
     this.metadata,
     this.name,
-    @required this.type,
-    @required this.users,
+    required this.type,
+    required this.users,
   });
 
   /// Room's unique ID
@@ -27,20 +27,20 @@ class Room {
 
   /// Room's image. In case of the [RoomType.direct] - avatar of the second person,
   /// otherwise a custom image [RoomType.group].
-  final String imageUrl;
+  final String? imageUrl;
 
   /// Type of the room, direct, group etc.
   final RoomType type;
 
   /// Additional custom metadata or attributes related to the room
-  final Map<String, dynamic> metadata;
+  final Map<String, dynamic>? metadata;
 
   /// Room's name. In case of the [RoomType.direct] - name of the second person,
   /// otherwise a custom name [RoomType.group].
-  final String name;
+  final String? name;
 
   /// List of users which are in the room
-  final List<StudyLancerUser> users;
+  final List<StudyLancerUser?> users;
 
   @override
   bool operator ==(Object other) {
