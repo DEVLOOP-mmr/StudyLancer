@@ -32,7 +32,7 @@ class AppStartSuite {
   }
 
   Future<void> _authenticateWithMockUser(
-      WidgetTester tester, String userType) async {
+      WidgetTester tester, String userType,) async {
     final mockUser = userType == Variables.userTypeStudent
         ? MockFirebaseStudentUser()
         : MockFirebaseAgentUser();

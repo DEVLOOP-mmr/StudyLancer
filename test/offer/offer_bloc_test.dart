@@ -32,7 +32,7 @@ void main() {
         return student.applications!.any(
           (app) =>
               app.courseName == mockApplication.courseName &&
-              app.agentID == agentHome.agent!.id &&
+              app.agent?.id == agentHome.agent!.id &&
               app.status == 2,
         );
       });
@@ -57,7 +57,7 @@ void main() {
         mockApplication.courseName = application.courseName;
         var response = await OfferBloc.acceptOffer(
           application.applicationID,
-          application.agentID,
+          application.agent?.id,
           MockFirebaseStudentUser().uid,
         );
         expect(response.statusCode, 200);
@@ -71,7 +71,7 @@ void main() {
           return student.applications!.any(
             (app) =>
                 app.courseName == mockApplication.courseName &&
-                app.agentID == agentHome.agent!.id &&
+                app.agent?.id == agentHome.agent!.id &&
                 app.status == 3,
           );
         });

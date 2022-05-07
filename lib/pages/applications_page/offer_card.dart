@@ -83,12 +83,13 @@ class OfferCard extends StatelessWidget {
                                       children: [
                                         CircleAvatar(
                                           backgroundImage:
-                                              ((offer.agentImage == null)
+                                              ((offer.agent?.photo == null)
                                                       ? const AssetImage(
                                                           'assets/images/abc.png',
                                                         )
                                                       : NetworkImage(
-                                                          offer.agentImage!))
+                                                          (offer.agent?.photo)!,
+                                                        ))
                                                   as ImageProvider<Object>?,
                                           // backgroundImage:
                                           //     NetworkImage(offer
@@ -100,7 +101,7 @@ class OfferCard extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            offer.agentName ?? "",
+                                            offer.agent?.name ?? "",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 12,
@@ -292,7 +293,7 @@ class OfferCard extends StatelessWidget {
                       ),
                       onPressed: () async {
                         var otherUser = Agent();
-                        otherUser.id = offer.agentID;
+                        otherUser.id = offer.agent?.id;
                         var currentStudent = (BlocProvider.of<HomeBloc>(context)
                                 .state as StudentHomeState)
                             .student;
@@ -417,7 +418,7 @@ class OfferCard extends StatelessWidget {
                             if (offer.status == 2) {
                               await OfferBloc.acceptOffer(
                                 offer.applicationID,
-                                offer.agentID,
+                                offer.agent?.id,
                                 student.id,
                               );
                               await BlocProvider.of<HomeBloc>(context)

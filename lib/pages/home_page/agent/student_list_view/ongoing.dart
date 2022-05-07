@@ -27,7 +27,7 @@ class OngoingStudents extends StatelessWidget {
           }
           bool agentIDMatchesApplicationAgentID = element.applications!.any(
             (application) =>
-                application.status == 3 && application.agentID == agent.id,
+                application.status == 3 && application.agent?.id == agent.id,
           );
 
           return agentIDMatchesApplicationAgentID;
@@ -37,7 +37,7 @@ class OngoingStudents extends StatelessWidget {
           child: Column(
             children: ongoingStudents.map((student) {
               var ongoingApplications = student.applications!
-                  .where((app) => app.agentID == agent.id && app.status == 3)
+                  .where((app) => app.agent?.id == agent.id && app.status == 3)
                   .toList();
               print(ongoingApplications);
 
