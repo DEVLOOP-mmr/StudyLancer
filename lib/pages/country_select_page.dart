@@ -98,48 +98,49 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                   height: 20,
                 ),
                 ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: countries.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: NeumorphicButton(
-                          child: Row(
-                            children: [
-                              const SizedBox(
-                                width: 20,
+                  shrinkWrap: true,
+                  itemCount: countries.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: NeumorphicButton(
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                countries[index].countryName!,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  countries[index].countryName!,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (selectedIndex == index) {
-                                selectedIndex = -1;
-                              } else {
-                                selectedIndex = index;
-                              }
-                            });
-                          },
-                          style: NeumorphicStyle(
-                              depth: 0,
-                              color: selectedIndex == index
-                                  ? const Color(0xff294A91)
-                                  : Colors.black,
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(30))),
+                            ),
+                          ],
                         ),
-                      );
-                    }),
+                        onPressed: () {
+                          setState(() {
+                            if (selectedIndex == index) {
+                              selectedIndex = -1;
+                            } else {
+                              selectedIndex = index;
+                            }
+                          });
+                        },
+                        style: NeumorphicStyle(
+                            depth: 0,
+                            color: selectedIndex == index
+                                ? const Color(0xff294A91)
+                                : Colors.black,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(30))),
+                      ),
+                    );
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
@@ -291,317 +292,304 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
                                   onPressed: selectedIndex == countries.length
                                       ? () {
                                           showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                String? phone, message;
-                                                var formKey =
-                                                    GlobalKey<FormState>();
-                                                return AlertDialog(
-                                                  backgroundColor:
-                                                      Variables.backgroundColor,
-                                                  content: Form(
-                                                    key: formKey,
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const Padding(
+                                            context: context,
+                                            builder: (context) {
+                                              String? phone, message;
+                                              var formKey =
+                                                  GlobalKey<FormState>();
+
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                    Variables.backgroundColor,
+                                                content: Form(
+                                                  key: formKey,
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                bottom: 20),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Request a callback",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                bottom: 8),
+                                                        child: Text(
+                                                          "Phone Number",
+                                                          style: TextStyle(
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 8),
+                                                        decoration: const BoxDecoration(
+                                                            color: Colors.black,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10))),
+                                                        child: Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 20),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "Request a callback",
-                                                              style: TextStyle(
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10),
+                                                          child: TextFormField(
+                                                            onChanged: (value) {
+                                                              phone = value;
+                                                            },
+                                                            validator: (value) {
+                                                              if ((value ??
+                                                                      "") ==
+                                                                  "") {
+                                                                return "Entry phone number";
+                                                              }
+                                                              return null;
+                                                            },
+                                                            autocorrect: true,
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                fontSize: 12),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .phone,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              focusedBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'Phone Number',
+                                                              hintStyle: TextStyle(
+                                                                  fontSize: 12,
                                                                   color: Colors
-                                                                      .white,
+                                                                      .white
+                                                                      .withOpacity(
+                                                                          0.7),
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w600,
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  fontSize: 20),
+                                                                          .w400),
                                                             ),
                                                           ),
                                                         ),
-                                                        const Padding(
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                bottom: 8),
+                                                        child: Text(
+                                                          "Message",
+                                                          style: TextStyle(
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 8),
+                                                        decoration: const BoxDecoration(
+                                                            color: Colors.black,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10))),
+                                                        child: Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 8),
-                                                          child: Text(
-                                                            "Phone Number",
-                                                            style: TextStyle(
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10),
+                                                          child: TextFormField(
+                                                            onChanged: (value) {
+                                                              message = value;
+                                                            },
+                                                            validator: (value) {
+                                                              if ((value ??
+                                                                      "") ==
+                                                                  "") {
+                                                                return "Entry your message";
+                                                              }
+                                                              return null;
+                                                            },
+                                                            autocorrect: true,
+                                                            minLines: 3,
+                                                            maxLines: 4,
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
                                                                 fontStyle:
                                                                     FontStyle
                                                                         .normal,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
                                                                 fontFamily:
                                                                     'Roboto',
                                                                 fontSize: 12),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8),
-                                                          decoration: const BoxDecoration(
-                                                              color:
-                                                                  Colors.black,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10))),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 10),
-                                                            child:
-                                                                TextFormField(
-                                                              onChanged:
-                                                                  (value) {
-                                                                phone = value;
-                                                              },
-                                                              validator:
-                                                                  (value) {
-                                                                if ((value ??
-                                                                        "") ==
-                                                                    "") {
-                                                                  return "Entry phone number";
-                                                                }
-                                                                return null;
-                                                              },
-                                                              autocorrect: true,
-                                                              style: const TextStyle(
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              focusedBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'Enter you query',
+                                                              hintStyle: TextStyle(
+                                                                  fontSize: 12,
                                                                   color: Colors
-                                                                      .white,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  fontSize: 12),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .phone,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                focusedBorder:
-                                                                    InputBorder
-                                                                        .none,
-                                                                hintText:
-                                                                    'Phone Number',
-                                                                hintStyle: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .white
-                                                                        .withOpacity(
-                                                                            0.7),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
+                                                                      .white
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
                                                             ),
                                                           ),
                                                         ),
-                                                        const Padding(
+                                                      ),
+                                                      SafeArea(
+                                                        child: Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 8),
-                                                          child: Text(
-                                                            "Message",
-                                                            style: TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                fontSize: 12),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
                                                               const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8),
-                                                          decoration: const BoxDecoration(
-                                                              color:
-                                                                  Colors.black,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10))),
-                                                          child: Padding(
+                                                                      .symmetric(
+                                                                  vertical: 10,
+                                                                  horizontal:
+                                                                      40.0),
+                                                          child:
+                                                              NeumorphicButton(
                                                             padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 10),
-                                                            child:
-                                                                TextFormField(
-                                                              onChanged:
-                                                                  (value) {
-                                                                message = value;
-                                                              },
-                                                              validator:
-                                                                  (value) {
-                                                                if ((value ??
-                                                                        "") ==
-                                                                    "") {
-                                                                  return "Entry your message";
-                                                                }
-                                                                return null;
-                                                              },
-                                                              autocorrect: true,
-                                                              minLines: 3,
-                                                              maxLines: 4,
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  fontSize: 12),
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                focusedBorder:
-                                                                    InputBorder
-                                                                        .none,
-                                                                hintText:
-                                                                    'Enter you query',
-                                                                hintStyle: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .white
-                                                                        .withOpacity(
-                                                                            0.7),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SafeArea(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        10,
-                                                                    horizontal:
-                                                                        40.0),
-                                                            child:
-                                                                NeumorphicButton(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .zero,
+                                                                EdgeInsets.zero,
+                                                            child: Container(
+                                                              color: const Color(
+                                                                  0xff294A91),
                                                               child: Container(
-                                                                color: const Color(
-                                                                    0xff294A91),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(12),
+                                                                decoration:
+                                                                    const BoxDecoration(
+                                                                  gradient:
+                                                                      Variables
+                                                                          .buttonGradient,
+                                                                ),
                                                                 child:
-                                                                    Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(12),
-                                                                  decoration:
-                                                                      const BoxDecoration(
-                                                                    gradient:
-                                                                        Variables
-                                                                            .buttonGradient,
-                                                                  ),
-                                                                  child:
-                                                                      const Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    child: Text(
-                                                                      "Submit",
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontWeight:
-                                                                              FontWeight.w600),
-                                                                    ),
+                                                                    const Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                    "Submit",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
                                                                   ),
                                                                 ),
                                                               ),
-                                                              onPressed: () {
-                                                                if (formKey
-                                                                    .currentState!
-                                                                    .validate()) {
-                                                                  EasyLoading.show(
-                                                                      status:
-                                                                          "Updating");
-                                                                  CountryBloc.requestCallback(
-                                                                          message,
-                                                                          phone)
-                                                                      .then(
-                                                                          (value) async {
-                                                                    EasyLoading
-                                                                        .dismiss();
-                                                                    EasyLoading
-                                                                        .showSuccess(
-                                                                            "Requested Successfully");
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  });
-                                                                } else {
-                                                                  EasyLoading
-                                                                      .showError(
-                                                                          "Enter valid details");
-                                                                }
-                                                              },
-                                                              style:
-                                                                  NeumorphicStyle(
-                                                                      border: const NeumorphicBorder(
-                                                                          isEnabled:
-                                                                              true,
-                                                                          color: Variables
-                                                                              .backgroundColor,
-                                                                          width:
-                                                                              2),
-                                                                      shadowLightColor: Colors
-                                                                          .white
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                      // color: Color(0xff294A91),
-                                                                      boxShape:
-                                                                          NeumorphicBoxShape.roundRect(
-                                                                              BorderRadius.circular(30))),
                                                             ),
+                                                            onPressed: () {
+                                                              if (formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                EasyLoading.show(
+                                                                    status:
+                                                                        "Updating");
+                                                                CountryBloc.requestCallback(
+                                                                        message,
+                                                                        phone)
+                                                                    .then(
+                                                                        (value) async {
+                                                                  EasyLoading
+                                                                      .dismiss();
+                                                                  EasyLoading
+                                                                      .showSuccess(
+                                                                          "Requested Successfully");
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                });
+                                                              } else {
+                                                                EasyLoading
+                                                                    .showError(
+                                                                        "Enter valid details");
+                                                              }
+                                                            },
+                                                            style:
+                                                                NeumorphicStyle(
+                                                                    border: const NeumorphicBorder(
+                                                                        isEnabled:
+                                                                            true,
+                                                                        color: Variables
+                                                                            .backgroundColor,
+                                                                        width:
+                                                                            2),
+                                                                    shadowLightColor: Colors
+                                                                        .white
+                                                                        .withOpacity(
+                                                                            0.6),
+                                                                    // color: Color(0xff294A91),
+                                                                    boxShape: NeumorphicBoxShape
+                                                                        .roundRect(
+                                                                            BorderRadius.circular(30))),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                );
-                                              });
+                                                ),
+                                              );
+                                            },
+                                          );
                                         }
                                       : () {},
                                   style: NeumorphicStyle(

@@ -42,7 +42,7 @@ class Agent extends StudyLancerUser with EquatableMixin {
     agent.country =
         agentData["location"] != null ? agentData['location']['country'] : '';
     agent.documents = [];
-    List otherDoc = agentData["documents"]??[];
+    List otherDoc = agentData["documents"] ?? [];
     agent.documents = [];
     agent.requiredDocuments = {};
     agent = _parseAgentDocuments(otherDoc, agent);

@@ -57,7 +57,7 @@ class StudentDocOfferPage extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: (student!.requiredDocuments!.keys ?? []).length,
+                  itemCount: (student!.requiredDocuments!.keys).length,
                   itemBuilder: (context, index) {
                     var key = student!.requiredDocuments!.keys.toList()[index];
                     Document? doc = student!.requiredDocuments![key];

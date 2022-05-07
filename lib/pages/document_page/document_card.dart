@@ -42,6 +42,7 @@ class _DocumentCardState extends State<DocumentCard> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
+
     return Dismissible(
       key: ValueKey(widget.doc!.id),
       confirmDismiss: (direction) async {
@@ -117,7 +118,7 @@ class _DocumentCardState extends State<DocumentCard> {
                       width: 1,
                       height: 1,
                     )
-                  : !(widget.renameEnabled ?? false)
+                  : !(widget.renameEnabled)
                       ? const SizedBox(
                           width: 1,
                           height: 1,
@@ -157,8 +158,9 @@ class _DocumentCardState extends State<DocumentCard> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
-                    color: Color(0x3fC1C1C1),
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                  color: Color(0x3fC1C1C1),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
                 child: const Icon(
                   Ionicons.cloud_download_outline,
                   color: Colors.white,

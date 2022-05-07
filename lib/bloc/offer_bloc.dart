@@ -13,8 +13,6 @@ class OfferBloc {
     String agentID,
   ) async {
     try {
-  
-
       Map body = {
         "studentID": application.studentID,
         "agentID": agentID,

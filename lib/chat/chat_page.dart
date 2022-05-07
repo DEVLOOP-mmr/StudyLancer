@@ -144,9 +144,9 @@ class _ChatPageState extends State<ChatPage> {
           final uri = await reference.getDownloadURL();
 
           final message = types.PartialFile(
-            fileName: fileName ?? '',
+            fileName: fileName,
             mimeType: lookupMimeType(filePath ?? ''),
-            size: x.path!.length ?? 0,
+            size: x.path!.length,
             uri: uri,
           );
 
@@ -253,12 +253,11 @@ class _ChatPageState extends State<ChatPage> {
           if (snapshot.hasData) {
             for (var element in snapshot.data!) {
               if (element.status != types.Status.read &&
-                      element.authorId !=
-                          BlocProvider.of<FirebaseChatBloc>(
-                            context,
-                            listen: false,
-                          ).user!.uid ??
-                  '' as bool) {
+                  element.authorId !=
+                      BlocProvider.of<FirebaseChatBloc>(
+                        context,
+                        listen: false,
+                      ).user!.uid) {
                 BlocProvider.of<FirebaseChatBloc>(context, listen: false)
                     .updateMessage(
                   element.copyWith(status: types.Status.read),
@@ -277,9 +276,8 @@ class _ChatPageState extends State<ChatPage> {
             onSendPressed: _onSendPressed,
             user: types.User(
               id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                      .user!
-                      .uid ??
-                  '',
+                  .user!
+                  .uid,
               avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
               firstName: FirebaseAuth.instance.currentUser!.displayName,
             ),

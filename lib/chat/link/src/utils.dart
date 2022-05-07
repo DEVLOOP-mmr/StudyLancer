@@ -44,15 +44,11 @@ String _getTitle(Document document) {
   final titleElements = document.getElementsByTagName('title');
   if (titleElements.isNotEmpty) return titleElements.first.text;
 
-  return _getMetaContent(document, 'og:title') ??
-      _getMetaContent(document, 'twitter:title') ??
-      _getMetaContent(document, 'og:site_name');
+  return _getMetaContent(document, 'og:title');
 }
 
 String _getDescription(Document document) {
-  return _getMetaContent(document, 'og:description') ??
-      _getMetaContent(document, 'description') ??
-      _getMetaContent(document, 'twitter:description');
+  return _getMetaContent(document, 'og:description');
 }
 
 List<String> _getImageUrls(Document document, String baseUrl) {

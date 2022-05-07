@@ -40,7 +40,9 @@ class ReviewBloc {
   }
 
   static Future<bool?> postAgentReview(
-      Review review, String studentName) async {
+    Review review,
+    String studentName,
+  ) async {
     Map body = {
       "studentID": review.studentId,
       "agentID": review.agentId,

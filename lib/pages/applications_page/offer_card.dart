@@ -206,18 +206,20 @@ class OfferCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              "\$" + offer.courseFees! ?? "0",
+                              "\$" + offer.courseFees!,
                               style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                             ),
                             const Text(
                               "/yr",
                               style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 10,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -238,15 +240,18 @@ class OfferCard extends StatelessWidget {
                         color: Variables.backgroundColor,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 12),
+                            horizontal: 18,
+                            vertical: 12,
+                          ),
                           child: const Align(
                             alignment: Alignment.center,
                             child: Text(
                               "Course link",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600),
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),

@@ -58,7 +58,7 @@ class DocumentBloc {
       "documents": {
         "link": document.link.toString(),
         "name": document.name.toString(),
-        "type": document.type.toString() ?? "",
+        "type": document.type.toString(),
       },
     };
 

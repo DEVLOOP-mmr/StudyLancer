@@ -51,12 +51,13 @@ class StudentTile extends StatelessWidget {
                 ),
                 title: Text(
                   (student.name ?? "") != ""
-                      ? (student.name!.trim() ?? "")
+                      ? (student.name!.trim())
                       : "No name",
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -32,12 +32,12 @@ class AuthenticationTestSuite {
         ? MockFirebaseStudentUser()
         : MockFirebaseAgentUser();
     await tester.enterText(find.byType(IntlPhoneField),
-        mockUser.phoneNumber!.replaceFirst('+91', ''));
+        mockUser.phoneNumber!.replaceFirst('+91', ''),);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Get OTP'));
     await tester.pumpAndSettle();
     await tester.enterText(
-        find.byKey(const ValueKey('otp-input')), mockUser.otp);
+        find.byKey(const ValueKey('otp-input')), mockUser.otp,);
     await tester.pumpAndSettle();
     await tester.pumpAndSettle();
     expect(find.textContaining(mockUser.otp), findsOneWidget);
