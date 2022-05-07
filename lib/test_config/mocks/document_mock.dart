@@ -1,6 +1,4 @@
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
-import 'package:mockito/mockito.dart';
 import 'package:uuid/uuid.dart';
 
 class MockDocument extends Document {

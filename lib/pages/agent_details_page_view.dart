@@ -24,15 +24,16 @@ class _AgentDetailsPageViewState extends State<AgentDetailsPageView> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-        pageSnapping: true,
-        controller: _controller,
-        allowImplicitScrolling: true,
-        itemCount: widget.agents!.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return AgentDetailPage(
-            agent: widget.agents![index],
-          );
-        },);
+      pageSnapping: true,
+      controller: _controller,
+      allowImplicitScrolling: true,
+      itemCount: widget.agents!.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, index) {
+        return AgentDetailPage(
+          agent: widget.agents![index],
+        );
+      },
+    );
   }
 }

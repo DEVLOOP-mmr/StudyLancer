@@ -121,16 +121,18 @@ class _ImageMessageState extends State<ImageMessage> {
                     children: [
                       Text(
                         widget.message.imageName!,
-                        style:
-                            InheritedChatTheme.of(context)!.theme.body1.copyWith(
-                                  color: _user.id == widget.message.authorId
-                                      ? InheritedChatTheme.of(context)!
-                                          .theme
-                                          .primaryTextColor
-                                      : InheritedChatTheme.of(context)!
-                                          .theme
-                                          .secondaryTextColor,
-                                ),
+                        style: InheritedChatTheme.of(context)!
+                            .theme
+                            .body1
+                            .copyWith(
+                              color: _user.id == widget.message.authorId
+                                  ? InheritedChatTheme.of(context)!
+                                      .theme
+                                      .primaryTextColor
+                                  : InheritedChatTheme.of(context)!
+                                      .theme
+                                      .secondaryTextColor,
+                            ),
                         textWidthBasis: TextWidthBasis.longestLine,
                       ),
                       Container(

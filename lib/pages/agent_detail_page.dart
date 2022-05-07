@@ -126,7 +126,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: paletteGenerator!
-                                                  .dominantColor!.titleTextColor,
+                                                  .dominantColor!
+                                                  .titleTextColor,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -169,7 +170,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                             style: TextStyle(
                                               fontSize: 18,
                                               color: paletteGenerator!
-                                                  .dominantColor!.titleTextColor,
+                                                  .dominantColor!
+                                                  .titleTextColor,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -313,7 +315,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                       child: FutureBuilder<AgentReviews?>(
                                         future: ReviewBloc.getAgentReview(
                                           widget.agent!.id,
-                                          FirebaseAuth.instance.currentUser!.uid,
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
                                         ),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
@@ -417,7 +420,8 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                                             );
                                                           }
                                                           var review = snapshot
-                                                                  .data!.reviews![
+                                                                  .data!
+                                                                  .reviews![
                                                               index - 1];
 
                                                           return ListTile(
@@ -579,7 +583,7 @@ class StarRating extends StatelessWidget {
         size: starSize,
       );
     }
-    
+
     return InkResponse(
       onTap:
           onRatingChanged == null ? null : () => onRatingChanged!(index + 1.0),

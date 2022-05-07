@@ -179,7 +179,8 @@ class LinkPreview extends StatelessWidget {
                   ),
                 ),
               ),
-              if (data.image!.url != null) _minimizedImageWidget(data.image!.url!),
+              if (data.image!.url != null)
+                _minimizedImageWidget(data.image!.url!),
             ],
           ),
       ],

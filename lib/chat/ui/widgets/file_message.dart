@@ -52,15 +52,16 @@ class FileMessage extends StatelessWidget {
                 ),
                 height: 42,
                 width: 42,
-                child: InheritedChatTheme.of(context)!.theme.documentIcon != null
-                    ? Image.asset(
-                        InheritedChatTheme.of(context)!.theme.documentIcon!,
-                        color: _color,
-                      )
-                    : Image.asset(
-                        'assets/icon-document.png',
-                        color: _color,
-                      ),
+                child:
+                    InheritedChatTheme.of(context)!.theme.documentIcon != null
+                        ? Image.asset(
+                            InheritedChatTheme.of(context)!.theme.documentIcon!,
+                            color: _color,
+                          )
+                        : Image.asset(
+                            'assets/icon-document.png',
+                            color: _color,
+                          ),
               ),
               Flexible(
                 child: Container(
@@ -72,16 +73,18 @@ class FileMessage extends StatelessWidget {
                     children: [
                       Text(
                         message.fileName!,
-                        style:
-                            InheritedChatTheme.of(context)!.theme.body1.copyWith(
-                                  color: _user.id == message.authorId
-                                      ? InheritedChatTheme.of(context)!
-                                          .theme
-                                          .primaryTextColor
-                                      : InheritedChatTheme.of(context)!
-                                          .theme
-                                          .secondaryTextColor,
-                                ),
+                        style: InheritedChatTheme.of(context)!
+                            .theme
+                            .body1
+                            .copyWith(
+                              color: _user.id == message.authorId
+                                  ? InheritedChatTheme.of(context)!
+                                      .theme
+                                      .primaryTextColor
+                                  : InheritedChatTheme.of(context)!
+                                      .theme
+                                      .secondaryTextColor,
+                            ),
                         textWidthBasis: TextWidthBasis.longestLine,
                       ),
                       Container(

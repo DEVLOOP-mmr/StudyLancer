@@ -1,10 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 import 'package:elite_counsel/models/study_lancer_user.dart';
-
-import 'user.dart';
 
 /// All possible room types
 enum RoomType { direct, group }

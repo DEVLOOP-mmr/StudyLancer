@@ -2,15 +2,12 @@ import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
-import 'package:elite_counsel/variables.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../utils/setups.dart';
 
 void main() {
   group('Test to fetch home data for:', () {

@@ -5,7 +5,6 @@ import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../profile/profile_test.dart';
-import '../utils/setups.dart';
 
 void main() {
   group(

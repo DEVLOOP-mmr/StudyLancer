@@ -4,16 +4,16 @@ import 'package:elite_counsel/variables.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTile extends StatelessWidget {
-  const StudentTile(
-      {Key? key, required this.student, required this.courseName})
+  const StudentTile({Key? key, required this.student, required this.courseName})
       : super(key: key);
   final Student student;
   final String? courseName;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      key:
-          student.applyingFor!.isNotEmpty ? ValueKey(student.applyingFor) : null,
+      key: student.applyingFor!.isNotEmpty
+          ? ValueKey(student.applyingFor)
+          : null,
       padding: const EdgeInsets.all(8.0),
       child: Neumorphic(
         style: NeumorphicStyle(

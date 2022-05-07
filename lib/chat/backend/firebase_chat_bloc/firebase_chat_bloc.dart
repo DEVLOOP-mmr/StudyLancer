@@ -7,7 +7,6 @@ import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_stat
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../backend_util.dart';
@@ -136,7 +135,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
           'imageUrl': otherUser.photo,
         },
       },
-      'userIds': users.map((u) => u!.id).toList(),
+      'userIds': users.map((u) => u.id).toList(),
     });
 
     return types.Room(

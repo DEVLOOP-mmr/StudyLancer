@@ -124,8 +124,8 @@ class _TutorialPageBuilder extends State<TutorialPage> {
                       Navigator.of(context).pop();
                     });
                   } else {
-                    liquidController!.jumpToPage(
-                        page: liquidController!.currentPage + 1);
+                    liquidController!
+                        .jumpToPage(page: liquidController!.currentPage + 1);
                   }
                 },
                 child: const Text(

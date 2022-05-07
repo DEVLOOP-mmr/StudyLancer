@@ -49,7 +49,7 @@ class OfferBloc {
         }
       }
       return response;
-    } on DioError catch (e) {
+    } on DioError {
       EasyLoading.showError('Cant connect please try again later');
       rethrow;
     }

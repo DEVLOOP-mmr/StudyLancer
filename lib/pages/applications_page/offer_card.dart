@@ -82,12 +82,14 @@ class OfferCard extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundImage: ((offer.agentImage ==
-                                                  null)
-                                              ? const AssetImage(
-                                                  'assets/images/abc.png',
-                                                )
-                                              : NetworkImage(offer.agentImage!)) as ImageProvider<Object>?,
+                                          backgroundImage:
+                                              ((offer.agentImage == null)
+                                                      ? const AssetImage(
+                                                          'assets/images/abc.png',
+                                                        )
+                                                      : NetworkImage(
+                                                          offer.agentImage!))
+                                                  as ImageProvider<Object>?,
                                           // backgroundImage:
                                           //     NetworkImage(offer
                                           //         .agentImage),

@@ -23,7 +23,6 @@ void main() {
       expect(response.statusCode, 201);
 
       var agentHome = await ProfileTestSuite().getAgentHome();
-      assert(agentHome != null);
 
       bool applicationIsInOptionsProvided = agentHome.students!.any((student) {
         if (student.applications!.isEmpty) {
@@ -64,7 +63,6 @@ void main() {
         expect(response.statusCode, 200);
 
         var agentHome = await ProfileTestSuite().getAgentHome();
-        assert(agentHome != null);
         bool applicationIsInOngoing = agentHome.students!.any((student) {
           if (student.applications!.isEmpty) {
             return false;

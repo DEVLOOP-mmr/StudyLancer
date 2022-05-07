@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
-import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/profile_page/agent/agent_profile_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

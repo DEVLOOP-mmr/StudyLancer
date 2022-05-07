@@ -1,24 +1,14 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
 import 'package:elite_counsel/variables.dart';
-import 'package:elite_counsel/widgets/inner_shadow.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class StudentDocOfferPage extends StatelessWidget {
   final Student? student;

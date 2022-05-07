@@ -1,4 +1,3 @@
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/student_doc_offer_page.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +138,8 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                               widget.student!.marksheet!.length,
                                           childAspectRatio: 2),
                                   itemBuilder: (context, index) {
-                                    var markData = widget.student!.marksheet!.keys
+                                    var markData = widget
+                                        .student!.marksheet!.keys
                                         .toList(growable: true);
                                     for (var element
                                         in widget.student!.marksheet!.values) {

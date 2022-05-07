@@ -1,9 +1,7 @@
 import 'package:elite_counsel/bloc/profile_bloc.dart';
-import 'package:elite_counsel/models/agent.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uuid/uuid.dart';
 
-import '../utils/setups.dart';
 import 'profile_test.dart';
 
 void main() {

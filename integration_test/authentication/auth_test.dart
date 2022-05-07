@@ -11,6 +11,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../app_start.dart';
 
 class AuthenticationTestSuite {
+  
   Future<WidgetTester> loginWithPhoneNumber(
     WidgetTester tester,
     String userType, {

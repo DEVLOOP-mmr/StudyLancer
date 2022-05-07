@@ -84,7 +84,7 @@ List<String> _getImageUrls(Document document, String baseUrl) {
 }
 
 String? _getActualImageUrl(String baseUrl, String imageUrl) {
-  if (imageUrl == null || imageUrl.isEmpty || imageUrl.startsWith('data')) {
+  if (imageUrl.isEmpty || imageUrl.startsWith('data')) {
     return null;
   }
 
@@ -164,14 +164,10 @@ Future<PreviewData> getPreviewData(String text) async {
     }
 
     final title = _getTitle(document);
-    if (title != null) {
-      previewDataTitle = title.trim();
-    }
+    previewDataTitle = title.trim();
 
     final description = _getDescription(document);
-    if (description != null) {
-      previewDataDescription = description.trim();
-    }
+    previewDataDescription = description.trim();
 
     final imageUrls = _getImageUrls(document, url);
 

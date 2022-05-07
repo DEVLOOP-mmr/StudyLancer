@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:elite_counsel/widgets/inner_shadow.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,7 +8,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
-import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:open_file/open_file.dart';
@@ -93,8 +90,11 @@ class _DocumentCardState extends State<DocumentCard> {
                 var dir = await getApplicationDocumentsDirectory();
                 print(widget.doc!.link);
                 try {
-                  filePath =
-                      dir.path + "/" + widget.doc!.name! + "." + widget.doc!.type!;
+                  filePath = dir.path +
+                      "/" +
+                      widget.doc!.name! +
+                      "." +
+                      widget.doc!.type!;
                   EasyLoading.show(status: "Downloading..");
                   await Dio().download(widget.doc!.link!, filePath);
                   EasyLoading.dismiss();

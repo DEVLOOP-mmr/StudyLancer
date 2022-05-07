@@ -6,11 +6,8 @@ import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/variables.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:intl/intl.dart';
 
 import 'dio.dart';
 

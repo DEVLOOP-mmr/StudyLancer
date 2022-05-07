@@ -1,10 +1,6 @@
-import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../chat_page.dart';
-import 'firebase_chat_bloc/firebase_chat_bloc.dart';
 
 @Deprecated("Figma has no page to show list of users, unused in Widget Tree")
 class UsersPage extends StatelessWidget {

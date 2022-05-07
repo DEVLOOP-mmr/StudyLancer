@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 

@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/review.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -41,7 +39,8 @@ class ReviewBloc {
     return agentReviews;
   }
 
-  static Future<bool?> postAgentReview(Review review, String studentName) async {
+  static Future<bool?> postAgentReview(
+      Review review, String studentName) async {
     Map body = {
       "studentID": review.studentId,
       "agentID": review.agentId,
@@ -69,6 +68,7 @@ class ReviewBloc {
       EasyLoading.showToast('Cant Connect, please check your connection');
       rethrow;
     }
+    return null;
   }
 
   static Review parseReviewData(reviewData) {

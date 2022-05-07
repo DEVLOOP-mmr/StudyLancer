@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
@@ -32,7 +28,6 @@ class Student extends StudyLancerUser with EquatableMixin {
 
   bool isValid() {
     try {
-      assert(this != null);
       assert(id!.isNotEmpty);
       assert(name!.isNotEmpty);
       assert(countryLookingFor!.isNotEmpty);
@@ -67,7 +62,8 @@ class Student extends StudyLancerUser with EquatableMixin {
     student.applications = [];
     for (var element in (studentData["previousApplications"] as List)) {
       if (element is Map) {
-        student.applications!.add(Application.parseApplication(element as Map<String, dynamic>));
+        student.applications!
+            .add(Application.parseApplication(element as Map<String, dynamic>));
       }
     }
     student.documents = [];
