@@ -212,18 +212,7 @@ class HomeBloc extends Cubit<HomeState> {
     auth ??= FirebaseAuth.instance;
     assert(auth.currentUser != null);
 
-    AgentHomeState homeData = AgentHomeState(countryCode: '');
-    if (state is! AgentHomeState) {
-      emit(homeData.copyWith(loadState: LoadState.loading));
-    }
-    if (state.countryCode!.isEmpty) {
-      var newCountry = Variables.sharedPreferences.get(Variables.countryCode);
-      setCountry(
-        newCountry,
-        'agent',
-      );
-    }
-    assert(state.countryCode!.isNotEmpty);
+    AgentHomeState homeData = _emitInitialAgentState();
     String? countryLookingFor = state.countryCode!.isEmpty
         ? Variables.sharedPreferences.get(Variables.countryCode)
         : state.countryCode;
@@ -247,15 +236,32 @@ class HomeBloc extends Cubit<HomeState> {
           homeData.students!.add(student);
         }
       }
-
       assert(homeData.agent != null);
       emit(homeData.copyWith(loadState: LoadState.done));
-      return homeData;
     } else {
       _handleInvalidResult(result, context);
-
-      return homeData;
     }
+
+    return homeData;
+  }
+
+  AgentHomeState _emitInitialAgentState() {
+    AgentHomeState homeData = AgentHomeState(countryCode: '');
+    if (state is! AgentHomeState) {
+      emit(homeData.copyWith(loadState: LoadState.loading));
+    } else {
+      emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
+    }
+    if (state.countryCode!.isEmpty) {
+      var newCountry = Variables.sharedPreferences.get(Variables.countryCode);
+      setCountry(
+        newCountry,
+        'agent',
+      );
+    }
+    assert(state.countryCode!.isNotEmpty);
+
+    return homeData;
   }
 
   void reset() {

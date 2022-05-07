@@ -18,6 +18,7 @@ class AgentRequiredDocuments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: UniqueKey(),
       padding: const EdgeInsets.only(left: 11),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -46,6 +47,7 @@ class AgentRequiredDocuments extends StatelessWidget {
                         ),
                         agent!.requiredDocuments![key] != null
                             ? DocumentCard(
+                            
                                 renameEnabled: true,
                                 doc: agent.requiredDocuments![key],
                                 icon: "assets/imageicon.png",
@@ -66,7 +68,7 @@ class AgentRequiredDocuments extends StatelessWidget {
                                   agent.requiredDocuments![key] = null;
                                   bloc.emitNewAgent(agent);
 
-                                  bloc.getAgentHome(context: context);
+                                
 
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(

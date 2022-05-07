@@ -9,7 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTabbedList extends StatefulWidget {
-  const StudentTabbedList({Key? key}) : super(key: key);
+  const StudentTabbedList({Key? key, this.showOnlyOngoingApplications})
+      : super(key: key);
+
+  final bool? showOnlyOngoingApplications;
 
   @override
   State<StudentTabbedList> createState() => _StudentTabbedListState();
@@ -23,7 +26,7 @@ class _StudentTabbedListState extends State<StudentTabbedList>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length:widget.showOnlyOngoingApplications ?? false?1: 3, vsync: this);
   }
 
   @override
@@ -50,12 +53,13 @@ class _StudentTabbedListState extends State<StudentTabbedList>
             actions: const [SortButton()],
             backgroundColor: Variables.backgroundColor,
             centerTitle: false,
-            title: const Text(
-              'ALL',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
+            title: Text(
+              widget.showOnlyOngoingApplications ?? false ? 'Ongoing' : 'ALL',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           backgroundColor: Variables.backgroundColor,
@@ -73,17 +77,23 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                     unselectedLabelColor: Colors.white.withOpacity(0.6),
                     isScrollable: true,
                     controller: _tabController,
-                    tabs: const [
-                      Tab(
-                        text: "Awaiting",
-                      ),
-                      Tab(
-                        text: "Options Provided",
-                      ),
-                      Tab(
-                        text: "Ongoing",
-                      ),
-                    ],
+                    tabs: widget.showOnlyOngoingApplications ?? false
+                        ? [
+                            const Tab(
+                              text: "Ongoing",
+                            ),
+                          ]
+                        : const [
+                            Tab(
+                              text: "Awaiting",
+                            ),
+                            Tab(
+                              text: "Options Provided",
+                            ),
+                            Tab(
+                              text: "Ongoing",
+                            ),
+                          ],
                   ),
                   const SizedBox(
                     height: 5,
@@ -93,11 +103,15 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                       height: MediaQuery.of(context).size.height - 100,
                       child: TabBarView(
                         controller: _tabController,
-                        children: const [
-                          AwaitingStudents(),
-                          OptionsProvided(),
-                          OngoingStudents(),
-                        ],
+                        children: widget.showOnlyOngoingApplications ?? false
+                            ? [
+                                const OngoingStudents(),
+                              ]
+                            : const [
+                                AwaitingStudents(),
+                                OptionsProvided(),
+                                OngoingStudents(),
+                              ],
                       ),
                     ),
                   ),

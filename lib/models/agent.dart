@@ -54,11 +54,12 @@ class Agent extends StudyLancerUser with EquatableMixin {
     Agent agent,
     Map<String, dynamic> agentData,
   ) {
+    return agent;
     if (agent.isValid() is bool) {
       return agent;
     } else {
-      throw Exception((agent.isValid() as AssertionError).toString() +
-          "for :$agentData");
+      throw Exception(
+          (agent.isValid() as AssertionError).toString() + "for :$agentData");
     }
   }
 

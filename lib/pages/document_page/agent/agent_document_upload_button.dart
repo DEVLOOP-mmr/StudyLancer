@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,10 +41,9 @@ class AgentDocumentUploadButton extends StatelessWidget {
           agent!.documents!.add(Document(name: result.files.first.name));
           bloc.emitNewAgent(agent);
         }
-      } catch (e) {}
-      BlocProvider.of<HomeBloc>(context, listen: false).getAgentHome();
-    } else {
-      // User canceled the picker
+      } catch (e) {
+        log(e.toString());
+      }
     }
   }
 

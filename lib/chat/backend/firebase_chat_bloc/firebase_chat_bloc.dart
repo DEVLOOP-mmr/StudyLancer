@@ -225,6 +225,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
             final data = element.data();
             data['id'] = element.id;
             data['timestamp'] = element['timestamp'].seconds;
+            
             return [...previousValue, types.Message.fromJson(data)];
           },
         );

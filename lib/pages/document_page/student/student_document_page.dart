@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +87,6 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                     student.requiredDocuments![key] = null;
                                     bloc.emitNewStudent(student);
 
-                                    bloc.getStudentHome(context: context);
-
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
                                       content: Text("Document Removed"),
@@ -156,6 +156,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                       );
                     }
                     final student = (state as StudentHomeState).student;
+                    
                     return student == null
                         ? const Center(
                             child: CircularProgressIndicator(),
@@ -298,9 +299,9 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
           student!.documents!.add(Document(name: result.files.first.name));
           bloc.emitNewStudent(student);
         }
-      } catch (e) {}
-
-      getStudentData(context);
+      } catch (e) {
+        log(e.toString());
+      }
     }
   }
 
