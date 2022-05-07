@@ -101,7 +101,7 @@ class OfferCard extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            offer.agent?.name ?? "",
+                                            offer.agent?.name ?? "Agent",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 12,

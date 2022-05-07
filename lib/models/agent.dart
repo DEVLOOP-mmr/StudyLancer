@@ -47,7 +47,31 @@ class Agent extends StudyLancerUser with EquatableMixin {
     agent.requiredDocuments = {};
     agent = _parseAgentDocuments(otherDoc, agent);
 
-    return agent;
+    return _validateParsedAgent(agent, agentData);
+  }
+
+  static Agent _validateParsedAgent(
+    Agent agent,
+    Map<String, dynamic> agentData,
+  ) {
+    if (agent.isValid() is bool) {
+      return agent;
+    } else {
+      throw Exception((agent.isValid() as AssertionError).toString() +
+          "for :$agentData");
+    }
+  }
+
+  dynamic isValid() {
+    try {
+      assert((name ?? '').isNotEmpty);
+      assert((id ?? '').isNotEmpty);
+      assert((phone ?? '').isNotEmpty);
+
+      return true;
+    } on AssertionError catch (e) {
+      return e;
+    }
   }
 
   static Agent _parseAgentDocuments(List<dynamic> otherDoc, Agent agent) {
