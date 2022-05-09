@@ -8,7 +8,6 @@ import 'package:elite_counsel/chat/ui/chat_page/chat_media_page.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:elite_counsel/chat/ui/widgets/chat.dart';
@@ -167,7 +166,7 @@ class _ChatPageState extends State<ChatPage> {
             widget.room.id,
           );
           _addFileToChat(uri, fileName, message.mimeType!);
-        } on FirebaseException catch (e) {
+        } on FirebaseException {
           // _setAttachmentUploading(false);
           // if (kDebugMode) {
           //   print(e);
@@ -193,13 +192,16 @@ class _ChatPageState extends State<ChatPage> {
     String fileName,
     String type,
   ) {
-    DocumentBloc(userType: 'student').postChatDocument(
-        Document(
-          link: uri,
-          name: fileName,
-          type: type,
-        ),
-        widget.room.id);
+    var document = Document(
+      link: uri,
+      name: fileName,
+      type: type,
+    );
+    setState(() {
+      chatDocs.add(document);
+    });
+    DocumentBloc(userType: 'student')
+        .postChatDocument(document, widget.room.id);
     _setAttachmentUploading(false);
   }
 
@@ -239,7 +241,7 @@ class _ChatPageState extends State<ChatPage> {
         );
         _addFileToChat(uri, imageName, '.jpg');
         _setAttachmentUploading(false);
-      } on FirebaseException catch (e) {
+      } on FirebaseException {
         // _setAttachmentUploading(false);
         // if (kDebugMode) {
         //   print(e);
@@ -295,7 +297,7 @@ class _ChatPageState extends State<ChatPage> {
             },
             child: Container(
               padding: const EdgeInsets.only(top: 10, right: 15),
-              child: const Icon(Icons.download),
+              child: const Icon(Icons.info),
             ),
           ),
         ],
@@ -327,19 +329,23 @@ class _ChatPageState extends State<ChatPage> {
             }
           }
 
-          return Chat(
-            isAttachmentUploading: _isAttachmentUploading,
-            messages: snapshot.data ?? [],
-            onAttachmentPressed: _handleAttachmentPress,
-            onFilePressed: _openFile,
-            onPreviewDataFetched: _onPreviewDataFetched,
-            onSendPressed: _onSendPressed,
-            user: types.User(
-              id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                  .user!
-                  .uid,
-              avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
-              firstName: FirebaseAuth.instance.currentUser!.displayName,
+          return Container(
+            decoration: const BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.black))),
+            child: Chat(
+              isAttachmentUploading: _isAttachmentUploading,
+              messages: snapshot.data ?? [],
+              onAttachmentPressed: _handleAttachmentPress,
+              onFilePressed: _openFile,
+              onPreviewDataFetched: _onPreviewDataFetched,
+              onSendPressed: _onSendPressed,
+              user: types.User(
+                id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+                    .user!
+                    .uid,
+                avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
+                firstName: FirebaseAuth.instance.currentUser!.displayName,
+              ),
             ),
           );
         },

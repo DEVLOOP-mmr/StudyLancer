@@ -100,7 +100,7 @@ class DocumentBloc {
       return docs;
     } else {
       if (kDebugMode) {
-        throw Exception('getChatDoc:500');
+        return null;
       }
       EasyLoading.showError('Something Went Wrong Please Try Agin');
     }

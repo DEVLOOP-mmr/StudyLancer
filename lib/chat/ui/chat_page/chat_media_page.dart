@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
@@ -21,10 +23,15 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
   @override
   void initState() {
     super.initState();
-    chatDocs = widget.documents;
-    if (chatDocs.isEmpty) {
-      getChatDocs();
-    }
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      setState(() {
+        chatDocs = widget.documents;
+      });
+
+      if (chatDocs.isEmpty) {
+        getChatDocs();
+      }
+    });
   }
 
   void getChatDocs() {
@@ -43,16 +50,17 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
         leading: const BackButton(),
         backgroundColor: Variables.backgroundColor,
         title: Title(
-            color: Colors.white,
-            child: Text(
-              'Chat Media',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            )),
+          color: Colors.white,
+          child: const Text(
+            'Chat Media',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
       body: chatDocs.isEmpty
-          ? Center(
+          ? const Center(
               child: Text(
                 'No Documents For This Chat',
                 style: TextStyle(
@@ -60,16 +68,27 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
                 ),
               ),
             )
-          : ListView.builder(
-              itemCount: chatDocs.length,
-              itemBuilder: (context, index) {
-                return DocumentCard(
-                  doc: chatDocs[index],
-                  icon: "assets/imageicon.png",
-                  onDismiss: (_) {},
-                  renameEnabled: false,
-                );
-              }),
+          : RefreshIndicator(
+              onRefresh: () async {
+                getChatDocs();
+              },
+              child: ListView.builder(
+                itemCount: chatDocs.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DocumentCard(
+                      doc: chatDocs[index],
+                      icon: "assets/imageicon.png",
+                      onDismiss: (_) {
+                        log('dismissed');
+                      },
+                      renameEnabled: false,
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

@@ -156,7 +156,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                       );
                     }
                     final student = (state as StudentHomeState).student;
-                    
+
                     return student == null
                         ? const Center(
                             child: CircularProgressIndicator(),

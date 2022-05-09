@@ -47,7 +47,6 @@ class AgentRequiredDocuments extends StatelessWidget {
                         ),
                         agent!.requiredDocuments![key] != null
                             ? DocumentCard(
-                            
                                 renameEnabled: true,
                                 doc: agent.requiredDocuments![key],
                                 icon: "assets/imageicon.png",
@@ -67,8 +66,6 @@ class AgentRequiredDocuments extends StatelessWidget {
 
                                   agent.requiredDocuments![key] = null;
                                   bloc.emitNewAgent(agent);
-
-                                
 
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(

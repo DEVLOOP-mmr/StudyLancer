@@ -26,7 +26,9 @@ class _StudentTabbedListState extends State<StudentTabbedList>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length:widget.showOnlyOngoingApplications ?? false?1: 3, vsync: this);
+    _tabController = TabController(
+        length: widget.showOnlyOngoingApplications ?? false ? 1 : 3,
+        vsync: this);
   }
 
   @override

@@ -44,7 +44,6 @@ class _DocumentCardState extends State<DocumentCard> {
     final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
 
     return Dismissible(
-  
       key: ValueKey(widget.doc!.id),
       confirmDismiss: (direction) async {
         // showCupertinoModalPopup(
