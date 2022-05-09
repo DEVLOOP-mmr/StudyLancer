@@ -36,6 +36,7 @@ class _ChatPageState extends State<ChatPage> {
   List<StudyLancerUser?> roomUsers = [];
 
   void _handleAttachmentPress() {
+    
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {

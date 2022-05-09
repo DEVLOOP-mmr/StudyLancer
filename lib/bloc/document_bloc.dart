@@ -13,9 +13,9 @@ import 'package:elite_counsel/models/document.dart';
 import 'dio.dart';
 
 class DocumentBloc {
-  String? userType = '';
+  final String userType;
   DocumentBloc({
-    this.userType,
+    required this.userType,
   });
   Future<void> parseAndUploadFilePickerResult(
     FilePickerResult result, {
@@ -47,6 +47,65 @@ class DocumentBloc {
         EasyLoading.showSuccess("Something went Wrong");
       }
     }
+  }
+
+  Future<void> postChatDocument(
+    Document document,
+    String chatID,
+  ) async {
+    Map body = {
+      'chatId': chatID,
+      "docData": {
+        "link": document.link.toString(),
+        "name": document.name.toString(),
+        "type": document.type.toString(),
+      },
+    };
+
+    final response = await GetDio.getDio()
+        .post("$userType/addChatDoc", data: jsonEncode(body));
+    switch (response.statusCode) {
+      case 200:
+        break;
+      case 500:
+        if (kDebugMode) {
+          throw Exception('addChatDoc:500');
+        }
+        EasyLoading.showError('Something Went Wrong Please Try Agin');
+
+        break;
+
+      default:
+        throw Exception(
+          "addChatDoc: ${response.statusCode}, ${response.data} ",
+        );
+    }
+  }
+
+  Future<List<Document>?> getChatDocs(String chatID) async {
+    Map body = {'chatId': chatID};
+
+    final response = await GetDio.getDio()
+        .post("$userType/getChatDoc", data: jsonEncode(body));
+    List<Document> docs = [];
+    if (response.statusCode == 200) {
+      final data = response.data;
+      List? docData = data['data'];
+      if (docData != null) {
+        for (var doc in docData) {
+          docs.add(Document.fromMap(doc));
+        }
+      }
+
+      return docs;
+    } else {
+      if (kDebugMode) {
+        throw Exception('getChatDoc:500');
+      }
+      EasyLoading.showError('Something Went Wrong Please Try Agin');
+    }
+
+    return null;
   }
 
   Future<Response> postDocument(
