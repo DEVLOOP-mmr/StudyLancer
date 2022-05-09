@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/chat/ui/chat_page/chat_media_page.dart';
+import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,9 +38,16 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
   List<StudyLancerUser?> roomUsers = [];
+  List<Document> chatDocs = [];
+  void getChatDocs() {
+    DocumentBloc(userType: 'student').getChatDocs(widget.room.id).then((docs) {
+      setState(() {
+        chatDocs = docs ?? [];
+      });
+    });
+  }
 
   void _handleAttachmentPress() {
-    
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -144,28 +155,52 @@ class _ChatPageState extends State<ChatPage> {
           await reference.putFile(file);
           final uri = await reference.getDownloadURL();
 
-          final message = types.PartialFile(
-            fileName: fileName,
-            mimeType: lookupMimeType(filePath ?? ''),
-            size: x.path!.length,
-            uri: uri,
+          types.PartialFile message = _parsePartialFileFromFirebaseStorageFile(
+            fileName,
+            filePath,
+            x,
+            uri,
           );
 
           BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
             message,
             widget.room.id,
           );
-          _setAttachmentUploading(false);
+          _addFileToChat(uri, fileName, message.mimeType!);
         } on FirebaseException catch (e) {
-          _setAttachmentUploading(false);
-          if (kDebugMode) {
-            print(e);
-          }
+          // _setAttachmentUploading(false);
+          // if (kDebugMode) {
+          //   print(e);
+          // }
         }
       }
-    } else {
-      // User canceled the picker
     }
+  }
+
+  types.PartialFile _parsePartialFileFromFirebaseStorageFile(
+      String fileName, String? filePath, PlatformFile x, String uri) {
+    final message = types.PartialFile(
+      fileName: fileName,
+      mimeType: lookupMimeType(filePath ?? ''),
+      size: x.path!.length,
+      uri: uri,
+    );
+    return message;
+  }
+
+  void _addFileToChat(
+    String uri,
+    String fileName,
+    String type,
+  ) {
+    DocumentBloc(userType: 'student').postChatDocument(
+        Document(
+          link: uri,
+          name: fileName,
+          type: type,
+        ),
+        widget.room.id);
+    _setAttachmentUploading(false);
   }
 
   //new
@@ -202,15 +237,14 @@ class _ChatPageState extends State<ChatPage> {
           message,
           widget.room.id,
         );
+        _addFileToChat(uri, imageName, '.jpg');
         _setAttachmentUploading(false);
       } on FirebaseException catch (e) {
-        _setAttachmentUploading(false);
-        if (kDebugMode) {
-          print(e);
-        }
+        // _setAttachmentUploading(false);
+        // if (kDebugMode) {
+        //   print(e);
+        // }
       }
-    } else {
-      // User canceled the picker
     }
   }
 
@@ -226,6 +260,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     getRoomUsers();
+    getChatDocs();
   }
 
   @override
@@ -235,11 +270,35 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Variables.backgroundColor,
         title: Title(
           color: Variables.backgroundColor,
-          child: AutoSizeText(
-            widget.room.name ?? '',
-            style: const TextStyle(color: Colors.white),
+          child: Container(
+            constraints:
+                BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 3),
+            child: AutoSizeText(
+              widget.room.name ?? '',
+              maxLines: 2,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: ((context) => ChatMediaPage(
+                        documents: chatDocs,
+                        roomID: widget.room.id,
+                      )),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.only(top: 10, right: 15),
+              child: const Icon(Icons.download),
+            ),
+          ),
+        ],
         leading: BackButton(
           onPressed: () {
             Navigator.pop(context);
