@@ -40,9 +40,12 @@ class _ChatPageState extends State<ChatPage> {
   List<Document> chatDocs = [];
   void getChatDocs() {
     DocumentBloc(userType: 'student').getChatDocs(widget.room.id).then((docs) {
-      setState(() {
-        chatDocs = docs ?? [];
-      });
+      if(mounted){
+        setState(() {
+          chatDocs = docs ?? [];
+        });
+      }
+   
     });
   }
 

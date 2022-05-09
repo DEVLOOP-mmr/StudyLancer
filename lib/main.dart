@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/pages/country_select_page.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
@@ -86,6 +87,7 @@ class _MyAppState extends State<MyApp> {
                   : const CountrySelectPage()
               : const UserTypeSelectPage();
         }
+        
         return MultiBlocProvider(
           providers: [
             BlocProvider(
@@ -95,6 +97,10 @@ class _MyAppState extends State<MyApp> {
               lazy: false,
               create: (context) =>
                   FirebaseChatBloc(homeBloc: context.read<HomeBloc>()),
+            ),
+            BlocProvider(
+              lazy: false,
+              create: (context) => NotificationCubit(),
             ),
           ],
           child: MaterialApp(
