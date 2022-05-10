@@ -104,7 +104,7 @@ class _ChatPageState extends State<ChatPage> {
   void _onSendPressed(types.PartialText message) {
     BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
       message,
-      widget.room.id,
+      widget.room,
     );
     // var selfUser = Functions.getSelUserID();
     // roomUsers.forEach((element) {
@@ -166,7 +166,7 @@ class _ChatPageState extends State<ChatPage> {
 
           BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
             message,
-            widget.room.id,
+            widget.room,
           );
           _addFileToChat(uri, fileName, message.mimeType!);
         } on FirebaseException {
@@ -240,7 +240,7 @@ class _ChatPageState extends State<ChatPage> {
 
         BlocProvider.of<FirebaseChatBloc>(context, listen: false).sendMessage(
           message,
-          widget.room.id,
+          widget.room,
         );
         _addFileToChat(uri, imageName, '.jpg');
         _setAttachmentUploading(false);

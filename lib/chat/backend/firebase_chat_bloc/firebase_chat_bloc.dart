@@ -5,6 +5,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/chat/type/room.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -256,7 +257,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// Sends a message to the Firestore. Accepts any partial message and a
   /// room ID. If arbitrary data is provided in the [partialMessage]
   /// does nothing.
-  void sendMessage(dynamic partialMessage, String roomId) async {
+  void sendMessage(dynamic partialMessage, Room room) async {
     if (user == null) return;
 
     types.Message? message;
@@ -287,10 +288,13 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       messageMap['timestamp'] = FieldValue.serverTimestamp();
 
       await FirebaseFirestore.instance
-          .collection('rooms/$roomId/messages')
+          .collection('rooms/${room.id}/messages')
           .add(messageMap);
+      _sendNotificationOnMessage(messageMap, room);
     }
   }
+
+  void _sendNotificationOnMessage(Map<String, dynamic> messageMap, Room room) {}
 
   /// Updates a message in the Firestore. Accepts any message and a
   /// room ID. Message will probably be taken from the [messages] stream.
