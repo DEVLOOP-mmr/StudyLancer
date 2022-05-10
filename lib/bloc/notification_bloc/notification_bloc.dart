@@ -81,6 +81,14 @@ class NotificationCubit extends Cubit<NotificationState> {
       sound: true,
     );
     log(settings.authorizationStatus.toString());
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      if (message?.notification != null) {
+        showLocalNotification(
+          message!.notification!.title!,
+          message.notification!.body!,
+        );
+      }
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         showLocalNotification(
@@ -114,7 +122,7 @@ class NotificationCubit extends Cubit<NotificationState> {
 
     if (response.statusCode == 200) {
       print('notification sent');
-      log('notification sent');
+      
     } else {
       log('error');
     }

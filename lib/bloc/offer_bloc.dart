@@ -22,12 +22,13 @@ class OfferBloc {
         if (kDebugMode) {
           return response;
         }
+        EasyLoading.showSuccess("Offer sent");
+
         NotificationCubit.sendNotificationToUser(
           'You have a new offer',
           'Tap and view your applications',
           application.studentID!,
         );
-        EasyLoading.showSuccess("Offer sent");
       } else {
         if (kDebugMode) {
           return response;

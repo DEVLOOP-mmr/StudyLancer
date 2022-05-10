@@ -36,7 +36,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
 
-  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (kDebugMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     runApp(DevicePreview(

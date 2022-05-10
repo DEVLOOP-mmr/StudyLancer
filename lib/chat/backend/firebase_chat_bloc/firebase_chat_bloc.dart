@@ -299,7 +299,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     StudyLancerUser otherUser = room.users.firstWhere(
       (element) => element!.id != FirebaseAuth.instance.currentUser!.uid,
     )!;
-    String title = "" + (otherUser.name ?? '');
+    String title = "" + (otherUser.name ?? 'Chat');
     String body = '';
     if (messageMap.containsKey('type')) {
       if (messageMap['type'] == 'file') {
@@ -310,6 +310,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       body = messageMap['text'];
     }
     NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
+   
   }
 
   /// Updates a message in the Firestore. Accepts any message and a
