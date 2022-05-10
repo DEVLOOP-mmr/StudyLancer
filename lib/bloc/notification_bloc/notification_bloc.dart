@@ -18,7 +18,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       }
     });
   }
-  NotificationDetails _initLocalNotification() {
+  static NotificationDetails _initLocalNotification() {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
 
@@ -56,7 +56,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     return notificationDetails;
   }
 
-  void showLocalNotification(String title, String body) async {
+  static void showLocalNotification(String title, String body) async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     final notifDetails = _initLocalNotification();
@@ -91,12 +91,12 @@ class NotificationCubit extends Cubit<NotificationState> {
     });
   }
 
-  final String fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+  static const String fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
-  final fcmKey =
+  static const fcmKey =
       "AAAAwWbX1sA:APA91bE11G6-1MGcArB5R0eZRzb-nlSSPdHfMn35VSAw_0LaTrhZaHrfE7Sbc7KeSy2KYrB9hGU3s1czLAqJBs_Ey8B8XRSwgEFEWRKUKMIvEtbh1wntPGeAQAZKGi_Ced_xK42fOvHT";
 
-  Future<void> _sendNotificationToFCMToken(
+  static Future<void> _sendNotificationToFCMToken(
     String title,
     String body,
     String fcmToken,
@@ -113,13 +113,14 @@ class NotificationCubit extends Cubit<NotificationState> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
+      print('notification sent');
       log('notification sent');
     } else {
       log('error');
     }
   }
 
-  void sendNotificationToUser(
+  static void sendNotificationToUser(
     String title,
     String body,
     String uid,
@@ -129,14 +130,12 @@ class NotificationCubit extends Cubit<NotificationState> {
 
     final data = snapshot.data();
     if (data == null) {
+      print('user not registered');
       return;
     }
-    try {
-      final String token = data['token'];
-      await _sendNotificationToFCMToken(title, body, token);
-    } catch (e) {
-      return;
-    }
+
+    final String token = data['token'];
+    await _sendNotificationToFCMToken(title, body, token);
   }
 
   Future<bool> _hasValidFCMToken() async {

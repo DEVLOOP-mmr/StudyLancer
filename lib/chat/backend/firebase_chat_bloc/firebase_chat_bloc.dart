@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/chat/type/room.dart';
@@ -294,7 +295,22 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     }
   }
 
-  void _sendNotificationOnMessage(Map<String, dynamic> messageMap, Room room) {}
+  void _sendNotificationOnMessage(Map<String, dynamic> messageMap, Room room) {
+    StudyLancerUser otherUser = room.users.firstWhere(
+      (element) => element!.id != FirebaseAuth.instance.currentUser!.uid,
+    )!;
+    String title = "" + (otherUser.name ?? '');
+    String body = '';
+    if (messageMap.containsKey('type')) {
+      if (messageMap['type'] == 'file') {
+        body = 'Sent a file.Tap to view.';
+      }
+    }
+    if (messageMap.containsKey('text')) {
+      body = messageMap['text'];
+    }
+    NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
+  }
 
   /// Updates a message in the Firestore. Accepts any message and a
   /// room ID. Message will probably be taken from the [messages] stream.
@@ -314,6 +330,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   /// Returns a stream of all users from Firebase
   Stream<List<types.User>> users() {
     if (user == null) return const Stream.empty();
+
     return FirebaseFirestore.instance.collection('users').snapshots().map(
           (snapshot) => snapshot.docs.fold<List<types.User>>(
             [],

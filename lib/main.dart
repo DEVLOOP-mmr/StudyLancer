@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                   : const CountrySelectPage()
               : const UserTypeSelectPage();
         }
-        
+
         return MultiBlocProvider(
           providers: [
             BlocProvider(
