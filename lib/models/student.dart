@@ -24,7 +24,16 @@ class Student extends StudyLancerUser with EquatableMixin {
   Map<String, dynamic>? marksheet;
   List<Application>? applications;
 
-  Student();
+  Student({
+    this.dob,
+    this.course,
+    this.year,
+    this.applyingFor,
+    required this.optionStatus,
+    this.timeline,
+    this.marksheet,
+    this.applications,
+  });
 
   bool isValid() {
     try {
@@ -40,7 +49,7 @@ class Student extends StudyLancerUser with EquatableMixin {
 
   @override
   factory Student.fromMap(Map<String, dynamic> studentData) {
-    Student student = Student();
+    Student student = Student(optionStatus: 0);
     student.name = studentData["name"];
     student.email = studentData["email"];
     student.phone = studentData["phone"];
@@ -102,7 +111,7 @@ class Student extends StudyLancerUser with EquatableMixin {
   }
 
   @override
-  List<Object?> get props {
+  List<dynamic> get props {
     return [
       dob,
       course,
@@ -113,5 +122,27 @@ class Student extends StudyLancerUser with EquatableMixin {
       marksheet,
       applications,
     ];
+  }
+
+  Student copyWith({
+    String? dob,
+    String? course,
+    String? year,
+    String? applyingFor,
+    int? optionStatus,
+    int? timeline,
+    Map<String, dynamic>? marksheet,
+    List<Application>? applications,
+  }) {
+    return Student(
+      dob: dob ?? this.dob,
+      course: course ?? this.course,
+      year: year ?? this.year,
+      applyingFor: applyingFor ?? this.applyingFor,
+      optionStatus: optionStatus ?? this.optionStatus,
+      timeline: timeline ?? this.timeline,
+      marksheet: marksheet ?? this.marksheet,
+      applications: applications ?? this.applications,
+    );
   }
 }

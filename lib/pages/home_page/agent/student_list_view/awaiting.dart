@@ -1,3 +1,4 @@
+import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tile.dart'
@@ -32,9 +33,13 @@ class AwaitingStudents extends StatelessWidget {
               return element.applications!.isEmpty;
             }).toList()[index];
 
-            return StudentTile(
-              student: student,
-              courseName: '',
+            return BlocProvider(
+              create: (context) => StudentApplicationCubit(
+                student,
+              ),
+              child: const StudentTile(
+                courseName: '',
+              ),
             );
           },
         );

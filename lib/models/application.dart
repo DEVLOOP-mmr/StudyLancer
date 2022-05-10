@@ -1,5 +1,6 @@
-import 'package:elite_counsel/models/agent.dart';
 import 'package:equatable/equatable.dart';
+
+import 'package:elite_counsel/models/agent.dart';
 
 class Application extends Equatable {
   String? studentID;
@@ -12,6 +13,8 @@ class Application extends Equatable {
   String? description;
   String? courseFees;
   String? courseLink;
+  bool? favorite;
+  int? progress;
   String? color;
   String? applicationFees;
   Map<String, String>? location; //city, country
@@ -49,7 +52,8 @@ class Application extends Equatable {
     application.courseFees = offerData["courseFees"].toString();
     application.courseName = offerData["courseName"];
     application.courseLink = offerData["courseLink"];
-
+    application.favorite = offerData['favorite'];
+    application.progress = offerData['progress'];
     application.agent = offerData.containsKey('agent')
         ? offerData['agent'] == null
             ? null
@@ -63,7 +67,7 @@ class Application extends Equatable {
   }
 
   @override
-  List<Object?> get props {
+  List<dynamic> get props {
     return [
       studentID,
       agent,
@@ -75,6 +79,8 @@ class Application extends Equatable {
       description,
       courseFees,
       courseLink,
+      favorite,
+      progress,
       color,
       applicationFees,
       location,
