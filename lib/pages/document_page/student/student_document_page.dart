@@ -26,7 +26,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
   Map<String, String> requiredDocTitles = {
     'passport': 'Passport',
     'englishProficiencyTest': 'English Proficiency Test',
-    'academics': 'Academics'
+    'academics': 'Academics',
   };
   @override
   void initState() {
@@ -103,7 +103,6 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

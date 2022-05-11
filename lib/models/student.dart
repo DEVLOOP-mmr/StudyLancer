@@ -33,6 +33,7 @@ class Student extends StudyLancerUser with EquatableMixin {
     this.timeline,
     this.marksheet,
     this.applications,
+    
   });
 
   bool isValid() {
@@ -111,7 +112,7 @@ class Student extends StudyLancerUser with EquatableMixin {
   }
 
   @override
-  List<dynamic> get props {
+  List<Object?> get props {
     return [
       dob,
       course,
@@ -124,25 +125,5 @@ class Student extends StudyLancerUser with EquatableMixin {
     ];
   }
 
-  Student copyWith({
-    String? dob,
-    String? course,
-    String? year,
-    String? applyingFor,
-    int? optionStatus,
-    int? timeline,
-    Map<String, dynamic>? marksheet,
-    List<Application>? applications,
-  }) {
-    return Student(
-      dob: dob ?? this.dob,
-      course: course ?? this.course,
-      year: year ?? this.year,
-      applyingFor: applyingFor ?? this.applyingFor,
-      optionStatus: optionStatus ?? this.optionStatus,
-      timeline: timeline ?? this.timeline,
-      marksheet: marksheet ?? this.marksheet,
-      applications: applications ?? this.applications,
-    );
-  }
+  
 }

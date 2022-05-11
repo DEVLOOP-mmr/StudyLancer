@@ -13,8 +13,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit() : super(NotificationInitial()) {
     FirebaseAuth.instance.authStateChanges().asBroadcastStream().listen((user) {
       if (user != null) {
-        _registerFCMToken();
-        _registerNotificationListener();
+        _registerNotificationListener().then((value) => _registerFCMToken());
       }
     });
   }
@@ -68,7 +67,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
   }
 
-  void _registerNotificationListener() async {
+  Future<void> _registerNotificationListener() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(
@@ -80,8 +79,10 @@ class NotificationCubit extends Cubit<NotificationState> {
       provisional: false,
       sound: true,
     );
-    log(settings.authorizationStatus.toString());
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
       if (message?.notification != null) {
         showLocalNotification(
           message!.notification!.title!,
@@ -122,7 +123,6 @@ class NotificationCubit extends Cubit<NotificationState> {
 
     if (response.statusCode == 200) {
       print('notification sent');
-      
     } else {
       log('error');
     }

@@ -1,19 +1,57 @@
 import 'package:bloc/bloc.dart';
+import 'package:elite_counsel/bloc/dio.dart';
 
 import 'package:elite_counsel/models/student.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class StudentApplicationCubit extends Cubit<Student> {
   StudentApplicationCubit(Student student) : super(student);
-  
-  void changeApplicationProgress(int index, int newProgress) {
-    var applications = state.applications;
+
+  void changeApplicationProgress(String applicationID, int newProgress) async {
+    var student = state;
+    var applications = student.applications;
     if (applications == null) {
       return;
     }
-    if (index <= (applications.length) - 1) {
-      applications[index].progress = newProgress;
+    int index = applications
+        .indexWhere((element) => element.applicationID == applicationID);
+    if (index != -1 && index <= (applications.length) - 1) {
+      applications[index].progress = (newProgress);
     }
-    emit(state.copyWith(applications: applications));
+    student.applications = applications;
+    student.timeline = newProgress;
+    emit(student);
+
+    EasyLoading.showToast( 'Changing Status');
+    final response =
+        await GetDio.getDio().post('application/progressUpdate', data: {
+      'applicationId': applicationID,
+      'progress': newProgress.toString(),
+    });
+    EasyLoading.dismiss();
   }
+
+  static String? parseProgressTitleFromValue(int progressValue) {
+    if (canadaProgressMap.containsKey(progressValue)) {
+      return canadaProgressMap[progressValue];
+    }
+  }
+
+  static int? convertProgressTitleToValue(String title) {
+    for (var key in canadaProgressMap.keys) {
+      if (canadaProgressMap[key] == title) {
+        return key;
+      }
+    }
+  }
+
+  static final Map<int, String> canadaProgressMap = {
+    0: 'Apply Offer Letter',
+    1: 'Lodge Visa',
+    2: 'Book Biometric',
+    3: 'Visa Approved',
+    4: 'Passport Stamping',
+    5: 'Prepare To Fly',
+  };
 }

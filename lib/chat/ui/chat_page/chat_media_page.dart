@@ -36,9 +36,11 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
 
   void getChatDocs() {
     DocumentBloc(userType: 'student').getChatDocs(widget.roomID).then((docs) {
-      setState(() {
-        chatDocs = docs ?? [];
-      });
+      if (mounted) {
+        setState(() {
+          chatDocs = docs ?? [];
+        });
+      }
     });
   }
 
@@ -60,14 +62,23 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
         ),
       ),
       body: chatDocs.isEmpty
-          ? const Center(
-              child: Text(
-                'No Documents For This Chat',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            )
+          ? RefreshIndicator(
+             onRefresh: () async {
+                getChatDocs();
+              },
+            child: ListView(
+              children:[
+                SizedBox(height: MediaQuery.of(context).size.height/3,),
+                 const Center(
+                  child: Text(
+                    'No Documents For This Chat',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                )],
+            ),
+          )
           : RefreshIndicator(
               onRefresh: () async {
                 getChatDocs();

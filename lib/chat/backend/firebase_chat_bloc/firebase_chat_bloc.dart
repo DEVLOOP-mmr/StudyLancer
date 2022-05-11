@@ -295,24 +295,6 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     }
   }
 
-  void _sendNotificationOnMessage(Map<String, dynamic> messageMap, Room room) {
-    StudyLancerUser otherUser = room.users.firstWhere(
-      (element) => element!.id != FirebaseAuth.instance.currentUser!.uid,
-    )!;
-    String title = "" + (otherUser.name ?? 'Chat');
-    String body = '';
-    if (messageMap.containsKey('type')) {
-      if (messageMap['type'] == 'file') {
-        body = 'Sent a file.Tap to view.';
-      }
-    }
-    if (messageMap.containsKey('text')) {
-      body = messageMap['text'];
-    }
-    NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
-   
-  }
-
   /// Updates a message in the Firestore. Accepts any message and a
   /// room ID. Message will probably be taken from the [messages] stream.
   void updateMessage(types.Message message, String roomId) async {
@@ -342,5 +324,23 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
             },
           ),
         );
+  }
+
+  void _sendNotificationOnMessage(Map<String, dynamic> messageMap, Room room) {
+    StudyLancerUser otherUser = room.users.firstWhere(
+      (element) => element!.id != FirebaseAuth.instance.currentUser!.uid,
+    )!;
+    String title = "" + (otherUser.name ?? 'Chat');
+    String body = '';
+    if (messageMap.containsKey('type')) {
+      if (messageMap['type'] == 'file') {
+        body = 'Sent a file.Tap to view.';
+      }
+    }
+    if (messageMap.containsKey('text')) {
+      body = messageMap['text'];
+    }
+    NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
+   
   }
 }

@@ -52,7 +52,7 @@ class OptionsProvided extends StatelessWidget {
                         student,
                       ),
                       child:  StudentTile(
-                        courseName: openApplication.courseName,
+                        trackApplicationID: openApplication.applicationID,
                       ),
                     );
                   },

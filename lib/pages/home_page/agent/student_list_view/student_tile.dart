@@ -1,21 +1,37 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
-
-import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/student_detail_page.dart';
-import 'package:elite_counsel/variables.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class StudentTile extends StatelessWidget {
-  const StudentTile({Key? key, required this.courseName}) : super(key: key);
+import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
+import 'package:elite_counsel/models/application.dart';
+import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/pages/student_detail_page.dart';
+import 'package:elite_counsel/variables.dart';
 
-  final String? courseName;
-  
+class StudentTile extends StatelessWidget {
+  const StudentTile({
+    Key? key,
+    this.trackApplicationID,
+  }) : super(key: key);
+
+  final String? trackApplicationID;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StudentApplicationCubit, Student>(
       builder: (context, student) {
+        String courseName = '';
+        Application? applicationToTrack;
+        int? indexWhere = student.applications?.indexWhere(
+          (element) => element.applicationID == trackApplicationID,
+        );
+        if (indexWhere != null && indexWhere != -1) {
+          applicationToTrack = student.applications![indexWhere];
+
+          courseName = applicationToTrack.courseName!;
+        }
+
         return Padding(
           key: student.applyingFor!.isNotEmpty
               ? ValueKey(student.applyingFor)
@@ -72,11 +88,11 @@ class StudentTile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    trailing: Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.white,
-                    ),
+                    trailing: applicationToTrack != null
+                        ? ApplicationStatus(
+                            application: applicationToTrack,
+                          )
+                        : null,
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -113,7 +129,8 @@ class StudentTile extends StatelessWidget {
                     ),
                   ),
                   if (student.marksheet != null)
-                    Padding(
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -147,10 +164,71 @@ class StudentTile extends StatelessWidget {
                         },
                       ),
                     ),
+                  SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class ApplicationStatus extends StatefulWidget {
+  const ApplicationStatus({
+    Key? key,
+    required this.application,
+  }) : super(key: key);
+  final Application application;
+
+  @override
+  State<ApplicationStatus> createState() => _ApplicationStatusState();
+}
+
+class _ApplicationStatusState extends State<ApplicationStatus> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<StudentApplicationCubit, Student>(
+      builder: (context, state) {
+        return Container(
+          key: UniqueKey(),
+          margin: EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.04)),
+          child: DropdownButton(
+              dropdownColor: Variables.backgroundColor,
+              underline: Container(),
+              iconSize: 0,
+              value: state.timeline ?? 0,
+              items: [0, 1, 2, 3, 4, 5]
+                  .map((e) => DropdownMenuItem<int>(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                              StudentApplicationCubit
+                                      .parseProgressTitleFromValue(e) ??
+                                  '',
+                              style: const TextStyle(
+                                  color: Variables.accentColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        value: e,
+                      ))
+                  .toList(),
+              onChanged: (val) {
+                BlocProvider.of<StudentApplicationCubit>(context)
+                    .changeApplicationProgress(
+                  widget.application.applicationID!,
+                  val as int,
+                );
+                setState(() {});
+                BlocProvider.of<HomeBloc>(context).getHome();
+              }),
         );
       },
     );

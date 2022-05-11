@@ -83,7 +83,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.student!.name!.trim(),
+                                widget.student!.name??'',
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: paletteGenerator!

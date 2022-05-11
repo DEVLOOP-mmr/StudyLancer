@@ -53,7 +53,7 @@ class OngoingStudents extends StatelessWidget {
                         student,
                       ),
                       child:  StudentTile(
-                        courseName: ongoingApplication.courseName,
+                        trackApplicationID: ongoingApplication.applicationID,
                       ),
                     );
                   },

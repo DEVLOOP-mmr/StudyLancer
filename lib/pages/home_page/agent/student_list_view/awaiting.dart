@@ -37,9 +37,7 @@ class AwaitingStudents extends StatelessWidget {
               create: (context) => StudentApplicationCubit(
                 student,
               ),
-              child: const StudentTile(
-                courseName: '',
-              ),
+              child: const StudentTile(),
             );
           },
         );
