@@ -13,10 +13,14 @@ class SortButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
+        final bloc=BlocProvider.of<HomeBloc>(context, listen: false);
         var order = await showDialog(
           context: context,
           barrierDismissible: true,
-          builder: (context) => const SortDialog(),
+          builder: (context) => BlocProvider.value(
+            value: bloc,
+            child: SortDialog(),
+          ),
         );
         if (order != null) {
           BlocProvider.of<HomeBloc>(context).sortStudentsForAgentHome(order);
@@ -112,7 +116,7 @@ class SortDialog extends StatelessWidget {
                     )),
                 AccordionSection(
                     header: const Text(
-                      "Sort by Tuition Fees",
+                      "Sort by Timeline",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -123,7 +127,9 @@ class SortDialog extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop("asc");
+                            BlocProvider.of<HomeBloc>(context)
+                                .sortStudentsForAgentHomeByTimeline('asc');
+                            Navigator.pop(context);
                           },
                           child: const Text(
                             "Ascending",
@@ -135,7 +141,9 @@ class SortDialog extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop("desc");
+                            BlocProvider.of<HomeBloc>(context)
+                                .sortStudentsForAgentHomeByTimeline('desc');
+                            Navigator.pop(context);
                           },
                           child: const Text(
                             "Descending",

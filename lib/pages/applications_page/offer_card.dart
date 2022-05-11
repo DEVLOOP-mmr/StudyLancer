@@ -13,15 +13,17 @@ import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
-class OfferCard extends StatelessWidget {
-  const OfferCard({
+class ApplicationCard extends StatelessWidget {
+  const ApplicationCard({
     Key? key,
-    required this.offer,
+    required this.application,
     required this.student,
+    required this.applicationIndex,
   }) : super(key: key);
 
-  final Application offer;
+  final Application application;
   final Student student;
+  final int applicationIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,8 @@ class OfferCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Color(int.parse(offer.color!.replaceFirst("#", ""))),
+                  color: Color(
+                      int.parse(application.color!.replaceFirst("#", ""))),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: SizedBox(
@@ -59,7 +62,7 @@ class OfferCard extends StatelessWidget {
                               child: FractionallySizedBox(
                                 widthFactor: 0.6,
                                 child: Text(
-                                  offer.universityName ?? "",
+                                  application.universityName ?? "",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 23,
@@ -68,52 +71,77 @@ class OfferCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: FractionallySizedBox(
-                                widthFactor: 0.4,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.4),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              ((offer.agent?.photo == null)
-                                                      ? const AssetImage(
-                                                          'assets/images/abc.png',
-                                                        )
-                                                      : NetworkImage(
-                                                          (offer.agent?.photo)!,
-                                                        ))
-                                                  as ImageProvider<Object>?,
-                                          // backgroundImage:
-                                          //     NetworkImage(offer
-                                          //         .agentImage),
-                                          radius: 10,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            offer.agent?.name ?? "Agent",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                            Positioned(
+                              right: 30,
+                              width: 300,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.5,
+                                  child: Container(
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 300),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: ((application
+                                                        .agent?.photo ==
+                                                    null)
+                                                ? const AssetImage(
+                                                    'assets/images/abc.png',
+                                                  )
+                                                : NetworkImage(
+                                                    (application.agent?.photo)!,
+                                                  )) as ImageProvider<Object>?,
+                                            // backgroundImage:
+                                            //     NetworkImage(offer
+                                            //         .agentImage),
+                                            radius: 10,
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              application.agent?.name ??
+                                                  "Agent",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0.5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .toggleApplicationFavorite(
+                                    applicationIndex,
+                                  );
+                                },
+                                child: Icon(
+                                  (application.favorite ?? false)
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -123,7 +151,7 @@ class OfferCard extends StatelessWidget {
                           height: 8,
                         ),
                         Text(
-                          offer.courseName ?? "",
+                          application.courseName ?? "",
                           style: const TextStyle(
                             fontWeight: FontWeight.w200,
                             fontSize: 14,
@@ -154,7 +182,7 @@ class OfferCard extends StatelessWidget {
                                       height: 20,
                                     ),
                                     Text(
-                                      offer.description ?? "",
+                                      application.description ?? "",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
@@ -189,7 +217,7 @@ class OfferCard extends StatelessWidget {
                               width: 4,
                             ),
                             Text(
-                              (offer.city ?? "") + ", ",
+                              (application.city ?? "") + ", ",
                               style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
@@ -197,7 +225,7 @@ class OfferCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              offer.country ?? "",
+                              application.country ?? "",
                               style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
@@ -206,7 +234,7 @@ class OfferCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              "\$" + offer.courseFees!,
+                              "\$" + application.courseFees!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
@@ -257,8 +285,8 @@ class OfferCard extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await canLaunch(offer.courseLink!)
-                            ? await launch(offer.courseLink!)
+                        await canLaunch(application.courseLink!)
+                            ? await launch(application.courseLink!)
                             : EasyLoading.showError("Cannot launch link");
                       },
                       style: NeumorphicStyle(
@@ -298,7 +326,7 @@ class OfferCard extends StatelessWidget {
                       ),
                       onPressed: () async {
                         var otherUser = Agent();
-                        otherUser.id = offer.agent?.id;
+                        otherUser.id = application.agent?.id;
                         var currentStudent = (BlocProvider.of<HomeBloc>(context)
                                 .state as StudentHomeState)
                             .student;
@@ -330,20 +358,20 @@ class OfferCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (!offer.accepted!)
+              if (!application.accepted!)
                 const SizedBox(
                   height: 4,
                 ),
-              if (!offer.accepted!)
+              if (!application.accepted!)
                 Text(
                   "*This college application charges \$" +
-                      offer.applicationFees!,
+                      application.applicationFees!,
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 12,
                       color: Colors.white.withOpacity(0.7)),
                 ),
-              if (offer.status == 2)
+              if (application.status == 2)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -408,7 +436,7 @@ class OfferCard extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  offer.status == 3
+                                  application.status == 3
                                       ? "Offer Accepted"
                                       : "Accept Offer",
                                   style: const TextStyle(
@@ -420,10 +448,10 @@ class OfferCard extends StatelessWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if (offer.status == 2) {
+                            if (application.status == 2) {
                               await OfferBloc.acceptOffer(
-                                offer.applicationID,
-                                offer.agent?.id,
+                                application.applicationID,
+                                application.agent?.id,
                                 student.id,
                               );
                               await BlocProvider.of<HomeBloc>(context)

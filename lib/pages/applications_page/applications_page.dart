@@ -11,11 +11,16 @@ import 'package:ionicons/ionicons.dart';
 
 import '../../variables.dart';
 
-class ApplicationPage extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+class ApplicationPage extends StatefulWidget {
   ApplicationPage({Key? key}) : super(key: key);
 
+  @override
+  State<ApplicationPage> createState() => _ApplicationPageState();
+}
+
+class _ApplicationPageState extends State<ApplicationPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool showFavorites = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +47,28 @@ class ApplicationPage extends StatelessWidget {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         actions: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                showFavorites = !showFavorites;
+              });
+            },
+            child: Row(
+              children: [
+                Icon(!showFavorites ? Icons.star_outline : Icons.star),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Favorites',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
           const SortApplicationsButton(),
           GestureDetector(
             child: Image.asset("assets/images/menu.png"),
@@ -67,24 +94,29 @@ class ApplicationPage extends StatelessWidget {
               final studentHomeState = state;
               final student = studentHomeState.student!;
 
+              var applications = student.applications;
+              if (showFavorites && applications!=null) {
+                applications =
+                    applications.where((element) => element.favorite??false).toList();
+              }
               return Column(
                 children: [
                   const Divider(color: Colors.white),
                   !(student.verified ?? false)
                       ? const Center(child: UploadRequiredDocumentsPrompt())
                       : Expanded(
-                          child: (student.applications ?? []).isNotEmpty
+                          child: (applications ?? []).isNotEmpty
                               ? ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount:
-                                      (student.applications ?? []).length,
+                                  itemCount: (applications ?? []).length,
                                   itemBuilder: (context, index) {
                                     Application offer;
-                                    offer = student.applications![index];
+                                    offer = applications![index];
 
-                                    return OfferCard(
-                                      offer: offer,
+                                    return ApplicationCard(
+                                      application: offer,
                                       student: student,
+                                      applicationIndex: index,
                                     );
                                   },
                                 )

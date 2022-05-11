@@ -63,7 +63,7 @@ class DocumentBloc {
     };
 
     final response = await GetDio.getDio()
-        .post("$userType/addChatDoc", data: jsonEncode(body));
+        .post("chat/addChatDoc", data: jsonEncode(body));
     switch (response.statusCode) {
       case 200:
         break;
@@ -86,7 +86,7 @@ class DocumentBloc {
     Map body = {'chatId': chatID};
 
     final response = await GetDio.getDio()
-        .post("$userType/getChatDoc", data: jsonEncode(body));
+        .post("chat/getChatDoc", data: jsonEncode(body));
     List<Document> docs = [];
     if (response.statusCode == 200) {
       final data = response.data;

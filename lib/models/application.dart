@@ -52,7 +52,7 @@ class Application extends Equatable {
     application.courseFees = offerData["courseFees"].toString();
     application.courseName = offerData["courseName"];
     application.courseLink = offerData["courseLink"];
-    application.favorite = offerData['favorite'];
+    application.favorite = offerData['favourite'];
     application.progress = offerData['progress'];
     application.agent = offerData.containsKey('agent')
         ? offerData['agent'] == null
@@ -67,7 +67,7 @@ class Application extends Equatable {
   }
 
   @override
-  List<dynamic> get props {
+  List<Object?> get props {
     return [
       studentID,
       agent,

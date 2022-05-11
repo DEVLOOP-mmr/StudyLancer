@@ -46,17 +46,19 @@ class _StudentTabbedListState extends State<StudentTabbedList>
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            leading: widget.showOnlyOngoingApplications ?? false
+                ? null
+                : IconButton(
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
             actions: const [SortButton()],
             backgroundColor: Variables.backgroundColor,
             centerTitle: false,
             title: Text(
-              widget.showOnlyOngoingApplications ?? false ? 'Ongoing' : 'ALL',
+              widget.showOnlyOngoingApplications ?? false ? '' : 'ALL',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 30,

@@ -9,6 +9,7 @@ import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -100,6 +101,29 @@ class HomeBloc extends Cubit<HomeState> {
 
       return int.parse(a.applications!.first.courseFees!).compareTo(
         int.parse(b.applications!.first.courseFees!),
+      );
+    });
+    if (order == 'desc') {
+      students = students.reversed.toList();
+    }
+    emit((state as AgentHomeState).copyWith(students: students));
+  }
+   void sortStudentsForAgentHomeByTimeline(String order) {
+    assert(order == 'asc' || order == 'desc');
+    if (state is! AgentHomeState) {
+      return;
+    }
+    var students = (state as AgentHomeState).students!;
+    students.sort((a, b) {
+      if (a.applications!.isEmpty) {
+        return 0;
+      }
+      if (b.applications!.isEmpty) {
+        return 0;
+      }
+
+      return (a.applications!.first.progress!).compareTo(
+        (b.applications!.first.progress!),
       );
     });
     if (order == 'desc') {
@@ -279,6 +303,27 @@ class HomeBloc extends Cubit<HomeState> {
         getAgentHome();
         break;
       default:
+    }
+  }
+
+  void toggleApplicationFavorite(int applicationIndex) async {
+    var student = (state as StudentHomeState).student!;
+    final applications = student.applications ?? [];
+    if (applicationIndex <= applications.length - 1) {
+      var application = student.applications![applicationIndex];
+      application.favorite =
+          !(student.applications![applicationIndex].favorite ?? false);
+      emitNewStudent(student);
+
+      try {
+        var response =
+            await GetDio.getDio().post('application/favourite', data: {
+          'applicationId': application.applicationID,
+        });
+      
+      } catch (e) {
+        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      }
     }
   }
 }
