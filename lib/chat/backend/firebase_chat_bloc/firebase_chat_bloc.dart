@@ -250,6 +250,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         )
         .snapshots();
     roomSnapshotsStream ??= snapshots.listen((query) async {
+      print('new');
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
     });
@@ -330,7 +331,10 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     StudyLancerUser otherUser = room.users.firstWhere(
       (element) => element!.id != FirebaseAuth.instance.currentUser!.uid,
     )!;
-    String title = "" + (otherUser.name ?? 'Chat');
+    StudyLancerUser current = room.users.firstWhere(
+      (element) => element!.id == FirebaseAuth.instance.currentUser!.uid,
+    )!;
+    String title = "" + (current.name ?? 'Study Lancer Chat');
     String body = '';
     if (messageMap.containsKey('type')) {
       if (messageMap['type'] == 'file') {

@@ -67,7 +67,7 @@ dependencies:
   visibility_detector: ^0.2.0
   youtube_player_flutter: ^8.0.0
   youtube_player_iframe: ^2.2.2
-  zoho_chat: ^0.0.1
+  
 
 dev_dependencies:
   dart_code_metrics: ^4.14.0
