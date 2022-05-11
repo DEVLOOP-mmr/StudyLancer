@@ -108,7 +108,8 @@ class HomeBloc extends Cubit<HomeState> {
     }
     emit((state as AgentHomeState).copyWith(students: students));
   }
-   void sortStudentsForAgentHomeByTimeline(String order) {
+
+  void sortStudentsForAgentHomeByTimeline(String order) {
     assert(order == 'asc' || order == 'desc');
     if (state is! AgentHomeState) {
       return;
@@ -320,7 +321,6 @@ class HomeBloc extends Cubit<HomeState> {
             await GetDio.getDio().post('application/favourite', data: {
           'applicationId': application.applicationID,
         });
-      
       } catch (e) {
         FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       }

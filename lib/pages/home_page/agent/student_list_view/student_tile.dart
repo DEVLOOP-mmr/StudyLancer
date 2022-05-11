@@ -116,9 +116,9 @@ class StudentTile extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white.withOpacity(0.04)),
                           child: Text(
-                            courseName!.isEmpty
+                            courseName.isEmpty
                                 ? "Verified"
-                                : "Applying for " + courseName!,
+                                : "Applying for " + courseName,
                             style: const TextStyle(
                                 color: Variables.accentColor,
                                 fontSize: 10,
@@ -130,7 +130,7 @@ class StudentTile extends StatelessWidget {
                   ),
                   if (student.marksheet != null)
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -164,7 +164,7 @@ class StudentTile extends StatelessWidget {
                         },
                       ),
                     ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   )
                 ],
@@ -195,7 +195,7 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
       builder: (context, state) {
         return Container(
           key: UniqueKey(),
-          margin: EdgeInsets.only(right: 5),
+          margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white.withOpacity(0.04)),
@@ -207,7 +207,7 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
               items: [0, 1, 2, 3, 4, 5]
                   .map((e) => DropdownMenuItem<int>(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
                               StudentApplicationCubit
                                       .parseProgressTitleFromValue(e) ??

@@ -12,7 +12,7 @@ import 'package:ionicons/ionicons.dart';
 import '../../variables.dart';
 
 class ApplicationPage extends StatefulWidget {
-  ApplicationPage({Key? key}) : super(key: key);
+  const ApplicationPage({Key? key}) : super(key: key);
 
   @override
   State<ApplicationPage> createState() => _ApplicationPageState();
@@ -56,17 +56,17 @@ class _ApplicationPageState extends State<ApplicationPage> {
             child: Row(
               children: [
                 Icon(!showFavorites ? Icons.star_outline : Icons.star),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   'Favorites',
                   style: TextStyle(color: Colors.white),
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           const SortApplicationsButton(),
@@ -95,10 +95,12 @@ class _ApplicationPageState extends State<ApplicationPage> {
               final student = studentHomeState.student!;
 
               var applications = student.applications;
-              if (showFavorites && applications!=null) {
-                applications =
-                    applications.where((element) => element.favorite??false).toList();
+              if (showFavorites && applications != null) {
+                applications = applications
+                    .where((element) => element.favorite ?? false)
+                    .toList();
               }
+
               return Column(
                 children: [
                   const Divider(color: Colors.white),

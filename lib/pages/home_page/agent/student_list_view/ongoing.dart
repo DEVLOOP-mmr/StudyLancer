@@ -52,7 +52,7 @@ class OngoingStudents extends StatelessWidget {
                       create: (context) => StudentApplicationCubit(
                         student,
                       ),
-                      child:  StudentTile(
+                      child: StudentTile(
                         trackApplicationID: ongoingApplication.applicationID,
                       ),
                     );

@@ -13,13 +13,13 @@ class SortButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        final bloc=BlocProvider.of<HomeBloc>(context, listen: false);
+        final bloc = BlocProvider.of<HomeBloc>(context, listen: false);
         var order = await showDialog(
           context: context,
           barrierDismissible: true,
           builder: (context) => BlocProvider.value(
             value: bloc,
-            child: SortDialog(),
+            child: const SortDialog(),
           ),
         );
         if (order != null) {

@@ -300,10 +300,18 @@ class _ChatPageState extends State<ChatPage> {
             child: Container(
               padding: const EdgeInsets.only(top: 10, right: 15),
               child: Row(
-                children: [
-                  const Icon(Icons.download,size: 25,),
-                  SizedBox(width: 10,),
-                  Text('Media',style: TextStyle(color: Colors.white,fontSize: 14),)
+                children: const [
+                  Icon(
+                    Icons.download,
+                    size: 25,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Media',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  )
                 ],
               ),
             ),

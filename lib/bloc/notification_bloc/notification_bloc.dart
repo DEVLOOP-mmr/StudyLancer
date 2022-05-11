@@ -79,7 +79,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       provisional: false,
       sound: true,
     );
-    
+
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {

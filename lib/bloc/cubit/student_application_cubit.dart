@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:elite_counsel/bloc/dio.dart';
 
 import 'package:elite_counsel/models/student.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class StudentApplicationCubit extends Cubit<Student> {
@@ -23,7 +22,7 @@ class StudentApplicationCubit extends Cubit<Student> {
     student.timeline = newProgress;
     emit(student);
 
-    EasyLoading.showToast( 'Changing Status');
+    EasyLoading.showToast('Changing Status');
     final response =
         await GetDio.getDio().post('application/progressUpdate', data: {
       'applicationId': applicationID,
@@ -36,6 +35,7 @@ class StudentApplicationCubit extends Cubit<Student> {
     if (canadaProgressMap.containsKey(progressValue)) {
       return canadaProgressMap[progressValue];
     }
+    return null;
   }
 
   static int? convertProgressTitleToValue(String title) {
@@ -44,6 +44,7 @@ class StudentApplicationCubit extends Cubit<Student> {
         return key;
       }
     }
+    return null;
   }
 
   static final Map<int, String> canadaProgressMap = {

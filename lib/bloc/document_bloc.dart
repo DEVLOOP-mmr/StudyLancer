@@ -62,8 +62,8 @@ class DocumentBloc {
       },
     };
 
-    final response = await GetDio.getDio()
-        .post("chat/addChatDoc", data: jsonEncode(body));
+    final response =
+        await GetDio.getDio().post("chat/addChatDoc", data: jsonEncode(body));
     switch (response.statusCode) {
       case 200:
         break;
@@ -85,8 +85,8 @@ class DocumentBloc {
   Future<List<Document>?> getChatDocs(String chatID) async {
     Map body = {'chatId': chatID};
 
-    final response = await GetDio.getDio()
-        .post("chat/getChatDoc", data: jsonEncode(body));
+    final response =
+        await GetDio.getDio().post("chat/getChatDoc", data: jsonEncode(body));
     List<Document> docs = [];
     if (response.statusCode == 200) {
       final data = response.data;

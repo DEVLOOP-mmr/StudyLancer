@@ -341,6 +341,5 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       body = messageMap['text'];
     }
     NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
-   
   }
 }

@@ -33,7 +33,6 @@ class Student extends StudyLancerUser with EquatableMixin {
     this.timeline,
     this.marksheet,
     this.applications,
-    
   });
 
   bool isValid() {
@@ -124,6 +123,4 @@ class Student extends StudyLancerUser with EquatableMixin {
       applications,
     ];
   }
-
-  
 }
