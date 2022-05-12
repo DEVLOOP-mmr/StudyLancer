@@ -5,8 +5,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
-import 'package:elite_counsel/pages/student_detail_page.dart';
 import 'package:elite_counsel/variables.dart';
+
 class ApplicationStatus extends StatefulWidget {
   const ApplicationStatus({
     Key? key,
@@ -56,7 +56,7 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
                   widget.application.applicationID!,
                   val as int,
                 );
-              
+
                 BlocProvider.of<HomeBloc>(context).getHome();
               }),
         );
