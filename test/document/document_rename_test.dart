@@ -56,9 +56,10 @@ void main() {
           'test_name',
         );
         expect(response.statusCode, 200);
-        var newAgent = (await (ProfileTestSuite().getAgentProfile()))!;
+        agent = (await (ProfileTestSuite().getAgentProfile()))!;
         expect(
-          newAgent.documents!.any((element) => element.name == 'test_name'),
+          agent.documents!.any((element) =>
+              element.name == 'test_name' && element.id == lastDocID),
           true,
         );
       },

@@ -2,12 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:elite_counsel/bloc/dio.dart';
 
 import 'package:elite_counsel/models/student.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class StudentApplicationCubit extends Cubit<Student> {
   StudentApplicationCubit(Student student) : super(student);
 
-  void changeApplicationProgress(String applicationID, int newProgress) async {
+  Future<void> changeApplicationProgress(
+      String applicationID, int newProgress) async {
     var student = state;
     var applications = student.applications;
     if (applications == null) {
@@ -21,14 +23,21 @@ class StudentApplicationCubit extends Cubit<Student> {
     student.applications = applications;
     student.timeline = newProgress;
     emit(student);
+    if (kReleaseMode) {
+      EasyLoading.showToast('Changing Status');
+    }
 
-    EasyLoading.showToast('Changing Status');
     final response =
         await GetDio.getDio().post('application/progressUpdate', data: {
       'applicationId': applicationID,
       'progress': newProgress.toString(),
     });
-    EasyLoading.dismiss();
+    if (response.statusCode != 200) {
+      throw Exception('progressUpdate${response.statusCode}');
+    }
+    if (kReleaseMode) {
+      EasyLoading.dismiss();
+    }
   }
 
   static String? parseProgressTitleFromValue(int progressValue) {
