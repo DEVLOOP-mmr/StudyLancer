@@ -23,7 +23,8 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
             rooms: const [],
             loadState: LoadState.initial,
             nonce: '',
-            roomMessages: const {},
+            // ignore: prefer_const_literals_to_create_immutables
+            roomMessages: {},
           ),
         ) {
     FirebaseAuth.instance.userChanges().listen((event) {
@@ -58,10 +59,12 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     user = null;
 
     emit(FirebaseChatState(
-        rooms: const [],
-        loadState: LoadState.initial,
-        roomMessages: const {},
-        nonce: ''));
+      rooms: const [],
+      loadState: LoadState.initial,
+      // ignore: prefer_const_literals_to_create_immutables
+      roomMessages: {},
+      nonce: '',
+    ));
     await roomSnapshotsStream!.cancel();
     roomSnapshotsStream = null;
   }
@@ -236,13 +239,12 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         data['id'] = element.id;
         if (data['timestamp'] is Timestamp) {
           data['timestamp'] = data['timestamp'].seconds;
-        } else {
-          print('wow');
-        }
+        } 
 
         messages.add(types.Message.fromJson(data));
       }
-      var currentMessages = state.roomMessages;
+      var currentMessages =
+          state.roomMessages as Map<String, List<types.Message>?>;
       currentMessages[roomId] = messages;
       emit(state.copyWith(
           roomMessages: currentMessages, nonce: const Uuid().v4()));
@@ -317,10 +319,9 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   void updateMessage(types.Message message, String roomId) async {
     if (user == null) return;
     if (message.authorId == user!.uid) return;
-
     final messageMap = message.toJson();
     messageMap.removeWhere((key, value) => key == 'id' || key == 'timestamp');
-
+  
     await FirebaseFirestore.instance
         .collection('rooms/$roomId/messages')
         .doc(message.id)

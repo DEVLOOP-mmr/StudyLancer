@@ -329,11 +329,7 @@ class _ChatPageState extends State<ChatPage> {
           if (state.roomMessages.containsKey(widget.room.id)) {
             for (var element in state.roomMessages[widget.room.id]!) {
               if (element.status != types.Status.read &&
-                  element.authorId !=
-                      BlocProvider.of<FirebaseChatBloc>(
-                        context,
-                        listen: false,
-                      ).user!.uid) {
+                  element.authorId != FirebaseAuth.instance.currentUser!.uid) {
                 BlocProvider.of<FirebaseChatBloc>(context, listen: false)
                     .updateMessage(
                   element.copyWith(status: types.Status.read),
