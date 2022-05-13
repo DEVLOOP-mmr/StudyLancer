@@ -32,22 +32,27 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
           child: DropdownButton(
               dropdownColor: Variables.backgroundColor,
               underline: Container(),
-              iconSize: 0,
+              iconSize: 20,
               value: widget.application.progress ?? 0,
               items: [0, 1, 2, 3, 4, 5]
-                  .map((e) => DropdownMenuItem<int>(
+                  .map((progressValue) => DropdownMenuItem<int>(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                              StudentApplicationCubit
-                                      .parseProgressTitleFromValue(e) ??
-                                  '',
-                              style: const TextStyle(
-                                  color: Variables.accentColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold)),
+                            ' ' +
+                                (StudentApplicationCubit
+                                        .parseProgressTitleFromValue(
+                                      progressValue,
+                                    ) ??
+                                    ''),
+                            style: const TextStyle(
+                              color: Variables.accentColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                        value: e,
+                        value: progressValue,
                       ))
                   .toList(),
               onChanged: (val) {

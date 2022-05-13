@@ -34,7 +34,7 @@ class StudentApplicationCubit extends Cubit<Student> {
     });
     if (response.statusCode != 200) {
       throw Exception('progressUpdate${response.statusCode}');
-    }
+    } else {}
     if (kReleaseMode) {
       EasyLoading.dismiss();
     }

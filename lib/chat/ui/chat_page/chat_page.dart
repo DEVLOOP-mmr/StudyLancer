@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/chat/ui/chat_page/chat_media_page.dart';
 import 'package:elite_counsel/models/document.dart';
@@ -323,13 +324,10 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-      body: StreamBuilder<List<types.Message>>(
-        stream: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-            .messages(widget.room.id),
-        initialData: const [],
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            for (var element in snapshot.data!) {
+      body: BlocBuilder<FirebaseChatBloc, FirebaseChatState>(
+        builder: (context, state) {
+          if (state.roomMessages.containsKey(widget.room.id)) {
+            for (var element in state.roomMessages[widget.room.id]!) {
               if (element.status != types.Status.read &&
                   element.authorId !=
                       BlocProvider.of<FirebaseChatBloc>(
@@ -350,7 +348,9 @@ class _ChatPageState extends State<ChatPage> {
                 border: Border(top: BorderSide(color: Colors.black))),
             child: Chat(
               isAttachmentUploading: _isAttachmentUploading,
-              messages: snapshot.data ?? [],
+              messages: state.roomMessages.containsKey(widget.room.id)
+                  ? state.roomMessages[widget.room.id]!
+                  : [],
               onAttachmentPressed: _handleAttachmentPress,
               onFilePressed: _openFile,
               onPreviewDataFetched: _onPreviewDataFetched,
