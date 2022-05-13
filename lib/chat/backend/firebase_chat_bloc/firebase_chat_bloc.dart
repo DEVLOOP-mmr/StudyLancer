@@ -10,6 +10,7 @@ import 'package:elite_counsel/chat/type/room.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../backend_util.dart';
 
@@ -18,7 +19,12 @@ import '../backend_util.dart';
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   FirebaseChatBloc({required this.homeBloc})
       : super(
-          const FirebaseChatState(rooms: [], loadState: LoadState.initial),
+          FirebaseChatState(
+            rooms: const [],
+            loadState: LoadState.initial,
+            nonce: '',
+            roomMessages: const {},
+          ),
         ) {
     FirebaseAuth.instance.userChanges().listen((event) {
       if (event != null) {
@@ -51,7 +57,11 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
   void resetLoginData() async {
     user = null;
 
-    emit(const FirebaseChatState(rooms: [], loadState: LoadState.initial));
+    emit(FirebaseChatState(
+        rooms: const [],
+        loadState: LoadState.initial,
+        roomMessages: const {},
+        nonce: ''));
     await roomSnapshotsStream!.cancel();
     roomSnapshotsStream = null;
   }
@@ -213,26 +223,30 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     });
   }
 
-  /// Returns a stream of messages from Firebase for a given room
-  Stream<List<types.Message>> messages(String roomId) {
-    return FirebaseFirestore.instance
+  /// Starts a listener and Emits a stream of messages from Firebase for a given room
+  void messages(String roomId) {
+    FirebaseFirestore.instance
         .collection('rooms/$roomId/messages')
         .orderBy('timestamp', descending: true)
         .snapshots()
-        .map(
-      (snapshot) {
-        return snapshot.docs.fold<List<types.Message>>(
-          [],
-          (previousValue, element) {
-            final data = element.data();
-            data['id'] = element.id;
-            data['timestamp'] = element['timestamp'].seconds;
+        .listen((snapshot) {
+      List<types.Message> messages = [];
+      for (var element in snapshot.docs) {
+        final data = element.data();
+        data['id'] = element.id;
+        if (data['timestamp'] is Timestamp) {
+          data['timestamp'] = data['timestamp'].seconds;
+        } else {
+          print('wow');
+        }
 
-            return [...previousValue, types.Message.fromJson(data)];
-          },
-        );
-      },
-    );
+        messages.add(types.Message.fromJson(data));
+      }
+      var currentMessages = state.roomMessages;
+      currentMessages[roomId] = messages;
+      emit(state.copyWith(
+          roomMessages: currentMessages, nonce: const Uuid().v4()));
+    });
   }
 
   /// Emits a stream of rooms from Firebase. Only rooms where current
@@ -252,6 +266,9 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     roomSnapshotsStream ??= snapshots.listen((query) async {
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
+      for (var room in rooms) {
+        messages(room.id);
+      }
     });
   }
 
