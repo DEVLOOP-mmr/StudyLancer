@@ -12,30 +12,19 @@ import 'package:elite_counsel/variables.dart';
 class StudentTile extends StatelessWidget {
   const StudentTile({
     Key? key,
-    this.trackApplicationID,
   }) : super(key: key);
-
-  final String? trackApplicationID;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentApplicationCubit, Student>(
-      builder: (context, student) {
+    return BlocBuilder<StudentApplicationCubit, Application>(
+      builder: (context, application) {
         String courseName = '';
-        Application? applicationToTrack;
-        int? indexWhere = student.applications?.indexWhere(
-          (element) => element.applicationID == trackApplicationID,
-        );
-        if (indexWhere != null && indexWhere != -1) {
-          applicationToTrack = student.applications![indexWhere];
 
-          courseName = applicationToTrack.courseName!;
-        }
+        courseName = application.status == 1 ? '' : application.courseName??'';
 
         return Padding(
-          key: student.applyingFor!.isNotEmpty
-              ? ValueKey(student.applyingFor)
-              : null,
+          key: ValueKey(application.applicationID??application.student!.id!),
+             
           padding: const EdgeInsets.all(8.0),
           child: Neumorphic(
             style: NeumorphicStyle(
@@ -50,7 +39,7 @@ class StudentTile extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
                   return StudentDetailPage(
-                    student: student,
+                    student: application.student,
                   );
                 }));
               },
@@ -67,7 +56,7 @@ class StudentTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white,
                         image: DecorationImage(
-                          image: NetworkImage(student.photo ??
+                          image: NetworkImage(application.student?.photo ??
                               "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                           fit: BoxFit.cover,
                         ),
@@ -77,8 +66,8 @@ class StudentTile extends StatelessWidget {
                       margin: EdgeInsets.only(
                           right: MediaQuery.of(context).size.width / 5),
                       child: AutoSizeText(
-                        (student.name ?? "") != ""
-                            ? (student.name!.trim())
+                        (application.student?.name ?? "") != ""
+                            ? (application.student!.name!.trim())
                             : "No name",
                         maxLines: 2,
                         style: const TextStyle(
@@ -88,10 +77,9 @@ class StudentTile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    trailing: applicationToTrack != null &&
-                            applicationToTrack.status == 3
+                    trailing: application.status == 3
                         ? ApplicationStatus(
-                            application: applicationToTrack,
+                            application: application,
                           )
                         : null,
                     subtitle: Column(
@@ -101,7 +89,7 @@ class StudentTile extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          student.course! + " . " + student.year!,
+                          application.student!.course! + " . " + application.student!.year!,
                           style: TextStyle(
                               color: Colors.white.withOpacity(0.4),
                               fontSize: 10,
@@ -129,22 +117,22 @@ class StudentTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (student.marksheet != null)
+                  if (application.student!.marksheet != null)
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 5),
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: student.marksheet!.length * 2,
+                        itemCount: application.student!.marksheet!.length * 2,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: student.marksheet!.length,
+                          crossAxisCount: application.student!.marksheet!.length,
                           childAspectRatio: 2,
                         ),
                         itemBuilder: (context, index) {
-                          var markData =
-                              student.marksheet!.keys.toList(growable: true);
-                          for (var element in student.marksheet!.values) {
+                          var markData = application.student!.marksheet!.keys
+                              .toList(growable: true);
+                          for (var element in application.student!.marksheet!.values) {
                             markData.add(element.toString());
                           }
 

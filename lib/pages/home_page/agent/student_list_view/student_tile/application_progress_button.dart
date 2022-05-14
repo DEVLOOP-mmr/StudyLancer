@@ -21,13 +21,14 @@ class ApplicationStatus extends StatefulWidget {
 class _ApplicationStatusState extends State<ApplicationStatus> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentApplicationCubit, Student>(
+    return BlocBuilder<StudentApplicationCubit, Application>(
       builder: (context, state) {
         return Container(
           key: UniqueKey(),
-          margin: const EdgeInsets.only(right: 5),
+          
+          margin: const EdgeInsets.only(right: 1),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
               color: Colors.white.withOpacity(0.04)),
           child: DropdownButton(
               dropdownColor: Variables.backgroundColor,
@@ -47,7 +48,7 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
                                     ''),
                             style: const TextStyle(
                               color: Variables.accentColor,
-                              fontSize: 12,
+                              fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -58,7 +59,6 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
               onChanged: (val) {
                 BlocProvider.of<StudentApplicationCubit>(context)
                     .changeApplicationProgress(
-                  widget.application.applicationID!,
                   val as int,
                 );
 

@@ -24,17 +24,10 @@ void main() {
 
       var agentHome = await ProfileTestSuite().getAgentHome();
 
-      bool applicationIsInOptionsProvided = agentHome.students!.any((student) {
-        if (student.applications!.isEmpty) {
-          return false;
-        }
-
-        return student.applications!.any(
-          (app) =>
-              app.courseName == mockApplication.courseName &&
-              app.agent?.id == agentHome.agent!.id &&
-              app.status == 2,
-        );
+      bool applicationIsInOptionsProvided = agentHome.applications!.any((app) {
+        return app.courseName == mockApplication.courseName &&
+            app.agent?.id == agentHome.agent!.id &&
+            app.status == 2;
       });
 
       expect(applicationIsInOptionsProvided, true);
@@ -63,17 +56,11 @@ void main() {
         expect(response.statusCode, 200);
 
         var agentHome = await ProfileTestSuite().getAgentHome();
-        bool applicationIsInOngoing = agentHome.students!.any((student) {
-          if (student.applications!.isEmpty) {
-            return false;
-          }
-
-          return student.applications!.any(
-            (app) =>
-                app.courseName == mockApplication.courseName &&
-                app.agent?.id == agentHome.agent!.id &&
-                app.status == 3,
-          );
+        bool applicationIsInOngoing =
+            agentHome.applications!.any((app) {
+          return app.courseName == mockApplication.courseName &&
+              app.agent?.id == agentHome.agent!.id &&
+              app.status == 3;
         });
 
         expect(applicationIsInOngoing, true);

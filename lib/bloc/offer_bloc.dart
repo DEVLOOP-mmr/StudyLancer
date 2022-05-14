@@ -27,7 +27,7 @@ class OfferBloc {
         NotificationCubit.sendNotificationToUser(
           'You have a new offer',
           'Tap and view your applications',
-          application.studentID!,
+          application.student!.id!,
         );
       } else {
         if (kDebugMode) {
@@ -51,7 +51,7 @@ class OfferBloc {
   static Map<dynamic, dynamic> _responseBodyFromApplication(
       Application application, String agentID) {
     Map body = {
-      "studentID": application.studentID,
+      "studentID": application.student!.id,
       "agentID": agentID,
       "universityName": application.universityName,
       "location": {

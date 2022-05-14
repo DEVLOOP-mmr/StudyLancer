@@ -40,10 +40,10 @@ class ProfileTestSuite {
     return student;
   }
 
-  Future<StudentHomeState> getStudentHome() async {
+  Future<StudentHomeState> getStudentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('student');
     var homeBloc = HomeBloc()..setCountry('CA', 'student');
-    var studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
+    var studentHomeData = await (bloc??homeBloc).getStudentHome(firebaseAuth: mockAuth);
     if (!studentHomeData.student!.verified!) {
       await updateStudentRequiredDocs();
       homeBloc.setCountry('CA', 'student');
@@ -66,9 +66,9 @@ class ProfileTestSuite {
     return agent;
   }
 
-  Future<AgentHomeState> getAgentHome() async {
+  Future<AgentHomeState> getAgentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('agent');
-    var homeBloc = HomeBloc()..setCountry('CA', 'agent');
+    var homeBloc = bloc??HomeBloc()..setCountry('CA', 'agent');
     var agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
     if (!agentHomeData.agent!.verified!) {
       await updateAgentRequiredDocs();

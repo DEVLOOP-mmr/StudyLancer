@@ -1,35 +1,27 @@
 import 'package:bloc/bloc.dart';
 import 'package:elite_counsel/bloc/dio.dart';
+import 'package:elite_counsel/models/application.dart';
 
 import 'package:elite_counsel/models/student.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class StudentApplicationCubit extends Cubit<Student> {
-  StudentApplicationCubit(Student student) : super(student);
+class StudentApplicationCubit extends Cubit<Application> {
+  StudentApplicationCubit(Application application) : super(application);
 
-  Future<void> changeApplicationProgress(
-      String applicationID, int newProgress) async {
-    var student = state;
-    var applications = student.applications;
-    if (applications == null) {
-      return;
-    }
-    int index = applications
-        .indexWhere((element) => element.applicationID == applicationID);
-    if (index != -1 && index <= (applications.length) - 1) {
-      applications[index].progress = (newProgress);
-    }
-    student.applications = applications;
-    student.timeline = newProgress;
-    emit(student);
+  Future<void> changeApplicationProgress(int newProgress) async {
+    var application = state;
+    application.progress = (newProgress);
+
+   
+    emit(application);
     if (kReleaseMode) {
       EasyLoading.showToast('Changing Status');
     }
 
     final response =
         await GetDio.getDio().post('application/progressUpdate', data: {
-      'applicationId': applicationID,
+      'applicationId': state.applicationID,
       'progress': newProgress.toString(),
     });
     if (response.statusCode != 200) {

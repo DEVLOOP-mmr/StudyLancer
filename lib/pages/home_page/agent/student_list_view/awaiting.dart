@@ -1,6 +1,7 @@
 import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tile/student_tile.dart'
     show StudentTile;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,18 +25,16 @@ class AwaitingStudents extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
+        var verifiedStudents = agentHomePageState.verifiedStudents;
         return ListView.builder(
-          itemCount: agentHomePageState.students!.where((element) {
-            return element.applications!.isEmpty;
-          }).length,
+          itemCount: verifiedStudents?.length ?? 0,
           itemBuilder: (context, index) {
-            var student = agentHomePageState.students!.where((element) {
-              return element.applications!.isEmpty;
-            }).toList()[index];
-
+            final application = Application();
+            application.student = verifiedStudents![index];
+            application.status = 1;
             return BlocProvider(
               create: (context) => StudentApplicationCubit(
-                student,
+                application,
               ),
               child: const StudentTile(),
             );
