@@ -13,6 +13,22 @@ void main() {
 
     bloc.sortStudentsForAgentHomeByTimeline('desc');
 
-    final applications = (bloc.agentHome()).applications;
+    final applications = (((bloc.agentHome())
+                .applications
+                ?.where((element) => element.status == 3)) ??
+            [])
+        .toList();
+    if (applications.length == 2) {
+      expect(applications[0].progress! > applications[1].progress!, true);
+    } else if (applications.length > 2) {
+      for (int i = 0; i < applications.length; i++) {
+        if (i + 1 <= applications.length - 1) {
+          expect(
+            applications[i].progress! > applications[i + 1].progress!,
+            true,
+          );
+        }
+      }
+    }
   });
 }

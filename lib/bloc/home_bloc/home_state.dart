@@ -6,7 +6,7 @@ import 'package:elite_counsel/models/student.dart';
 
 enum LoadState { initial, loading, error, done }
 
-abstract class HomeState {
+abstract class HomeState extends Equatable {
   LoadState? loadState = LoadState.initial;
   String? countryCode;
   HomeState({
@@ -26,32 +26,32 @@ class InitialHomeState extends HomeState {
       loadState: loadState ?? this.loadState,
     );
   }
+
+  @override
+  List<Object?> get props => [countryCode, loadState];
 }
 
-class StudentHomeState extends HomeState with EquatableMixin {
-  @override
-  LoadState? loadState;
+class StudentHomeState extends HomeState {
   Student? student;
   List<Agent>? agents;
-  @override
-  String? countryCode;
+
   StudentHomeState({
-    this.loadState,
+    LoadState? loadState,
     this.student,
     this.agents,
-    this.countryCode,
-  });
+    String? countryCode,
+  }) : super(loadState: loadState, countryCode: countryCode);
 
   StudentHomeState copyWith({
     LoadState? loadState,
+    String? countryCode,
     Student? student,
     List<Agent>? agents,
-    String? countryCode,
   }) {
     return StudentHomeState(
-      loadState: loadState ?? this.loadState,
       student: student ?? this.student,
       agents: agents ?? this.agents,
+      loadState: loadState ?? this.loadState,
       countryCode: countryCode ?? this.countryCode,
     );
   }
@@ -64,42 +64,35 @@ class AgentHomeState extends HomeState with EquatableMixin {
   Agent? agent;
   List<Application>? applications;
   List<Student>? verifiedStudents;
-  @override
-  String? countryCode;
-  @override
-  LoadState? loadState;
+
   AgentHomeState({
+    String? countryCode,
+    LoadState? loadState,
     this.agent,
     this.applications,
     this.verifiedStudents,
-    this.countryCode,
-    this.loadState,
-  });
+  }) : super(loadState: loadState, countryCode: countryCode);
 
   AgentHomeState copyWith({
     Agent? agent,
     List<Application>? applications,
     List<Student>? verifiedStudents,
-    String? countryCode,
     LoadState? loadState,
+    String? countryCode,
   }) {
     return AgentHomeState(
       agent: agent ?? this.agent,
       applications: applications ?? this.applications,
       verifiedStudents: verifiedStudents ?? this.verifiedStudents,
-      countryCode: countryCode ?? this.countryCode,
       loadState: loadState ?? this.loadState,
+      countryCode: countryCode ?? this.countryCode,
     );
   }
 
   @override
-  List<dynamic> get props {
-    return [
-      agent,
-      applications,
-      verifiedStudents,
-      countryCode,
-      loadState,
-    ];
-  }
+  List<Object?> get props => [
+        agent,
+        applications,
+        verifiedStudents,
+      ];
 }

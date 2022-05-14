@@ -251,7 +251,12 @@ class HomeBloc extends Cubit<HomeState> {
       homeData.applications = [];
       homeData = _parseStudentApplications(data, homeData);
       assert(homeData.agent != null);
-      emit(homeData.copyWith(loadState: LoadState.done));
+      try {
+        emit(InitialHomeState(country: '', loadState: LoadState.loading));
+        emit(homeData.copyWith(loadState: LoadState.done));
+      } on StackOverflowError catch (e) {
+        rethrow;
+      }
     } else {
       _handleInvalidResult(result, context);
     }
@@ -276,7 +281,7 @@ class HomeBloc extends Cubit<HomeState> {
         }
       }
     }
-    
+
     return homeData;
   }
 

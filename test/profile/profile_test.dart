@@ -40,10 +40,10 @@ class ProfileTestSuite {
     return student;
   }
 
-  Future<StudentHomeState> getStudentHome() async {
+  Future<StudentHomeState> getStudentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('student');
     var homeBloc = HomeBloc()..setCountry('CA', 'student');
-    var studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
+    var studentHomeData = await (bloc??homeBloc).getStudentHome(firebaseAuth: mockAuth);
     if (!studentHomeData.student!.verified!) {
       await updateStudentRequiredDocs();
       homeBloc.setCountry('CA', 'student');
