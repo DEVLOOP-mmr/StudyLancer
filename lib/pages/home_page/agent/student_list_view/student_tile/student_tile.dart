@@ -88,7 +88,8 @@ class StudentTile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    trailing: applicationToTrack != null
+                    trailing: applicationToTrack != null &&
+                            applicationToTrack.status == 3
                         ? ApplicationStatus(
                             application: applicationToTrack,
                           )
