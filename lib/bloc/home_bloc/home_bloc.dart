@@ -19,7 +19,8 @@ import '../dio.dart';
 
 class HomeBloc extends Cubit<HomeState> {
   HomeBloc() : super(InitialHomeState());
-  void setCountry(String? newCountry, String? userType) {
+  void setCountry(String newCountry, String userType) {
+    assert(newCountry.isNotEmpty);
     switch (userType) {
       case 'student':
         if (state is! StudentHomeState) {

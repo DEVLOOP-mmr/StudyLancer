@@ -31,6 +31,7 @@ class OngoingStudents extends StatelessWidget {
         }).toList();
 
         return SingleChildScrollView(
+          key: UniqueKey(),
           child: Column(
             children: ongoingApplications.map((application) {
               return BlocProvider(
