@@ -66,9 +66,9 @@ class ProfileTestSuite {
     return agent;
   }
 
-  Future<AgentHomeState> getAgentHome() async {
+  Future<AgentHomeState> getAgentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('agent');
-    var homeBloc = HomeBloc()..setCountry('CA', 'agent');
+    var homeBloc = bloc??HomeBloc()..setCountry('CA', 'agent');
     var agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
     if (!agentHomeData.agent!.verified!) {
       await updateAgentRequiredDocs();

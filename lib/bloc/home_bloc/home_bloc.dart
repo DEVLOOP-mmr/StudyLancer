@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
@@ -57,6 +58,8 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
+  AgentHomeState agentHome() => (state as AgentHomeState);
+
   void emitNewAgent(Agent? agent) {
     if (state is AgentHomeState) {
       var homeState = (state as AgentHomeState);
@@ -85,52 +88,45 @@ class HomeBloc extends Cubit<HomeState> {
     emit(state2.copyWith(student: state2.student));
   }
 
-  void sortStudentsForAgentHome(String order) {
+  void sortApplicationsForAgentHome(String order) {
     assert(order == 'asc' || order == 'desc');
     if (state is! AgentHomeState) {
       return;
     }
-    var students = (state as AgentHomeState).students!;
-    students.sort((a, b) {
-      if (a.applications!.isEmpty) {
-        return 0;
-      }
-      if (b.applications!.isEmpty) {
-        return 0;
-      }
-
-      return int.parse(a.applications!.first.courseFees!).compareTo(
-        int.parse(b.applications!.first.courseFees!),
+    var applications = (state as AgentHomeState).applications!;
+    applications.sort((a, b) {
+      return int.parse(a.courseFees!).compareTo(
+        int.parse(b.courseFees!),
       );
     });
     if (order == 'desc') {
-      students = students.reversed.toList();
+      applications = applications.reversed.toList();
     }
-    emit((state as AgentHomeState).copyWith(students: students));
+    emit((state as AgentHomeState).copyWith(applications: applications));
   }
 
   void sortStudentsForAgentHomeByTimeline(String order) {
     assert(order == 'asc' || order == 'desc');
-    if (state is! AgentHomeState) {
-      return;
-    }
-    var students = (state as AgentHomeState).students!;
-    students.sort((a, b) {
-      if (a.applications!.isEmpty) {
-        return 0;
-      }
-      if (b.applications!.isEmpty) {
-        return 0;
-      }
+    emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
+    var applications = (state as AgentHomeState).applications!;
+    try {
+      applications.sort((a, b) {
+        if (a.status == 3 && b.status == 3) {
+          return (a.progress!).compareTo(
+            (b.progress!),
+          );
+        }
 
-      return (a.applications!.first.progress!).compareTo(
-        (b.applications!.first.progress!),
-      );
-    });
-    if (order == 'desc') {
-      students = students.reversed.toList();
+        return 0;
+      });
+    } on Exception catch (e) {
+      log(e.toString());
     }
-    emit((state as AgentHomeState).copyWith(students: students));
+    if (order == 'desc') {
+      applications = applications.reversed.toList();
+    }
+    emit((state as AgentHomeState)
+        .copyWith(applications: applications, loadState: LoadState.done));
   }
 
   Future<StudentHomeState> getStudentHome({
@@ -252,21 +248,35 @@ class HomeBloc extends Cubit<HomeState> {
     if (result.statusCode! < 300) {
       var data = result.data;
       homeData.agent = Agent.fromMap(data["agent"]);
-      homeData.students = [];
-      List? studentList = data["studentdata"];
-      if (studentList != null) {
-        for (var element in studentList) {
-          var student = Student.fromMap(element);
-
-          homeData.students!.add(student);
-        }
-      }
+      homeData.applications = [];
+      homeData = _parseStudentApplications(data, homeData);
       assert(homeData.agent != null);
       emit(homeData.copyWith(loadState: LoadState.done));
     } else {
       _handleInvalidResult(result, context);
     }
 
+    return homeData;
+  }
+
+  AgentHomeState _parseStudentApplications(data, AgentHomeState homeData) {
+    List? studentList = data["studentdata"];
+    if (studentList != null) {
+      homeData.verifiedStudents = [];
+      for (var element in studentList) {
+        var student = Student.fromMap(element);
+        if (student.applications?.isNotEmpty ?? false) {
+          for (var application in student.applications ?? []) {
+            application.student = student;
+            assert(application.agent != null);
+            homeData.applications!.add(application);
+          }
+        } else {
+          homeData.verifiedStudents?.add(student);
+        }
+      }
+    }
+    
     return homeData;
   }
 

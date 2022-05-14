@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/student.dart';
 
 class Application extends Equatable {
-  String? studentID;
+  Student? student;
   Agent? agent;
   String? universityName;
   String? city;
@@ -25,7 +26,7 @@ class Application extends Equatable {
   });
   bool isValid() {
     try {
-      assert(studentID != null && studentID!.isNotEmpty);
+      assert(student != null && (student?.id ?? '').isNotEmpty);
 
       assert(universityName != null && universityName!.isNotEmpty);
       assert(courseFees != null && courseFees!.isNotEmpty);
@@ -59,7 +60,10 @@ class Application extends Equatable {
             ? null
             : Agent.fromMap(offerData['agent'])
         : null;
-    application.studentID = offerData['student'];
+    var _student = Student(
+      optionStatus: 0,
+    )..id = offerData['student'];
+    application.student = _student;
     application.color = offerData["color"];
     application.status = offerData['status'];
 
@@ -69,7 +73,7 @@ class Application extends Equatable {
   @override
   List<Object?> get props {
     return [
-      studentID,
+      student,
       agent,
       universityName,
       city,

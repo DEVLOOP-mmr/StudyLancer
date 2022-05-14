@@ -22,40 +22,23 @@ class OptionsProvided extends StatelessWidget {
         if (agent == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        final optionsProvided = agentHomePageState.students!.where((element) {
-          if (element.applications!.isEmpty) {
-            return false;
-          }
-          bool agentIDMatchesApplicationAgentID = element.applications!.any(
-            (application) =>
-                application.status == 2 && application.agent?.id == agent.id,
-          );
+        final optionsProvidedApplications =
+            agentHomePageState.applications!.where((element) {
+          bool agentIDMatchesApplicationAgentID =
+              element.status == 2 && element.agent?.id == agent.id;
 
           return agentIDMatchesApplicationAgentID;
         }).toList();
 
         return SingleChildScrollView(
           child: Column(
-            children: optionsProvided.map((student) {
-              var optionsProvidedApplications = student.applications!
-                  .where((app) => app.agent?.id == agent.id && app.status == 2)
-                  .toList();
-
-              return Column(
-                children: List.generate(
-                  optionsProvidedApplications.length,
-                  (index) {
-                    var openApplication = optionsProvidedApplications[index];
-
-                    return BlocProvider(
-                      create: (context) => StudentApplicationCubit(
-                        student,
-                      ),
-                      child: StudentTile(
-                        trackApplicationID: openApplication.applicationID,
-                      ),
-                    );
-                  },
+            children: optionsProvidedApplications.map((application) {
+              return BlocProvider(
+                create: (context) => StudentApplicationCubit(
+                  application,
+                ),
+                child: StudentTile(
+                
                 ),
               );
             }).toList(),

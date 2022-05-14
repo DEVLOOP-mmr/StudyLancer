@@ -21,8 +21,8 @@ void main() {
     }
     final application = student!.applications!.last;
     int randomProgress = Random().nextInt(6);
-    await StudentApplicationCubit(student)
-        .changeApplicationProgress(application.applicationID!, randomProgress);
+    await StudentApplicationCubit(application)
+        .changeApplicationProgress( randomProgress);
     student = await ProfileTestSuite().getStudentProfile();
 
     expect(

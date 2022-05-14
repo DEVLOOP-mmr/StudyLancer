@@ -23,7 +23,8 @@ class SortButton extends StatelessWidget {
           ),
         );
         if (order != null) {
-          BlocProvider.of<HomeBloc>(context).sortStudentsForAgentHome(order);
+          BlocProvider.of<HomeBloc>(context)
+              .sortApplicationsForAgentHome(order);
         }
       },
       child: Row(

@@ -21,7 +21,7 @@ class ApplicationStatus extends StatefulWidget {
 class _ApplicationStatusState extends State<ApplicationStatus> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentApplicationCubit, Student>(
+    return BlocBuilder<StudentApplicationCubit, Application>(
       builder: (context, state) {
         return Container(
           key: UniqueKey(),
@@ -58,7 +58,6 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
               onChanged: (val) {
                 BlocProvider.of<StudentApplicationCubit>(context)
                     .changeApplicationProgress(
-                  widget.application.applicationID!,
                   val as int,
                 );
 

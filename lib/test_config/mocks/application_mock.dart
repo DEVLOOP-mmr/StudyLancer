@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:elite_counsel/models/application.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:uuid/uuid.dart';
 
 class MockApplication extends Application {
   MockApplication() {
-    studentID = MockFirebaseStudentUser().uid;
+    student = Student(optionStatus: 1)..id= MockFirebaseStudentUser().uid;
     agent?.id = MockFirebaseAgentUser().uid;
     universityName = 'Toronto University';
     location = {"city": "Sydney", "country": "Australia"};

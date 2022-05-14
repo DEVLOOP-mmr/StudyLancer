@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 
 enum LoadState { initial, loading, error, done }
@@ -61,32 +62,44 @@ class StudentHomeState extends HomeState with EquatableMixin {
 
 class AgentHomeState extends HomeState with EquatableMixin {
   Agent? agent;
-  List<Student>? students;
+  List<Application>? applications;
+  List<Student>? verifiedStudents;
   @override
   String? countryCode;
   @override
   LoadState? loadState;
   AgentHomeState({
     this.agent,
-    this.students,
-    this.loadState,
+    this.applications,
+    this.verifiedStudents,
     this.countryCode,
+    this.loadState,
   });
 
   AgentHomeState copyWith({
     Agent? agent,
-    List<Student>? students,
+    List<Application>? applications,
+    List<Student>? verifiedStudents,
     String? countryCode,
     LoadState? loadState,
   }) {
     return AgentHomeState(
       agent: agent ?? this.agent,
-      students: students ?? this.students,
+      applications: applications ?? this.applications,
+      verifiedStudents: verifiedStudents ?? this.verifiedStudents,
       countryCode: countryCode ?? this.countryCode,
       loadState: loadState ?? this.loadState,
     );
   }
 
   @override
-  List<Object?> get props => [agent, students, countryCode, loadState];
+  List<dynamic> get props {
+    return [
+      agent,
+      applications,
+      verifiedStudents,
+      countryCode,
+      loadState,
+    ];
+  }
 }
