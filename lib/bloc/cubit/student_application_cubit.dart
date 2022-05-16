@@ -3,6 +3,7 @@ import 'package:elite_counsel/bloc/dio.dart';
 import 'package:elite_counsel/models/application.dart';
 
 import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/variables.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -32,15 +33,23 @@ class StudentApplicationCubit extends Cubit<Application> {
   }
 
   static String? parseProgressTitleFromValue(int progressValue) {
-    if (canadaProgressMap.containsKey(progressValue)) {
+    Map<int, String> map =
+        Variables.sharedPreferences.get(Variables.countryCode) == 'AU'
+            ? australiaProgressMap
+            : canadaProgressMap;
+    if (map.containsKey(progressValue)) {
       return canadaProgressMap[progressValue];
     }
     return null;
   }
 
   static int? convertProgressTitleToValue(String title) {
-    for (var key in canadaProgressMap.keys) {
-      if (canadaProgressMap[key] == title) {
+      Map<int, String> map =
+        Variables.sharedPreferences.get(Variables.countryCode) == 'AU'
+            ? australiaProgressMap
+            : canadaProgressMap;
+    for (var key in map.keys) {
+      if (map[key] == title) {
         return key;
       }
     }
@@ -54,5 +63,13 @@ class StudentApplicationCubit extends Cubit<Application> {
     3: 'Visa Approved',
     4: 'Passport Stamping',
     5: 'Prepare To Fly',
+  };
+
+  static final Map<int, String> australiaProgressMap = {
+    0: "Apply offer letter",
+    1: "Prepare GTE docs",
+    2: "Pay tuition fees",
+    3: "Lodge visa",
+    4: "Visa approved",
   };
 }

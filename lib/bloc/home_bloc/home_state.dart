@@ -13,6 +13,7 @@ abstract class HomeState {
     this.loadState,
     this.countryCode,
   });
+  StudentHomeState studentHomeState() => this as StudentHomeState;
 }
 
 class InitialHomeState extends HomeState {
