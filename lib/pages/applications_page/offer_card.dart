@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/offer_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
@@ -73,56 +74,54 @@ class ApplicationCard extends StatelessWidget {
                             ),
                             Positioned(
                               right: 30,
-                              width: 300,
+                           
                               child: Align(
                                 alignment: Alignment.centerRight,
-                                child: FractionallySizedBox(
-                                  widthFactor: 0.5,
-                                  child: Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 300),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: ((application
-                                                        .agent?.photo ==
-                                                    null)
-                                                ? const AssetImage(
-                                                    'assets/images/abc.png',
-                                                  )
-                                                : NetworkImage(
-                                                    (application.agent?.photo)!,
-                                                  )) as ImageProvider<Object>?,
-                                            // backgroundImage:
-                                            //     NetworkImage(offer
-                                            //         .agentImage),
-                                            radius: 10,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              application.agent?.name ??
-                                                  "Agent",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 12,
-                                                color: Colors.white,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
+                                child: Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 150),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: ((application
+                                                      .agent?.photo ==
+                                                  null)
+                                              ? const AssetImage(
+                                                  'assets/images/abc.png',
+                                                )
+                                              : NetworkImage(
+                                                  (application.agent?.photo)!,
+                                                )) as ImageProvider<Object>?,
+                                          // backgroundImage:
+                                          //     NetworkImage(offer
+                                          //         .agentImage),
+                                          radius: 10,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            application.agent?.name ??
+                                                "Agent",
+                                          
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10,
+                                              color: Colors.white,
                                             ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -134,7 +133,7 @@ class ApplicationCard extends StatelessWidget {
                                 onTap: () {
                                   BlocProvider.of<HomeBloc>(context)
                                       .toggleApplicationFavorite(
-                                    applicationIndex,
+                                    application.applicationID!,
                                   );
                                 },
                                 child: Icon(
@@ -194,12 +193,24 @@ class ApplicationCard extends StatelessWidget {
                             );
                           },
                           child: const Text(
-                            "Additional Details",
+                            "Additional Details:",
                             style: TextStyle(
                               fontWeight: FontWeight.w200,
                               fontSize: 10,
                               color: Colors.white,
                             ),
+                          ),
+                        ),
+                          const SizedBox(
+                          height: 8,
+                        ),
+                        AutoSizeText(
+                          application.description?? "",
+                          maxLines: 4,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w200,
+                            fontSize: 10,
+                            color: Colors.white,
                           ),
                         ),
                         const Spacer(),

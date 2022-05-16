@@ -25,7 +25,7 @@ class FirebaseChatState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [rooms, loadState, roomMessages, totalUnreadMessageCount];
+      [rooms, loadState, roomMessages, totalUnreadMessageCount,nonce];
 
   FirebaseChatState copyWith({
     List<Room>? rooms,

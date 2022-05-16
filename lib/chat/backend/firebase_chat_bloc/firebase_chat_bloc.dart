@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
@@ -235,6 +236,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         .orderBy('timestamp', descending: true)
         .snapshots()
         .listen((snapshot) {
+     
       List<types.Message> messages = [];
       int unreadMessages = 0;
       for (var element in snapshot.docs) {
@@ -255,8 +257,8 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       var currentMessages =
           state.roomMessages as Map<String, List<types.Message>?>;
       currentMessages[roomId] = messages;
-      emit(state.copyWith(
-          roomMessages: currentMessages, nonce: const Uuid().v4()));
+      var v4 = const Uuid().v4();
+      emit(state.copyWith(roomMessages: currentMessages, nonce: v4));
     });
   }
 
@@ -278,9 +280,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       print('new');
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
-      for (var room in rooms) {
-        messages(room.id);
-      }
+      
     });
   }
 

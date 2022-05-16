@@ -323,12 +323,14 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  void toggleApplicationFavorite(int applicationIndex) async {
+  void toggleApplicationFavorite(String applicationID) async {
     var student = (state as StudentHomeState).student!;
     final applications = student.applications ?? [];
-    if (applicationIndex <= applications.length - 1) {
+    int? applicationIndex = student.applications
+        ?.indexWhere((element) => element.applicationID == applicationID);
+    if (applicationIndex!=null && applicationIndex <= applications.length - 1) {
       var application = student.applications![applicationIndex];
-      application.favorite =
+      student.applications![applicationIndex].favorite =
           !(student.applications![applicationIndex].favorite ?? false);
       emitNewStudent(student);
 

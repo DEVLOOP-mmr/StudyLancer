@@ -92,6 +92,11 @@ class _ApplicationPageState extends State<ApplicationPage> {
                 );
               }
               final studentHomeState = state;
+              if(studentHomeState.student==null){
+                 return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
               final student = studentHomeState.student!;
 
               var applications = student.applications;

@@ -32,7 +32,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       // BlocProvider.of<HomeBloc>(context, listen: false).getStudentHome();
     });
   }

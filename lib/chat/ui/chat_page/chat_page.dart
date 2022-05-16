@@ -254,23 +254,23 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   //new
-  getRoomUsers() async {
-    /// TODO: get room users
-    roomUsers = (await BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-            .getRoomDetail(widget.room.id))
-        .users;
+  startMessagesListener() async {
+   
+    BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+        .messages(widget.room.id);
   }
 
   @override
   void initState() {
     super.initState();
-    getRoomUsers();
+    startMessagesListener();
     getChatDocs();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Variables.backgroundColor,
       appBar: AppBar(
         backgroundColor: Variables.backgroundColor,
         title: Title(
@@ -329,25 +329,33 @@ class _ChatPageState extends State<ChatPage> {
           _markMessageAsRead(state);
 
           return Container(
-            decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.black))),
-            child: Chat(
-              isAttachmentUploading: _isAttachmentUploading,
-              messages: state.roomMessages.containsKey(widget.room.id)
-                  ? state.roomMessages[widget.room.id]!
-                  : [],
-              onAttachmentPressed: _handleAttachmentPress,
-              onFilePressed: _openFile,
-              onPreviewDataFetched: _onPreviewDataFetched,
-              onSendPressed: _onSendPressed,
-              user: types.User(
-                id: BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                    .user!
-                    .uid,
-                avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
-                firstName: FirebaseAuth.instance.currentUser!.displayName,
-              ),
-            ),
+            child: Center(
+                child: Column(
+                  children: [
+             Expanded(
+               child: Chat(
+                    isAttachmentUploading: _isAttachmentUploading,
+                    messages: state.roomMessages.containsKey(widget.room.id)
+                        ? state.roomMessages[widget.room.id]!
+                        : [],
+                    onAttachmentPressed: _handleAttachmentPress,
+                    onFilePressed: _openFile,
+                    onPreviewDataFetched: _onPreviewDataFetched,
+                    onSendPressed: _onSendPressed,
+                    user: types.User(
+                      id: BlocProvider.of<FirebaseChatBloc>(context,
+                              listen: false)
+                          .user!
+                          .uid,
+                      avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
+                      firstName: FirebaseAuth.instance.currentUser!.displayName,
+                    ),
+                  ),
+             ),
+                  ],
+                  
+                )),
+        
           );
         },
       ),
