@@ -39,7 +39,17 @@ Future<List<types.Room>> processRoomsQuery(
       if (map['userData'] != null) {
         imageUrl = map['userData'][otherUserID]['imageUrl'];
         name = map['userData'][otherUserID]['name'];
+        users[1].photo = imageUrl;
+        users[1].name = name;
       }
+    }
+    if ((name ?? '').isEmpty) {
+      name = await _setUserPhoto(otherUserID, name, doc);
+      users[1].name = name;
+    }
+    if ((imageUrl ?? '').isEmpty) {
+      imageUrl = await _setUserPhoto(otherUserID, name, doc);
+      users[1].photo = imageUrl;
     }
 
     final room = types.Room(
@@ -55,6 +65,29 @@ Future<List<types.Room>> processRoomsQuery(
   });
 
   return await Future.wait(futures);
+}
+
+Future<String?> _setUserName(String otherUserID, String? name,
+    QueryDocumentSnapshot<Object?> doc) async {
+  final otherUser = await fetchUser(otherUserID);
+  name = otherUser.name;
+  FirebaseFirestore.instance
+      .collection('rooms')
+      .doc(doc.id)
+      .update({'userData.${otherUser.id}.name': name});
+  return name;
+}
+
+Future<String?> _setUserPhoto(String otherUserID, String? photo,
+    QueryDocumentSnapshot<Object?> doc) async {
+  final otherUser = await fetchUser(otherUserID);
+  photo = otherUser.photo;
+  FirebaseFirestore.instance
+      .collection('rooms')
+      .doc(doc.id)
+      .update({'userData.${otherUser.id}.imageUrl': photo});
+
+  return photo;
 }
 
 /// Returns a [types.User] created from Firebase document
