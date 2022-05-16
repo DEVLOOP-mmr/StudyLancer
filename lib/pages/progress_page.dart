@@ -57,7 +57,7 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<HomeBloc>(context, listen: false)
           .getStudentHome()
           .then((value) {

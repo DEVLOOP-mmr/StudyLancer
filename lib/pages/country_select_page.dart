@@ -218,9 +218,10 @@ class _CountrySelectPageState extends State<CountrySelectPage> {
 
                                 return;
                               }
-                              String countryCode=selectedIndex == countries.length
-                                  ? "notSure"
-                                  : countries[selectedIndex].id!;
+                              String countryCode =
+                                  selectedIndex == countries.length
+                                      ? "notSure"
+                                      : countries[selectedIndex].id!;
                               await Variables.sharedPreferences
                                   .put(Variables.countryCode, countryCode);
                               BlocProvider.of<HomeBloc>(context, listen: false)

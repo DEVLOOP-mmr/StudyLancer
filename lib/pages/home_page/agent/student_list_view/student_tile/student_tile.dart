@@ -20,11 +20,11 @@ class StudentTile extends StatelessWidget {
       builder: (context, application) {
         String courseName = '';
 
-        courseName = application.status == 1 ? '' : application.courseName??'';
+        courseName =
+            application.status == 1 ? '' : application.courseName ?? '';
 
         return Padding(
-          key: ValueKey(application.applicationID??application.student!.id!),
-             
+          key: ValueKey(application.applicationID ?? application.student!.id!),
           padding: const EdgeInsets.all(8.0),
           child: Neumorphic(
             style: NeumorphicStyle(
@@ -89,7 +89,9 @@ class StudentTile extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          application.student!.course! + " . " + application.student!.year!,
+                          application.student!.course! +
+                              " . " +
+                              application.student!.year!,
                           style: TextStyle(
                               color: Colors.white.withOpacity(0.4),
                               fontSize: 10,
@@ -126,13 +128,15 @@ class StudentTile extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: application.student!.marksheet!.length * 2,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: application.student!.marksheet!.length,
+                          crossAxisCount:
+                              application.student!.marksheet!.length,
                           childAspectRatio: 2,
                         ),
                         itemBuilder: (context, index) {
                           var markData = application.student!.marksheet!.keys
                               .toList(growable: true);
-                          for (var element in application.student!.marksheet!.values) {
+                          for (var element
+                              in application.student!.marksheet!.values) {
                             markData.add(element.toString());
                           }
 

@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 
 class MockApplication extends Application {
   MockApplication() {
-    student = Student(optionStatus: 1)..id= MockFirebaseStudentUser().uid;
+    student = Student(optionStatus: 1)..id = MockFirebaseStudentUser().uid;
     agent?.id = MockFirebaseAgentUser().uid;
     universityName = 'Toronto University';
     location = {"city": "Sydney", "country": "Australia"};

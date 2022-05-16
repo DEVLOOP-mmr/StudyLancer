@@ -9,10 +9,12 @@ class FirebaseChatState extends Equatable {
   final List<Room>? rooms;
   final LoadState? loadState;
   Map<String, List<Message>?> roomMessages;
+  final int totalUnreadMessageCount;
   FirebaseChatState({
     this.rooms,
     this.loadState,
     required this.nonce,
+    required this.totalUnreadMessageCount,
     required this.roomMessages,
   });
 
@@ -22,19 +24,22 @@ class FirebaseChatState extends Equatable {
   String nonce;
 
   @override
-  List<Object?> get props => [rooms, loadState, roomMessages, nonce];
+  List<Object?> get props =>
+      [rooms, loadState, roomMessages, totalUnreadMessageCount];
 
   FirebaseChatState copyWith({
     List<Room>? rooms,
     LoadState? loadState,
     Map<String, List<Message>?>? roomMessages,
+    int? totalMessageCount,
     String? nonce,
   }) {
     return FirebaseChatState(
       rooms: rooms ?? this.rooms,
       loadState: loadState ?? this.loadState,
-      nonce: nonce ?? this.nonce,
       roomMessages: roomMessages ?? this.roomMessages,
+      totalUnreadMessageCount: totalMessageCount ?? totalUnreadMessageCount,
+      nonce: nonce ?? this.nonce,
     );
   }
 }

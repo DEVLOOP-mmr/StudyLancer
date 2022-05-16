@@ -1,4 +1,6 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/rooms.dart';
 import 'package:elite_counsel/pages/home_page/agent/agent_home.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tabbed_list.dart';
@@ -11,6 +13,7 @@ import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 enum _SelectedTab { home, docs, message, profile }
 
@@ -40,12 +43,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (Variables.sharedPreferences.get(Variables.userType) ==
         Variables.userTypeStudent) {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getStudentHome(context: context);
       });
     } else {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getAgentHome(context: context);
       });
@@ -159,12 +162,48 @@ class _HomePageState extends State<HomePage> {
 
         /// Search
         FloatingNavbarItem(
-            customWidget: Image.asset(
-              "assets/images/newchats.png",
-              height: 20,
-              width: 20,
+            customWidget: Container(
+              height: 50,
+              width: 70,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      "assets/images/chat_icon.svg",
+                      height: 25,
+                      width: 30,
+                      color: Variables.accentColor,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                      right: 15,
+                      top: 10,
+                      child: BlocBuilder<FirebaseChatBloc, FirebaseChatState>(
+                        builder: (context, state) {
+                          return state.totalUnreadMessageCount == 0
+                              ? Container()
+                              : CircleAvatar(
+                                  radius: 6,
+                                  backgroundColor: Colors.black,
+                                  child: Center(
+                                      child: Text(
+                                    state.totalUnreadMessageCount == 0
+                                        ? ''
+                                        : state.totalUnreadMessageCount
+                                            .toString(),
+                                    style: TextStyle(
+                                        color: Variables.accentColor,
+                                        fontSize: 10),
+                                  )),
+                                );
+                        },
+                      ))
+                ],
+              ),
             ),
-            title: "chats"),
+            title: "Chats"),
 
         /// Profile
         FloatingNavbarItem(
@@ -173,7 +212,7 @@ class _HomePageState extends State<HomePage> {
               height: 20,
               width: 20,
             ),
-            title: 'profile'),
+            title: 'Profile'),
       ],
     );
   }

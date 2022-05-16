@@ -26,7 +26,7 @@ void main() {
     student = await ProfileTestSuite().getStudentProfile();
     expect(student!.timeline, randomProgress);
     expect(
-      student!.applications!.any((element) =>
+      student.applications!.any((element) =>
           element.progress == randomProgress &&
           element.applicationID == application.applicationID),
       true,

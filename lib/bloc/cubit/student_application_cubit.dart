@@ -13,7 +13,6 @@ class StudentApplicationCubit extends Cubit<Application> {
     var application = state;
     application.progress = (newProgress);
 
-   
     emit(application);
     if (kReleaseMode) {
       EasyLoading.showToast('Changing Status');

@@ -326,18 +326,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: BlocBuilder<FirebaseChatBloc, FirebaseChatState>(
         builder: (context, state) {
-          if (state.roomMessages.containsKey(widget.room.id)) {
-            for (var element in state.roomMessages[widget.room.id]!) {
-              if (element.status != types.Status.read &&
-                  element.authorId != FirebaseAuth.instance.currentUser!.uid) {
-                BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-                    .updateMessage(
-                  element.copyWith(status: types.Status.read),
-                  widget.room.id,
-                );
-              }
-            }
-          }
+          _markMessageAsRead(state);
 
           return Container(
             decoration: const BoxDecoration(
@@ -363,5 +352,22 @@ class _ChatPageState extends State<ChatPage> {
         },
       ),
     );
+  }
+
+  void _markMessageAsRead(
+    FirebaseChatState state,
+  ) {
+    if (state.roomMessages.containsKey(widget.room.id)) {
+      for (var element in state.roomMessages[widget.room.id]!) {
+        if (element.status != types.Status.read &&
+            element.authorId != FirebaseAuth.instance.currentUser!.uid) {
+          BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+              .updateMessage(
+            element.copyWith(status: types.Status.read),
+            widget.room.id,
+          );
+        }
+      }
+    }
   }
 }

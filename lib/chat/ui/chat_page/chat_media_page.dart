@@ -23,7 +23,7 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         chatDocs = widget.documents;
       });

@@ -37,9 +37,7 @@ class OptionsProvided extends StatelessWidget {
                 create: (context) => StudentApplicationCubit(
                   application,
                 ),
-                child: StudentTile(
-                
-                ),
+                child: StudentTile(),
               );
             }).toList(),
           ),

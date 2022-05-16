@@ -21,12 +21,12 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
-  Application offer = Application()..student=Student(optionStatus: 1);
+  Application offer = Application()..student = Student(optionStatus: 1);
   var formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-   
+
     offer.student!.id = widget.student!.id;
   }
 

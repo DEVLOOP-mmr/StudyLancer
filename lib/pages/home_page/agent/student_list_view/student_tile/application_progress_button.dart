@@ -25,7 +25,6 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
       builder: (context, state) {
         return Container(
           key: UniqueKey(),
-          
           margin: const EdgeInsets.only(right: 1),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),

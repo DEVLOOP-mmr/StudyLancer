@@ -115,7 +115,6 @@ class Agent extends StudyLancerUser with EquatableMixin {
       reviewCount,
       verified,
       documents,
-      
     ];
   }
 }
