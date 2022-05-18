@@ -33,7 +33,8 @@ class Student extends StudyLancerUser with EquatableMixin {
     this.timeline,
     this.marksheet,
     this.applications,
-  });
+    String? id,
+  }):super(id: id);
 
   bool isValid() {
     try {

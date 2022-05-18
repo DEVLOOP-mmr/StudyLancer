@@ -39,8 +39,11 @@ Future<void> main() async {
   if (kDebugMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     runApp(DevicePreview(
-      builder: (context) => const MaterialApp(home: MyApp()),
-      enabled: false,
+    
+      builder: (context) => const MaterialApp(
+        useInheritedMediaQuery:true,
+        home: MyApp()),
+      enabled: true,
     ));
   } else {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

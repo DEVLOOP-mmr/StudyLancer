@@ -9,10 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTabbedList extends StatefulWidget {
-  const StudentTabbedList({Key? key, this.showOnlyOngoingApplications})
+  const StudentTabbedList({Key? key, this.showOnlyOngoingApplications,this.filterStudentID})
       : super(key: key);
 
   final bool? showOnlyOngoingApplications;
+  final String? filterStudentID;
 
   @override
   State<StudentTabbedList> createState() => _StudentTabbedListState();
@@ -109,12 +110,14 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                         controller: _tabController,
                         children: widget.showOnlyOngoingApplications ?? false
                             ? [
-                                const OngoingStudents(),
+                                 OngoingStudents(
+                                  filterStudentID: widget.filterStudentID,
+                                ),
                               ]
-                            : const [
-                                AwaitingStudents(),
-                                OptionsProvided(),
-                                OngoingStudents(),
+                            :  [
+                                const AwaitingStudents(),
+                                const OptionsProvided(),
+                                OngoingStudents(filterStudentID:widget.filterStudentID,),
                               ],
                       ),
                     ),

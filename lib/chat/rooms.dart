@@ -106,8 +106,9 @@ class _RoomsPageState extends State<RoomsPage> {
                               Radius.circular(4),
                             ),
                             child: CachedNetworkImage(
-                              imageUrl: room.imageUrl ??
-                                  "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg",
+                              imageUrl: (room.imageUrl ?? "").isEmpty
+                                  ? "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"
+                                  : room.imageUrl!,
                               fit: BoxFit.cover,
                             ),
                           ),

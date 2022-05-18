@@ -1,13 +1,20 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/chat/ui/chat_page/chat_media_page.dart';
 import 'package:elite_counsel/models/document.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
+import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tabbed_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,9 +43,18 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  bool _isAttachmentUploading = false;
-  List<StudyLancerUser?> roomUsers = [];
   List<Document> chatDocs = [];
+  List<StudyLancerUser?> roomUsers = [];
+
+  bool _isAttachmentUploading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    startMessagesListener();
+    getChatDocs();
+  }
+
   void getChatDocs() {
     DocumentBloc(userType: 'student').getChatDocs(widget.room.id).then((docs) {
       if (mounted) {
@@ -47,6 +63,12 @@ class _ChatPageState extends State<ChatPage> {
         });
       }
     });
+  }
+
+  //new
+  startMessagesListener() async {
+    BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+        .messages(widget.room.id);
   }
 
   void _handleAttachmentPress() {
@@ -253,18 +275,21 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  //new
-  startMessagesListener() async {
-   
-    BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-        .messages(widget.room.id);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startMessagesListener();
-    getChatDocs();
+  void _markMessageAsRead(
+    FirebaseChatState state,
+  ) {
+    if (state.roomMessages.containsKey(widget.room.id)) {
+      for (var element in state.roomMessages[widget.room.id]!) {
+        if (element.status != types.Status.read &&
+            element.authorId != FirebaseAuth.instance.currentUser!.uid) {
+          BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+              .updateMessage(
+            element.copyWith(status: types.Status.read),
+            widget.room.id,
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -273,16 +298,39 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Variables.backgroundColor,
       appBar: AppBar(
         backgroundColor: Variables.backgroundColor,
+        leadingWidth: 20,
         title: Title(
           color: Variables.backgroundColor,
-          child: Container(
-            constraints:
-                BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 3),
-            child: AutoSizeText(
-              widget.room.name ?? '',
-              maxLines: 2,
-              style: const TextStyle(color: Colors.white),
-            ),
+          child: Row(
+            children: [
+              Container(
+                height: 30,
+                margin: const EdgeInsets.only(
+                  right: 16,
+                ),
+                width: 30,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: (widget.room.imageUrl ?? "").isEmpty
+                        ? "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"
+                        : widget.room.imageUrl!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 3),
+                child: AutoSizeText(
+                  widget.room.name ?? '',
+                  maxLines: 2,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
         actions: [
@@ -324,58 +372,137 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-      body: BlocBuilder<FirebaseChatBloc, FirebaseChatState>(
-        builder: (context, state) {
-          _markMessageAsRead(state);
+      body: Stack(
+        children: [
+          BlocBuilder<FirebaseChatBloc, FirebaseChatState>(
+            builder: (context, state) {
+              _markMessageAsRead(state);
 
-          return Container(
-            child: Center(
-                child: Column(
+              return Container(
+                child: Center(
+                    child: Column(
                   children: [
-             Expanded(
-               child: Chat(
-                    isAttachmentUploading: _isAttachmentUploading,
-                    messages: state.roomMessages.containsKey(widget.room.id)
-                        ? state.roomMessages[widget.room.id]!
-                        : [],
-                    onAttachmentPressed: _handleAttachmentPress,
-                    onFilePressed: _openFile,
-                    onPreviewDataFetched: _onPreviewDataFetched,
-                    onSendPressed: _onSendPressed,
-                    user: types.User(
-                      id: BlocProvider.of<FirebaseChatBloc>(context,
-                              listen: false)
-                          .user!
-                          .uid,
-                      avatarUrl: FirebaseAuth.instance.currentUser!.photoURL,
-                      firstName: FirebaseAuth.instance.currentUser!.displayName,
+                    Expanded(
+                      child: Chat(
+                        isAttachmentUploading: _isAttachmentUploading,
+                        messages: state.roomMessages.containsKey(widget.room.id)
+                            ? state.roomMessages[widget.room.id]!
+                            : [],
+                        onAttachmentPressed: _handleAttachmentPress,
+                        onFilePressed: _openFile,
+                        onPreviewDataFetched: _onPreviewDataFetched,
+                        onSendPressed: _onSendPressed,
+                        user: types.User(
+                          id: BlocProvider.of<FirebaseChatBloc>(context,
+                                  listen: false)
+                              .user!
+                              .uid,
+                          avatarUrl:
+                              FirebaseAuth.instance.currentUser!.photoURL,
+                          firstName:
+                              FirebaseAuth.instance.currentUser!.displayName,
+                        ),
+                      ),
                     ),
-                  ),
-             ),
                   ],
-                  
                 )),
-        
-          );
-        },
+              );
+            },
+          ),
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is! AgentHomeState) {
+                return Container();
+              }
+              return StudentApplicationStatuses(
+                  student: widget.room.users.last! as Student);
+            },
+          ),
+        ],
       ),
     );
   }
+}
 
-  void _markMessageAsRead(
-    FirebaseChatState state,
-  ) {
-    if (state.roomMessages.containsKey(widget.room.id)) {
-      for (var element in state.roomMessages[widget.room.id]!) {
-        if (element.status != types.Status.read &&
-            element.authorId != FirebaseAuth.instance.currentUser!.uid) {
-          BlocProvider.of<FirebaseChatBloc>(context, listen: false)
-              .updateMessage(
-            element.copyWith(status: types.Status.read),
-            widget.room.id,
-          );
-        }
-      }
-    }
+class StudentApplicationStatuses extends StatelessWidget {
+  const StudentApplicationStatuses({Key? key, required this.student})
+      : super(key: key);
+  final Student student;
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (_, index) {
+          final application = student.applications!.lastWhere(((element) =>
+              element.agent!.id == FirebaseAuth.instance.currentUser!.uid));
+
+          return application == null
+              ? Container()
+              : Container(
+                  color: Colors.black,
+                  child: ListTile(
+                    tileColor: Colors.black,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Current Status',
+                          style: TextStyle(color: Colors.grey, fontSize: 11),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: Text(
+                            StudentApplicationCubit.parseProgressTitleFromValue(
+                                    application.progress!) ??
+                                '',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return StudentTabbedList(
+                            filterStudentID: student.id,
+                            showOnlyOngoingApplications: true,
+                          );
+                        }));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xff294A91),
+                          ),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                gradient: Variables.buttonGradient,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "View Applications",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+        });
   }
 }

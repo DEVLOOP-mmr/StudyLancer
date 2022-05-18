@@ -18,7 +18,7 @@ import '../backend_util.dart';
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to access methods.
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
-  FirebaseChatBloc({required this.homeBloc})
+  FirebaseChatBloc({ this.homeBloc})
       : super(
           FirebaseChatState(
             rooms: const [],
@@ -36,7 +36,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     });
 
     roomSnapshotsStream = null;
-    homeBloc.stream.listen((state) {
+    homeBloc?.stream.listen((state) {
       if (state.loadState == LoadState.done) {
         if (state is AgentHomeState) {
           var agentState = state;
@@ -49,7 +49,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     });
   }
 
-  HomeBloc homeBloc;
+  HomeBloc? homeBloc;
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? roomSnapshotsStream;
   User? user;
 
@@ -277,7 +277,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         )
         .snapshots();
     roomSnapshotsStream ??= snapshots.listen((query) async {
-      print('new');
+      
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
       

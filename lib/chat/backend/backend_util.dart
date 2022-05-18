@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
+import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/variables.dart';
 
@@ -31,7 +33,11 @@ Future<List<types.Room>> processRoomsQuery(
     final List<StudyLancerUser> users = [currentUser];
     String otherUserID =
         userIds.firstWhere((element) => element != currentUser.id);
-    final otherUser = StudyLancerUser(id: otherUserID);
+    final otherUser = await ProfileBloc.getUserProfile(
+      uid: otherUserID,
+      userType: Variables.sharedPreferences.get(Variables.userType),
+    );
+
     users.add(otherUser);
 
     if (type == "direct") {
@@ -44,11 +50,11 @@ Future<List<types.Room>> processRoomsQuery(
       }
     }
     if ((name ?? '').isEmpty) {
-      name = await _setUserPhoto(otherUserID, name, doc);
+      name = await _setUserName(otherUser, doc.id);
       users[1].name = name;
     }
     if ((imageUrl ?? '').isEmpty) {
-      imageUrl = await _setUserPhoto(otherUserID, name, doc);
+      imageUrl = await _setUserPhoto(otherUser, doc.id);
       users[1].photo = imageUrl;
     }
 
@@ -67,24 +73,22 @@ Future<List<types.Room>> processRoomsQuery(
   return await Future.wait(futures);
 }
 
-Future<String?> _setUserName(String otherUserID, String? name,
-    QueryDocumentSnapshot<Object?> doc) async {
-  final otherUser = await fetchUser(otherUserID);
-  name = otherUser.name;
+Future<String?> _setUserName(StudyLancerUser user, String roomID) async {
+  final otherUser = user;
+  String name = otherUser.name ?? '';
   FirebaseFirestore.instance
       .collection('rooms')
-      .doc(doc.id)
+      .doc(roomID)
       .update({'userData.${otherUser.id}.name': name});
   return name;
 }
 
-Future<String?> _setUserPhoto(String otherUserID, String? photo,
-    QueryDocumentSnapshot<Object?> doc) async {
-  final otherUser = await fetchUser(otherUserID);
-  photo = otherUser.photo;
+Future<String?> _setUserPhoto(StudyLancerUser user, String roomID) async {
+  final otherUser = user;
+  String photo = otherUser.photo ?? '';
   FirebaseFirestore.instance
       .collection('rooms')
-      .doc(doc.id)
+      .doc(roomID)
       .update({'userData.${otherUser.id}.imageUrl': photo});
 
   return photo;

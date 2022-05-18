@@ -18,7 +18,7 @@ class Agent extends StudyLancerUser with EquatableMixin {
 
   String? reviewCount;
 
-  Agent();
+  Agent({String? id}):super(id: id);
   @override
   factory Agent.fromMap(Map<String, dynamic> agentData) {
     Agent agent = Agent();

@@ -28,8 +28,7 @@ class ProfileBloc {
 
     if (result.statusCode! < 299) {
       var data = result.data;
-      StudyLancerUser profile;
-      profile = (userType == 'student'
+      final StudyLancerUser profile = (userType == 'student'
           ? Student.fromMap(data['student'])
           : Agent.fromMap(data['agent'])) as StudyLancerUser;
 

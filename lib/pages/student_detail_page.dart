@@ -1,3 +1,4 @@
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/student_doc_offer_page.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:palette_generator/palette_generator.dart';
 
 class StudentDetailPage extends StatefulWidget {
   final Student? student;
-  const StudentDetailPage({Key? key, this.student}) : super(key: key);
+  
+  final Application? application;
+  const StudentDetailPage({Key? key, this.student,this.application}) : super(key: key);
 
   @override
   _StudentDetailPageState createState() => _StudentDetailPageState();
@@ -172,6 +175,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return StudentDocOfferPage(
+                                  application: widget.application,
                                     student: widget.student);
                               }));
                             },

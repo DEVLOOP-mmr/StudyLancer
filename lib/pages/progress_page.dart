@@ -1,16 +1,20 @@
-import 'dart:developer';
 
-import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
-import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
-import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:timelines/timelines.dart';
+
+import 'package:elite_counsel/models/application.dart';
+import 'package:elite_counsel/variables.dart';
 
 import 'NewVideo.dart';
 
 class ProgressPage extends StatefulWidget {
+  final Application? application;
+  const ProgressPage({
+    Key? key,
+   required this.application,
+  }) : super(key: key);
   @override
   _ProgressPageState createState() => _ProgressPageState();
 }
@@ -44,22 +48,13 @@ class _ProgressPageState extends State<ProgressPage> {
   /// TODO: inject home bloc
 
   bool viewVisible = false;
-
+  Application? application;
   //video
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<HomeBloc>(context, listen: false)
-          .getStudentHome()
-          .then((value) {
-        if (mounted) {
-          setState(() {
-            //video
-          });
-        }
-      });
-    });
+    application = widget.application;
+   
   }
 
   void showWidget() {
@@ -81,7 +76,10 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios,color: Colors.white,),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -113,17 +111,9 @@ class _ProgressPageState extends State<ProgressPage> {
               ),
             ),
           ),
-          BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              var student = state.studentHomeState().student;
+     
 
-              if (student == null) {
-                return Container(
-                  child: CircularProgressIndicator(),
-                );
-              }
-             
-              return Container(
+                        Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Timeline.tileBuilder(
                   key: UniqueKey(),
@@ -162,10 +152,10 @@ class _ProgressPageState extends State<ProgressPage> {
                                   ? ausEvents[index]
                                   : canadaEvents[index],
                               style: TextStyle(
-                                  color: index <= student.timeline!
+                                  color: index <= application!.progress!
                                       ? Colors.white
                                       : Colors.white38,
-                                  fontWeight: index <= student.timeline!
+                                  fontWeight: index <=  application!.progress!
                                       ? FontWeight.bold
                                       : FontWeight.normal),
                             ),
@@ -198,9 +188,8 @@ class _ProgressPageState extends State<ProgressPage> {
                         : canadaEvents.length,
                   ),
                 ),
-              );
-            },
-          ),
+              )
+           
         ],
       ),
     );

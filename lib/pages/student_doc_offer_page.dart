@@ -2,17 +2,23 @@ import 'dart:developer';
 
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
+import 'package:elite_counsel/chat/ui/chat_page/chat_page.dart';
+import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
+import 'package:elite_counsel/pages/progress_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentDocOfferPage extends StatelessWidget {
   final Student? student;
-  const StudentDocOfferPage({Key? key, required this.student})
+  final Application? application;
+  const StudentDocOfferPage({Key? key, required this.student, this.application})
       : super(key: key);
 
   @override
@@ -121,7 +127,7 @@ class StudentDocOfferPage extends StatelessWidget {
                   ),
                 ),
               ),
-              student!.applications!.isEmpty && agent!.verified!
+              agent!.verified!
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 40,
@@ -141,65 +147,184 @@ class StudentDocOfferPage extends StatelessWidget {
                           topRight: Radius.circular(30),
                         ),
                       ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Want to provide best options acc. to documents.",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Variables.accentColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          SafeArea(
-                            child: NeumorphicButton(
-                              padding: EdgeInsets.zero,
-                              child: Container(
-                                color: const Color(0xff294A91),
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: const BoxDecoration(
-                                    gradient: Variables.buttonGradient,
+                      child: application == null || application?.status == 1
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  "Want to provide best options acc. to documents.",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Variables.accentColor,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  child: const Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Provide Option ->",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                SafeArea(
+                                  child: NeumorphicButton(
+                                    padding: EdgeInsets.zero,
+                                    child: Container(
+                                      color: const Color(0xff294A91),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: const BoxDecoration(
+                                          gradient: Variables.buttonGradient,
+                                        ),
+                                        child: const Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Provide Option ->",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) {
+                                        return OfferPage(student: student);
+                                      }));
+                                    },
+                                    style: NeumorphicStyle(
+                                      border: const NeumorphicBorder(
+                                        isEnabled: true,
+                                        color: Variables.backgroundColor,
+                                        width: 2,
+                                      ),
+                                      shadowLightColor:
+                                          Colors.white.withOpacity(0.6),
+                                      // color: Color(0xff294A91),
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                        BorderRadius.circular(30),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return OfferPage(student: student);
-                                }));
-                              },
-                              style: NeumorphicStyle(
-                                border: const NeumorphicBorder(
-                                  isEnabled: true,
-                                  color: Variables.backgroundColor,
-                                  width: 2,
+                              ],
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(
+                                  height: 16,
                                 ),
-                                shadowLightColor: Colors.white.withOpacity(0.6),
-                                // color: Color(0xff294A91),
-                                boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(30),
+                                SafeArea(
+                                  child: NeumorphicButton(
+                                    padding: EdgeInsets.zero,
+                                    child: Container(
+                                      color: const Color(0xff294A91),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: const BoxDecoration(
+                                          gradient: Variables.buttonGradient,
+                                        ),
+                                        child: const Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Chat",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      var currentAgent =
+                                          (BlocProvider.of<HomeBloc>(context)
+                                                  .state as AgentHomeState)
+                                              .agent;
+                                      final room = await BlocProvider.of<
+                                          FirebaseChatBloc>(
+                                        context,
+                                        listen: false,
+                                      ).createRoom(currentAgent, student);
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ChatPage(
+                                            room: room,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: NeumorphicStyle(
+                                      border: const NeumorphicBorder(
+                                        isEnabled: true,
+                                        color: Variables.backgroundColor,
+                                        width: 2,
+                                      ),
+                                      shadowLightColor:
+                                          Colors.white.withOpacity(0.6),
+                                      // color: Color(0xff294A91),
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                        BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                (application!.status ?? 0) < 3 ?? false
+                                    ? Container()
+                                    : SafeArea(
+                                        child: NeumorphicButton(
+                                          padding: EdgeInsets.zero,
+                                          child: Container(
+                                            color: const Color(0xff294A91),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(12),
+                                              decoration: const BoxDecoration(
+                                                gradient:
+                                                    Variables.buttonGradient,
+                                              ),
+                                              child: const Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "View Timeline",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return ProgressPage(
+                                                  application: application);
+                                            }));
+                                          },
+                                          style: NeumorphicStyle(
+                                            border: const NeumorphicBorder(
+                                              isEnabled: true,
+                                              color: Variables.backgroundColor,
+                                              width: 2,
+                                            ),
+                                            shadowLightColor:
+                                                Colors.white.withOpacity(0.6),
+                                            // color: Color(0xff294A91),
+                                            boxShape:
+                                                NeumorphicBoxShape.roundRect(
+                                              BorderRadius.circular(30),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
                     )
                   : const SizedBox(),
             ],
