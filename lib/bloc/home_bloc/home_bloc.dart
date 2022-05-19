@@ -110,19 +110,15 @@ class HomeBloc extends Cubit<HomeState> {
     assert(order == 'asc' || order == 'desc');
     emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
     var applications = (state as AgentHomeState).applications!;
-    try {
-      applications.sort((a, b) {
-        if (a.status == 3 && b.status == 3) {
-          return (a.progress!).compareTo(
-            (b.progress!),
-          );
-        }
+    var ongoing = applications.where((element) => element.status==3).toList();
+    applications.removeWhere((element) => element.status == 3);
+    ongoing.sort((a, b) {
+      return (a.progress!).compareTo(
+        (b.progress!),
+      );
+    });
+    applications.addAll(ongoing);
 
-        return 0;
-      });
-    } on Exception catch (e) {
-      log(e.toString());
-    }
     if (order == 'desc') {
       applications = applications.reversed.toList();
     }
