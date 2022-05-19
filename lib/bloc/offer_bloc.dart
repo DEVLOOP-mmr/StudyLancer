@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
@@ -30,13 +31,18 @@ class OfferBloc {
           application.student!.id!,
         );
       } else {
-        if (kDebugMode) {
-          return response;
-        }
         var data = response.data;
         if (data.containsKey('message')) {
+          if (kDebugMode) {
+            log(data['message'].toString());
+            return response;
+          }
           EasyLoading.showError(data['message']);
         } else {
+           if (kDebugMode) {
+            log(data['message'].toString());
+            return response;
+          }
           EasyLoading.showError('Something went wrong');
         }
       }

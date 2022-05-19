@@ -8,18 +8,34 @@ import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-
 void main() {
   group('Test to fetch home data for:', () {
     test('student', () async {
-      final student = (await (ProfileTestSuite().getStudentProfile()))!;
+      var studentHome = await ProfileTestSuite().getStudentHome();
+      final student = ((studentHome).student)!;
       expect(student, isNotNull);
       expect(student.id, MockFirebaseStudentUser().uid);
+      expect(student.verified, true);
+      if (studentHome.agents?.isEmpty ?? false) {
+        final agent = (await (ProfileTestSuite().getAgentProfile()))!;
+        expect(agent, isNotNull);
+        studentHome = await ProfileTestSuite().getStudentHome();
+      }
+      expect(studentHome.agents, isNotEmpty);
     });
     test('agent', () async {
-      final agent = (await (ProfileTestSuite().getAgentProfile()))!;
+      var agentHomeState = await (ProfileTestSuite().getAgentHome());
+      final agent = (agentHomeState.agent)!;
       expect(agent, isNotNull);
       expect(agent.id, MockFirebaseAgentUser().uid);
+      expect(agent!.verified!, true);
+      if (agentHomeState.verifiedStudents?.isEmpty ?? false) {
+        var studentHome = await ProfileTestSuite().getStudentHome();
+        final student = ((studentHome).student)!;
+        expect(student, isNotNull);
+        agentHomeState = await (ProfileTestSuite().getAgentHome());
+      }
+      expect(agentHomeState.verifiedStudents, isNotEmpty);
     });
   });
 
@@ -43,11 +59,13 @@ class ProfileTestSuite {
   Future<StudentHomeState> getStudentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('student');
     var homeBloc = HomeBloc()..setCountry('CA', 'student');
-    var studentHomeData = await (bloc??homeBloc).getStudentHome(firebaseAuth: mockAuth);
+    var studentHomeData =
+        await (bloc ?? homeBloc).getStudentHome(firebaseAuth: mockAuth);
     if (!studentHomeData.student!.verified!) {
       await updateStudentRequiredDocs();
       homeBloc.setCountry('CA', 'student');
       studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
+      
     }
     return studentHomeData;
   }
@@ -68,7 +86,8 @@ class ProfileTestSuite {
 
   Future<AgentHomeState> getAgentHome([HomeBloc? bloc]) async {
     final mockAuth = MockFirebaseAuth('agent');
-    var homeBloc = bloc??HomeBloc()..setCountry('CA', 'agent');
+    var homeBloc = bloc ?? HomeBloc()
+      ..setCountry('CA', 'agent');
     var agentHomeData = await homeBloc.getAgentHome(auth: mockAuth);
     if (!agentHomeData.agent!.verified!) {
       await updateAgentRequiredDocs();

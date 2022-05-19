@@ -11,8 +11,12 @@ class GetDio {
   static var productionUrl = "https://study-lancer.herokuapp.com/";
 
   static var local = "http://localhost:5000/";
+  static Dio _dio = Dio(_baseOptions())..interceptors.add(dioInterceptor());
   static Dio getDio() {
-    Dio dio = Dio();
+    return _dio;
+  }
+
+  static BaseOptions _baseOptions() {
     var options = BaseOptions();
     options.connectTimeout = 20000;
     options.receiveTimeout = 0;
@@ -29,10 +33,7 @@ class GetDio {
     options.headers = {
       "Accept": "application/json",
     };
-    dio.options = options;
-
-    dio.interceptors.add(dioInterceptor());
-    return dio;
+    return options;
   }
 
   static InterceptorsWrapper dioInterceptor() {
