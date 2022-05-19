@@ -35,7 +35,7 @@ void main() {
         expect(student, isNotNull);
         agentHomeState = await (ProfileTestSuite().getAgentHome());
       }
-      expect(agentHomeState.verifiedStudents, isNotEmpty);
+      expect(agentHomeState.verifiedStudents!.isNotEmpty || agentHomeState.applications!.isNotEmpty, true);
     });
   });
 
