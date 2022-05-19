@@ -25,7 +25,7 @@ class _ProgressPageState extends State<ProgressPage> {
     "Prepare GTE docs",
     "Pay tuition fees, Buy OSHC,Book medical",
     "Lodge visa",
-    "Visa approved",
+    "Visa approved"
   ];
 
   List<String> canadaEvents = [
@@ -45,7 +45,7 @@ class _ProgressPageState extends State<ProgressPage> {
     "assets/video1.mp4",
   ];
 
-  /// TODO: inject home bloc
+
 
   bool viewVisible = false;
   Application? application;

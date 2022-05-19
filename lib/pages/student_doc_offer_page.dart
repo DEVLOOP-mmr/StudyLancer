@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentDocOfferPage extends StatelessWidget {
-  final Student? student;
+  final Student student;
   final Application? application;
   const StudentDocOfferPage({Key? key, required this.student, this.application})
       : super(key: key);

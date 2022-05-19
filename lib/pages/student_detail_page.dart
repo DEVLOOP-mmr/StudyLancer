@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class StudentDetailPage extends StatefulWidget {
-  final Student? student;
+  final Student student;
   
   final Application? application;
-  const StudentDetailPage({Key? key, this.student,this.application}) : super(key: key);
+  const StudentDetailPage({Key? key,required this.student,this.application}) : super(key: key);
 
   @override
   _StudentDetailPageState createState() => _StudentDetailPageState();

@@ -13,7 +13,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:ionicons/ionicons.dart';
 
 class OfferPage extends StatefulWidget {
-  final Student? student;
+  final Student student;
   const OfferPage({Key? key, required this.student}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _OfferPageState extends State<OfferPage> {
   void initState() {
     super.initState();
 
-    offer.student!.id = widget.student!.id;
+    offer.student = widget.student;
   }
 
   @override

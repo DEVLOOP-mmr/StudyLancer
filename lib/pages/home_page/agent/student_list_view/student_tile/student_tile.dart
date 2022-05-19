@@ -39,7 +39,7 @@ class StudentTile extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
                   return StudentDetailPage(
-                    student: application.student,
+                    student: application.student!,
                     application: application,
                   );
                 }));
