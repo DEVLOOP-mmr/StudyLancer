@@ -35,7 +35,7 @@ class CountryBloc {
           Country(id: 'CA', countryName: 'Canada'),
           Country(id: 'AU', countryName: 'Australia'),
         ];
-        throw Exception('countries/:' + result.statusCode.toString());
+        throw Exception('countries/:${result.statusCode}');
       }
     } on DioError {
       countries = [

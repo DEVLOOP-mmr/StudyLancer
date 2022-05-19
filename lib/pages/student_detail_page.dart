@@ -21,7 +21,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
   void initState() {
     super.initState();
     PaletteGenerator.fromImageProvider(
-      NetworkImage(widget.student!.photo ??
+      NetworkImage(widget.student.photo ??
           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
       maximumColorCount: 20,
     ).then((value) {
@@ -57,7 +57,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                       color: paletteGenerator!.dominantColor!.color,
                       // borderRadius: BorderRadius.circular(16),
                       image: DecorationImage(
-                        image: NetworkImage(widget.student!.photo ??
+                        image: NetworkImage(widget.student.photo ??
                             "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
                         fit: BoxFit.cover,
                       ),
@@ -86,7 +86,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.student!.name ?? '',
+                                widget.student.name ?? '',
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: paletteGenerator!
@@ -110,9 +110,9 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                     width: 6,
                                   ),
                                   Text(
-                                    (widget.student!.city ?? "") +
+                                    (widget.student.city ?? "") +
                                         ", " +
-                                        (widget.student!.country ?? ""),
+                                        (widget.student.country ?? ""),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: paletteGenerator!
@@ -127,25 +127,25 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                           const SizedBox(
                             height: 16,
                           ),
-                          if (widget.student!.marksheet != null)
+                          if (widget.student.marksheet != null)
                             Padding(
                               padding: const EdgeInsets.only(right: 32.0),
                               child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount:
-                                      widget.student!.marksheet!.length * 2,
+                                      widget.student.marksheet!.length * 2,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount:
-                                              widget.student!.marksheet!.length,
+                                              widget.student.marksheet!.length,
                                           childAspectRatio: 2),
                                   itemBuilder: (context, index) {
                                     var markData = widget
-                                        .student!.marksheet!.keys
+                                        .student.marksheet!.keys
                                         .toList(growable: true);
                                     for (var element
-                                        in widget.student!.marksheet!.values) {
+                                        in widget.student.marksheet!.values) {
                                       markData.add(element.toString());
                                     }
                                     return Container(

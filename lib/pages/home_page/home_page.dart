@@ -43,12 +43,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (Variables.sharedPreferences.get(Variables.userType) ==
         Variables.userTypeStudent) {
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getStudentHome(context: context);
       });
     } else {
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         BlocProvider.of<HomeBloc>(context, listen: false)
             .getAgentHome(context: context);
       });

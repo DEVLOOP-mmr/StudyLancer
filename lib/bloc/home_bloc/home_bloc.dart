@@ -255,7 +255,7 @@ class HomeBloc extends Cubit<HomeState> {
       try {
         emit(InitialHomeState(country: '', loadState: LoadState.loading));
         emit(homeData.copyWith(loadState: LoadState.done));
-      } on StackOverflowError catch (e) {
+      } on StackOverflowError {
         rethrow;
       }
     } else {
@@ -328,7 +328,8 @@ class HomeBloc extends Cubit<HomeState> {
     final applications = student.applications ?? [];
     int? applicationIndex = student.applications
         ?.indexWhere((element) => element.applicationID == applicationID);
-    if (applicationIndex!=null && applicationIndex <= applications.length - 1) {
+    if (applicationIndex != null &&
+        applicationIndex <= applications.length - 1) {
       var application = student.applications![applicationIndex];
       student.applications![applicationIndex].favorite =
           !(student.applications![applicationIndex].favorite ?? false);
@@ -339,6 +340,10 @@ class HomeBloc extends Cubit<HomeState> {
             await GetDio.getDio().post('application/favourite', data: {
           'applicationId': application.applicationID,
         });
+        if (response.statusCode != 200) {
+          throw Exception(
+              "application/favourite:${response.statusCode}, id:$applicationID, data: ${response.data}");
+        }
       } catch (e) {
         FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       }

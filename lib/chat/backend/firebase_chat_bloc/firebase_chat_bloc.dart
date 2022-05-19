@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
@@ -255,7 +254,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       }
       emit(state.copyWith(totalMessageCount: unreadMessages));
       var currentMessages =
-          state.roomMessages as Map<String, List<types.Message>?>;
+          state.roomMessages;
       currentMessages[roomId] = messages;
       var v4 = const Uuid().v4();
       emit(state.copyWith(roomMessages: currentMessages, nonce: v4));

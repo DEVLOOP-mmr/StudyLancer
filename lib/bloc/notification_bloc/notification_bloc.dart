@@ -28,6 +28,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       requestAlertPermission: false,
     );
 
+    // ignore: unused_local_variable
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,

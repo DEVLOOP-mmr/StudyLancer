@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

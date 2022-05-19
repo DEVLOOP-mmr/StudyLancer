@@ -1,11 +1,11 @@
-import 'package:bloc/bloc.dart';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import 'package:elite_counsel/bloc/dio.dart';
 import 'package:elite_counsel/models/application.dart';
-
-import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/variables.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class StudentApplicationCubit extends Cubit<Application> {
   StudentApplicationCubit(Application application) : super(application);
