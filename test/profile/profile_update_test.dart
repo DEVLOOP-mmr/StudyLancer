@@ -20,6 +20,7 @@ void main() {
       var student = (await (ProfileTestSuite().getStudentProfile()))!;
       var _name = 'test_student_name_' + const Uuid().v4();
       student.name = _name;
+      student.dob = DateTime.now().toIso8601String();
       var response = await ProfileBloc.updateStudentProfile(student);
       expect(response.statusCode, 200);
       student = (await (ProfileTestSuite().getStudentProfile()))!;

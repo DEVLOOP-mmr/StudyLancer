@@ -53,7 +53,7 @@ void main() {
           application.agent?.id,
           MockFirebaseStudentUser().uid,
         );
-        expect(response.statusCode, 200);
+        expect(response.statusCode==200 || response.statusCode==202, true);
 
         var agentHome = await ProfileTestSuite().getAgentHome();
         bool applicationIsInOngoing =

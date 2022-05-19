@@ -39,7 +39,7 @@ class OfferBloc {
           }
           EasyLoading.showError(data['message']);
         } else {
-           if (kDebugMode) {
+          if (kDebugMode) {
             log(data['message'].toString());
             return response;
           }
@@ -94,12 +94,16 @@ class OfferBloc {
         if (kDebugMode) {
           return response;
         }
-        NotificationCubit.sendNotificationToUser(
-          'Offer Accepted',
-          'A student has accepted an offer you made',
-          agentID!,
-        );
-        EasyLoading.showError("Offer Accepted");
+        if (response.statusCode == 202) {
+          EasyLoading.showInfo("You cannot accept more than 3 offers");
+        } else {
+          NotificationCubit.sendNotificationToUser(
+            'Offer Accepted',
+            'A student has accepted an offer you made',
+            agentID!,
+          );
+          EasyLoading.showSuccess("Offer Accepted");
+        }
       } else {
         return _handleInvalidOfferResponse(response);
       }
