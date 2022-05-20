@@ -17,7 +17,7 @@ import '../backend_util.dart';
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to access methods.
 class FirebaseChatBloc extends Cubit<FirebaseChatState> {
-  FirebaseChatBloc({ this.homeBloc})
+  FirebaseChatBloc({this.homeBloc})
       : super(
           FirebaseChatState(
             rooms: const [],
@@ -115,24 +115,8 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
     Map<String, dynamic>? metadata,
   }) async {
     if (currentUser == null) return Future.error('User does not exist');
-
-    final query = await FirebaseFirestore.instance
-        .collection('rooms')
-        .where('userIds', arrayContains: currentUser.id)
-        .get();
-
-    final rooms = await processRoomsQuery(currentUser, query);
-
-    try {
-      return rooms.firstWhere((room) {
-        if (room.type == types.RoomType.group) return false;
-
-        final userIds = room.users.map((u) => u!.id);
-        return userIds.contains(user!.uid) && userIds.contains(otherUser!.id);
-      });
-    } catch (e) {
-      // Do nothing if room does not exist
-      // Create a new room instead
+    if (findRoom(currentUser, otherUser) != null) {
+      return findRoom(currentUser, otherUser)!;
     }
 
     otherUser = await fetchUser(otherUser!.id);
@@ -235,7 +219,6 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         .orderBy('timestamp', descending: true)
         .snapshots()
         .listen((snapshot) {
-     
       List<types.Message> messages = [];
       int unreadMessages = 0;
       for (var element in snapshot.docs) {
@@ -253,8 +236,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         }
       }
       emit(state.copyWith(totalMessageCount: unreadMessages));
-      var currentMessages =
-          state.roomMessages;
+      var currentMessages = state.roomMessages;
       currentMessages[roomId] = messages;
       var v4 = const Uuid().v4();
       emit(state.copyWith(roomMessages: currentMessages, nonce: v4));
@@ -276,10 +258,8 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         )
         .snapshots();
     roomSnapshotsStream ??= snapshots.listen((query) async {
-      
       final rooms = await processRoomsQuery(currentUser, query);
       emit(state.copyWith(rooms: rooms, loadState: LoadState.done));
-      
     });
   }
 
@@ -371,5 +351,17 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
       body = messageMap['text'];
     }
     NotificationCubit.sendNotificationToUser(title, body, otherUser.id!);
+  }
+
+  Room? findRoom(StudyLancerUser currentUser, StudyLancerUser? otherUser) {
+    try {
+      return state.rooms?.firstWhere((element) {
+        var users = element.users;
+        return users.any((user) => user?.id == currentUser.id) &&
+            users.any((user) => user?.id == otherUser?.id);
+      });
+    } catch (e) {
+      return null;
+    }
   }
 }

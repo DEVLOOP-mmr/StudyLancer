@@ -242,11 +242,13 @@ class StudentDocOfferPage extends StatelessWidget {
                                           (BlocProvider.of<HomeBloc>(context)
                                                   .state as AgentHomeState)
                                               .agent;
-                                      final room = await BlocProvider.of<
+                                      var bloc = BlocProvider.of<
                                           FirebaseChatBloc>(
                                         context,
                                         listen: false,
-                                      ).createRoom(currentAgent, student);
+                                      );
+                                     
+                                     final   room = await bloc.createRoom(currentAgent, student);
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => ChatPage(

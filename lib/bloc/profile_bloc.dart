@@ -8,6 +8,7 @@ import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:uuid/uuid.dart';
 
 import 'dio.dart';
 
@@ -19,7 +20,7 @@ class ProfileBloc {
     Map<String, String?> body = {
       "${userType}ID": uid,
       "countryLookingFor": "CA",
-      "phone": "0",
+      "phone": Uuid().v4(),
     };
     var result = await GetDio.getDio().post(
       "$userType/home",

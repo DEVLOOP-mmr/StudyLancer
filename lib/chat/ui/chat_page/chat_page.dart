@@ -11,10 +11,12 @@ import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart' as types;
 import 'package:elite_counsel/chat/ui/chat_page/chat_media_page.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tabbed_list.dart';
+import 'package:elite_counsel/pages/progress_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -428,81 +430,125 @@ class StudentApplicationStatuses extends StatelessWidget {
   const StudentApplicationStatuses({Key? key, required this.student})
       : super(key: key);
   final Student student;
+
+  Application? _maxProgressApplications(List<Application>? applications) {
+    if (applications == null) {
+      return null;
+    }
+    if (applications.isEmpty) {
+      return null;
+    }
+
+    var application = applications.first;
+    for (var a in applications) {
+      if ((a.progress ?? 0) > (application.progress ?? 0)) {
+        application = a;
+      }
+    }
+    return application;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: 1,
-        itemBuilder: (_, index) {
-          final application = student.applications!.lastWhere(((element) =>
-              element.agent!.id == FirebaseAuth.instance.currentUser!.uid));
-
-          return application == null
+    return Container(
+      height: MediaQuery.of(context).size.height/4,
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          var agentHome = state as AgentHomeState;
+          var applications = agentHome.applications?.where(((element) =>
+              element.agent!.id == FirebaseAuth.instance.currentUser!.uid &&
+              element.student?.id == student.id)).toList();
+          ;
+          return applications?.isEmpty ?? false
               ? Container()
-              : Container(
-                  color: Colors.black,
-                  child: ListTile(
-                    tileColor: Colors.black,
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Current Status',
-                          style: TextStyle(color: Colors.grey, fontSize: 11),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: Text(
-                            StudentApplicationCubit.parseProgressTitleFromValue(
-                                    application.progress!) ??
-                                '',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return StudentTabbedList(
-                            filterStudentID: student.id,
-                            showOnlyOngoingApplications: true,
-                          );
-                        }));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xff294A91),
-                          ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                                gradient: Variables.buttonGradient,
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "View Applications",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
+              : GestureDetector(
+               onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return StudentTabbedList(
+                        filterStudentID: student.id,
+                        showOnlyOngoingApplications: true,
+                      );
+                    }));
+                  },
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: applications!.length!,
+                    itemBuilder: (_, index) {
+                      final application = applications![index];
+                      return Container(
+                              color: Colors.black,
+                              child: ListTile(
+                                tileColor: Colors.black,
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Current Status for ${application.courseName}',
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 11),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width / 2,
+                                      child: Text(
+                                        StudentApplicationCubit
+                                                .parseProgressTitleFromValue(
+                                                    application.progress!) ??
+                                            '',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(builder: (context) {
+                                      return ProgressPage(
+                                       application: application,
+                                      );
+                                    }));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: const Color(0xff294A91),
+                                      ),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width / 3,
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                            gradient: Variables.buttonGradient,
+                                            border: Border.all(),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: const Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "View Timeline",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-        });
+                            );
+                    }),
+              );
+        },
+      ),
+    );
   }
 }

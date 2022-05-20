@@ -184,13 +184,9 @@ class NotificationCubit extends Cubit<NotificationState> {
         'token': newToken,
         'generated': Timestamp.fromDate(DateTime.now()),
       });
-      _sendNotificationToFCMToken('Welcome To Study Lancer!', '', newToken!);
+     
     } else {
-      _sendNotificationToFCMToken(
-        'Welcome To Study Lancer!',
-        '',
-        state.currentToken,
-      );
+     
     }
   }
 }
