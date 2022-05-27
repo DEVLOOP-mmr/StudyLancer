@@ -17,7 +17,7 @@ class DocumentBloc {
   DocumentBloc({
     required this.userType,
   });
-  Future<void> parseAndUploadFilePickerResult(
+  Future<String> parseAndUploadFilePickerResult(
     FilePickerResult result, {
     String? requiredDocType,
   }) async {
@@ -40,13 +40,16 @@ class DocumentBloc {
         ).then((value) {
           EasyLoading.showSuccess("Uploaded Successfully");
         });
+        return uri;
       } on Exception {
         if (kDebugMode) {
           rethrow;
         }
         EasyLoading.showSuccess("Something went Wrong");
+        return '';
       }
     }
+    return '';
   }
 
   Future<void> postChatDocument(

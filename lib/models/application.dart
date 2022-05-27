@@ -47,6 +47,7 @@ class Application extends Equatable {
     application.applicationID = offerData["_id"];
     application.city = offerData["location"]["city"];
     application.description = offerData["description"];
+    
     application.accepted = offerData["accepted"];
     application.universityName = offerData["universityName"];
     application.applicationFees = offerData["applicationFees"].toString();

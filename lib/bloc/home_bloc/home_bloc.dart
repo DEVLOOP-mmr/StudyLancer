@@ -51,12 +51,12 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void emitNewStudent(Student? student) {
-    if (state is StudentHomeState) {
+
       var homeState = (state as StudentHomeState);
       emit(homeState.copyWith(student: student));
       emit(homeState.copyWith(loadState: LoadState.loading));
       emit(homeState.copyWith(loadState: LoadState.done));
-    }
+    
   }
 
   AgentHomeState agentHome() => (state as AgentHomeState);
@@ -110,7 +110,7 @@ class HomeBloc extends Cubit<HomeState> {
     assert(order == 'asc' || order == 'desc');
     emit((state as AgentHomeState).copyWith(loadState: LoadState.loading));
     var applications = (state as AgentHomeState).applications!;
-    var ongoing = applications.where((element) => element.status==3).toList();
+    var ongoing = applications.where((element) => element.status == 3).toList();
     applications.removeWhere((element) => element.status == 3);
     ongoing.sort((a, b) {
       return (a.progress!).compareTo(
@@ -166,7 +166,7 @@ class HomeBloc extends Cubit<HomeState> {
     if (state.countryCode!.isEmpty) {
       var newCountry = Variables.sharedPreferences.get(Variables.countryCode);
       setCountry(
-        newCountry??'CA',
+        newCountry ?? 'CA',
         'student',
       );
     }
@@ -274,9 +274,8 @@ class HomeBloc extends Cubit<HomeState> {
             assert(application.agent != null);
             homeData.applications!.add(application);
           }
-        } else {
-          homeData.verifiedStudents?.add(student);
         }
+        homeData.verifiedStudents?.add(student);
       }
     }
 
@@ -293,7 +292,7 @@ class HomeBloc extends Cubit<HomeState> {
     if (state.countryCode!.isEmpty) {
       var newCountry = Variables.sharedPreferences.get(Variables.countryCode);
       setCountry(
-        newCountry??'CA',
+        newCountry ?? 'CA',
         'agent',
       );
     }

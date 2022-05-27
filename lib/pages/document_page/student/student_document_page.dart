@@ -148,6 +148,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(
+                key: UniqueKey(),
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
                     if (state is InitialHomeState) {
@@ -162,6 +163,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                             child: CircularProgressIndicator(),
                           )
                         : Column(
+                            key: UniqueKey(),
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -174,19 +176,15 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              student == null
+                              student.id == null
                                   ? const Center(
                                       child: CircularProgressIndicator(),
                                     )
-                                  : student.id == null
-                                      ? const Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : BlocBuilder<HomeBloc, HomeState>(
-                                          builder: (context, state) {
-                                            return requiredDocumentsList();
-                                          },
-                                        ),
+                                  : BlocBuilder<HomeBloc, HomeState>(
+                                      builder: (context, state) {
+                                        return requiredDocumentsList();
+                                      },
+                                    ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -206,6 +204,7 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                         itemCount:
                                             (student.documents ?? []).length,
                                         itemBuilder: (context, index) {
+                                          print('item Builder');
                                           Document doc =
                                               student.documents![index];
                                           if (doc.link == null) {
@@ -286,22 +285,25 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc(userType: Variables.userTypeStudent)
+        String uri = await DocumentBloc(userType: Variables.userTypeStudent)
             .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
           student!.requiredDocuments![requiredDocType] =
-              Document(name: result.files.first.name);
+              Document(name: result.files.first.name, link: uri);
           bloc.emitNewStudent(student);
         } else {
-          student!.documents!.add(Document(name: result.files.first.name));
+          student!.documents!
+              .add(Document(name: result.files.first.name, link: uri));
           bloc.emitNewStudent(student);
         }
       } catch (e) {
         log(e.toString());
       }
+      EasyLoading.dismiss();
+      // bloc.getStudentHome(context:context);
     }
   }
 
