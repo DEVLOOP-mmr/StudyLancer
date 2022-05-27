@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+import 'package:palette_generator/palette_generator.dart';
+
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
-import 'package:equatable/equatable.dart';
 
 class Agent extends StudyLancerUser with EquatableMixin {
   static final requiredDocNames = [
@@ -17,8 +19,9 @@ class Agent extends StudyLancerUser with EquatableMixin {
   String? reviewsAvg;
 
   String? reviewCount;
+  PaletteGenerator? paletteGenerator;
 
-  Agent({String? id}):super(id: id);
+  Agent({String? id}) : super(id: id);
   @override
   factory Agent.fromMap(Map<String, dynamic> agentData) {
     Agent agent = Agent();
@@ -98,23 +101,12 @@ class Agent extends StudyLancerUser with EquatableMixin {
   @override
   List<Object?> get props {
     return [
-      name,
-      id,
-      phone,
-      email,
-      photo,
       licenseNo,
       agentSince,
-      bio,
-      maritalStatus,
       applicationsHandled,
-      city,
-      country,
       reviewsAvg,
-      countryLookingFor,
       reviewCount,
-      verified,
-      documents,
+      paletteGenerator,
     ];
   }
 }

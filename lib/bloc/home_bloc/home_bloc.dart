@@ -14,6 +14,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import '../dio.dart';
 
@@ -51,12 +52,10 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void emitNewStudent(Student? student) {
-
-      var homeState = (state as StudentHomeState);
-      emit(homeState.copyWith(student: student));
-      emit(homeState.copyWith(loadState: LoadState.loading));
-      emit(homeState.copyWith(loadState: LoadState.done));
-    
+    var homeState = (state as StudentHomeState);
+    emit(homeState.copyWith(student: student));
+    emit(homeState.copyWith(loadState: LoadState.loading));
+    emit(homeState.copyWith(loadState: LoadState.done));
   }
 
   AgentHomeState agentHome() => (state as AgentHomeState);
@@ -158,7 +157,7 @@ class HomeBloc extends Cubit<HomeState> {
       await _handleInvalidResult(result, context);
     }
     emit(homeData.copyWith(loadState: LoadState.done));
-
+    _generateColorPalletesForAgents();
     return homeData;
   }
 
@@ -344,5 +343,24 @@ class HomeBloc extends Cubit<HomeState> {
         FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       }
     }
+  }
+
+  void _generateColorPalletesForAgents() async {
+    var agents = (state as StudentHomeState).agents?.toList();
+    if (agents == null) {
+      return;
+    }
+    for (var i = 0; i < agents!.length; i++) {
+      agents[i].paletteGenerator = await generatePalette(agents[i]);
+    }
+    emit((state as StudentHomeState).copyWith(agents: agents));
+  }
+
+  Future<PaletteGenerator> generatePalette(Agent agent) async {
+    return await PaletteGenerator.fromImageProvider(
+      NetworkImage(agent!.photo ??
+          "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
+      maximumColorCount: 20,
+    );
   }
 }
