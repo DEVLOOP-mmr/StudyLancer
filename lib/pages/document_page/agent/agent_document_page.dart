@@ -13,18 +13,10 @@ import 'package:elite_counsel/widgets/drawer.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentPage extends StatefulWidget {
+class AgentDocumentPage extends StatelessWidget {
   const AgentDocumentPage({Key? key}) : super(key: key);
 
-  @override
-  State<AgentDocumentPage> createState() => _AgentDocumentPageState();
-}
 
-class _AgentDocumentPageState extends State<AgentDocumentPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

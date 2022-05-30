@@ -28,17 +28,17 @@ class AgentDocumentUploadButton extends StatelessWidget {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        await DocumentBloc(userType: Variables.userTypeAgent)
+     String uri=   await DocumentBloc(userType: Variables.userTypeAgent)
             .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
           agent!.requiredDocuments![requiredDocType] =
-              Document(name: result.files.first.name);
+              Document(name: result.files.first.name,link: uri);
           bloc.emitNewAgent(agent);
         } else {
-          agent!.documents!.add(Document(name: result.files.first.name));
+          agent!.documents!.add(Document(name: result.files.first.name,link: uri));
           bloc.emitNewAgent(agent);
         }
       } catch (e) {
