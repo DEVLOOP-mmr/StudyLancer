@@ -120,7 +120,7 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                             ? [
                                 Tab(
                                   text:
-                                      "Ongoing(${ongoingApplications?.length ?? 0})",
+                                      "Ongoing(${ongoingApplications.length ?? 0})",
                                 ),
                               ]
                             : [
@@ -130,11 +130,11 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                                 ),
                                 Tab(
                                   text:
-                                      "Options Provided(${optionsProvidedApplications?.length ?? 0})",
+                                      "Options Provided(${optionsProvidedApplications.length ?? 0})",
                                 ),
                                 Tab(
                                   text:
-                                      "Ongoing(${ongoingApplications?.length ?? 0})",
+                                      "Ongoing(${ongoingApplications.length ?? 0})",
                                 ),
                               ],
                       );

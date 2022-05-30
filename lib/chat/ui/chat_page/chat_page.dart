@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,8 +15,6 @@ import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tabbed_list.dart';
-import 'package:elite_counsel/pages/progress_page.dart';
-import 'package:elite_counsel/pages/student_detail_page.dart';
 import 'package:elite_counsel/pages/student_doc_offer_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -477,9 +474,9 @@ class StudentApplicationStatuses extends StatelessWidget {
                   },
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: applications!.length!,
+                      itemCount: applications!.length,
                       itemBuilder: (_, index) {
-                        final application = applications![index];
+                        final application = applications[index];
                         return Container(
                           color: Colors.black,
                           child: ListTile(

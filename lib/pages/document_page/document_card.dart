@@ -77,7 +77,6 @@ class _DocumentCardState extends State<DocumentCard> {
         padding: const EdgeInsets.all(10),
       ),
       child: Container(
-       
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
           width: MediaQuery.of(context).size.width,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
@@ -361,7 +360,7 @@ class HomeBloc extends Cubit<HomeState> {
     if (agents == null) {
       return;
     }
-    for (var i = 0; i < agents!.length; i++) {
+    for (var i = 0; i < agents.length; i++) {
       agents[i].paletteGenerator = await generatePalette(agents[i]);
     }
     emit((state as StudentHomeState).copyWith(agents: agents));
@@ -369,7 +368,7 @@ class HomeBloc extends Cubit<HomeState> {
 
   Future<PaletteGenerator> generatePalette(Agent agent) async {
     return await PaletteGenerator.fromImageProvider(
-      NetworkImage(agent!.photo ??
+      NetworkImage(agent.photo ??
           "https://emailproleads.com/wp-content/uploads/2019/10/student-3500990_1920.jpg"),
       maximumColorCount: 20,
     );

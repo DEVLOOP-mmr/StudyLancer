@@ -4,7 +4,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/models/application.dart';
-import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/variables.dart';
 
 class ApplicationStatus extends StatefulWidget {

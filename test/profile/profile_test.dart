@@ -28,7 +28,7 @@ void main() {
       final agent = (agentHomeState.agent)!;
       expect(agent, isNotNull);
       expect(agent.id, MockFirebaseAgentUser().uid);
-      expect(agent!.verified!, true);
+      expect(agent.verified!, true);
       if (agentHomeState.verifiedStudents?.isEmpty ?? false) {
         var studentHome = await ProfileTestSuite().getStudentHome();
         final student = ((studentHome).student)!;

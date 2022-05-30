@@ -16,8 +16,6 @@ import '../../../variables.dart';
 class AgentDocumentPage extends StatelessWidget {
   const AgentDocumentPage({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

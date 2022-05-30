@@ -48,7 +48,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
               heightFactor: 0.7,
               child: Container(
                 decoration: BoxDecoration(
-                  color: paletteGenerator?.dominantColor?.color ?? Colors.white,
+                  color: paletteGenerator.dominantColor?.color ?? Colors.white,
                   // borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
                     image: NetworkImage(widget.agent!.photo ??
@@ -66,10 +66,10 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                       ? [Colors.white, Colors.grey]
                       : [
                           Colors.transparent,
-                          paletteGenerator!.dominantColor!.color
+                          paletteGenerator.dominantColor!.color
                               .withOpacity(0.1),
-                          paletteGenerator!.dominantColor!.color,
-                          paletteGenerator!.dominantColor!.color,
+                          paletteGenerator.dominantColor!.color,
+                          paletteGenerator.dominantColor!.color,
                         ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -96,7 +96,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     style: TextStyle(
                                       fontSize: 35,
                                       color: paletteGenerator
-                                              ?.dominantColor?.titleTextColor ??
+                                              .dominantColor?.titleTextColor ??
                                           Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -110,7 +110,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                       Icon(
                                         Icons.pin_drop_outlined,
                                         color: paletteGenerator
-                                            ?.dominantColor?.titleTextColor,
+                                            .dominantColor?.titleTextColor,
                                         size: 14,
                                       ),
                                       const SizedBox(
@@ -123,7 +123,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: paletteGenerator
-                                              ?.dominantColor?.titleTextColor,
+                                              .dominantColor?.titleTextColor,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -140,7 +140,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: paletteGenerator
-                                      ?.dominantColor?.titleTextColor
+                                      .dominantColor?.titleTextColor
                                       .withOpacity(0.3),
                                   borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(20),
@@ -155,7 +155,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                       Icon(
                                         Icons.star_border_purple500_sharp,
                                         color: paletteGenerator
-                                            ?.dominantColor?.titleTextColor,
+                                            .dominantColor?.titleTextColor,
                                         size: 20,
                                       ),
                                       const SizedBox(
@@ -166,7 +166,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                         style: TextStyle(
                                           fontSize: 18,
                                           color: paletteGenerator
-                                              ?.dominantColor?.titleTextColor,
+                                              .dominantColor?.titleTextColor,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -188,7 +188,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                           style: TextStyle(
                             fontSize: 14,
                             color: paletteGenerator
-                                ?.dominantColor?.titleTextColor
+                                .dominantColor?.titleTextColor
                                 .withOpacity(0.7),
                             fontWeight: FontWeight.bold,
                           ),
@@ -202,7 +202,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: paletteGenerator
-                                  ?.dominantColor?.titleTextColor
+                                  .dominantColor?.titleTextColor
                                   .withOpacity(0.3),
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -214,7 +214,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   Icon(
                                     Icons.access_time,
                                     color: paletteGenerator
-                                        ?.dominantColor?.titleTextColor
+                                        .dominantColor?.titleTextColor
                                         .withOpacity(0.7),
                                     size: 14,
                                   ),
@@ -231,7 +231,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: paletteGenerator
-                                          ?.dominantColor?.titleTextColor
+                                          .dominantColor?.titleTextColor
                                           .withOpacity(0.7),
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -246,7 +246,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: paletteGenerator
-                                  ?.dominantColor?.titleTextColor
+                                  .dominantColor?.titleTextColor
                                   .withOpacity(0.3),
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -258,7 +258,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   Icon(
                                     Icons.person_outline,
                                     color: paletteGenerator
-                                        ?.dominantColor?.titleTextColor
+                                        .dominantColor?.titleTextColor
                                         .withOpacity(0.7),
                                     size: 14,
                                   ),
@@ -271,7 +271,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: paletteGenerator
-                                          ?.dominantColor?.titleTextColor
+                                          .dominantColor?.titleTextColor
                                           .withOpacity(0.7),
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -500,7 +500,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: paletteGenerator
-                                  ?.dominantColor?.titleTextColor,
+                                  .dominantColor?.titleTextColor,
                               borderRadius: BorderRadius.circular(40),
                             ),
                             child: Padding(
@@ -513,7 +513,7 @@ class _AgentDetailPageState extends State<AgentDetailPage> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: paletteGenerator
-                                        ?.dominantColor?.titleTextColor,
+                                        .dominantColor?.titleTextColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
