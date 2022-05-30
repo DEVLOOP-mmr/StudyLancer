@@ -271,10 +271,15 @@ class HomeBloc extends Cubit<HomeState> {
           for (var application in student.applications ?? []) {
             application.student = student;
             assert(application.agent != null);
+
             homeData.applications!.add(application);
           }
         }
-        homeData.verifiedStudents?.add(student);
+        if (!(student.applications?.contains((app) =>
+                app.agentID == FirebaseAuth.instance.currentUser!.uid) ??
+            false)) {
+          homeData.verifiedStudents?.add(student);
+        }
       }
     }
 

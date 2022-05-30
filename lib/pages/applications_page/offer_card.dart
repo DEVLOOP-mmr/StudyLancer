@@ -30,8 +30,8 @@ class ApplicationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return ProgressPage(application: application);
         }));
       },
@@ -61,94 +61,84 @@ class ApplicationCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Stack(
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: FractionallySizedBox(
-                                  widthFactor: 0.6,
-                                  child: Text(
-                                    application.universityName ?? "",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 23,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 30,
-                             
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 150),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: ((application
-                                                        .agent?.photo ==
-                                                    null)
-                                                ? const AssetImage(
-                                                    'assets/images/abc.png',
-                                                  )
-                                                : NetworkImage(
-                                                    (application.agent?.photo)!,
-                                                  )) as ImageProvider<Object>?,
-                                            // backgroundImage:
-                                            //     NetworkImage(offer
-                                            //         .agentImage),
-                                            radius: 10,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              application.agent?.name ??
-                                                  "Agent",
-                                            
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 10,
-                                                color: Colors.white,
-                                              ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0.5,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<HomeBloc>(context)
-                                        .toggleApplicationFavorite(
-                                      application.applicationID!,
-                                    );
-                                  },
-                                  child: Icon(
-                                    (application.favorite ?? false)
-                                        ? Icons.star
-                                        : Icons.star_border,
+                              Container(
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width / 3),
+                                child: Text(
+                                  application.universityName ?? "",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23,
                                     color: Colors.white,
                                   ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 150),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage:
+                                              ((application.agent?.photo == null)
+                                                  ? const AssetImage(
+                                                      'assets/images/abc.png',
+                                                    )
+                                                  : NetworkImage(
+                                                      (application.agent?.photo)!,
+                                                    )) as ImageProvider<Object>?,
+                                          // backgroundImage:
+                                          //     NetworkImage(offer
+                                          //         .agentImage),
+                                          radius: 10,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            application.agent?.name ?? "Agent",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10,
+                                              color: Colors.white,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              GestureDetector(
+                                onTap: () {
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .toggleApplicationFavorite(
+                                    application.applicationID!,
+                                  );
+                                },
+                                child: Icon(
+                                  (application.favorite ?? false)
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -208,11 +198,11 @@ class ApplicationCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                            const SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           AutoSizeText(
-                            application.description?? "",
+                            application.description ?? "",
                             maxLines: 4,
                             style: const TextStyle(
                               fontWeight: FontWeight.w200,
@@ -345,9 +335,10 @@ class ApplicationCard extends StatelessWidget {
                         onPressed: () async {
                           var otherUser = Agent();
                           otherUser.id = application.agent?.id;
-                          var currentStudent = (BlocProvider.of<HomeBloc>(context)
-                                  .state as StudentHomeState)
-                              .student;
+                          var currentStudent =
+                              (BlocProvider.of<HomeBloc>(context).state
+                                      as StudentHomeState)
+                                  .student;
                           final room = await BlocProvider.of<FirebaseChatBloc>(
                             context,
                             listen: false,
@@ -476,7 +467,8 @@ class ApplicationCard extends StatelessWidget {
                                     .getStudentHome();
                                 EasyLoading.showSuccess("Accepted Offer");
                               } else {
-                                EasyLoading.showSuccess("Offer Already Accepted");
+                                EasyLoading.showSuccess(
+                                    "Offer Already Accepted");
                               }
                             },
                             style: NeumorphicStyle(

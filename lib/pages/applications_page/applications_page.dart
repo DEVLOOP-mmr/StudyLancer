@@ -27,14 +27,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
       key: _scaffoldKey,
       backgroundColor: Variables.backgroundColor,
       appBar: AppBar(
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : null,
+      leading: null,
         automaticallyImplyLeading: true,
         title: const Text(
           "Applications",
