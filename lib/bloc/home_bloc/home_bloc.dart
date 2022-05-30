@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' show Response;
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/usertype_select/usertype_select_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -275,15 +276,20 @@ class HomeBloc extends Cubit<HomeState> {
             homeData.applications!.add(application);
           }
         }
-        if (!(student.applications?.contains((app) =>
-                app.agentID == FirebaseAuth.instance.currentUser!.uid) ??
-            false)) {
+        var doesStudentHaveApplicationsByCurrentAgent =
+            _doesStudentHaveApplicationsByCurrentAgent(student);
+        if (!doesStudentHaveApplicationsByCurrentAgent) {
           homeData.verifiedStudents?.add(student);
         }
       }
     }
 
     return homeData;
+  }
+
+  bool _doesStudentHaveApplicationsByCurrentAgent(Student student) {
+    return (student.applications!.any((Application app) =>
+        app.agent!.id == FirebaseAuth.instance.currentUser!.uid));
   }
 
   AgentHomeState _emitInitialAgentState() {

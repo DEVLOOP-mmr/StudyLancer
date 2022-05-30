@@ -43,7 +43,7 @@ Future<void> main() async {
       builder: (context) => const MaterialApp(
         useInheritedMediaQuery:true,
         home: MyApp()),
-      enabled: true,
+      enabled: false,
     ));
   } else {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
