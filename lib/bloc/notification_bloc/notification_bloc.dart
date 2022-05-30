@@ -174,7 +174,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void _registerFCMToken() async {
-    if (!await _hasValidFCMToken()) {
+  
       final newToken = await FirebaseMessaging.instance.getToken();
       emit(state.copyWith(currentToken: newToken));
       await FirebaseFirestore.instance
@@ -185,8 +185,6 @@ class NotificationCubit extends Cubit<NotificationState> {
         'generated': Timestamp.fromDate(DateTime.now()),
       });
      
-    } else {
-     
-    }
+   
   }
 }
