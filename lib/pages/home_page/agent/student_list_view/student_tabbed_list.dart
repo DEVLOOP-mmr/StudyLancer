@@ -9,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class StudentTabbedList extends StatefulWidget {
-  const StudentTabbedList({Key? key, this.showOnlyOngoingApplications,this.filterStudentID})
+  const StudentTabbedList(
+      {Key? key, this.showOnlyOngoingApplications, this.filterStudentID})
       : super(key: key);
 
   final bool? showOnlyOngoingApplications;
@@ -76,29 +77,68 @@ class _StudentTabbedListState extends State<StudentTabbedList>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TabBar(
-                    labelColor: Variables.accentColor,
-                    indicatorColor: Colors.transparent,
-                    unselectedLabelColor: Colors.white.withOpacity(0.6),
-                    isScrollable: true,
-                    controller: _tabController,
-                    tabs: widget.showOnlyOngoingApplications ?? false
-                        ? [
-                            const Tab(
-                              text: "Ongoing",
-                            ),
-                          ]
-                        : const [
-                            Tab(
-                              text: "Awaiting",
-                            ),
-                            Tab(
-                              text: "Options Provided",
-                            ),
-                            Tab(
-                              text: "Ongoing",
-                            ),
-                          ],
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is! AgentHomeState) {
+                        return const CircularProgressIndicator();
+                      }
+                      final agentHomePageState = state;
+                      final agent = agentHomePageState.agent;
+                      if (agent == null) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      var verifiedStudents =
+                          agentHomePageState.verifiedStudents;
+                      final optionsProvidedApplications =
+                          agentHomePageState.applications!.where((element) {
+                        bool agentIDMatchesApplicationAgentID =
+                            element.status == 2 &&
+                                element.agent?.id == agent.id;
+
+                        return agentIDMatchesApplicationAgentID;
+                      }).toList();
+                      final ongoingApplications =
+                          agentHomePageState.applications!.where((element) {
+                        bool agentIDMatchesApplicationAgentID =
+                            element.status == 3 &&
+                                element.agent?.id == agent.id;
+                        if (widget.filterStudentID != null) {
+                          return agentIDMatchesApplicationAgentID &&
+                              element.student!.id == widget.filterStudentID;
+                        }
+                        return agentIDMatchesApplicationAgentID;
+                      }).toList();
+
+                      return TabBar(
+                        labelColor: Variables.accentColor,
+                        indicatorColor: Colors.transparent,
+                        unselectedLabelColor: Colors.white.withOpacity(0.6),
+                        isScrollable: true,
+                        controller: _tabController,
+                        tabs: widget.showOnlyOngoingApplications ?? false
+                            ? [
+                                Tab(
+                                  text:
+                                      "Ongoing(${ongoingApplications?.length ?? 0})",
+                                ),
+                              ]
+                            : [
+                                Tab(
+                                  text:
+                                      "Awaiting(${verifiedStudents?.length ?? 0})",
+                                ),
+                                Tab(
+                                  text:
+                                      "Options Provided(${optionsProvidedApplications?.length ?? 0})",
+                                ),
+                                Tab(
+                                  text:
+                                      "Ongoing(${ongoingApplications?.length ?? 0})",
+                                ),
+                              ],
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 5,
@@ -110,14 +150,16 @@ class _StudentTabbedListState extends State<StudentTabbedList>
                         controller: _tabController,
                         children: widget.showOnlyOngoingApplications ?? false
                             ? [
-                                 OngoingStudents(
+                                OngoingStudents(
                                   filterStudentID: widget.filterStudentID,
                                 ),
                               ]
-                            :  [
+                            : [
                                 const AwaitingStudents(),
                                 const OptionsProvided(),
-                                OngoingStudents(filterStudentID:widget.filterStudentID,),
+                                OngoingStudents(
+                                  filterStudentID: widget.filterStudentID,
+                                ),
                               ],
                       ),
                     ),

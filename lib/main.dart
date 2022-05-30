@@ -35,14 +35,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  
   if (kDebugMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     runApp(DevicePreview(
-    
-      builder: (context) => const MaterialApp(
-        useInheritedMediaQuery:true,
-        home: MyApp()),
+      builder: (context) =>
+          const MaterialApp(useInheritedMediaQuery: true, home: MyApp()),
       enabled: false,
     ));
   } else {

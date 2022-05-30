@@ -93,9 +93,13 @@ class _MyDrawerState extends State<MyDrawer> {
                     color: Variables.accentColor,
                   ),
                   onTap: () {
-                    var state=BlocProvider.of<HomeBloc>(context).state.studentHomeState();
+                    var state = BlocProvider.of<HomeBloc>(context)
+                        .state
+                        .studentHomeState();
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                      return ProgressPage(application:state.student?.applications?.last ,);
+                      return ProgressPage(
+                        application: state.student?.applications?.last,
+                      );
                     }));
                   },
                   title: const Text(

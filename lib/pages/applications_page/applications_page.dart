@@ -27,7 +27,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
       key: _scaffoldKey,
       backgroundColor: Variables.backgroundColor,
       appBar: AppBar(
-      leading: null,
+        leading: null,
         automaticallyImplyLeading: true,
         title: const Text(
           "Applications",
@@ -85,8 +85,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                 );
               }
               final studentHomeState = state;
-              if(studentHomeState.student==null){
-                 return const Center(
+              if (studentHomeState.student == null) {
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -117,7 +117,6 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                       application: offer,
                                       student: student,
                                       viewMode: ApplicationCardViewMode.student,
-                                     
                                     );
                                   },
                                 )

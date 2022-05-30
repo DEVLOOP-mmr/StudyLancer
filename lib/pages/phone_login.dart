@@ -42,11 +42,12 @@ class _PhonePageState extends State<PhonePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-               SizedBox(height: 60,),
+              SizedBox(
+                height: 60,
+              ),
               Padding(
-               
-               padding:
-                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
                 child: Text(
                   "Let’s get started",
                   style: TextStyle(
@@ -55,8 +56,9 @@ class _PhonePageState extends State<PhonePage> {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
@@ -76,7 +78,8 @@ class _PhonePageState extends State<PhonePage> {
                       counter: Container(),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelText: 'Enter your number',
-                      labelStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
+                      labelStyle:
+                          TextStyle(color: Colors.white.withOpacity(0.4)),
                     ),
                     initialCountryCode: 'IN',
                     style: const TextStyle(
@@ -140,7 +143,8 @@ class _PhonePageState extends State<PhonePage> {
                                     Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const HomePage(),
+                                          builder: (context) =>
+                                              const HomePage(),
                                         ),
                                         (_) => false);
                                   }).catchError((e) {
@@ -149,15 +153,16 @@ class _PhonePageState extends State<PhonePage> {
                                 },
                                 verificationFailed: (exception) {
                                   EasyLoading.dismiss();
-    
+
                                   EasyLoading.showError(exception.toString());
                                 },
-                                codeSent: (verificationId, forceResendingToken) {
+                                codeSent:
+                                    (verificationId, forceResendingToken) {
                                   EasyLoading.dismiss();
                                   Variables.sharedPreferences
                                       .put(Variables.phone, phoneNumber);
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
                                     return OtpPage(
                                       verificationId: verificationId,
                                     );

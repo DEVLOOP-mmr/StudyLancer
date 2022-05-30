@@ -34,7 +34,7 @@ class Student extends StudyLancerUser with EquatableMixin {
     this.marksheet,
     this.applications,
     String? id,
-  }):super(id: id);
+  }) : super(id: id);
 
   bool isValid() {
     try {

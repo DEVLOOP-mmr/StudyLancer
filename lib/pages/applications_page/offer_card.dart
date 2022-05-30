@@ -72,7 +72,6 @@ class ApplicationCard extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                           
                             children: [
                               Container(
                                 constraints: BoxConstraints(
@@ -101,15 +100,14 @@ class ApplicationCard extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       CircleAvatar(
-                                        backgroundImage: ((application
-                                                    .agent?.photo ==
-                                                null)
-                                            ? const AssetImage(
-                                                'assets/images/abc.png',
-                                              )
-                                            : NetworkImage(
-                                                (application.agent?.photo)!,
-                                              )) as ImageProvider<Object>?,
+                                        backgroundImage:
+                                            ((application.agent?.photo == null)
+                                                ? const AssetImage(
+                                                    'assets/images/abc.png',
+                                                  )
+                                                : NetworkImage(
+                                                    (application.agent?.photo)!,
+                                                  )) as ImageProvider<Object>?,
                                         // backgroundImage:
                                         //     NetworkImage(offer
                                         //         .agentImage),

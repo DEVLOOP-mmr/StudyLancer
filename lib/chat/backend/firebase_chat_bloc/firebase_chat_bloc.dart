@@ -231,8 +231,7 @@ class FirebaseChatBloc extends Cubit<FirebaseChatState> {
         var message = types.Message.fromJson(data);
         messages.add(message);
         var uid2 = FirebaseAuth.instance.currentUser!.uid;
-        if (message.status != types.Status.read &&
-            message.authorId != uid2) {
+        if (message.status != types.Status.read && message.authorId != uid2) {
           unreadMessages += 1;
         }
       }

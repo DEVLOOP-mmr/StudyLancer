@@ -14,19 +14,15 @@ class AgentDetailsPageView extends StatefulWidget {
 }
 
 class _AgentDetailsPageViewState extends State<AgentDetailsPageView> {
- 
   @override
   void initState() {
     super.initState();
-  
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       pageSnapping: true,
-     
-    
       itemCount: widget.agents!.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {

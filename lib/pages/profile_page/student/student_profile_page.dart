@@ -337,8 +337,9 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
-                          
-                          initialValue: FirebaseAuth.instance.currentUser?.phoneNumber??'',
+                          initialValue:
+                              FirebaseAuth.instance.currentUser?.phoneNumber ??
+                                  '',
                           onChanged: (value) {
                             student.phone = value;
                           },

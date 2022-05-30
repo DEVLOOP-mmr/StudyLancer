@@ -551,7 +551,6 @@ class StudentApplicationStatuses extends StatelessWidget {
                                                 "View Application",
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                  
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),

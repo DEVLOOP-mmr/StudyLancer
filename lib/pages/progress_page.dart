@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'package:timelines/timelines.dart';
@@ -13,7 +11,7 @@ class ProgressPage extends StatefulWidget {
   final Application? application;
   const ProgressPage({
     Key? key,
-   required this.application,
+    required this.application,
   }) : super(key: key);
   @override
   _ProgressPageState createState() => _ProgressPageState();
@@ -45,8 +43,6 @@ class _ProgressPageState extends State<ProgressPage> {
     "assets/video1.mp4",
   ];
 
-
-
   bool viewVisible = false;
   Application? application;
   //video
@@ -54,7 +50,6 @@ class _ProgressPageState extends State<ProgressPage> {
   void initState() {
     super.initState();
     application = widget.application;
-   
   }
 
   void showWidget() {
@@ -111,85 +106,81 @@ class _ProgressPageState extends State<ProgressPage> {
               ),
             ),
           ),
-     
-
-                        Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Timeline.tileBuilder(
-                  key: UniqueKey(),
-                  padding: const EdgeInsets.all(0),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  theme: TimelineThemeData(
-                    nodePosition: 0,
-                    connectorTheme: const ConnectorThemeData(
-                      thickness: 3.0,
-                      color: Color(0xffd3d3d3),
-                    ),
-                    indicatorTheme: const IndicatorThemeData(
-                      size: 15.0,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  builder: TimelineTileBuilder.fromStyle(
-                    contentsAlign: ContentsAlign.basic,
-                    connectorStyle: ConnectorStyle.dashedLine,
-                    indicatorStyle: IndicatorStyle.outlined,
-                    endConnectorStyle: ConnectorStyle.solidLine,
-                    contentsBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20, left: 20, right: 20, bottom: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap:
-                                viewVisible == false ? showWidget : hideWidget,
-                            child: Text(
-                              (Variables.sharedPreferences
-                                          .get(Variables.countryCode) ==
-                                      "AU")
-                                  ? ausEvents[index]
-                                  : canadaEvents[index],
-                              style: TextStyle(
-                                  color: index <= application!.progress!
-                                      ? Colors.white
-                                      : Colors.white38,
-                                  fontWeight: index <=  application!.progress!
-                                      ? FontWeight.bold
-                                      : FontWeight.normal),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Visibility(
-                              visible: viewVisible,
-                              child: viewVisible == true
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Container(
-                                          height: 150,
-                                          width: 230,
-                                          decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          child: const Videos()),
-                                    )
-                                  : Container())
-                        ],
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Timeline.tileBuilder(
+              key: UniqueKey(),
+              padding: const EdgeInsets.all(0),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              theme: TimelineThemeData(
+                nodePosition: 0,
+                connectorTheme: const ConnectorThemeData(
+                  thickness: 3.0,
+                  color: Color(0xffd3d3d3),
+                ),
+                indicatorTheme: const IndicatorThemeData(
+                  size: 15.0,
+                  color: Colors.blue,
+                ),
+              ),
+              builder: TimelineTileBuilder.fromStyle(
+                contentsAlign: ContentsAlign.basic,
+                connectorStyle: ConnectorStyle.dashedLine,
+                indicatorStyle: IndicatorStyle.outlined,
+                endConnectorStyle: ConnectorStyle.solidLine,
+                contentsBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20, left: 20, right: 20, bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: viewVisible == false ? showWidget : hideWidget,
+                        child: Text(
+                          (Variables.sharedPreferences
+                                      .get(Variables.countryCode) ==
+                                  "AU")
+                              ? ausEvents[index]
+                              : canadaEvents[index],
+                          style: TextStyle(
+                              color: index <= application!.progress!
+                                  ? Colors.white
+                                  : Colors.white38,
+                              fontWeight: index <= application!.progress!
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
-                    ),
-                    itemCount: (Variables.sharedPreferences
-                                .get(Variables.countryCode) ==
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Visibility(
+                          visible: viewVisible,
+                          child: viewVisible == true
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Container(
+                                      height: 150,
+                                      width: 230,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: const Videos()),
+                                )
+                              : Container())
+                    ],
+                  ),
+                ),
+                itemCount:
+                    (Variables.sharedPreferences.get(Variables.countryCode) ==
                             "AU")
                         ? ausEvents.length
                         : canadaEvents.length,
-                  ),
-                ),
-              )
-           
+              ),
+            ),
+          )
         ],
       ),
     );
