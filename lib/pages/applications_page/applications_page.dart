@@ -116,7 +116,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                                     return ApplicationCard(
                                       application: offer,
                                       student: student,
-                                      applicationIndex: index,
+                                      viewMode: ApplicationCardViewMode.student,
+                                     
                                     );
                                   },
                                 )

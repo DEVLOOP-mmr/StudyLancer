@@ -16,6 +16,7 @@ void main() {
       var response = await OfferBloc.addOffer(
         mockApplication,
         MockFirebaseAgentUser().uid,
+        'CA'
       );
       student = await ProfileTestSuite().getStudentProfile();
     }

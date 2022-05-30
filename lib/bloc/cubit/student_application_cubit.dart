@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -32,11 +31,18 @@ class StudentApplicationCubit extends Cubit<Application> {
     }
   }
 
-  static String? parseProgressTitleFromValue(int progressValue) {
-    Map<int, String> map =
-        Variables.sharedPreferences.get(Variables.countryCode) == 'AU'
-            ? australiaProgressMap
-            : canadaProgressMap;
+  static bool isValidCountryCode(String code) {
+    return code == 'AU' || code == 'CA';
+  }
+
+  static String? parseProgressTitleFromValue(
+      String countryCode, int progressValue) {
+    Map<int, String> map = (isValidCountryCode(countryCode)
+                ? countryCode
+                : Variables.sharedPreferences.get(Variables.countryCode)) ==
+            'AU'
+        ? australiaProgressMap
+        : canadaProgressMap;
     if (map.containsKey(progressValue)) {
       return canadaProgressMap[progressValue];
     }
@@ -44,7 +50,7 @@ class StudentApplicationCubit extends Cubit<Application> {
   }
 
   static int? convertProgressTitleToValue(String title) {
-      Map<int, String> map =
+    Map<int, String> map =
         Variables.sharedPreferences.get(Variables.countryCode) == 'AU'
             ? australiaProgressMap
             : canadaProgressMap;

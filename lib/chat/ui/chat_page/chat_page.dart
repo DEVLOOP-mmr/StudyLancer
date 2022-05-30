@@ -17,6 +17,8 @@ import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/models/study_lancer_user.dart';
 import 'package:elite_counsel/pages/home_page/agent/student_list_view/student_tabbed_list.dart';
 import 'package:elite_counsel/pages/progress_page.dart';
+import 'package:elite_counsel/pages/student_detail_page.dart';
+import 'package:elite_counsel/pages/student_doc_offer_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -451,18 +453,20 @@ class StudentApplicationStatuses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height/4,
+      height: MediaQuery.of(context).size.height / 4,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           var agentHome = state as AgentHomeState;
-          var applications = agentHome.applications?.where(((element) =>
-              element.agent!.id == FirebaseAuth.instance.currentUser!.uid &&
-              element.student?.id == student.id)).toList();
+          var applications = agentHome.applications
+              ?.where(((element) =>
+                  element.agent!.id == FirebaseAuth.instance.currentUser!.uid &&
+                  element.student?.id == student.id))
+              .toList();
           ;
           return applications?.isEmpty ?? false
               ? Container()
               : GestureDetector(
-               onTap: () {
+                  onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return StudentTabbedList(
@@ -471,82 +475,99 @@ class StudentApplicationStatuses extends StatelessWidget {
                       );
                     }));
                   },
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: applications!.length!,
-                    itemBuilder: (_, index) {
-                      final application = applications![index];
-                      return Container(
-                              color: Colors.black,
-                              child: ListTile(
-                                tileColor: Colors.black,
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Current Status for ${application.courseName}',
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 11),
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width / 2,
-                                      child: Text(
-                                        StudentApplicationCubit
-                                                .parseProgressTitleFromValue(
-                                                    application.progress!) ??
-                                            '',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: applications!.length!,
+                      itemBuilder: (_, index) {
+                        final application = applications![index];
+                        return Container(
+                          color: Colors.black,
+                          child: ListTile(
+                            tileColor: Colors.black,
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Current Status for ${application.courseName}',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 11),
                                 ),
-                                trailing: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(builder: (context) {
-                                      return ProgressPage(
-                                       application: application,
-                                      );
-                                    }));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: const Color(0xff294A91),
-                                      ),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width / 3,
-                                        padding: EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                            gradient: Variables.buttonGradient,
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(
+                                    StudentApplicationCubit
+                                            .parseProgressTitleFromValue(
+                                                application.country.toString(),
+                                                application.progress!) ??
+                                        '',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            trailing: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width / 2.5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return StudentDocOfferPage(
+                                            student: student,
+                                            application: application,
+                                          );
+                                        }));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
                                             border: Border.all(),
                                             borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "View Timeline",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
+                                                BorderRadius.circular(20),
+                                            color: const Color(0xff294A91),
+                                          ),
+                                          child: Container(
+                                            padding: EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                                gradient:
+                                                    Variables.buttonGradient,
+                                                border: Border.all(),
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Align(
+                                              alignment: Alignment.center,
+                                              child: AutoSizeText(
+                                                "View Application",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            );
-                    }),
-              );
+                            ),
+                          ),
+                        );
+                      }),
+                );
         },
       ),
     );

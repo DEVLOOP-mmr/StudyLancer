@@ -6,9 +6,10 @@ import 'package:palette_generator/palette_generator.dart';
 
 class StudentDetailPage extends StatefulWidget {
   final Student student;
-  
+
   final Application? application;
-  const StudentDetailPage({Key? key,required this.student,this.application}) : super(key: key);
+  const StudentDetailPage({Key? key, required this.student, this.application})
+      : super(key: key);
 
   @override
   _StudentDetailPageState createState() => _StudentDetailPageState();
@@ -175,7 +176,7 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return StudentDocOfferPage(
-                                  application: widget.application,
+                                    application: widget.application,
                                     student: widget.student);
                               }));
                             },
@@ -190,7 +191,9 @@ class _StudentDetailPageState extends State<StudentDetailPage> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Center(
                                     child: Text(
-                                      "View Document",
+                                      (widget.application?.status ?? 0) > 1
+                                          ? "View Application"
+                                          : "View Document",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: paletteGenerator!

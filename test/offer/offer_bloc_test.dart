@@ -12,12 +12,14 @@ void main() {
       var response = await OfferBloc.addOffer(
         mockApplication,
         MockFirebaseAgentUser().uid,
+        'CA'
       );
       if (response.statusCode == 500) {
         await ProfileTestSuite().updateStudentRequiredDocs();
         response = await OfferBloc.addOffer(
           mockApplication,
           MockFirebaseAgentUser().uid,
+          'CA'
         );
       }
       expect(response.statusCode, 201);
@@ -42,6 +44,7 @@ void main() {
           await OfferBloc.addOffer(
             mockApplication,
             MockFirebaseAgentUser().uid,
+            'CA'
           );
           student = (await (ProfileTestSuite().getStudentProfile()))!;
         }

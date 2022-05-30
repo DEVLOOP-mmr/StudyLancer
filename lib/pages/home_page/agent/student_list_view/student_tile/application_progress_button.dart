@@ -42,6 +42,7 @@ class _ApplicationStatusState extends State<ApplicationStatus> {
                             ' ' +
                                 (StudentApplicationCubit
                                         .parseProgressTitleFromValue(
+                                      widget.application.country.toString(),
                                       progressValue,
                                     ) ??
                                     ''),

@@ -13,10 +13,11 @@ class OfferBloc {
   static Future<Response> addOffer(
     Application application,
     String agentID,
+    String countryCode,
   ) async {
     try {
       Map<dynamic, dynamic> body =
-          _responseBodyFromApplication(application, agentID);
+          _responseBodyFromApplication(application, agentID,countryCode);
       var response = await GetDio.getDio()
           .post("application/create", data: jsonEncode(body));
       if (response.statusCode! < 299) {
@@ -55,7 +56,7 @@ class OfferBloc {
   }
 
   static Map<dynamic, dynamic> _responseBodyFromApplication(
-      Application application, String agentID) {
+      Application application, String agentID,String country) {
     Map body = {
       "studentID": application.student!.id,
       "agentID": agentID,
@@ -63,7 +64,7 @@ class OfferBloc {
       "location": {
         "city": application.city ?? application.location!['city'] ?? '',
         "country":
-            application.country ?? application.location!['country'] ?? '',
+            country,
       },
       "courseFees": int.parse(application.courseFees!),
       "applicationFees": int.parse(application.applicationFees!),

@@ -15,17 +15,22 @@ import 'package:ionicons/ionicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
+enum ApplicationCardViewMode {
+  student,
+  agent,
+}
+
 class ApplicationCard extends StatelessWidget {
   const ApplicationCard({
     Key? key,
     required this.application,
     required this.student,
-    required this.applicationIndex,
+    required this.viewMode,
   }) : super(key: key);
 
   final Application application;
   final Student student;
-  final int applicationIndex;
+  final ApplicationCardViewMode viewMode;
 
   @override
   Widget build(BuildContext context) {
@@ -93,14 +98,15 @@ class ApplicationCard extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         CircleAvatar(
-                                          backgroundImage:
-                                              ((application.agent?.photo == null)
-                                                  ? const AssetImage(
-                                                      'assets/images/abc.png',
-                                                    )
-                                                  : NetworkImage(
-                                                      (application.agent?.photo)!,
-                                                    )) as ImageProvider<Object>?,
+                                          backgroundImage: ((application
+                                                      .agent?.photo ==
+                                                  null)
+                                              ? const AssetImage(
+                                                  'assets/images/abc.png',
+                                                )
+                                              : NetworkImage(
+                                                  (application.agent?.photo)!,
+                                                )) as ImageProvider<Object>?,
                                           // backgroundImage:
                                           //     NetworkImage(offer
                                           //         .agentImage),
@@ -126,21 +132,25 @@ class ApplicationCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 5,),
-                              GestureDetector(
-                                onTap: () {
-                                  BlocProvider.of<HomeBloc>(context)
-                                      .toggleApplicationFavorite(
-                                    application.applicationID!,
-                                  );
-                                },
-                                child: Icon(
-                                  (application.favorite ?? false)
-                                      ? Icons.star
-                                      : Icons.star_border,
-                                  color: Colors.white,
-                                ),
+                              SizedBox(
+                                width: 5,
                               ),
+                              viewMode == ApplicationCardViewMode.student
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        BlocProvider.of<HomeBloc>(context)
+                                            .toggleApplicationFavorite(
+                                          application.applicationID!,
+                                        );
+                                      },
+                                      child: Icon(
+                                        (application.favorite ?? false)
+                                            ? Icons.star
+                                            : Icons.star_border,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                           const SizedBox(
@@ -320,10 +330,12 @@ class ApplicationCard extends StatelessWidget {
                             decoration: const BoxDecoration(
                               gradient: Variables.buttonGradient,
                             ),
-                            child: const Align(
+                            child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "Chat with us",
+                                viewMode == ApplicationCardViewMode.student
+                                    ? "Chat with us"
+                                    : 'Edit',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -333,23 +345,10 @@ class ApplicationCard extends StatelessWidget {
                           ),
                         ),
                         onPressed: () async {
-                          var otherUser = Agent();
-                          otherUser.id = application.agent?.id;
-                          var currentStudent =
-                              (BlocProvider.of<HomeBloc>(context).state
-                                      as StudentHomeState)
-                                  .student;
-                          final room = await BlocProvider.of<FirebaseChatBloc>(
-                            context,
-                            listen: false,
-                          ).createRoom(currentStudent, otherUser);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                room: room,
-                              ),
-                            ),
-                          );
+                          if(viewMode==ApplicationCardViewMode.student){
+                            await _onPressChatButton(context);
+                          }
+                         
                         },
                         style: NeumorphicStyle(
                           border: const NeumorphicBorder(
@@ -429,65 +428,89 @@ class ApplicationCard extends StatelessWidget {
                       //                     30))),
                       //   ),
                       // ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: NeumorphicButton(
-                            padding: EdgeInsets.zero,
-                            child: Container(
-                              color: const Color(0xff294A91),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18, vertical: 12),
-                                decoration: const BoxDecoration(
-                                  gradient: Variables.buttonGradient,
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    application.status == 3
-                                        ? "Offer Accepted"
-                                        : "Accept Offer",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
+                      viewMode == ApplicationCardViewMode.student
+                          ? Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: NeumorphicButton(
+                                  padding: EdgeInsets.zero,
+                                  child: Container(
+                                    color: const Color(0xff294A91),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18, vertical: 12),
+                                      decoration: const BoxDecoration(
+                                        gradient: Variables.buttonGradient,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          application.status == 3
+                                              ? "Offer Accepted"
+                                              : "Accept Offer",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
                                   ),
+                                  onPressed: () async {
+                                    if (application.status == 2) {
+                                      await OfferBloc.acceptOffer(
+                                        application.applicationID,
+                                        application.agent?.id,
+                                        student.id,
+                                      );
+                                      await BlocProvider.of<HomeBloc>(context)
+                                          .getStudentHome();
+                                      EasyLoading.showSuccess("Accepted Offer");
+                                    } else {
+                                      EasyLoading.showSuccess(
+                                          "Offer Already Accepted");
+                                    }
+                                  },
+                                  style: NeumorphicStyle(
+                                      border: const NeumorphicBorder(
+                                          isEnabled: true,
+                                          color: Variables.backgroundColor,
+                                          width: 2),
+                                      shadowLightColor:
+                                          Colors.white.withOpacity(0.6),
+                                      // color: Color(0xff294A91),
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.circular(30))),
                                 ),
                               ),
-                            ),
-                            onPressed: () async {
-                              if (application.status == 2) {
-                                await OfferBloc.acceptOffer(
-                                  application.applicationID,
-                                  application.agent?.id,
-                                  student.id,
-                                );
-                                await BlocProvider.of<HomeBloc>(context)
-                                    .getStudentHome();
-                                EasyLoading.showSuccess("Accepted Offer");
-                              } else {
-                                EasyLoading.showSuccess(
-                                    "Offer Already Accepted");
-                              }
-                            },
-                            style: NeumorphicStyle(
-                                border: const NeumorphicBorder(
-                                    isEnabled: true,
-                                    color: Variables.backgroundColor,
-                                    width: 2),
-                                shadowLightColor: Colors.white.withOpacity(0.6),
-                                // color: Color(0xff294A91),
-                                boxShape: NeumorphicBoxShape.roundRect(
-                                    BorderRadius.circular(30))),
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ],
                   ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onPressChatButton(BuildContext context) async {
+    var otherUser = Agent();
+    otherUser.id = application.agent?.id;
+    var currentStudent =
+        (BlocProvider.of<HomeBloc>(context).state
+                as StudentHomeState)
+            .student;
+    final room =
+        await BlocProvider.of<FirebaseChatBloc>(
+      context,
+      listen: false,
+    ).createRoom(currentStudent, otherUser);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ChatPage(
+          room: room,
         ),
       ),
     );
