@@ -5,6 +5,7 @@ import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc
 import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
+import 'package:elite_counsel/pages/student_doc_offer_page.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -731,15 +732,25 @@ class _OfferPageState extends State<OfferPage> {
                       );
 
                       await bloc.getAgentHome(context: context);
-                      EasyLoading.dismiss();
+
                       var otherUser = widget.student;
 
-                      BlocProvider.of<FirebaseChatBloc>(context, listen: false)
+                      await BlocProvider.of<FirebaseChatBloc>(context,
+                              listen: false)
                           .createRoom(agent, otherUser);
+                      EasyLoading.dismiss();
 
-                      Navigator.of(context).pushReplacement(
+                      await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => const HomePage(),
+                        ),
+                      );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StudentDocOfferPage(
+                            student: widget.student,
+                            application: offer..status = 2,
+                          ),
                         ),
                       );
                     } else {

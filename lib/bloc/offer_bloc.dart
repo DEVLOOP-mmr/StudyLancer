@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
 import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/models/application.dart';
 import 'package:flutter/foundation.dart';
@@ -17,7 +18,7 @@ class OfferBloc {
   ) async {
     try {
       Map<dynamic, dynamic> body =
-          _responseBodyFromApplication(application, agentID,countryCode);
+          _responseBodyFromApplication(application, agentID, countryCode);
       var response = await GetDio.getDio()
           .post("application/create", data: jsonEncode(body));
       if (response.statusCode! < 299) {
@@ -56,15 +57,16 @@ class OfferBloc {
   }
 
   static Map<dynamic, dynamic> _responseBodyFromApplication(
-      Application application, String agentID,String country) {
+      Application application, String agentID, String country) {
     Map body = {
       "studentID": application.student!.id,
       "agentID": agentID,
       "universityName": application.universityName,
       "location": {
         "city": application.city ?? application.location!['city'] ?? '',
-        "country":
-            country,
+        "country": StudentApplicationCubit.isValidCountryCode(country)
+            ? country
+            : application.country ?? application.location!['country'] ?? '',
       },
       "courseFees": int.parse(application.courseFees!),
       "applicationFees": int.parse(application.applicationFees!),
