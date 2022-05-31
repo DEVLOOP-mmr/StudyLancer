@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elite_counsel/bloc/notification_bloc/notification_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -134,17 +135,25 @@ class NotificationCubit extends Cubit<NotificationState> {
     String body,
     String uid,
   ) async {
-    final snapshot =
-        await FirebaseFirestore.instance.collection('fcm').doc(uid).get();
-
-    final data = snapshot.data();
-    if (data == null) {
-      print('user not registered');
-      return;
-    }
-
-    final String token = data['token'];
-    await _sendNotificationToFCMToken(title, body, token);
+    try {
+  final snapshot =
+      await FirebaseFirestore.instance.collection('fcm').doc(uid).get();
+  
+  final data = snapshot.data();
+  if (data == null) {
+    print('user not registered');
+  
+    FirebaseCrashlytics.instance.recordError(
+        Exception('Tried to send a notification to an invalid fcm token'),
+        StackTrace.current);
+    return;
+  }
+  
+  final String token = data['token'];
+  await _sendNotificationToFCMToken(title, body, token);
+} catch (e) {
+  // TODO
+}
   }
 
   Future<bool> _hasValidFCMToken() async {

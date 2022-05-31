@@ -1,4 +1,6 @@
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_state.dart';
 import 'package:elite_counsel/chat/rooms.dart';
@@ -10,6 +12,7 @@ import 'package:elite_counsel/pages/home_page/student/student_home.dart';
 import 'package:elite_counsel/pages/profile_page/student/student_profile_page.dart';
 import 'package:elite_counsel/pages/tutorial_pages.dart';
 import 'package:elite_counsel/variables.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,9 +46,18 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     if (Variables.sharedPreferences.get(Variables.userType) ==
         Variables.userTypeStudent) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        BlocProvider.of<HomeBloc>(context, listen: false)
-            .getStudentHome(context: context);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
+        await bloc.getStudentHome(context: context);
+        var isStudentVerified =
+            ((bloc.state.studentHomeState().student?.verified) ?? false);
+        if (bloc.state is StudentHomeState && (!isStudentVerified)) {
+          NotificationCubit.sendNotificationToUser(
+            'Upload Required Documents',
+            'Get verified to start applying',
+            FirebaseAuth.instance.currentUser!.uid,
+          );
+        }
       });
     } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

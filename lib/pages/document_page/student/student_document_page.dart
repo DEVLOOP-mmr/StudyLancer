@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -198,70 +200,61 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
                                   ? const Center(
                                       child: CircularProgressIndicator(),
                                     )
-                                  : Flexible(
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            (student.documents ?? []).length,
-                                        itemBuilder: (context, index) {
-                                          print('item Builder');
-                                          Document doc =
-                                              student.documents![index];
-                                          if (doc.link == null) {
-                                            return Container();
-                                          }
-                                          String icon = "assets/docicon.png";
-                                          if (doc.type == "pdf") {
-                                            icon = "assets/pdficon.png";
-                                          } else if (doc.type == "jpg" ||
-                                              doc.type == "png" ||
-                                              doc.type == "gif" ||
-                                              doc.type == "jpeg") {
-                                            icon = "assets/imageicon.png";
-                                          }
+                                  : Column(
+                                      children: List<Widget>.generate(
+                                          (student.documents ?? []).length,
+                                          (index) {
+                                      print('item Builder');
+                                      Document doc = student.documents![index];
+                                      if (doc.link == null) {
+                                        return Container();
+                                      }
+                                      String icon = "assets/docicon.png";
+                                      if (doc.type == "pdf") {
+                                        icon = "assets/pdficon.png";
+                                      } else if (doc.type == "jpg" ||
+                                          doc.type == "png" ||
+                                          doc.type == "gif" ||
+                                          doc.type == "jpeg") {
+                                        icon = "assets/imageicon.png";
+                                      }
 
-                                          return Center(
-                                            child: DocumentCard(
-                                              doc: doc,
-                                              icon: icon,
-                                              index: index,
-                                              renameEnabled: true,
-                                              onDismiss: (direction) {
-                                                var doc =
-                                                    student.documents![index];
-                                                final bloc =
-                                                    BlocProvider.of<HomeBloc>(
-                                                        context);
+                                      return Center(
+                                        child: DocumentCard(
+                                          doc: doc,
+                                          icon: icon,
+                                          index: index,
+                                          renameEnabled: true,
+                                          onDismiss: (direction) {
+                                            var doc = student.documents![index];
+                                            final bloc =
+                                                BlocProvider.of<HomeBloc>(
+                                                    context);
 
-                                                DocumentBloc(
-                                                  userType: 'student',
-                                                ).deleteDocument(
-                                                  doc.name,
-                                                  doc.id,
-                                                  student.id,
-                                                );
+                                            DocumentBloc(
+                                              userType: 'student',
+                                            ).deleteDocument(
+                                              doc.name,
+                                              doc.id,
+                                              student.id,
+                                            );
 
-                                                student.documents!
-                                                    .removeAt(index);
-                                                bloc.emitNewStudent(student);
+                                            student.documents!.removeAt(index);
+                                            bloc.emitNewStudent(student);
 
-                                                bloc.getStudentHome(
-                                                    context: context);
+                                            bloc.getStudentHome(
+                                                context: context);
 
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  content:
-                                                      Text("Document Removed"),
-                                                ));
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text("Document Removed"),
+                                            ));
+                                          },
+                                        ),
+                                      );
+                                    })),
                               const SizedBox(
-                                height: 200,
+                                height: 300,
                               )
                             ],
                           );
@@ -303,7 +296,16 @@ class _StudentDocumentPageState extends State<StudentDocumentPage> {
         log(e.toString());
       }
       EasyLoading.dismiss();
-      // bloc.getStudentHome(context:context);
+      await bloc.getStudentHome(context: context);
+      if (requiredDocType != null) {
+        if (bloc.state.studentHomeState().student?.verified ?? false) {
+          NotificationCubit.sendNotificationToUser(
+            'Verification Started!',
+            'Thanks for uploading your documents, our team will be in touch with you ASAP.',
+            FirebaseAuth.instance.currentUser!.uid,
+          );
+        }
+      }
     }
   }
 
