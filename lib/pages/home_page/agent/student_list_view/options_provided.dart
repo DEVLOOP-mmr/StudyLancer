@@ -33,13 +33,18 @@ class OptionsProvided extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: optionsProvidedApplications.map((application) {
-              return BlocProvider(
-                create: (context) => StudentApplicationCubit(
-                  application,
+              return SizedBox(
+                child: BlocProvider(
+                  create: (context) => StudentApplicationCubit(
+                    application,
+                  ),
+                  child: StudentTile(),
                 ),
-                child: StudentTile(),
               );
-            }).toList(),
+            }).toList()
+              ..add(SizedBox(
+                height: 100,
+              )),
           ),
         );
       },

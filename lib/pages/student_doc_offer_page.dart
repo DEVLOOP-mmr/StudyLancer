@@ -10,6 +10,7 @@ import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/applications_page/offer_card.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
+import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
 import 'package:elite_counsel/pages/progress_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -27,14 +28,16 @@ class StudentDocOfferPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Variables.backgroundColor,
       appBar: AppBar(
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : null,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => HomePage(),
+              ),
+            );
+          },
+        ),
         title: Text(
           (application?.status ?? 0) > 1 ? "Application" : "Documents",
           style: TextStyle(
@@ -121,10 +124,10 @@ class StudentDocOfferPage extends StatelessWidget {
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: (student.documents ?? []).length,
-                              itemBuilder: (context, index) {
+                            child: Column(
+                                children: List<Widget>.generate(
+                              (student.documents ?? []).length,
+                              (index) {
                                 Document doc = student.documents![index];
                                 if (doc.link == null) {
                                   return Container();
@@ -148,7 +151,7 @@ class StudentDocOfferPage extends StatelessWidget {
                                   renameEnabled: false,
                                 );
                               },
-                            ),
+                            )),
                           ),
                         ),
                         SizedBox(

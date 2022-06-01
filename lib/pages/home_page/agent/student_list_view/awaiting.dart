@@ -26,19 +26,22 @@ class AwaitingStudents extends StatelessWidget {
         }
 
         var verifiedStudents = agentHomePageState.verifiedStudents;
-        return ListView.builder(
-          itemCount: verifiedStudents?.length ?? 0,
-          itemBuilder: (context, index) {
-            final application = Application();
-            application.student = verifiedStudents![index];
-            application.status = 1;
-            return BlocProvider(
-              create: (context) => StudentApplicationCubit(
-                application,
-              ),
-              child: const StudentTile(),
-            );
-          },
+        return Container(
+          margin: EdgeInsets.only(bottom: 120),
+          child: ListView.builder(
+            itemCount: verifiedStudents?.length ?? 0,
+            itemBuilder: (context, index) {
+              final application = Application();
+              application.student = verifiedStudents![index];
+              application.status = 1;
+              return BlocProvider(
+                create: (context) => StudentApplicationCubit(
+                  application,
+                ),
+                child: const StudentTile(),
+              );
+            },
+          ),
         );
       },
     );

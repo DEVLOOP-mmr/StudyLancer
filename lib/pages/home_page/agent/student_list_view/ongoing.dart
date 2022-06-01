@@ -38,13 +38,15 @@ class OngoingStudents extends StatelessWidget {
           key: UniqueKey(),
           child: Column(
             children: ongoingApplications.map((application) {
-              return BlocProvider(
-                create: (context) => StudentApplicationCubit(
-                  application,
+              return SizedBox(
+                child: BlocProvider(
+                  create: (context) => StudentApplicationCubit(
+                    application,
+                  ),
+                  child: StudentTile(),
                 ),
-                child: StudentTile(),
               );
-            }).toList(),
+            }).toList()..add(SizedBox(height: 100,)),
           ),
         );
       },

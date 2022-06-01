@@ -57,7 +57,7 @@ dependencies:
   random_string: ^2.3.1
   rating_dialog: ^2.0.3
   ripple_navigation: ^1.0.5
-  salesiq_mobilisten: ^1.0.1
+  salesiq_mobilisten: ^1.0.2
   share: ^2.0.4
   sms_autofill: ^2.2.0
   store_redirect: ^2.0.0

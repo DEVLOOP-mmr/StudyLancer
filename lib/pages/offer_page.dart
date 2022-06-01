@@ -740,12 +740,8 @@ class _OfferPageState extends State<OfferPage> {
                           .createRoom(agent, otherUser);
                       EasyLoading.dismiss();
 
-                      await Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                      Navigator.of(context).push(
+                    
+                      Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => StudentDocOfferPage(
                             student: widget.student,
