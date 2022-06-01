@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 
@@ -56,9 +56,7 @@ class AgentRequiredDocuments extends StatelessWidget {
                                   final bloc =
                                       BlocProvider.of<HomeBloc>(context);
 
-                                  DocumentBloc(
-                                    userType: 'agent',
-                                  ).deleteDocument(
+                                  BlocProvider.of<DocumentBloc>(context,listen: false).deleteDocument(
                                     doc.name,
                                     doc.id,
                                     agent.id,

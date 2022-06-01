@@ -2,21 +2,39 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:elite_counsel/bloc/document_bloc/documents_state.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
+import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
+import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
+import 'package:elite_counsel/chat/type/flutter_chat_types.dart';
+import 'package:elite_counsel/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:elite_counsel/models/document.dart';
 
-import 'dio.dart';
+import '../dio.dart';
 
-class DocumentBloc {
-  final String userType;
+class DocumentBloc extends Cubit<ProfileDocumentsState> {
+  final HomeBloc homeBloc;
+  final FirebaseChatBloc chatBloc;
   DocumentBloc({
-    required this.userType,
-  });
+    required this.homeBloc,
+    required this.chatBloc,
+  }) : super(ProfileDocumentsState(userType: '', chatDocuments: {})) {
+    syncDocumentsFromChatDocuments();
+    homeBloc.stream.asBroadcastStream().listen((event) {
+      if (event is AgentHomeState) {
+        emit(state.copyWith(userType: Variables.userTypeAgent));
+      } else if (event is StudentHomeState) {
+        emit(state.copyWith(userType: Variables.userTypeStudent));
+      }
+    });
+  }
   Future<String> parseAndUploadFilePickerResult(
     FilePickerResult result, {
     String? requiredDocType,
@@ -52,6 +70,19 @@ class DocumentBloc {
     return '';
   }
 
+  void syncDocumentsFromChatDocuments() {
+    chatBloc.stream.asBroadcastStream().listen((chatState) async {
+      if (chatState.rooms != null) {
+        for (var room in chatState.rooms!) {
+          if(state.chatDocuments.containsKey(room)){
+            await getChatDocs(room);
+          }
+         
+        }
+      }
+    });
+  }
+
   Future<void> postChatDocument(
     Document document,
     String chatID,
@@ -85,8 +116,8 @@ class DocumentBloc {
     }
   }
 
-  Future<List<Document>?> getChatDocs(String chatID) async {
-    Map body = {'chatId': chatID};
+  Future<List<Document>?> getChatDocs(Room room) async {
+    Map body = {'chatId': room.id};
 
     final response =
         await GetDio.getDio().post("chat/getChatDoc", data: jsonEncode(body));
@@ -99,7 +130,9 @@ class DocumentBloc {
           docs.add(Document.fromMap(doc));
         }
       }
-
+      var map = state.chatDocuments;
+      map[room] = docs;
+      emit(state.copyWith(chatDocuments: map));
       return docs;
     } else {
       if (kDebugMode) {
@@ -116,7 +149,7 @@ class DocumentBloc {
     String uid,
   ) async {
     Map body = {
-      '${userType}ID': uid,
+      '${state.userType}ID': uid,
       "documents": {
         "link": document.link.toString(),
         "name": document.name.toString(),
@@ -125,7 +158,7 @@ class DocumentBloc {
     };
 
     return await GetDio.getDio()
-        .post("$userType/createDoc", data: jsonEncode(body));
+        .post("$state.userType/createDoc", data: jsonEncode(body));
   }
 
   Future<Response> updateDocument(
@@ -134,13 +167,13 @@ class DocumentBloc {
     String newName,
   ) async {
     Map body = {
-      "${userType}ID": uid,
+      "${state.userType}ID": uid,
       "documentID": documentID,
       "name": newName,
     };
 
     final response = await GetDio.getDio()
-        .put("$userType/updateDoc", data: jsonEncode(body));
+        .put("$state.userType/updateDoc", data: jsonEncode(body));
 
     if (response.statusCode == 200) {
       if (kDebugMode) {
@@ -158,12 +191,12 @@ class DocumentBloc {
     String? uid,
   ) async {
     Map body = {
-      "${userType}ID": uid,
+      "${state.userType}ID": uid,
       "documentID": documentID,
     };
 
     return await GetDio.getDio()
-        .delete("$userType/deleteDoc", data: jsonEncode(body));
+        .delete("$state.userType/deleteDoc", data: jsonEncode(body));
   }
 }
 

@@ -6,7 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:ionicons/ionicons.dart';
@@ -126,9 +126,7 @@ class _DocumentCardState extends State<DocumentCard> {
                       : GestureDetector(
                           onTap: () {
                             if (editEnabled) {
-                              DocumentBloc(
-                                      userType: Variables.sharedPreferences
-                                          .get(Variables.userType))
+                           BlocProvider.of<DocumentBloc>(context,listen: false)
                                   .updateDocument(
                                       widget.doc!.id,
                                       FirebaseAuth.instance.currentUser!.uid,

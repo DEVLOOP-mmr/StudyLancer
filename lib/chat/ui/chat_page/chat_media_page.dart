@@ -1,19 +1,22 @@
 import 'dart:developer';
 
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:elite_counsel/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../type/room.dart';
 
 class ChatMediaPage extends StatefulWidget {
   const ChatMediaPage({
     Key? key,
     required this.documents,
-    required this.roomID,
+    required this.room,
   }) : super(key: key);
   final List<Document> documents;
-  final String roomID;
+  final Room room;
   @override
   State<ChatMediaPage> createState() => _ChatMediaPageState();
 }
@@ -35,7 +38,9 @@ class _ChatMediaPageState extends State<ChatMediaPage> {
   }
 
   void getChatDocs() {
-    DocumentBloc(userType: 'student').getChatDocs(widget.roomID).then((docs) {
+    BlocProvider.of<DocumentBloc>(context, listen: false)
+        .getChatDocs(widget.room)
+        .then((docs) {
       if (mounted) {
         setState(() {
           chatDocs = docs ?? [];

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elite_counsel/bloc/cubit/student_application_cubit.dart';
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
@@ -57,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void getChatDocs() {
-    DocumentBloc(userType: 'student').getChatDocs(widget.room.id).then((docs) {
+    BlocProvider.of<DocumentBloc>(context,listen: false).getChatDocs(widget.room).then((docs) {
       if (mounted) {
         setState(() {
           chatDocs = docs ?? [];
@@ -226,7 +226,7 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       chatDocs.add(document);
     });
-    DocumentBloc(userType: 'student')
+    BlocProvider.of<DocumentBloc>(context, listen: false)
         .postChatDocument(document, widget.room.id);
     _setAttachmentUploading(false);
   }
@@ -342,7 +342,7 @@ class _ChatPageState extends State<ChatPage> {
                 CupertinoPageRoute(
                   builder: ((context) => ChatMediaPage(
                         documents: chatDocs,
-                        roomID: widget.room.id,
+                        room: widget.room,
                       )),
                 ),
               );

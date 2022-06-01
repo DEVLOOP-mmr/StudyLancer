@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 
@@ -49,7 +49,9 @@ void main() {
           agent = (await (ProfileTestSuite().getAgentProfile()))!;
         }
         final lastDocID = agent.documents!.last.id;
-        final response = await DocumentBloc(userType: 'agent').deleteDocument(
+        final response =
+            await BlocProvider.of<DocumentBloc>(context, listen: false)
+                .deleteDocument(
           agent.documents!.last.name,
           lastDocID,
           MockFirebaseStudentUser().uid,

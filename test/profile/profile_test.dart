@@ -1,4 +1,4 @@
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/bloc/profile_bloc.dart';
@@ -35,7 +35,10 @@ void main() {
         expect(student, isNotNull);
         agentHomeState = await (ProfileTestSuite().getAgentHome());
       }
-      expect(agentHomeState.verifiedStudents!.isNotEmpty || agentHomeState.applications!.isNotEmpty, true);
+      expect(
+          agentHomeState.verifiedStudents!.isNotEmpty ||
+              agentHomeState.applications!.isNotEmpty,
+          true);
     });
   });
 
@@ -65,7 +68,6 @@ class ProfileTestSuite {
       await updateStudentRequiredDocs();
       homeBloc.setCountry('CA', 'student');
       studentHomeData = await homeBloc.getStudentHome(firebaseAuth: mockAuth);
-      
     }
     return studentHomeData;
   }
@@ -100,7 +102,7 @@ class ProfileTestSuite {
   Future<void> updateAgentRequiredDocs() async {
     await Future.wait(Agent.requiredDocNames.map((docName) async {
       var doc = MockDocument()..name = docName;
-      await DocumentBloc(userType: 'agent')
+      await BlocProvider.of<DocumentBloc>(context, listen: false)
           .postDocument(doc, MockFirebaseAgentUser().uid);
     }).toList());
   }

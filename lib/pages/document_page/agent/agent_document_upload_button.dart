@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/models/document.dart';
@@ -28,7 +28,7 @@ class AgentDocumentUploadButton extends StatelessWidget {
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        String uri = await DocumentBloc(userType: Variables.userTypeAgent)
+        String uri = await BlocProvider.of<DocumentBloc>(context,listen: false)
             .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,

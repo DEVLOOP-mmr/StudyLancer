@@ -1,4 +1,4 @@
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
@@ -35,7 +35,9 @@ void main() {
         'Document Upload Agent',
         () async {
           final mockDocument = MockDocument();
-          final response = await DocumentBloc(userType: 'agent').postDocument(
+          final response =
+              await BlocProvider.of<DocumentBloc>(context, listen: false)
+                  .postDocument(
             mockDocument,
             MockFirebaseAgentUser().uid,
           );

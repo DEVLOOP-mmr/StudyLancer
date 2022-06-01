@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/chat/backend/firebase_chat_bloc/firebase_chat_bloc.dart';
@@ -115,6 +116,12 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               lazy: false,
               create: (context) => NotificationCubit(),
+            ),
+            BlocProvider(
+              lazy: false,
+              create: (context) => DocumentBloc(
+                  chatBloc: context.read<FirebaseChatBloc>(),
+                  homeBloc: context.read<HomeBloc>()),
             ),
           ],
           child: MaterialApp(

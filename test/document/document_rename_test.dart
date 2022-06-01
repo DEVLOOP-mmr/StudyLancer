@@ -1,4 +1,4 @@
-import 'package:elite_counsel/bloc/document_bloc.dart';
+import 'package:elite_counsel/bloc/document_bloc/document_bloc.dart';
 import 'package:elite_counsel/test_config/mocks/document_mock.dart';
 import 'package:elite_counsel/test_config/mocks/firebase_auth_mock.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,14 +43,17 @@ void main() {
         assert(agent.id!.isNotEmpty);
         var mockDocument = MockDocument();
         if (agent.documents!.isEmpty) {
-          await DocumentBloc(userType: 'agent').postDocument(
+          await BlocProvider.of<DocumentBloc>(context, listen: false)
+              .postDocument(
             mockDocument,
             MockFirebaseAgentUser().uid,
           );
           agent = (await (ProfileTestSuite().getAgentProfile()))!;
         }
         final lastDocID = agent.documents!.last.id;
-        final response = await DocumentBloc(userType: 'agent').updateDocument(
+        final response =
+            await BlocProvider.of<DocumentBloc>(context, listen: false)
+                .updateDocument(
           lastDocID,
           MockFirebaseAgentUser().uid,
           'test_name',
