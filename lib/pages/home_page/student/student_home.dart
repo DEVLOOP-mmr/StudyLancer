@@ -7,7 +7,7 @@ import 'package:elite_counsel/bloc/home_bloc/home_bloc.dart';
 import 'package:elite_counsel/bloc/home_bloc/home_state.dart';
 import 'package:elite_counsel/classes/classes.dart';
 import 'package:elite_counsel/pages/agent_list_page.dart';
-import 'package:elite_counsel/pages/document_page/student/student_document_page.dart';
+import 'package:elite_counsel/pages/document_page/agent/document_page.dart';
 
 import 'package:elite_counsel/pages/profile_page/student/student_profile_page.dart';
 import 'package:elite_counsel/variables.dart';
@@ -529,7 +529,7 @@ class UploadRequiredDocumentsPrompt extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const StudentDocumentPage();
+            return const DocumentPage();
           }));
         },
         child: Container(

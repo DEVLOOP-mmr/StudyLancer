@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:elite_counsel/models/document.dart';
+import 'package:uuid/uuid.dart';
 
 import '../dio.dart';
 
@@ -25,7 +26,8 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
   DocumentBloc({
     required this.homeBloc,
     required this.chatBloc,
-  }) : super(ProfileDocumentsState(userType: '', chatDocuments: {})) {
+  }) : super(ProfileDocumentsState(
+            userType: '', chatDocuments: {}, nonce: 'njenjd')) {
     syncDocumentsFromChatDocuments();
     homeBloc.stream.asBroadcastStream().listen((event) {
       if (event is AgentHomeState) {
@@ -74,10 +76,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
     chatBloc.stream.asBroadcastStream().listen((chatState) async {
       if (chatState.rooms != null) {
         for (var room in chatState.rooms!) {
-          if(state.chatDocuments.containsKey(room)){
-            await getChatDocs(room);
-          }
-         
+          await getChatDocs(room);
         }
       }
     });
@@ -132,7 +131,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
       }
       var map = state.chatDocuments;
       map[room] = docs;
-      emit(state.copyWith(chatDocuments: map));
+      emit(state.copyWith(chatDocuments: map, nonce: Uuid().v4()));
       return docs;
     } else {
       if (kDebugMode) {
@@ -158,7 +157,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
     };
 
     return await GetDio.getDio()
-        .post("$state.userType/createDoc", data: jsonEncode(body));
+        .post("${state.userType}/createDoc", data: jsonEncode(body));
   }
 
   Future<Response> updateDocument(
@@ -173,7 +172,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
     };
 
     final response = await GetDio.getDio()
-        .put("$state.userType/updateDoc", data: jsonEncode(body));
+        .put("${state.userType}/updateDoc", data: jsonEncode(body));
 
     if (response.statusCode == 200) {
       if (kDebugMode) {
@@ -196,7 +195,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
     };
 
     return await GetDio.getDio()
-        .delete("$state.userType/deleteDoc", data: jsonEncode(body));
+        .delete("${state.userType}/deleteDoc", data: jsonEncode(body));
   }
 }
 

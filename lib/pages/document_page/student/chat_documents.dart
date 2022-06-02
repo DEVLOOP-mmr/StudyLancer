@@ -20,7 +20,6 @@ class ChatDocuments extends StatelessWidget {
               var room = (state.chatDocuments.keys).toList()[index];
               List<Document> docs = state.chatDocuments[room] ?? [];
               return ExpansionTile(
-              
                 collapsedIconColor: Colors.white,
                 iconColor: Colors.white,
                 backgroundColor: Colors.black,
@@ -30,7 +29,6 @@ class ChatDocuments extends StatelessWidget {
                   room.name.toString(),
                   style: TextStyle(color: Colors.white),
                 ),
-               
                 children: docs.map((doc) {
                   if (doc.link == null) {
                     return Container();

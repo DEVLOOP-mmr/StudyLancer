@@ -1,6 +1,10 @@
-import 'package:elite_counsel/pages/document_page/agent/agent_document_upload_button.dart';
-import 'package:elite_counsel/pages/document_page/agent/agent_required_documents.dart';
+import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/student.dart';
+import 'package:elite_counsel/pages/document_page/agent/document_upload_button.dart';
+import 'package:elite_counsel/pages/document_page/agent/required_documents.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
+import 'package:elite_counsel/pages/document_page/student/chat_documents.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -13,8 +17,8 @@ import 'package:elite_counsel/widgets/drawer.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentPage extends StatelessWidget {
-  const AgentDocumentPage({Key? key}) : super(key: key);
+class DocumentPage extends StatelessWidget {
+  const DocumentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +60,7 @@ class AgentDocumentPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          BlocProvider.of<HomeBloc>(context, listen: false).getAgentHome();
+          BlocProvider.of<HomeBloc>(context, listen: false).getHome();
         },
         child: Stack(
           children: [
@@ -69,8 +73,10 @@ class AgentDocumentPage extends StatelessWidget {
                       return Container();
                     }
 
-                    final agent = (state as AgentHomeState).agent;
-                    if (agent == null) {
+                    var profile = (state is AgentHomeState)
+                        ? (state).agent
+                        : (state as StudentHomeState).student!;
+                    if (profile == null) {
                       return Container();
                     }
 
@@ -82,15 +88,24 @@ class AgentDocumentPage extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        Image.asset("assets/images/agent_docs_required.png"),
+                        !((profile is Agent
+                                ? (profile).verified
+                                : (profile as Student).verified))!
+                            ? Image.asset(
+                                "assets/images/${profile is Agent ? 'agent' : 'student'}_docs_required.png",
+                              )
+                            : Container(),
                         const SizedBox(
                           height: 16,
                         ),
-                        agent == null
+                        profile == null
                             ? const Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : agent.id == null
+                            : (profile is Agent
+                                        ? (profile).id
+                                        : (profile as Student).id) ==
+                                    null
                                 ? const Center(
                                     child: CircularProgressIndicator(),
                                   )
@@ -108,16 +123,27 @@ class AgentDocumentPage extends StatelessWidget {
                             color: Color(0xffFF8B86),
                           ),
                         ),
-                        agent.id == null
+                        (profile is Agent
+                                    ? (profile).id
+                                    : (profile as Student).id) ==
+                                null
                             ? const Center(
                                 child: CircularProgressIndicator(),
                               )
                             : Flexible(
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: (agent.documents ?? []).length,
+                                  itemCount: ((profile is Agent
+                                              ? (profile).documents
+                                              : (profile as Student)
+                                                  .documents) ??
+                                          [])
+                                      .length,
                                   itemBuilder: (context, index) {
-                                    Document doc = agent.documents![index];
+                                    Document doc = (profile is Agent
+                                        ? (profile).documents
+                                        : (profile as Student)
+                                            .documents)![index];
                                     if (doc.link == null) {
                                       return Container();
                                     }
@@ -138,7 +164,10 @@ class AgentDocumentPage extends StatelessWidget {
                                         icon: icon,
                                         index: index,
                                         onDismiss: (direction) {
-                                          var doc = agent.documents![index];
+                                          var doc = (profile is Agent
+                                              ? (profile).documents
+                                              : (profile as Student)
+                                                  .documents)![index];
                                           final bloc =
                                               BlocProvider.of<HomeBloc>(
                                             context,
@@ -149,13 +178,21 @@ class AgentDocumentPage extends StatelessWidget {
                                               .deleteDocument(
                                             doc.name,
                                             doc.id,
-                                            agent.id,
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
                                           );
 
-                                          agent.documents!.removeAt(index);
-                                          bloc.emitNewAgent(agent);
-
-                                          bloc.getAgentHome(context: context);
+                                          (profile is Agent
+                                                  ? (profile).documents
+                                                  : (profile as Student)
+                                                      .documents)!
+                                              .removeAt(index);
+                                          if (profile is Agent) {
+                                            bloc.emitNewAgent(profile);
+                                          } else {
+                                            bloc.emitNewStudent(
+                                                profile as Student);
+                                          }
 
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
@@ -167,8 +204,22 @@ class AgentDocumentPage extends StatelessWidget {
                                   },
                                 ),
                               ),
+                                Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            'Chat Documents',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ChatDocuments(),
                         const SizedBox(
-                          height: 200,
+                          height: 300,
                         ),
                       ],
                     );
@@ -178,7 +229,7 @@ class AgentDocumentPage extends StatelessWidget {
             ),
             const Align(
               alignment: Alignment.bottomRight,
-              child: AgentDocumentUploadButton(),
+              child: DocumentUploadButton(),
             ),
           ],
         ),

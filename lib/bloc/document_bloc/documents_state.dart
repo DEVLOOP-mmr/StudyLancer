@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 import 'package:elite_counsel/chat/type/flutter_chat_types.dart';
@@ -8,18 +6,22 @@ import 'package:elite_counsel/models/document.dart';
 class ProfileDocumentsState extends Equatable {
   final String userType;
   final Map<Room, List<Document>> chatDocuments;
+  final String nonce;
   ProfileDocumentsState({
     required this.userType,
     required this.chatDocuments,
+    required this.nonce,
   });
 
   ProfileDocumentsState copyWith({
     String? userType,
     Map<Room, List<Document>>? chatDocuments,
+    String? nonce,
   }) {
     return ProfileDocumentsState(
       userType: userType ?? this.userType,
       chatDocuments: chatDocuments ?? this.chatDocuments,
+      nonce: nonce ?? this.nonce,
     );
   }
 
@@ -30,18 +32,6 @@ class ProfileDocumentsState extends Equatable {
     };
   }
 
-  factory ProfileDocumentsState.fromMap(Map<String, dynamic> map) {
-    return ProfileDocumentsState(
-      userType: map['userType'] ?? '',
-      chatDocuments: Map<Room, List<Document>>.from(map['chatDocuments']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
   @override
-  String toString() => 'ProfileDocumentsState(userType: $userType, chatDocuments: $chatDocuments)';
-
-  @override
-  List<Object> get props => [userType, chatDocuments];
+  List<Object> get props => [userType, chatDocuments, nonce];
 }

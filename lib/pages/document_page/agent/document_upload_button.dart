@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:elite_counsel/models/agent.dart';
+import 'package:elite_counsel/models/student.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +15,8 @@ import 'package:elite_counsel/models/document.dart';
 
 import '../../../variables.dart';
 
-class AgentDocumentUploadButton extends StatelessWidget {
-  const AgentDocumentUploadButton({
+class DocumentUploadButton extends StatelessWidget {
+  const DocumentUploadButton({
     Key? key,
     this.requiredDocType,
   }) : super(key: key);
@@ -24,23 +26,37 @@ class AgentDocumentUploadButton extends StatelessWidget {
     final result = await FilePicker.platform
         .pickFiles(type: FileType.any, allowMultiple: true);
     var bloc = BlocProvider.of<HomeBloc>(context, listen: false);
-    final agent = (bloc.state as AgentHomeState).agent;
+    var profile = (bloc.state is AgentHomeState)
+        ? (bloc.state as AgentHomeState).agent
+        : (bloc.state as StudentHomeState).student!;
     if (result != null) {
       EasyLoading.show(status: "Uploading");
       try {
-        String uri = await BlocProvider.of<DocumentBloc>(context,listen: false)
+        String uri = await BlocProvider.of<DocumentBloc>(context, listen: false)
             .parseAndUploadFilePickerResult(
           result,
           requiredDocType: requiredDocType,
         );
         if (requiredDocType != null) {
-          agent!.requiredDocuments![requiredDocType] =
+          (profile is Agent
+                  ? (profile).requiredDocuments
+                  : (profile as Student).requiredDocuments)![requiredDocType] =
               Document(name: result.files.first.name, link: uri);
-          bloc.emitNewAgent(agent);
+          if (profile is Agent) {
+            bloc.emitNewAgent(profile);
+          } else {
+            bloc.emitNewStudent(profile as Student);
+          }
         } else {
-          agent!.documents!
+          (profile is Agent
+                  ? (profile).documents
+                  : (profile as Student).documents)!
               .add(Document(name: result.files.first.name, link: uri));
-          bloc.emitNewAgent(agent);
+          if (profile is Agent) {
+            bloc.emitNewAgent(profile);
+          } else {
+            bloc.emitNewStudent(profile as Student);
+          }
         }
       } catch (e) {
         log(e.toString());

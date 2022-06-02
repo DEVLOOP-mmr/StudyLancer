@@ -57,7 +57,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void getChatDocs() {
-    BlocProvider.of<DocumentBloc>(context,listen: false).getChatDocs(widget.room).then((docs) {
+    BlocProvider.of<DocumentBloc>(context, listen: false)
+        .getChatDocs(widget.room)
+        .then((docs) {
       if (mounted) {
         setState(() {
           chatDocs = docs ?? [];
@@ -217,7 +219,7 @@ class _ChatPageState extends State<ChatPage> {
     String uri,
     String fileName,
     String type,
-  ) {
+  ) async {
     var document = Document(
       link: uri,
       name: fileName,
@@ -226,8 +228,9 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       chatDocs.add(document);
     });
-    BlocProvider.of<DocumentBloc>(context, listen: false)
+    await BlocProvider.of<DocumentBloc>(context, listen: false)
         .postChatDocument(document, widget.room.id);
+    getChatDocs();
     _setAttachmentUploading(false);
   }
 

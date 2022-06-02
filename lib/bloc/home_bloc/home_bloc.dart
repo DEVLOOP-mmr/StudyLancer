@@ -161,7 +161,6 @@ class HomeBloc extends Cubit<HomeState> {
     return homeData;
   }
 
-
   void _setCountryCodeForStudent() {
     if (state.countryCode!.isEmpty) {
       var newCountry = Variables.sharedPreferences.get(Variables.countryCode);

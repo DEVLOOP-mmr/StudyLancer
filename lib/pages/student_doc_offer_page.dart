@@ -9,6 +9,7 @@ import 'package:elite_counsel/models/application.dart';
 import 'package:elite_counsel/models/document.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:elite_counsel/pages/applications_page/offer_card.dart';
+import 'package:elite_counsel/pages/document_page/agent/document_page.dart';
 import 'package:elite_counsel/pages/document_page/document_card.dart';
 import 'package:elite_counsel/pages/home_page/home_page.dart';
 import 'package:elite_counsel/pages/offer_page.dart';
@@ -372,7 +373,63 @@ class StudentDocOfferPage extends StatelessWidget {
                         ],
                       ),
               )
-            : const SizedBox(),
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        "assets/images/agent_docs_required.png",
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    NeumorphicButton(
+                      padding: EdgeInsets.zero,
+                      child: Container(
+                        color: const Color(0xff294A91),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: const BoxDecoration(
+                            gradient: Variables.buttonGradient,
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Upload Documents",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return DocumentPage();
+                        }));
+                      },
+                      style: NeumorphicStyle(
+                        border: const NeumorphicBorder(
+                          isEnabled: true,
+                          color: Variables.backgroundColor,
+                          width: 2,
+                        ),
+                        shadowLightColor: Colors.white.withOpacity(0.6),
+                        // color: Color(0xff294A91),
+                        boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
       ],
     );
   }

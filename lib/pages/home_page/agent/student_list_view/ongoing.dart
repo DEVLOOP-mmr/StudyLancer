@@ -46,7 +46,10 @@ class OngoingStudents extends StatelessWidget {
                   child: StudentTile(),
                 ),
               );
-            }).toList()..add(SizedBox(height: 100,)),
+            }).toList()
+              ..add(SizedBox(
+                height: 100,
+              )),
           ),
         );
       },

@@ -10,7 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../document_page/agent/agent_document_page.dart';
+import '../../document_page/agent/document_page.dart';
 
 class AgentProfileHeader extends StatelessWidget {
   const AgentProfileHeader({
@@ -139,7 +139,7 @@ class AgentProfileHeader extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const AgentDocumentPage();
+                    return const DocumentPage();
                   }));
                 },
                 style: NeumorphicStyle(

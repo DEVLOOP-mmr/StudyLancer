@@ -14,8 +14,6 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../variables.dart';
-
 class DocumentCard extends StatefulWidget {
   final Document? doc;
   final String icon;
@@ -126,7 +124,8 @@ class _DocumentCardState extends State<DocumentCard> {
                       : GestureDetector(
                           onTap: () {
                             if (editEnabled) {
-                           BlocProvider.of<DocumentBloc>(context,listen: false)
+                              BlocProvider.of<DocumentBloc>(context,
+                                      listen: false)
                                   .updateDocument(
                                       widget.doc!.id,
                                       FirebaseAuth.instance.currentUser!.uid,

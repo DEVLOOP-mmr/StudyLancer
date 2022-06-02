@@ -136,24 +136,24 @@ class NotificationCubit extends Cubit<NotificationState> {
     String uid,
   ) async {
     try {
-  final snapshot =
-      await FirebaseFirestore.instance.collection('fcm').doc(uid).get();
-  
-  final data = snapshot.data();
-  if (data == null) {
-    print('user not registered');
-  
-    FirebaseCrashlytics.instance.recordError(
-        Exception('Tried to send a notification to an invalid fcm token'),
-        StackTrace.current);
-    return;
-  }
-  
-  final String token = data['token'];
-  await _sendNotificationToFCMToken(title, body, token);
-} catch (e) {
-  // TODO
-}
+      final snapshot =
+          await FirebaseFirestore.instance.collection('fcm').doc(uid).get();
+
+      final data = snapshot.data();
+      if (data == null) {
+        print('user not registered');
+
+        FirebaseCrashlytics.instance.recordError(
+            Exception('Tried to send a notification to an invalid fcm token'),
+            StackTrace.current);
+        return;
+      }
+
+      final String token = data['token'];
+      await _sendNotificationToFCMToken(title, body, token);
+    } catch (e) {
+      // TODO
+    }
   }
 
   Future<bool> _hasValidFCMToken() async {
