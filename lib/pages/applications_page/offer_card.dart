@@ -54,7 +54,7 @@ class ApplicationCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
@@ -275,95 +275,114 @@ class ApplicationCard extends StatelessWidget {
                   ),
                 ),
                 // if (offer.accepted)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: NeumorphicButton(
-                        padding: EdgeInsets.zero,
-                        child: Container(
-                          color: Variables.backgroundColor,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 12,
-                            ),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Course link",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                  
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: NeumorphicButton(
+                            padding: EdgeInsets.zero,
+                            child: Container(
+                              color: Variables.backgroundColor,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 12,
+                                ),
+                                child: const Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Course link",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
+                            onPressed: () async {
+                              log(application.courseLink!);
+                              try {
+                                await launchUrl(
+                                  Uri.parse(application.courseLink!),
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } catch (e) {
+                                EasyLoading.showError(
+                                    'Cant open this link:${application.courseLink}');
+                              }
+                            },
+                            style: NeumorphicStyle(
+                                border: const NeumorphicBorder(
+                                    isEnabled: true,
+                                    color: Variables.backgroundColor,
+                                    width: 2),
+                                shadowLightColor: Colors.white.withOpacity(0.6),
+                                // color: Color(0xff294A91),
+                                boxShape: NeumorphicBoxShape.roundRect(
+                                    BorderRadius.circular(30))),
                           ),
                         ),
-                        onPressed: () async {
-                          log(application.courseLink!);
-                          await launch(application.courseLink!,
-                              enableJavaScript: true);
-                        },
-                        style: NeumorphicStyle(
-                            border: const NeumorphicBorder(
-                                isEnabled: true,
-                                color: Variables.backgroundColor,
-                                width: 2),
-                            shadowLightColor: Colors.white.withOpacity(0.6),
-                            // color: Color(0xff294A91),
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(30))),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: NeumorphicButton(
-                        padding: EdgeInsets.zero,
-                        child: Container(
-                          color: const Color(0xff294A91),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 18, vertical: 12),
-                            decoration: const BoxDecoration(
-                              gradient: Variables.buttonGradient,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                viewMode == ApplicationCardViewMode.student
-                                    ? "Chat with us"
-                                    : 'Edit',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600),
+                        viewMode == ApplicationCardViewMode.agent
+                            ? SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: NeumorphicButton(
+                                  padding: EdgeInsets.zero,
+                                  child: Container(
+                                    color: const Color(0xff294A91),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18, vertical: 12),
+                                      decoration: const BoxDecoration(
+                                        gradient: Variables.buttonGradient,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          viewMode ==
+                                                  ApplicationCardViewMode
+                                                      .student
+                                              ? "Chat with us"
+                                              : 'Edit',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    if (viewMode ==
+                                        ApplicationCardViewMode.student) {
+                                      await _onPressChatButton(context);
+                                    }
+                                  },
+                                  style: NeumorphicStyle(
+                                    border: const NeumorphicBorder(
+                                      isEnabled: true,
+                                      color: Variables.backgroundColor,
+                                      width: 2,
+                                    ),
+                                    shadowLightColor:
+                                        Colors.white.withOpacity(0.6),
+                                    // color: Color(0xff294A91),
+                                    boxShape: NeumorphicBoxShape.roundRect(
+                                      BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (viewMode == ApplicationCardViewMode.student) {
-                            await _onPressChatButton(context);
-                          }
-                        },
-                        style: NeumorphicStyle(
-                          border: const NeumorphicBorder(
-                            isEnabled: true,
-                            color: Variables.backgroundColor,
-                            width: 2,
-                          ),
-                          shadowLightColor: Colors.white.withOpacity(0.6),
-                          // color: Color(0xff294A91),
-                          boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 if (!application.accepted!)
                   const SizedBox(

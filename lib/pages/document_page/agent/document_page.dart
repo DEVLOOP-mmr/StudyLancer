@@ -131,15 +131,15 @@ class DocumentPage extends StatelessWidget {
                                 child: CircularProgressIndicator(),
                               )
                             : Flexible(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: ((profile is Agent
+                                child: Column(
+                                    children: List.generate(
+                                  ((profile is Agent
                                               ? (profile).documents
                                               : (profile as Student)
                                                   .documents) ??
                                           [])
                                       .length,
-                                  itemBuilder: (context, index) {
+                                  (index) {
                                     Document doc = (profile is Agent
                                         ? (profile).documents
                                         : (profile as Student)
@@ -202,9 +202,9 @@ class DocumentPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                ),
+                                )),
                               ),
-                                Padding(
+                        Padding(
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             'Chat Documents',

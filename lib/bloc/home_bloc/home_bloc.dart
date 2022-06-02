@@ -314,15 +314,15 @@ class HomeBloc extends Cubit<HomeState> {
     emit(InitialHomeState());
   }
 
-  void getHome() {
+  Future<void> getHome() async {
     final userType = Variables.sharedPreferences.get(Variables.userType);
     switch (userType) {
       case 'student':
-        getStudentHome();
+        await getStudentHome();
 
         break;
       case 'agent':
-        getAgentHome();
+        await getAgentHome();
         break;
       default:
     }

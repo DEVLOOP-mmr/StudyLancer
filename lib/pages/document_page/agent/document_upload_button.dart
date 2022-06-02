@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:elite_counsel/bloc/notification_bloc/notification_bloc.dart';
 import 'package:elite_counsel/models/agent.dart';
 import 'package:elite_counsel/models/student.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -60,6 +62,21 @@ class DocumentUploadButton extends StatelessWidget {
         }
       } catch (e) {
         log(e.toString());
+      }
+
+      if (requiredDocType != null) {
+        if ((profile is Agent
+                    ? (profile).requiredDocuments
+                    : (profile as Student).requiredDocuments)
+                ?.values
+                .length ==
+            3) {
+          NotificationCubit.sendNotificationToUser(
+            'Verification Started!',
+            'Thanks for uploading your documents, our team will be in touch with you ASAP.',
+            FirebaseAuth.instance.currentUser!.uid,
+          );
+        }
       }
     }
   }

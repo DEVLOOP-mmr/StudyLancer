@@ -42,6 +42,8 @@ class NotificationCubit extends Cubit<NotificationState> {
       '0',
       'notifications',
       importance: Importance.high,
+      enableLights: true
+      ,
       icon: "app_icon",
       playSound: true,
     );

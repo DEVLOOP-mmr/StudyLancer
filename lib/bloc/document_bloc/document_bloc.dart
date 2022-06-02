@@ -27,7 +27,10 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
     required this.homeBloc,
     required this.chatBloc,
   }) : super(ProfileDocumentsState(
-            userType: '', chatDocuments: {}, nonce: 'njenjd')) {
+            userType: '',
+            chatDocuments: {},
+            nonce: 'njenjd',
+            loadState: LoadState.initial)) {
     syncDocumentsFromChatDocuments();
     homeBloc.stream.asBroadcastStream().listen((event) {
       if (event is AgentHomeState) {
@@ -117,7 +120,7 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
 
   Future<List<Document>?> getChatDocs(Room room) async {
     Map body = {'chatId': room.id};
-
+    emit(state.copyWith(loadState: LoadState.loading));
     final response =
         await GetDio.getDio().post("chat/getChatDoc", data: jsonEncode(body));
     List<Document> docs = [];
@@ -130,8 +133,12 @@ class DocumentBloc extends Cubit<ProfileDocumentsState> {
         }
       }
       var map = state.chatDocuments;
-      map[room] = docs;
-      emit(state.copyWith(chatDocuments: map, nonce: Uuid().v4()));
+      map[room.name ?? 'Chat Room'] = docs;
+      emit(state.copyWith(
+        chatDocuments: map,
+        nonce: Uuid().v4(),
+        loadState: LoadState.done,
+      ));
       return docs;
     } else {
       if (kDebugMode) {

@@ -85,11 +85,10 @@ class StudentDocOfferPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 20),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  (student.requiredDocuments!.keys).length,
-                              itemBuilder: (context, index) {
+                            child: Column(
+                                children: List.generate(
+                              (student.requiredDocuments!.keys).length,
+                              (index) {
                                 var key = student.requiredDocuments!.keys
                                     .toList()[index];
                                 Document? doc = student.requiredDocuments![key];
@@ -118,7 +117,7 @@ class StudentDocOfferPage extends StatelessWidget {
                                   renameEnabled: false,
                                 );
                               },
-                            ),
+                            )),
                           ),
                         ),
                         Flexible(
